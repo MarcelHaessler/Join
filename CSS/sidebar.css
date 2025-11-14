@@ -26,12 +26,13 @@ p {
 }
 
 .link-wrapper {
-    width: 100vh;                  /* volle Sidebar-Breite */
+    width: 100vh;  
+    transition: background-color 0.5s;                
 }
 
 .link-wrapper:hover {
-    background-color: #2A3D59;   /* Hover-Hintergrund */
-    transition: background-color 0.3s;
+    background-color: #2A3D59;   
+    
 }
 .link-container{
     display: flex;
