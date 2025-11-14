@@ -25,13 +25,24 @@ p {
     flex-grow: 1;
 }
 
+.link-wrapper {
+    width: 100vh;                  /* volle Sidebar-Breite */
+}
+
+.link-wrapper:hover {
+    background-color: #2A3D59;   /* Hover-Hintergrund */
+    transition: background-color 0.3s;
+}
 .link-container{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
     cursor: pointer;
+    
 }
+
+
 
 #buttons-container{
     display: flex;
