@@ -48,7 +48,6 @@ p {
 }
 
 
-
 #buttons-container{
     display: flex;
     flex-direction: column;
@@ -68,4 +67,8 @@ p {
 
 #sidebar-footer p{
     cursor: pointer;
+}
+
+#sidebar-footer p:hover{
+    color: #29ABE2;
 }
