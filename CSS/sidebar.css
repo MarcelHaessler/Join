@@ -26,26 +26,25 @@ p {
 }
 
 .link-wrapper {
-    width: 100vh;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vh;
     transition: background-color 0.5s;                
 }
 
 .link-wrapper:hover {
     background-color: #2A3D59;   
     transition: background-color 0.5s;
-}
+} 
 
 .link-container{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 20px;
     cursor: pointer;
-    
-}
-
-.link-container:hover{
-    background-color: #2A3D59;
+    width: 150px
 }
 
 
@@ -53,8 +52,6 @@ p {
 #buttons-container{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-
 }
 
 #logo{
