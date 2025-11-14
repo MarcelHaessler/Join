@@ -1,7 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
     background: #2A3647;
+    
 }
 
 p {
     color: #CDCDCD;
+}
+
+#links-and-footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.link-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+}
+
+#buttons-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+#logo{
+    padding-top: 64px;
+    margin-bottom: 100px;
+}
+
+#sidebar-footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 64px;
+}
+
+#sidebar-footer p{
+    cursor: pointer;
 }
