@@ -32,8 +32,9 @@ p {
 
 .link-wrapper:hover {
     background-color: #2A3D59;   
-    
+    transition: background-color 0.5s;
 }
+
 .link-container{
     display: flex;
     align-items: center;
@@ -41,6 +42,10 @@ p {
     gap: 20px;
     cursor: pointer;
     
+}
+
+.link-container:hover{
+    background-color: #2A3D59;
 }
 
 
