@@ -47,6 +47,9 @@ p {
     width: 150px
 }
 
+.current-page{
+    background-color: #091931;
+}
 
 #buttons-container{
     display: flex;
