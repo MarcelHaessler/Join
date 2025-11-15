@@ -51,6 +51,15 @@ p {
     background-color: #091931;
 }
 
+.current-page p{
+    color: #FFFFFF;
+}
+
+.current-page img{
+    filter: brightness(0) invert(1);
+}
+
+
 #buttons-container{
     display: flex;
     flex-direction: column;
