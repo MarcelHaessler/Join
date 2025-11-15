@@ -1,15 +1,11 @@
-body {
-    margin: 0;
-    font-family: Inter;
-}
-
 header{
-    max-width: 100%;
+    width: 100%;
     height: 96px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px 0 40px;
+    padding: 0 40px;
+    box-sizing: border-box;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
 }
 
@@ -58,7 +54,7 @@ header{
     height: 48px;
     border: 3px solid #2a3647;
     border-radius: 559px;
-    color: #28abe2;
+    color: #28abe2 !important;
 }
 
 #user-icon:hover{
