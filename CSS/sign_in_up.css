@@ -1,7 +1,12 @@
+/**/
+
 body{
     margin: 0;
     background-color: rgba(246, 247, 248, 1);
     font-family: Inter;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 #logo_dark{
@@ -13,12 +18,12 @@ body{
 }
 
 #main-container{
-    height: calc(100vh - 50px);
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex: 1;
 }
 
 #sign_up_container{
@@ -151,7 +156,6 @@ body{
 
 footer{
     width: 100%;
-    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
