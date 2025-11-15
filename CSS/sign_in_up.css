@@ -3,6 +3,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
 .noUser {
     display: flex;
     gap: 18px;
@@ -70,9 +71,6 @@ body {
     padding-right: 44px;
     box-sizing: border-box;
 }
-.inputLogin input.dirty:invalid {
-    border-color: red;
-}
 .icon-clickable {
     position: absolute;
     right: 12px;
@@ -89,7 +87,7 @@ body {
     gap: 35px;
 }
 .buttonLoginCon button {
-    padding: 12px;
+    padding: 12px 32px;
     border-radius: 8px;
     font-size: 21px;
     font-weight: bold;
@@ -132,4 +130,8 @@ body {
     .LoginField {
         padding: 16px 8px;
     }
+}
+
+.inputLogin input.invalid {
+    border-color: red;
 }
