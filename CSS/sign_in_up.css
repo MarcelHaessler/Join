@@ -1,34 +1,77 @@
-.Login {
-    /* background-color: blue; */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.noUser {
+    display: flex;
+    gap: 18px;
+    justify-content: flex-end;
+    padding: 24px;
+}
+.noUserBtn {
+    border: none;
+    background-color: var(--contrastColor);
+    cursor: pointer;
+    color: var(--primerColor);
+    font-size: 21px;
+}
+.signupBtn {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--primerColor);
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.LoginStart {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-48px);
+}
+.LoginField {
+    width: 100%;
     max-width: 652px;
     height: auto;
     border-radius: 32px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
+    margin: 8px;
+    padding: 32px 12px;
 }
 .underline {
     width: 150px;
     height: 3px;
-    background-color: #29ABE2;
-    margin: 20px auto;
+    background-color: var(--secondColor);
+    margin: 12px auto;
     border-radius: 2px;
-    margin: 0;
 }
 .inputLogin {
     position: relative;
-    width: 422px;
-    margin: 10px 0;
+    margin: 12px auto;
+    width: 100%;
+    max-width: 422px;
+    box-sizing: border-box;
 }
 .inputLogin input {
-    width: 422px;
+    width: 100%;
     height: 48px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
     font-size: 20px;
-    padding-left: 12px;
+    padding: 0 12px;
+    padding-right: 44px;
+    box-sizing: border-box;
+}
+.inputLogin input.dirty:invalid {
+    border-color: red;
 }
 .icon-clickable {
     position: absolute;
@@ -38,4 +81,55 @@
     width: 24px;
     height: 24px;
     cursor: pointer;
+}
+
+.buttonLoginCon{
+    display: flex;
+    margin: 35px;
+    gap: 35px;
+}
+.buttonLoginCon button {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 21px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.buttonLoginCon button:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.buttonLogin{
+    background-color: var(--primerColor);
+    color: white;
+    border: none;
+}
+.buttonLogin:hover {
+    background-color: var(--secondColor);
+}
+.buttonGuest {
+    background-color: var(--contrastColor);
+    color: var(--primerColor);
+    border: none;
+    outline: 1px solid var(--primerColor);
+    outline-offset: -1px;
+}
+.buttonGuest:hover {
+    outline-color: var(--secondColor);
+    color: var(--secondColor);
+}
+
+@media (max-width: 780px) {
+    .buttonLoginCon {
+        flex-direction: column;
+        gap: 12px;
+        margin: 20px 0;
+        align-items: stretch;
+    }
+    .buttonLoginCon button {
+        width: 100%;
+        max-width: none;
+    }
+    .LoginField {
+        padding: 16px 8px;
+    }
 }
