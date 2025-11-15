@@ -54,7 +54,7 @@ header{
     height: 48px;
     border: 3px solid #2a3647;
     border-radius: 559px;
-    color: #28abe2;
+    color: #28abe2 !important;
 }
 
 #user-icon:hover{
