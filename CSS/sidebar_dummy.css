@@ -1,26 +1,20 @@
 
 
-#side-bar{
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    background: #2A3647;
-}
 
 p {
     color: #CDCDCD;
+}
+#sidebar-main {
+    width: 100%;
 }
 
 #links-and-footer{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;   
     flex-grow: 1;
+    width: 100%;            
 }
 
 .link-wrapper {
@@ -61,11 +55,13 @@ p {
 #buttons-container{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 #logo{
     padding-top: 64px;
     margin-bottom: 100px;
+    text-align: center;
 }
 
 #sidebar-footer{
