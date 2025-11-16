@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
     <link rel="stylesheet" href="./CSS/buttons.css">
 </head>
-<body onload="loadData()">
+<body>
     <div id="overlay"></div>
     <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
@@ -26,7 +26,7 @@
                 <h2>Log in</h2>
             </div>
             <div class="formCon">
-                <form class="sign_in_up_form" onsubmit="">
+                <form class="sign_in_up_form"  onsubmit="event.preventDefault(); loginUser();">
                     <div class="inputForm">
                         <input type="email" id="login-mail" placeholder="Email">
                         <img src="./assets/img/mail.svg" class="inputIcon">
@@ -37,12 +37,12 @@
                     </div> 
                 </form>
 
-                <p class="false_password">Your passwords don't match. Please try again.</p>        
+                <p class="false_password">Deine Mail oder Password sind falsch</p>        
             </div>
             
 
             <div class="buttonLoginCon">
-                <button class="buttonLoginSignup">Log in</button>
+                <button class="buttonLoginSignup" onclick="loginUser()">Log in</button>
                 <button class="buttonGuest">Guest Log in</button>
             </div>
         </div>
@@ -52,12 +52,12 @@
         <div class="footer_link">
             <a href="">Privacy Policy</a>
         </div>
-        
+        <button onclick="logoutUser()">Logout</button>
         <div class="footer_link">
             <a href="">Legal notice</a>
         </div>
         
     </footer>
-    <script src="./JS/sign_in_up.js"></script>
+    <script type="module" src="./JS/sign_in_up.js"></script>
 </body>
 </html>
