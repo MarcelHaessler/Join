@@ -1,12 +1,19 @@
-const headerTemplate = document.getElementById('header');
-        const sideBarTemplate = document.getElementById('side-bar');
+let cachedHeader = null;
+let cachedSidebar = null;
 
-        async function fetchHtmlTemplates() {
-            const headerResponse = await fetch('./assets/templates/header.html');
-            const headerHtml = await headerResponse.text();
-            headerTemplate.innerHTML = headerHtml;
+async function fetchHtmlTemplates() {
+    if (!cachedHeader) {
+        const resp = await fetch('./assets/templates/header.html');
+        cachedHeader = await resp.text();
+    }
+    if (!cachedSidebar) {
+        const resp = await fetch('./assets/templates/sideBar.html');
+        cachedSidebar = await resp.text();
+    }
 
-            const sideBarResponse = await fetch('./assets/templates/sideBar.html');
-            const sideBarHtml = await sideBarResponse.text();
-            sideBarTemplate.innerHTML = sideBarHtml;
-        }
+    document.getElementById('header').innerHTML = cachedHeader;
+    document.getElementById('side-bar').innerHTML = cachedSidebar;
+
+
+
+}
