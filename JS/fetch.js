@@ -27,3 +27,4 @@ function highlightActiveWrapper() {
         wrapper.classList.toggle('current-page', target === current);
     });
 }
+
