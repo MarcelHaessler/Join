@@ -19,7 +19,7 @@ body {
 }
 h1 {
     font-size: 61px;
-    font-weight: 700;
+    font-weight: 700!important;
     margin: 12px;
     
 }
