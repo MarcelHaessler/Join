@@ -1,11 +1,6 @@
 .blue_text{
     color: rgba(41, 171, 226, 1);
     text-decoration: none;
-@font-face {
-    font-family: 'Inter';
-    src: url('assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
 }
 :root {
     --primerColor: #2A3647;
@@ -22,6 +17,6 @@ h1 {
 }
 @media (max-width: 780px) {
     h1 {
-    font-size: 47px;
-}
+        font-size: 47px;
+    }
 }

@@ -8,34 +8,56 @@
     <link rel="stylesheet" href="./CSS/sign_in_up.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+    <link rel="stylesheet" href="./CSS/buttons.css">
 </head>
 <body onload="loadData()">
-    <!-- <div class="splash">
-        <img src="./assets/img/Logo for Favicon construction.png" alt="Logo" class="logo">
-    </div> -->
-    <div class="noUser">
-        <button class="noUserBtn">Not a Join user?</button>
-        <button class="signupBtn">Sign up</button>
-    </div>
-    <div class="LoginStart">
-        <div class="LoginField">
-            <h1>Log in</h1>
-            <div class="underline"></div>
+    <div id="overlay"></div>
+    <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
-            <div class="inputLogin">
-                <input type="email" id="login-mail" placeholder="Email">
-                <img src="./assets/img/mail.svg" class="icon-clickable" id="key-icon">
+    <header class="noUser">
+        Not a Join user?
+        <a href="./registration.html" class="signupBtn">Sign up</a>
+        <!-- <button class="signupBtn">Sign up</button> -->
+    </header>
+    <main class="LoginStart">
+
+        <div class="login_signup_container"> 
+            <div id="sign_up_title_container">
+                <h2>Log in</h2>
             </div>
-            <div class="inputLogin">
-                <input type="password" id="login-password" placeholder="Password">
-                <img src="./assets/img/visibility_off.svg" class="icon-clickable" id="key-icon">
+            <div class="formCon">
+                <form class="sign_in_up_form" onsubmit="">
+                    <div class="inputForm">
+                        <input type="email" id="login-mail" placeholder="Email">
+                        <img src="./assets/img/mail.svg" class="inputIcon">
+                    </div>
+                    <div class="inputForm">
+                        <input type="password" id="login-password" placeholder="Password">
+                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                    </div> 
+                </form>
+
+                <p class="false_password">Your passwords don't match. Please try again.</p>        
             </div>
+            
+
             <div class="buttonLoginCon">
-                <button class="buttonLogin">Log in</button>
-                <button class=" buttonGuest">Guest Log in</button>
+                <button class="buttonLoginSignup">Log in</button>
+                <button class="buttonGuest">Guest Log in</button>
             </div>
         </div>
-    </div>
+
+    </main>
+    <footer>
+        <div class="footer_link">
+            <a href="">Privacy Policy</a>
+        </div>
+        
+        <div class="footer_link">
+            <a href="">Legal notice</a>
+        </div>
+        
+    </footer>
     <script src="./JS/sign_in_up.js"></script>
 </body>
 </html>

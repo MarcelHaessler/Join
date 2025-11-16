@@ -12,37 +12,51 @@
 </head>
 <body>
     <div id="overlay"></div>
-    <img id="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
+    <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
-    <div id="main-container">
-        <div id="sign_up_container">
+    <div class="main-container">
+        <div class="login_signup_container">
             <div id="sign_up_title_container">
-                <div onmouseout="unhoverBackButton()" onmouseover="hoverBackButton()" id="back_button_container"> 
-                    <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
+                <div id="back_button_container"> 
+                    <a href="./log_in.html">
+                        <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
+                    </a>
                 </div>
                
                 <h2>Sign up</h2>
             </div>
-            <div id="sign_up_main_container">
-                <form id="sign_up_form" onsubmit="">
-                    <input class="text-input" id="name" type="text" placeholder="Name">
-                    <input class="text-input" id="email" type="email" placeholder="Email">
-                    <input class="text-input password" type="password" placeholder="Password">
-                    <input class="text-input password" type="password" placeholder="Confirm Password">
+            <div class="formCon">    
+                <form class="sign_in_up_form" onsubmit="">
+                    <div class="inputForm">
+                        <input type="text" placeholder="Name">
+                        <img src="./assets/img/person.svg" class="inputIcon">
+                    </div>
+                    <div class="inputForm">
+                        <input id="email" type="email" placeholder="Email">
+                        <img src="./assets/img/mail.svg" class="inputIcon">
+                    </div>
+                    <div class="inputForm">
+                        <input class="password" type="password" placeholder="Password">
+                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                    </div>
+                    <div class="inputForm">
+                        <input class="password" type="password" placeholder="Confirm Password">
+                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                    </div>
                 </form>
-                <p id="false_password">Your passwords don't match. Please try again.</p>
+                <p class="false_password">Your passwords don't match. Please try again.</p>
                 <div id="sign_up_checkbox_container">
                     <img onclick="activateCheckbox()" id="checkbox" src="./assets/img/checkbox_inactive.svg" alt="Checkbox-Inactive">
                     <p>I accept the <a class="blue_text" href="">Privacy Policy</a></p>
                 </div>
             </div>
 
-            <button id="sign_up_button">Sign up</button>
+            <button class="buttonLoginSignup">Sign up</button>
             
         </div>
     </div>
 
-        <footer>
+    <footer>
         <div class="footer_link">
             <a href="">Privacy Policy</a>
         </div>
