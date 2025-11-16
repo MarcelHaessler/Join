@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/dummy.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
+    
     <title>Dummy</title>
 </head>
+
 <body onload="fetchHtmlTemplates()">
     <div id="header"></div>
     <div id="side-bar"></div>
@@ -16,19 +19,7 @@
         <h1>Join 360</h1>
     </main>
 
-    <script>
-        const headerTemplate = document.getElementById('header');
-        const sideBarTemplate = document.getElementById('side-bar');
-
-async function fetchHtmlTemplates() {
-    const headerResponse = await fetch('./assets/templates/header.html');
-    const headerHtml = await headerResponse.text();
-    headerTemplate.innerHTML = headerHtml;
-
-    const sideBarResponse = await fetch('./assets/templates/sideBar.html');
-    const sideBarHtml = await sideBarResponse.text();
-    sideBarTemplate.innerHTML = sideBarHtml;
-}
-    </script>
+<script src="./JS/fetch.js"></script>    
 </body>
+
 </html>
