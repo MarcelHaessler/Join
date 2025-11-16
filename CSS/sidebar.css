@@ -1,5 +1,7 @@
 
-
+a {
+    text-decoration: none;
+}
 
 #links-and-footer p {
     color: #CDCDCD;
@@ -29,6 +31,10 @@
     background-color: #2A3D59;   
     transition: background-color 0.5s;
 } 
+
+#sidebar-footer .link-wrapper:hover {
+    background-color: transparent; /* keep footer links flat */
+}
 
 .link-container{
     display: flex;
