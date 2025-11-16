@@ -5,6 +5,8 @@ html, body {
 
 /* Das gesamte Layout */
 body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
     display: grid;
     grid-template-columns: 232px 1fr;  /* Sidebar + Rest */
     grid-template-rows: 96px 1fr;      /* Header + Main */

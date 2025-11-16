@@ -1,6 +1,7 @@
 .blue_text{
     color: rgba(41, 171, 226, 1);
     text-decoration: none;
+}
 @font-face {
     font-family: 'Inter';
     src: url('assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
