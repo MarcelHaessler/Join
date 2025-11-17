@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="En-en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <link rel="stylesheet" href="./CSS/dummy.css">
+    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="./CSS/sidebar.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./CSS/add_task.css">
+
+</head>
+<body onload="fetchHtmlTemplates()">
+
+    <div id="header"></div>
+    <div id="side-bar"></div>
+    
+    <div id="main">
+        <div id="h2-container">
+            <h2>Add Task</h2>
+        </div>
+
+        <div id="form-container">
+            <div id="form-left">
+                <div id="title-container">                    
+                    <label for="title">Title <p class="red-star">*</p></label>
+                    <input id="title" type="text" placeholder="Enter a Title">
+                    <p>This field is required.</p>
+                </div>
+                <div id="description-container">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
+                </div>
+                <div id="date-container">
+                    <label for="date">Due date<p class="red-star">*</p></label>
+                    <input id="date" type="date" placeholder="dd/mm/yyyy">
+                    <p>This field is required.</p>
+                </div>
+            </div>
+
+            <div id="separator"></div>
+
+            <div id="form-right">
+                <div id="form-buttons">
+                    <button class="priority-buttons">
+                        <p>Urgent</p>
+                        <img src="" alt="">
+                    </button>
+                    <button class="priority-buttons">
+                        <p>Medium</p>
+                        <img src="" alt="">
+                    </button>
+                    <button class="priority-buttons">
+                        <p>Low</p>
+                        <img src="" alt="">
+                    </button>
+                </div>
+
+                <label for="assignement">Assigned to</label>
+                <input type="text" id="assignement" placeholder="Select contacts to assign">
+                <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+
+                <label for="category">Category <p class="red-star">*</p></label>
+                <input type="text" id="category" placeholder="Select task category">
+                <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                <p>This field is required.</p>
+
+                <label for="subtasks">Subtasks</label>
+                <input type="text" name="subtasks" id="subtasks">
+            </div>
+        </div>
+    </div>
+
+<script src="./JS/fetchTemplate.js"></script>
+</body>
+</html>
