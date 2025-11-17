@@ -19,6 +19,7 @@ function unhoverBackButton() {
 window.onload = () => {
     document.body.classList.add('loaded');
 };
+
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^.{4,}$/;
 
@@ -38,7 +39,7 @@ function validateEmail(email, input) {
         console.log('Mail');
         input.classList.remove('invalid');
     } else {
-        console.log('no Mail');
+        console.log('No Mail');
         input.classList.add('invalid');
     }
 }

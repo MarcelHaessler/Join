@@ -182,6 +182,8 @@ footer{
     color: #2aabe2;
     transition: ease-in-out 100ms;
     font-weight: 700;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -317,5 +319,9 @@ body {
 }
 
 .inputLogin input.invalid {
+    border-color: red;
+}
+
+.invalid {
     border-color: red;
 }
