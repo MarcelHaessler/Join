@@ -34,8 +34,8 @@
                 </div>
                 <div id="date-container">
                     <label for="date">Due date<p class="red-star">*</p></label>
-                    <input id="date" type="date" placeholder="dd/mm/yyyy">
-                    <p>This field is required.</p>
+                    <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10">
+                    <p id="date-warning"></p>
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-
+<script src="./JS/add_task.js"></script>
 <script src="./JS/fetchTemplate.js"></script>
 </body>
 </html>

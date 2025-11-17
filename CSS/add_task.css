@@ -1,3 +1,7 @@
+.invalid{
+    border-color: #e60025;
+}
+
 p {
     margin-block-start: 0;
     margin-block-end: 0;
@@ -13,25 +17,51 @@ label {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+
 }
 
 #form-container{
     display: flex;
+    justify-content: center;
+    align-items: stretch;
     height: 424px;
-    width: auto;
+    width: 100%;
+    gap: 20px;
 }
 
 #form-left{
     width: 376px;
+    height: 440px;
 }
 
-input{
-    width: 100%;
+#form-right{
+    width: 400px;
+    height: 440px;
 }
 
-textarea{
+input, textarea{
     width: 100%;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 1);
 }
+
+input::placeholder, textarea::placeholder{
+    color: rgba(209, 209, 209, 1);
+    padding-left: 21px;
+}
+
+
+input {
+    height: 48px;
+}
+
+textarea {
+    height: 120px;
+    padding-top: 12px;
+}
+
 
 #title-container{
     margin-bottom: 10px;
@@ -41,6 +71,8 @@ textarea{
     margin-bottom: 10px;
 }
 
-#date-container{
-    
+#separator{
+    width: 1px;
+    height: 424px;
+    background-color: rgba(209, 209, 209, 1);
 }
