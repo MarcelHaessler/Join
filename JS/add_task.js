@@ -3,8 +3,40 @@ document.querySelectorAll('input').forEach(input => {
         if (input.id === 'date') {
             checkDate();
         }
+        if (input.id === 'title') {
+            checkTitle();
+        }
     });
 });
+
+document.querySelector('textarea').addEventListener('blur', () => checkDescription());
+
+function checkTitle() {
+    const titleInput = document.getElementById("title");
+    const titleResultDiv = document.getElementById("title-warning");
+
+
+    if (titleInput.value.length === 0) {
+        titleResultDiv.innerHTML = "This field is required.";
+        titleResultDiv.style.color = "#e60025";
+        titleInput.classList.add("invalid");}
+    if (titleInput.value.length > 0) {
+        titleResultDiv.innerHTML = "";
+        titleInput.classList.remove("invalid");}
+}
+
+function checkDescription() {
+    const descriptionInput = document.getElementById("description");
+    const descriptionResultDiv = document.getElementById("description-warning");
+    
+    if (descriptionInput.value.length === 0) {
+        descriptionResultDiv.innerHTML = "This field is required.";
+        descriptionResultDiv.style.color = "#e60025";
+        descriptionInput.classList.add("invalid");}
+    if (descriptionInput.value.length > 0) {
+        descriptionResultDiv.innerHTML = "";
+        descriptionInput.classList.remove("invalid");}
+}
 
 const dateInput = document.getElementById('date');
 

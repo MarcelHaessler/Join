@@ -7,6 +7,10 @@ body{
     text-decoration: none;
 }
 
+.red-star{
+    color: #ff8190;
+}
+
 @font-face {
     font-family: 'Inter';
     src: url('assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
