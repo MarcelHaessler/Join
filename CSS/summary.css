@@ -11,6 +11,12 @@
     font-weight: 400;
 }
 
+#task-metrics {
+    display: flex;
+    flex-direction: row;
+    gap: 38px;
+}
+
 .metrics-container{
     display: flex;
     flex-direction: row;
