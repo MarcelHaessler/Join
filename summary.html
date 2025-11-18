@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="./CSS/layout.css">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./CSS/summary.css">
-    
-    
+
+
     <title>Summary</title>
 </head>
 
@@ -19,28 +19,35 @@
     <div id="side-bar"></div>
     <main>
         <section id="top-section">
-        <h1>Join 360</h1>
-        <img src="./assets/img/vertical-divider.svg" alt="vertical-divider">
-        <p id="keyMetricsText">Key Metrics at a Glance</p>
+            <h1>Join 360</h1>
+            <img src="./assets/img/vertical-divider.svg" alt="vertical-divider">
+            <p id="keyMetricsText">Key Metrics at a Glance</p>
         </section>
 
         <section id="task-metrics">
+            <div id="to-do-container" class="metrics-container">
+                <img src="./assets/img/pencil.svg" alt="">
+                <div class="number-and-category">
+                    <p id="number-todo">1</p>
+                    <p class="category">To-do</p>
+                </div>
 
+            </div>
         </section>
 
         <section id="urgent-overview">
+            <div id="greeting-section">
 
+            </div>
         </section>
-        <section id="greeting-section">
 
-        </section>
         <section id="task-status-overview">
-            
+
         </section>
 
     </main>
 
-<script src="./JS/fetch.js"></script>    
+    <script src="./JS/fetch.js"></script>
 </body>
 
 </html>
