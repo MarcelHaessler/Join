@@ -26,11 +26,12 @@
                 <div id="title-container">                    
                     <label for="title">Title <p class="red-star">*</p></label>
                     <input id="title" type="text" placeholder="Enter a Title">
-                    <p>This field is required.</p>
+                    <p id="title-warning"></p>
                 </div>
                 <div id="description-container">
-                    <label for="description">Description</label>
+                    <label for="description">Description<p class="red-star">*</p></label>
                     <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
+                    <p id="description-warning"></p>
                 </div>
                 <div id="date-container">
                     <label for="date">Due date<p class="red-star">*</p></label>
@@ -67,7 +68,7 @@
                 <p>This field is required.</p>
 
                 <label for="subtasks">Subtasks</label>
-                <input type="text" name="subtasks" id="subtasks">
+                <input type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
             </div>
         </div>
     </div>
