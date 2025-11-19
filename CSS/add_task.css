@@ -2,6 +2,8 @@
     border-color: #e60025;
 }
 
+.no-hover{}
+
 p {
     margin-block-start: 0;
     margin-block-end: 0;
@@ -12,35 +14,46 @@ label {
     align-items: center;
 }
 
-#main {
+main{
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    width: 100%;
+    background-color: #f6f7f8;
+}
 
+#main {
+    max-width: 1440px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h2{
+    font-size: 60px;
+    font-weight: bolder;
+    margin-block-end: 0;
 }
 
 #form-container{
     display: flex;
     justify-content: center;
-    height: 424px;
+    align-items: center;
     width: 100%;
     gap: 20px;
 }
 
 #form-left{
-    width: 376px;
-    height: 440px;
+    flex: 1;
 }
 
 #form-right{
-    width: 400px;
-    height: 440px;
+    flex: 1;
 }
 
 input, textarea{
-    width: 332px;
+    width: calc(100% - 40px);
     font-size: 20px;
     border-radius: 10px;
     border: 1px solid rgba(209, 209, 209, 1);
@@ -49,16 +62,15 @@ input, textarea{
 
 input::placeholder, textarea::placeholder{
     color: rgba(209, 209, 209, 1);
-    padding-left: 21px;
 }
 
 
 input {
-    height: 48px;
+    height: 46px;
 }
 
 textarea {
-    height: 120px;
+    height: 106px;
     padding-top: 12px;
 }
 
@@ -75,4 +87,36 @@ textarea {
     width: 1px;
     height: 424px;
     background-color: rgba(209, 209, 209, 1);
+}
+
+#priority-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#form-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center ;
+    justify-content: space-between;
+}
+
+.priority-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    width: 30%;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.priority-buttons:not(.no-hover):hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor:pointer;
 }
