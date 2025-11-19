@@ -1,3 +1,4 @@
+/* ===== Layout Containers ===== */
 #top-section {
     display: flex;
     flex-direction: row;
@@ -6,21 +7,22 @@
     gap: 30px;
 }
 
+#task-metrics,
+#task-status-overview,
+#urgent-overview {
+    display: flex;
+    flex-direction: row;
+    gap: 38px;
+}
+
+#urgent-overview {
+    align-items: center;
+}
+
+/* ===== Typography Helpers ===== */
 #keyMetricsText {
     font-size: 27px;
     font-weight: 400;
-}
-
-#task-metrics {
-    display: flex;
-    flex-direction: row;
-    gap: 38px;
-}
-
-#task-status-overview{
-    display: flex;
-    flex-direction: row;
-    gap: 38px;
 }
 
 #current-date {
@@ -30,16 +32,30 @@
     font-size: 21px;
     line-height: 120%;
     letter-spacing: 0%;
-
 }
 
-#urgent-overview {
-    display: flex;
-    flex-direction: row;
-    gap: 38px;
-    align-items: center;
+.greeting-text {
+    font-family: Inter;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 47px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    margin: 0;
 }
 
+#greet-name {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 64px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    color: #29ABE2;
+    margin: 0;
+}
+
+/* ===== Metric Cards ===== */
 .metrics-container {
     display: flex;
     flex-direction: row;
@@ -90,6 +106,7 @@
     margin: 0;
 }
 
+/* ===== Urgent Overview ===== */
 .urgent-container {
     display: flex;
     flex-direction: row;
@@ -119,32 +136,12 @@
     gap: 18px;
 }
 
+/* ===== Greeting Block ===== */
 #greetin-section {
     margin: 0;
 }
 
-.greeting-text {
-    font-family: Inter;
-    font-weight: 500;
-    font-style: Medium;
-    font-size: 47px;
-    line-height: 120%;
-    letter-spacing: 0%;
-    margin: 0;
-}
-
-#greet-name {
-    font-family: Inter;
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 64px;
-    line-height: 120%;
-    letter-spacing: 0%;
-    color: #29ABE2;
-    margin: 0;
-}
-
-/* Task status row (three boxes) */
+/* ===== Task Status Row ===== */
 .task-status-row {
     display: flex;
     gap: 24px;
@@ -172,8 +169,14 @@
     cursor: pointer;
 }
 
-.status-box .number-and-category { text-align: center; }
+.status-box .number-and-category {
+    text-align: center;
+}
 
+/* ===== Responsive Tweaks ===== */
 @media (max-width: 600px) {
-    .task-status-row { flex-direction: column; align-items: center; }
+    .task-status-row {
+        flex-direction: column;
+        align-items: center;
+    }
 }
