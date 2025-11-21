@@ -145,15 +145,15 @@ textarea {
     cursor:pointer;
 }
 
-#assign-input{
+#assign-input-box{
     position: relative;
 }
 
-#assign-input input::placeholder, #category-input input::placeholder {
+#assign-input::placeholder, #category-input input::placeholder {
     color: black;
 }
 
-#assign-input input:focus::placeholder {
+#assign-input:focus::placeholder {
   color: transparent;
   transition: 200ms;
 }

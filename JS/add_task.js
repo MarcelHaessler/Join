@@ -172,3 +172,27 @@ function lowBtnToNormal() {
     lowBtn.style.color = 'black';
     lowImg.src = './assets/img/add_task/low.svg'
 }
+
+let contacts = [];
+
+async function fetchContacts() {
+    let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
+    let data = await response.json();
+    for (let key in data.contact) {
+        contacts.push(data.contact[key]);
+    }
+    console.log(contacts);
+}
+
+function renderAssignmentDropdown() {
+    let contactsDropdown = document.getElementById("contacts-dropdown");
+    contactsDropdown.classList.toggle("d_none");
+    contactsDropdown.innerHTML = "";
+
+    for (let index = 0; index < contacts.length; index++) {
+        let contactName = contacts[index].name;
+        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
+
+        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
+    }
+}

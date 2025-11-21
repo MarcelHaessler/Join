@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./CSS/add_task.css">
 
 </head>
-<body onload="fetchHtmlTemplates()">
+<body onload="fetchHtmlTemplates(), fetchContacts()">
 
     <div id="header"></div>
     <div id="side-bar"></div>
@@ -61,13 +61,13 @@
                     </div>
                     <div id="assignment-container">
                         <label for="assignment">Assigned to</label>
-                        <div id="assign-input">
-                            <input type="text" id="assignment" placeholder="Select contacts to assign">
-                            <div class="dropdown-img-container">
+                        <div id="assign-input-box">
+                            <input id="assign-input" onclick="renderAssignmentDropdown()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
                                 <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
-                        <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                        <div id="contacts-dropdown" class="dropdown d_none"></div>
                     </div>
                     <div id="category-container">
                         <label for="category">Category <p class="red-star">*</p></label>
@@ -89,5 +89,20 @@
     </main>
 <script src="./JS/add_task.js"></script>
 <script src="./JS/fetchTemplate.js"></script>
+<script src="./JS/templates.js"></script>
 </body>
 </html>
+
+<template>
+    <div class="contact-box">
+        <div class="contact-initials">
+
+        </div>
+        <div class="contact-name">
+
+        </div>
+        <div class="contact-checkbox">
+
+        </div>
+    </div>
+</template>
