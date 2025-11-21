@@ -2,7 +2,9 @@
     border-color: #e60025;
 }
 
-.no-hover{}
+.no-hover{
+    /*This is an empty CSS class that is being used in JavaScript (add_task.js)*/
+}
 
 p {
     margin-block-start: 0;
@@ -27,29 +29,34 @@ main{
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 h2{
+    align-self: flex-start;
     font-size: 60px;
     font-weight: bolder;
-    margin-block-end: 0;
 }
 
 #form-container{
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
     gap: 20px;
 }
 
 #form-left{
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 #form-right{
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 input, textarea{
@@ -69,6 +76,10 @@ input {
     height: 46px;
 }
 
+input:hover, textarea:hover {
+    cursor: pointer;
+}
+
 textarea {
     height: 106px;
     padding-top: 12px;
@@ -83,9 +94,17 @@ textarea {
     margin-bottom: 10px;
 }
 
+#date{
+    background-image: url(../assets/img/add_task/event.svg);
+    background-repeat: no-repeat;
+    background-position: 95%;
+    
+    
+}
+
 #separator{
     width: 1px;
-    height: 424px;
+    height: 100%;
     background-color: rgba(209, 209, 209, 1);
 }
 
