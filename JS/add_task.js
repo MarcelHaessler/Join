@@ -186,7 +186,7 @@ async function fetchContacts() {
 
 function renderAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
-    contactsDropdown.classList.toggle("d_none");
+    contactsDropdown.classList.toggle("open");
     contactsDropdown.innerHTML = "";
 
     for (let index = 0; index < contacts.length; index++) {
