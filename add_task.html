@@ -22,17 +22,17 @@
             
             <div id="form-container">
                 <div id="form-left">
-                    <div id="title-container">                    
+                    <div class="input-container" id="title-container">                    
                         <label for="title">Title <p class="red-star">*</p></label>
                         <input id="title" type="text" placeholder="Enter a Title">
                         <p id="title-warning"></p>
                     </div>
-                    <div id="description-container">
+                    <div class="input-container" id="description-container">
                         <label for="description">Description<p class="red-star">*</p></label>
                         <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
                         <p id="description-warning"></p>
                     </div>
-                    <div id="date-container">
+                    <div class="input-container" id="date-container">
                         <label for="date">Due date<p class="red-star">*</p></label>
                         <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10">
                         <p id="date-warning"></p>
@@ -44,7 +44,7 @@
                 <div id="form-right">
                     <div id="priority-container">
                         <label for="form-buttons">Priority</label>
-                        <div id="form-buttons">
+                        <div class="input-container" id="form-buttons">
                             <button id="urgent-btn" class="priority-buttons">
                                 <p>Urgent</p>
                                 <img id="urgent-img" src="./assets/img/add_task/urgent.svg" alt="Urgent">
@@ -59,7 +59,7 @@
                             </button>
                         </div>
                     </div>
-                    <div id="assignment-container">
+                    <div class="input-container" id="assignment-container">
                         <label for="assignment">Assigned to</label>
                         <div id="assign-input-box">
                             <input id="assign-input" onclick="renderAssignmentDropdown()" type="text" id="assignment" placeholder="Select contacts to assign">
@@ -67,9 +67,9 @@
                                 <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
-                        <div id="contacts-dropdown" class="dropdown d_none"></div>
+                        <div id="contacts-dropdown" class="dropdown open"></div>
                     </div>
-                    <div id="category-container">
+                    <div class="input-container" id="category-container">
                         <label for="category">Category <p class="red-star">*</p></label>
                         <div id="category-input">
                             <input type="text" id="category" placeholder="Select task category">
