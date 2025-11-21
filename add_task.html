@@ -59,15 +59,27 @@
                             </button>
                         </div>
                     </div>
-
-                    <label for="assignement">Assigned to</label>
-                    <input type="text" id="assignement" placeholder="Select contacts to assign">
-                    <ul id="contacts-dropdown" class="dropdown d_none"></ul>
-
-                    <label for="category">Category <p class="red-star">*</p></label>
-                    <input type="text" id="category" placeholder="Select task category">
-                    <ul id="contacts-dropdown" class="dropdown d_none"></ul>
-                    <p>This field is required.</p>
+                    <div id="assignment-container">
+                        <label for="assignment">Assigned to</label>
+                        <div id="assign-input">
+                            <input type="text" id="assignment" placeholder="Select contacts to assign">
+                            <div class="dropdown-img-container">
+                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                            </div>
+                        </div>
+                        <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                    </div>
+                    <div id="category-container">
+                        <label for="category">Category <p class="red-star">*</p></label>
+                        <div id="category-input">
+                            <input type="text" id="category" placeholder="Select task category">
+                            <div class="dropdown-img-container">
+                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                            </div>
+                        </div>
+                        <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                        <p></p>
+                    </div>
 
                     <label for="subtasks">Subtasks</label>
                     <input type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">

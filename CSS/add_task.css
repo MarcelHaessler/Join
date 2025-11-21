@@ -65,6 +65,7 @@ input, textarea{
     border-radius: 10px;
     border: 1px solid rgba(209, 209, 209, 1);
     padding: 0 20px 0 20px;
+    transition: 200ms;
 }
 
 input::placeholder, textarea::placeholder{
@@ -80,12 +81,17 @@ input:hover, textarea:hover {
     cursor: pointer;
 }
 
+input:focus, textarea:focus {
+    border: 1px solid #2aaae2;
+    outline: none;
+}
+
 textarea {
     height: 106px;
     padding-top: 12px;
 }
 
-
+/*Start of left side of Form Container*/
 #title-container{
     margin-bottom: 10px;
 }
@@ -98,8 +104,6 @@ textarea {
     background-image: url(../assets/img/add_task/event.svg);
     background-repeat: no-repeat;
     background-position: 95%;
-    
-    
 }
 
 #separator{
@@ -108,6 +112,7 @@ textarea {
     background-color: rgba(209, 209, 209, 1);
 }
 
+/*Start of right side of Form Container*/
 #priority-container {
     width: 100%;
     display: flex;
@@ -139,3 +144,42 @@ textarea {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor:pointer;
 }
+
+#assign-input{
+    position: relative;
+}
+
+#assign-input input::placeholder, #category-input input::placeholder {
+    color: black;
+}
+
+#assign-input input:focus::placeholder {
+  color: transparent;
+  transition: 200ms;
+}
+
+#category-input{
+    position: relative;
+}
+
+.dropdown-img-container{
+    width: 20px;
+    height: 20px;
+}
+
+.dropdown-img-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-img-container:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
