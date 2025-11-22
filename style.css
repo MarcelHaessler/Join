@@ -1,7 +1,20 @@
+body{
+    font-family: Inter;
+}
+
+.d_none {
+    display: none;
+}
+
 .blue_text{
     color: rgba(41, 171, 226, 1);
     text-decoration: none;
 }
+
+.red-star{
+    color: #ff8190;
+}
+
 :root {
     --primerColor: #2A3647;
     --contrastColor: white; 

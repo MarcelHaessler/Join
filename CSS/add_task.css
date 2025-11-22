@@ -1,0 +1,213 @@
+.invalid{
+    border-color: #e60025;
+}
+
+.no-hover{
+    /*This is an empty CSS class that is being used in JavaScript (add_task.js)*/
+}
+
+label {
+    display: flex;
+    align-items: center;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f7f8;
+}
+
+#main {
+    max-width: 1440px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+h2{
+    align-self: flex-start;
+    font-size: 60px;
+    font-weight: bolder;
+}
+
+#form-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+#form-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#form-right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+input, textarea{
+    width: calc(100% - 40px);
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 1);
+    padding: 0 20px 0 20px;
+    transition: 200ms;
+}
+
+input::placeholder, textarea::placeholder{
+    color: rgba(209, 209, 209, 1);
+}
+
+
+input {
+    height: 46px;
+}
+
+input:hover, textarea:hover {
+    cursor: pointer;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #2aaae2;
+    outline: none;
+}
+
+textarea {
+    height: 106px;
+    padding-top: 12px;
+}
+
+/*Start of left side of Form Container*/
+#title-container{
+    margin-bottom: 10px;
+}
+
+#description-container{
+    margin-bottom: 10px;
+}
+
+#date{
+    background-image: url(../assets/img/add_task/event.svg);
+    background-repeat: no-repeat;
+    background-position: 95%;
+}
+
+#separator{
+    width: 1px;
+    height: 100%;
+    background-color: rgba(209, 209, 209, 1);
+}
+
+/*Start of right side of Form Container*/
+#priority-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#form-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center ;
+    justify-content: space-between;
+}
+
+.priority-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    width: 30%;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.priority-buttons:not(.no-hover):hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor:pointer;
+}
+
+#assign-input-box{
+    position: relative;
+}
+
+#assign-input::placeholder, #category-input input::placeholder {
+    color: black;
+}
+
+#assign-input:focus::placeholder {
+  color: transparent;
+  transition: 200ms;
+}
+
+#category-input{
+    position: relative;
+}
+
+.dropdown-img-container{
+    width: 20px;
+    height: 20px;
+}
+
+.dropdown-img-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-img-container:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+#contacts-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius:0 0 8px 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: -8px;
+    padding-top: 8px;
+}
+
+#contacts-dropdown.open {
+    max-height: 300px;
+    opacity: 1;
+}
+
+.contact-box{
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px 0px 20px;
+    transition: 200ms;
+}
+
+.contact-box:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
