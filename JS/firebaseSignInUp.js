@@ -4,6 +4,7 @@ const pw = document.getElementById("signup-password");
 const pwRepeat = document.getElementById("signup-password-repeat");
 const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
+const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/";
 
 // Login with firebase Authentication
 let manualLogin = false;
@@ -92,6 +93,7 @@ export async function registerUser() {
                 displayName: name.value
             });
             console.log("Profil aktualisiert mit Name:", name.value);
+            await postData("users", { name: name.value, email: email.value })
             window.location.href = "index.html";
         } catch (error) {
             console.error("Fehler beim Erstellen:", error);
@@ -139,6 +141,18 @@ function getFirstAndLastInitial(fullName) {
     const first = parts[0][0];
     const last = parts[parts.length - 1][0];
     return (first + last);
+}
+
+async function postData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    return await response.json();
 }
 
 // global functions
