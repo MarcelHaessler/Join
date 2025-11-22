@@ -10,6 +10,19 @@ function activateCheckbox() {
     }
 }
 
+function hoverBackButton() {
+    const backButton = document.getElementById("back_button");
+    backButton.src="./assets/img/back_button_active.svg"
+}
+function unhoverBackButton() {
+    const backButton = document.getElementById("back_button");
+    backButton.src="./assets/img/back_button_inactive.svg"
+}
+
+window.onload = () => {
+    document.body.classList.add('loaded');
+};
+
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^.{4,}$/;
 
