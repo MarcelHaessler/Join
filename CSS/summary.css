@@ -1,0 +1,182 @@
+/* ===== Layout Containers ===== */
+#top-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+#task-metrics,
+#task-status-overview,
+#urgent-overview {
+    display: flex;
+    flex-direction: row;
+    gap: 38px;
+}
+
+#urgent-overview {
+    align-items: center;
+}
+
+/* ===== Typography Helpers ===== */
+#keyMetricsText {
+    font-size: 27px;
+    font-weight: 400;
+}
+
+#current-date {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 21px;
+    line-height: 120%;
+    letter-spacing: 0%;
+}
+
+.greeting-text {
+    font-family: Inter;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 47px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    margin: 0;
+}
+
+#greet-name {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 64px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    color: #29ABE2;
+    margin: 0;
+}
+
+/* ===== Metric Cards ===== */
+.metrics-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 38px;
+    background-color: white;
+    width: 264px;
+    height: 168px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+    transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
+}
+
+.metrics-container img {
+    transition: filter 0.2s ease;
+}
+
+.metrics-container:hover img[src$="pencil-button.svg"],
+.metrics-container:hover img[src$="done-button.svg"] {
+    filter: invert(1);
+}
+
+.metrics-container:hover{
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.07);
+    cursor: pointer;
+}
+
+.number-and-category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.number-category {
+    font-size: 64px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.category {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* ===== Urgent Overview ===== */
+.urgent-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    margin-top: 38px;
+    background-color: white;
+    color: #2A3647;
+    width: 560px;
+    height: 168px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+    transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
+}
+
+.urgent-container:hover {
+    background-color: #2A3647;
+    color:white;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.button-and-cat {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+}
+
+/* ===== Greeting Block ===== */
+#greetin-section {
+    margin: 0;
+}
+
+/* ===== Task Status Row ===== */
+.task-status-row {
+    display: flex;
+    gap: 24px;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-top: 38px;
+}
+
+.status-box {
+    width: 168px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+    transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
+}
+
+.status-box:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.status-box .number-and-category {
+    text-align: center;
+}
+
+/* ===== Responsive Tweaks ===== */
+@media (max-width: 600px) {
+    .task-status-row {
+        flex-direction: column;
+        align-items: center;
+    }
+}

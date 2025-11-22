@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/sidebar.css">
+    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="./CSS/layout.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./CSS/summary.css">
+
+
+    <title>Summary</title>
+</head>
+
+<body onload="renderAll()">
+    <div id="header"></div>
+    <div id="side-bar"></div>
+    <main>
+        <section id="top-section">
+            <h1>Join 360</h1>
+            <img src="./assets/img/vertical-divider.svg" alt="vertical-divider">
+            <p id="keyMetricsText">Key Metrics at a Glance</p>
+        </section>
+
+        <section id="task-metrics" class="container-spacing">
+            <div id="to-do-container" class="metrics-container">
+                <div class="button-and-cat">
+                    <img src="./assets/img/pencil-button.svg" alt="">
+
+                    <div class="number-and-category">
+                        <p id="number-todo" class="number-category">1</p>
+                        <p class="category">To-do</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="done-container" class="metrics-container">
+                <div class="button-and-cat">
+                    <img src="./assets/img/done-button.svg" alt="checked-img">
+
+                    <div class="number-and-category">
+                        <p id="number-done" class="number-category">1</p>
+                        <p class="category">Done</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="urgent-overview">
+            <div class="urgent-overview">
+                <div class="urgent-container">
+                    <div class="button-and-cat">
+                        <img src="./assets/img/urgent-button.svg" alt="">
+                        <div class="number-and-category">
+                            <p class="number-category">1</p>
+                            <p class="category">Urgent</p>
+                        </div>
+                    </div>
+
+                    <img src="./assets/img/urgent-vertical-divider.png" alt="a vertival divider">
+                    <div class="deadline-container">
+                        <p id="current-date">October 16, 2022</p>
+                        <p class="category">Upcoming Deadline</p>
+                    </div>
+
+                </div>
+            </div>
+            <div id="greeting-section">
+                <p id="greeting-text" class="greeting-text">,</p>
+                <p id="greet-name">Sofia Müller</p>
+
+            </div>
+        </section>
+
+        <section id="task-status-overview">
+            <div class="task-status-row">
+                <div class="status-box">
+                    <div class="number-and-category">
+                        <p id="number-board" class="number-category">5</p>
+                        <p class="category">Tasks <br>in Board</p>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="number-and-category">
+                        <p id="number-progress" class="number-category">2</p>
+                        <p class="category">Tasks <br>in Progress</p>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="number-and-category">
+                        <p id="number-feedback" class="number-category">2</p>
+                        <p class="category">Awaiting Feedback</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <script src="./JS/summary.js"></script>
+    <script src="./JS/fetch.js"></script>
+</body>
+
+</html>
