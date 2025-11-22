@@ -196,3 +196,28 @@ function renderAssignmentDropdown() {
         contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
     }
 }
+
+function openCloseCategoryDropdown() {
+    let categoryDropdown = document.getElementById("category-dropdown");
+    categoryDropdown.classList.toggle("open");
+}
+
+let currentCategory = ""
+
+function choseTechnicalTask() {
+    let categoryInput = document.getElementById("category");
+    categoryInput.value = "Technical Task";
+    currentCategory = "Technical Task";
+    openCloseCategoryDropdown();
+    console.log(currentCategory);
+    
+}
+
+function choseUserStory() {
+    let categoryInput = document.getElementById("category");
+    categoryInput.value = "User Story";
+    currentCategory = "User Story";
+    openCloseCategoryDropdown();
+    console.log(currentCategory);
+    
+}
