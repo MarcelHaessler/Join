@@ -3,46 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Join - Sign up</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
     <link rel="stylesheet" href="./CSS/sign_in_up.css">
-    <link rel="stylesheet" href="./CSS/fonts.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./CSS/buttons.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
     <div id="overlay"></div>
-    <img id="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
+    <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
-    <div id="main-container">
-        <div id="sign_up_container">
-            <div id="sign_up_title_container">
-                <div onmouseout="unhoverBackButton()" onmouseover="hoverBackButton()" id="back_button_container"> 
-                    <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
+    <header>
+
+    </header>
+    <main>
+        <div class="login_signup_container">
+            <div class="sign_up_title_container">
+                <div class="back_button_container"> 
+                    <a href="./log_in.html">
+                        <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
+                    </a>
                 </div>
-               
                 <h2>Sign up</h2>
             </div>
-            <div id="sign_up_main_container">
-                <form id="sign_up_form" onsubmit="">
-                    <input class="text-input" id="name" type="text" placeholder="Name">
-                    <input class="text-input" id="email" type="email" placeholder="Email">
-                    <input class="text-input password" type="password" placeholder="Password">
-                    <input class="text-input password" type="password" placeholder="Confirm Password">
+            <div class="formCon">    
+                <form class="sign_in_up_form" onsubmit="">
+                    <div class="inputForm">
+                        <input id="signup-name" type="text" placeholder="Name">
+                        <img src="./assets/img/person.svg" class="inputIcon">
+                    </div>
+                    <div class="inputForm">
+                        <input id="signup-email" type="email" placeholder="Email">
+                        <img src="./assets/img/mail.svg" class="inputIcon">
+                    </div>
+                    <div class="inputForm">
+                        <input id="signup-password" class="password" type="password" placeholder="Password">
+                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                    </div>
+                    <div class="inputForm">
+                        <input id="signup-password-repeat" class="password" type="password" placeholder="Confirm Password">
+                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                    </div>
                 </form>
-                <p id="false_password">Your passwords don't match. Please try again.</p>
+                <p class="false_password">Your passwords don't match. Please try again.</p>
                 <div id="sign_up_checkbox_container">
-                    <img onclick="activateCheckbox()" id="checkbox" src="./assets/img/checkbox_inactive.svg" alt="Checkbox-Inactive">
+                    <input id="accept-policy" type="checkbox">
                     <p>I accept the <a class="blue_text" href="">Privacy Policy</a></p>
                 </div>
             </div>
 
-            <button id="sign_up_button">Sign up</button>
+            <button class="buttonLoginSignup" onclick="registerUser()">Sign up</button>
             
         </div>
-    </div>
+    </main>
 
-        <footer>
+    <footer>
         <div class="footer_link">
             <a href="">Privacy Policy</a>
         </div>
@@ -53,6 +70,7 @@
         
     </footer>
 
-<script src="./JS/sign_in_up.js"></script>
+    <script src="./JS/sign_in_up.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
 </body>
 </html>

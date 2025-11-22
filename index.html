@@ -1,1 +1,25 @@
-Hello World!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./CSS/buttons.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
+</head>
+<body>
+    <button onclick="logoutUser()">Logout</button>
+    <div class="card" id="userCard">
+      <h2>Angemeldeter Benutzer</h2>
+      <div id="noUser">Kein Benutzer angemeldet.</div>
+
+      <div id="userInfo" class="hidden">
+        <p><strong>Display Name:</strong> <span id="displayName">—</span></p>
+        <span id="personIcon">XX</span>
+      </div>
+    </div>
+    <script src="./JS/sign_in_up.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
+</body>
+</html>
