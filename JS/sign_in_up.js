@@ -1,6 +1,5 @@
 const false_password = document.querySelector('.false_password');
 
-
 // Checkbox activation
 function activateCheckbox() {
     const checkbox = document.getElementById("checkbox");
@@ -45,7 +44,6 @@ function validatePassword(password, input) {
         false_password.classList.add('show');
     }
 }
-
 
 // Password visibility toggle
 document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
