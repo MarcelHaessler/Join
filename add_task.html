@@ -1,26 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="En-en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/sidebar.css">
-    <link rel="stylesheet" href="./CSS/header.css">
-    <link rel="stylesheet" href="./CSS/layout.css">
-    <link rel="stylesheet" href="./style.css">
-    
-    
     <title>Add Task</title>
-</head>
+    <link rel="stylesheet" href="./CSS/layout.css">
+    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="./CSS/sidebar.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./CSS/add_task.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
 
-<body onload="fetchHtmlTemplates()">
+</head>
+<body onload="fetchHtmlTemplates(), fetchContacts()">
+
     <div id="header"></div>
     <div id="side-bar"></div>
     <main>
-        <h1>Add Task</h1>
+        <div id="main">
+            
+            <h2>Add Task</h2>
+            
+            <div id="form-container">
+                <div id="form-left">
+                    <div class="input-container" id="title-container">                    
+                        <label for="title">Title <p class="red-star">*</p></label>
+                        <input id="title" type="text" placeholder="Enter a Title">
+                        <p id="title-warning"></p>
+                    </div>
+                    <div class="input-container" id="description-container">
+                        <label for="description">Description<p class="red-star">*</p></label>
+                        <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
+                        <p id="description-warning"></p>
+                    </div>
+                    <div class="input-container" id="date-container">
+                        <label for="date">Due date<p class="red-star">*</p></label>
+                        <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10">
+                        <p id="date-warning"></p>
+                    </div>
+                </div>
+
+                <div id="separator"></div>
+
+                <div id="form-right">
+                    <div id="priority-container">
+                        <label for="form-buttons">Priority</label>
+                        <div class="input-container" id="form-buttons">
+                            <button id="urgent-btn" class="priority-buttons">
+                                <p>Urgent</p>
+                                <img id="urgent-img" src="./assets/img/add_task/urgent.svg" alt="Urgent">
+                            </button>
+                            <button id="medium-btn" class="priority-buttons">
+                                <p>Medium</p>
+                                <img id="medium-img" src="./assets/img/add_task/medium.svg" alt="Medium">
+                            </button>
+                            <button id="low-btn" class="priority-buttons">
+                                <p>Low</p>
+                                <img id="low-img" src="./assets/img/add_task/low.svg" alt="Low">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-container" id="assignment-container">
+                        <label for="assignment">Assigned to</label>
+                        <div id="assign-input-box">
+                            <input id="assign-input" onclick="renderAssignmentDropdown()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
+                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                            </div>
+                        </div>
+                        <div id="contacts-dropdown" class="dropdown open"></div>
+                    </div>
+                    <div class="input-container" id="category-container">
+                        <label for="category">Category <p class="red-star">*</p></label>
+                        <div id="category-input">
+                            <input type="text" id="category" placeholder="Select task category">
+                            <div class="dropdown-img-container">
+                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                            </div>
+                        </div>
+                        <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                        <p></p>
+                    </div>
+
+                    <label for="subtasks">Subtasks</label>
+                    <input type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
+                </div>
+            </div>
+        </div>
     </main>
-
-<script src="./JS/fetch.js"></script>    
+<script src="./JS/add_task.js"></script>
+<script src="./JS/fetchTemplate.js"></script>
+<script src="./JS/templates.js"></script>
+<script src="./JS/fetch.js"></script>
 </body>
-
 </html>
