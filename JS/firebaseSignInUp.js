@@ -59,7 +59,7 @@ onAuthStateChanged(auth, (user) => {
         }
         if (manualLogin && window.location.pathname.includes("log_in.html")) {
             manualLogin = false;
-            window.location.href = "index.html";
+            window.location.href = "summary.html";
         }
 
     } else {
