@@ -10,10 +10,10 @@ button {
     background-color: var(--primerColor);
     color: var(--contrastColor);
     border: none;
-}
 
-.buttonLoginSignup:hover {
-    background-color: var(--secondColor);
+    :hover {
+        background-color: var(--secondColor);
+    }
 }
 
 .buttonGuest {
@@ -22,8 +22,15 @@ button {
     border: none;
     outline: 1px solid var(--primerColor);
     outline-offset: -1px;
+
+    :hover {
+        outline-color: var(--secondColor);
+        color: var(--secondColor);
+    }
 }
-.buttonGuest:hover {
-    outline-color: var(--secondColor);
-    color: var(--secondColor);
+
+@media (max-width: 780px) {
+  button {
+    font-size: 16px;
+  }
 }

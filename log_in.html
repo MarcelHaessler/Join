@@ -7,22 +7,24 @@
     <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
     <link rel="stylesheet" href="./CSS/sign_in_up.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
     <link rel="stylesheet" href="./CSS/buttons.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
     <div id="overlay"></div>
     <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
-    <header class="noUser">
-        Not a Join user?
-        <a href="./registration.html" class="signupBtn">Sign up</a>
-        <!-- <button class="signupBtn">Sign up</button> -->
+    <header>
+        <div class="noUser desktop-only">
+            Not a Join user?
+            <a href="./registration.html" class="signupBtn">Sign up</a>
+        </div>
     </header>
-    <main class="LoginStart">
+    <main>
 
         <div class="login_signup_container"> 
-            <div id="sign_up_title_container">
+            <div class="sign_up_title_container">
                 <h2>Log in</h2>
             </div>
             <div class="formCon">
@@ -37,27 +39,28 @@
                     </div> 
                 </form>
 
-                <p class="false_password">Deine Mail oder Password sind falsch</p>        
+                <p class="false_password">Check your email and password. Please try again.</p>        
             </div>
             
-
             <div class="buttonLoginCon">
                 <button class="buttonLoginSignup" onclick="loginUser()">Log in</button>
                 <button class="buttonGuest">Guest Log in</button>
             </div>
         </div>
-
+        <div class="noUser mobile-only">
+            Not a Join user?
+            <a href="./registration.html" class="signupBtn">Sign up</a>
+        </div>
     </main>
     <footer>
         <div class="footer_link">
             <a href="">Privacy Policy</a>
         </div>
-        <button onclick="logoutUser()">Logout</button>
         <div class="footer_link">
             <a href="">Legal notice</a>
         </div>
-        
     </footer>
-    <script type="module" src="./JS/sign_in_up.js"></script>
+    <script src="./JS/sign_in_up.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
 </body>
 </html>
