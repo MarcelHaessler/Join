@@ -6,9 +6,9 @@ function getCurrentTime() {
 
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "Good morning,";
+    if (hour < 18) return "Good afternoon,";
+    return "Good evening,";
 }
 
 function renderGreeting() {
