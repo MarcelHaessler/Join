@@ -1,13 +1,18 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
 
 /* Das gesamte Layout */
 body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
     display: grid;
-    grid-template-columns: 232px 1fr;  /* Sidebar + Rest */
-    grid-template-rows: 96px 1fr;      /* Header + Main */
+    grid-template-columns: 232px 1fr;
+    /* Sidebar + Rest */
+    grid-template-rows: 96px 1fr;
+    /* Header + Main */
     grid-template-areas:
         "sidebar header"
         "sidebar main";
@@ -21,7 +26,8 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: stretch; /* wichtig für volle Breite */
+    align-items: stretch;
+    /* wichtig für volle Breite */
 }
 
 /* Header (per fetch) */
@@ -30,9 +36,11 @@ body {
     height: 96px;
 }
 
+
 /* Main Content */
 main {
     grid-area: main;
     padding: 40px;
     overflow-y: auto;
+    background-color: #F6F7F8;
 }
