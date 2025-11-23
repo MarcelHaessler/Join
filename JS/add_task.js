@@ -196,6 +196,7 @@ function renderAssignmentDropdown() {
         contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
     }
     addInitialsBackgroundColors();
+    searchContact();
 }
 
 function addInitialsBackgroundColors() {
@@ -208,22 +209,36 @@ function addInitialsBackgroundColors() {
     }
 }
 
-function searchContact() {
-    let assignInput = document.getElementById("assign-input");
-    let filter = assignInput.value.toUpperCase();
-    let contactsDropdown = document.getElementById("contacts-dropdown");
-    let contactBoxes = contactsDropdown.getElementsByClassName("dropdown-box");
+let searchTimeout;
 
-    for (let i = 0; i < contactBoxes.length; i++) {
-        let contactNameElement = contactBoxes[i].getElementsByClassName("contact-fullname")[0];
-        let txtValue = contactNameElement.textContent || contactNameElement.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            contactBoxes[i].style.display = "";
-        } else {
-            contactBoxes[i].style.display = "none";
-        }
-    }
+function delaySearchContact() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => searchContact2(), 500);
 }
+
+function searchContact(){
+    let assignInput = document.getElementById('assign-input');
+    let input = assignInput.value.toUpperCase();
+    let contactElements = document.getElementById("contacts-dropdown");
+
+    console.log(contactElements);
+    
+    let singleContacts = Array.from(contactElements.getElementsByClassName("dropdown-box"));
+
+    console.log(singleContacts);
+    
+
+    singleContacts.forEach(e => {
+        const contactName = e.querySelector('.contact-fullname');
+
+        console.log(contactName);
+        
+        const txtValue = contactName.innerText || contactName.textContent;
+
+        e.style.display = txtValue.toUpperCase().includes(input) ? "" : "none";
+    })
+}
+
 function openCloseCategoryDropdown() {
     let categoryDropdown = document.getElementById("category-dropdown");
     let arrowImage = document.querySelectorAll(".dropdown-img-container img");
