@@ -37,7 +37,7 @@ function doneLeaveEffect() {
 }
 
 
-// call once on load, or whenever you need to refresh the greeting
+// onload
 function renderAll(){
     fetchHtmlTemplates();
     renderGreeting();
