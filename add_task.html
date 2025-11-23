@@ -63,8 +63,8 @@
                     <div class="input-container" id="assignment-container">
                         <label for="assignment">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" onclick="renderAssignmentDropdown()" type="text" id="assignment" placeholder="Select contacts to assign">
-                            <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
+                            <input id="assign-input" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
                                 <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
@@ -79,10 +79,10 @@
                             </div>
                         </div>
                         <div id="category-dropdown">
-                            <div onclick="choseTechnicalTask()" class="category-box">
+                            <div onclick="choseTechnicalTask()" class="dropdown-box">
                                 Technical Task
                             </div>
-                            <div onclick="choseUserStory()" class="category-box">
+                            <div onclick="choseUserStory()" class="dropdown-box">
                                 User Story
                             </div>
                         </div>

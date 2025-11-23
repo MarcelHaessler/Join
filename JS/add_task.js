@@ -178,9 +178,7 @@ let contacts = [];
 async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
-    for (let key in data.contact) {
-        contacts.push(data.contact[key]);
-    }
+    for (let key in data.contact) {contacts.push(data.contact[key]);}
     console.log(contacts);
 }
 
@@ -189,16 +187,33 @@ function renderAssignmentDropdown() {
     contactsDropdown.classList.toggle("open");
     contactsDropdown.innerHTML = "";
 
+    let arrowImage = document.querySelectorAll(".dropdown-img-container img");
+    arrowImage[0].classList.toggle("rotate");
+
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;
         let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-
         contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
+    }
+    addInitialsBackgroundColors();
+}
+
+function addInitialsBackgroundColors() {
+    let contactInitials = document.querySelectorAll(".contact-initials");
+    let colorIndex = 1;
+    for (let index = 0; index < contactInitials.length; index++) {
+        if (colorIndex > 15) {colorIndex = 1;}
+        contactInitials[index].style.backgroundImage = `url('../assets/img/contacts/color${colorIndex}.svg')`;
+        colorIndex++;
     }
 }
 
+
+
 function openCloseCategoryDropdown() {
     let categoryDropdown = document.getElementById("category-dropdown");
+    let arrowImage = document.querySelectorAll(".dropdown-img-container img");
+    arrowImage[1].classList.toggle("rotate");
     categoryDropdown.classList.toggle("open");
 }
 
