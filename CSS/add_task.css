@@ -203,20 +203,40 @@ textarea {
     opacity: 1;
 }
 
-.contact-box{
+.dropdown-box{
     height: 48px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 12px 0px 12px;
     transition: 200ms;
+    gap: 12px;
 }
 
-.contact-box:hover {
+.dropdown-box:hover {
     background-color: lightgrey;
     cursor: pointer;
 }
 
+.contact-initials{
+    width: 48px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.contact-name-checkbox{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox{
+    width: 16px;
+}
 
 .category-box{
     height: 48px;
@@ -227,8 +247,6 @@ textarea {
     transition: 200ms;
 }
 
-.category-box:hover{
-    background-color: lightgrey;
-    cursor: pointer;  
+.rotate{
+    rotate: 180deg;
 }
-
