@@ -208,8 +208,22 @@ function addInitialsBackgroundColors() {
     }
 }
 
+function searchContact() {
+    let assignInput = document.getElementById("assign-input");
+    let filter = assignInput.value.toUpperCase();
+    let contactsDropdown = document.getElementById("contacts-dropdown");
+    let contactBoxes = contactsDropdown.getElementsByClassName("dropdown-box");
 
-
+    for (let i = 0; i < contactBoxes.length; i++) {
+        let contactNameElement = contactBoxes[i].getElementsByClassName("contact-fullname")[0];
+        let txtValue = contactNameElement.textContent || contactNameElement.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            contactBoxes[i].style.display = "";
+        } else {
+            contactBoxes[i].style.display = "none";
+        }
+    }
+}
 function openCloseCategoryDropdown() {
     let categoryDropdown = document.getElementById("category-dropdown");
     let arrowImage = document.querySelectorAll(".dropdown-img-container img");
@@ -234,5 +248,4 @@ function choseUserStory() {
     currentCategory = "User Story";
     openCloseCategoryDropdown();
     console.log(currentCategory);
-    
 }

@@ -63,7 +63,7 @@
                     <div class="input-container" id="assignment-container">
                         <label for="assignment">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <input id="assign-input" oninput="searchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
                             <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
                                 <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
