@@ -267,8 +267,8 @@ textarea {
 }
 
 .subtask-button {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -278,4 +278,42 @@ textarea {
 .subtask-button:hover {
     cursor: pointer;
     background-color: #d1d1d1;
+}
+
+ul {
+        padding-inline-start: 0px;
+}
+
+li {
+    padding: 4px 20px 4px 20px;
+}
+
+.subtask-element-box {
+    list-style-position: inside;
+    position: relative;
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.subtask-element-box:hover {
+    background-color: #d1d1d1;
+    cursor: pointer;
+}
+
+.subtask-list-button-container{
+    width: 56px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5%;
+}
+
+.subtask-list-button {
+    width: 14px;
+
 }
