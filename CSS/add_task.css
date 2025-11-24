@@ -175,7 +175,7 @@ textarea {
 }
 
 .dropdown-img-container:hover {
-    background-color: lightgray;
+    background-color: #d1d1d1;
     cursor: pointer;
 }
 
@@ -249,4 +249,33 @@ textarea {
 
 .rotate{
     rotate: 180deg;
+}
+
+#subtask-input-wrapper {
+    position: relative;
+}
+
+#subtask-button-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 56px;
+}
+
+.subtask-button {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.subtask-button:hover {
+    cursor: pointer;
+    background-color: #d1d1d1;
 }

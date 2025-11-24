@@ -219,22 +219,12 @@ function delaySearchContact() {
 function searchContact(){
     let assignInput = document.getElementById('assign-input');
     let input = assignInput.value.toUpperCase();
-    let contactElements = document.getElementById("contacts-dropdown");
-
-    console.log(contactElements);
-    
+    let contactElements = document.getElementById("contacts-dropdown");   
     let singleContacts = Array.from(contactElements.getElementsByClassName("dropdown-box"));
 
-    console.log(singleContacts);
-    
-
     singleContacts.forEach(e => {
-        const contactName = e.querySelector('.contact-fullname');
-
-        console.log(contactName);
-        
+        const contactName = e.querySelector('.contact-fullname');   
         const txtValue = contactName.innerText || contactName.textContent;
-
         e.style.display = txtValue.toUpperCase().includes(input) ? "" : "none";
     })
 }
@@ -263,4 +253,14 @@ function choseUserStory() {
     currentCategory = "User Story";
     openCloseCategoryDropdown();
     console.log(currentCategory);
+}
+
+
+function showHideSubtaskButtons() {
+    let subtasks = document.getElementById("subtasks");
+
+    subtasks.value.length === 0 
+    
+    ? document.getElementById("subtask-button-container").classList.add("d_none") 
+    : document.getElementById("subtask-button-container").classList.remove("d_none");
 }
