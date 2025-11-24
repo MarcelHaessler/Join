@@ -269,9 +269,33 @@ function clearInputField() {
     document.getElementById("subtasks").value = '';
 }
 
+let subtaskIndex = 0;
+
 function addSubtaskToList() {
     let subtasks = document.getElementById("subtasks");
     let subtaskList = document.getElementById("subtask-list");
+    
+    subtaskList.innerHTML += `<div class="subtask-element-box" id="task${subtaskIndex}">  
+                                <li class="subtask-element">${subtasks.value}</li>
+                                <div class="subtask-list-button-container">
+                                    <div class="subtask-button" onclick="">
+                                        <img class="subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
+                                    </div>
+                                    <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
+                                    <div class="subtask-button" onclick="deleteSubtaskListElement('task${subtaskIndex}')">
+                                        <img class="subtask-list-button" id="delete-button" src="./assets/img/add_task/delete.svg" alt="Delete">
+                                    </div>
+                                </div>
+                            </div>`;
+    
+    let subtaskListArray = Array.from(document.getElementsByClassName("subtask-element"));
+    console.log(subtaskListArray);
 
-    subtaskList.innerHTML += `<li>${subtasks.value}</li>`;
+    subtaskIndex++;
+}
+
+//Function to delete chosen subtask from list
+function deleteSubtaskListElement(id) {
+    let subtaskElement = document.getElementById(id);
+    subtaskElement.remove();
 }
