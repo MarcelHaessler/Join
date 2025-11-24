@@ -264,3 +264,14 @@ function showHideSubtaskButtons() {
     ? document.getElementById("subtask-button-container").classList.add("d_none") 
     : document.getElementById("subtask-button-container").classList.remove("d_none");
 }
+
+function clearInputField() {
+    document.getElementById("subtasks").value = '';
+}
+
+function addSubtaskToList() {
+    let subtasks = document.getElementById("subtasks");
+    let subtaskList = document.getElementById("subtask-list");
+
+    subtaskList.innerHTML += `<li>${subtasks.value}</li>`;
+}

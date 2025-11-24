@@ -93,15 +93,18 @@
                     <div id="subtask-input-wrapper">    
                         <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
                         <div class="d_none" id="subtask-button-container">
-                            <div class="subtask-button">
+                            <div onclick="clearInputField()" class="subtask-button">
                                 <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
                             </div>
                             <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
-                            <div class="subtask-button">
+                            <div onclick="addSubtaskToList()" class="subtask-button">
                                 <img class="subtask-button" id="accept-button" src="./assets/img/add_task/check.svg" alt="Accept">
                             </div>
                         </div>
                     </div>
+                    <div id="subtask-list-container">
+                        <ul id="subtask-list"></ul>
+                    </div>  
                 </div>
             </div>
         </div>
