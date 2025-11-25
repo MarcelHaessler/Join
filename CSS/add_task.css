@@ -187,7 +187,7 @@ textarea {
     width: 100%;
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius:0 0 8px 8px;
+    border-radius:0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     margin-top: -8px;
     padding-top: 6px;
@@ -209,11 +209,12 @@ textarea {
     align-items: center;
     padding: 0px 12px 0px 12px;
     transition: 200ms;
+    border-radius: 10px;
     gap: 12px;
 }
 
 .dropdown-box:hover {
-    background-color: lightgrey;
+    background-color: rgb(231, 231, 231);
     cursor: pointer;
 }
 
@@ -248,7 +249,7 @@ textarea {
 }
 
 .rotate{
-    rotate: 180deg;
+    transform: rotate(180deg);
 }
 
 #subtask-input-wrapper {
@@ -277,7 +278,7 @@ textarea {
 
 .subtask-button:hover {
     cursor: pointer;
-    background-color: #d1d1d1;
+    background-color: rgb(231, 231, 231);
 }
 
 ul {

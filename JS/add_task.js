@@ -187,8 +187,8 @@ function renderAssignmentDropdown() {
     contactsDropdown.classList.toggle("open");
     contactsDropdown.innerHTML = "";
 
-    let arrowImage = document.querySelectorAll(".dropdown-img-container img");
-    arrowImage[0].classList.toggle("rotate");
+    let arrowImage = document.getElementById("assignment-arrow");
+    arrowImage.classList.toggle("rotate");
 
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;
@@ -208,6 +208,15 @@ function addInitialsBackgroundColors() {
         colorIndex++;
     }
 }
+
+document.addEventListener("click", function(e){
+    const assignmentInput = document.getElementById("assign-input");
+    const assignmentDropdown = document.getElementById("contacts-dropdown");
+
+    if (!assignmentInput.contains(e.target) && !assignmentDropdown.contains(e.target)) {
+        assignmentDropdown.classList.remove("open");
+    }
+});
 
 let searchTimeout;
 
@@ -231,10 +240,19 @@ function searchContact(){
 
 function openCloseCategoryDropdown() {
     let categoryDropdown = document.getElementById("category-dropdown");
-    let arrowImage = document.querySelectorAll(".dropdown-img-container img");
-    arrowImage[1].classList.toggle("rotate");
+    let arrowImage = document.getElementById("category-arrow");
+    arrowImage.classList.toggle("rotate");
     categoryDropdown.classList.toggle("open");
 }
+
+document.addEventListener("click", function(e){
+    const categoryInput = document.getElementById("category-input");
+    const categoryDropdown = document.getElementById("category-dropdown");
+
+    if (!categoryInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
+        categoryDropdown.classList.remove("open");
+    }
+});
 
 let currentCategory = ""
 
@@ -266,7 +284,9 @@ function showHideSubtaskButtons() {
 }
 
 function clearInputField() {
-    document.getElementById("subtasks").value = '';
+    let subtasks = document.getElementById("subtasks");
+    subtasks.value = '';
+    document.getElementById("subtask-button-container").classList.add("d_none"); 
 }
 
 let subtaskIndex = 0;
@@ -299,3 +319,7 @@ function deleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     subtaskElement.remove();
 }
+
+/**By clicking on the clear button in subtasks, the buttons should disappear.
+ * OnBlur functions have to be repaired. often they do the exact opposite that we want. instead toggle we need remove or add.
+ */
