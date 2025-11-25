@@ -16,6 +16,13 @@ function renderGreeting() {
 }
 
 // Read the current Firebase user and inject their name into the greeting.
+const firebaseConfig = {
+            apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
+            authDomain: "join-ad1a9.firebaseapp.com",
+            projectId: "join-ad1a9",
+            appId: "1:159410908442:web:d2c57cbf551ca660add0a3",
+        };
+
 async function renderGreetingName() {
     const nameEl = document.getElementById("greet-name");
     if (!nameEl) return;
@@ -24,17 +31,14 @@ async function renderGreetingName() {
         const appModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js");
         const authModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js");
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
-            authDomain: "join-ad1a9.firebaseapp.com",
-            projectId: "join-ad1a9",
-            appId: "1:159410908442:web:d2c57cbf551ca660add0a3",
-        };
+        
 
-        const app =
-            appModule.getApps().length > 0
-                ? appModule.getApp()
-                : appModule.initializeApp(firebaseConfig);
+        let app;
+        if (appModule.getApps().length > 0) {
+            app = appModule.getApp();
+        } else {
+            app = appModule.initializeApp(firebaseConfig);
+        }
         const auth = authModule.getAuth(app);
 
         authModule.onAuthStateChanged(auth, (user) => {
@@ -68,7 +72,7 @@ function doneLeaveEffect() {
 
 
 // onload
-function renderAll(){
+function renderAll() {
     fetchHtmlTemplates();
     renderGreeting();
     renderGreetingName();
