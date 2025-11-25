@@ -40,6 +40,7 @@ function loginUser() {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log("Login erfolgreich:", userCredential.user.email);
+            window.location.href = "summary.html";
         })
         .catch((error) => {
             manualLogin = false; 

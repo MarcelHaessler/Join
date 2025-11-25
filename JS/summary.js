@@ -15,6 +15,36 @@ function renderGreeting() {
     el.textContent = getGreetingTextByTime();
 }
 
+// Read the current Firebase user and inject their name into the greeting.
+async function renderGreetingName() {
+    const nameEl = document.getElementById("greet-name");
+    if (!nameEl) return;
+
+    try {
+        const appModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js");
+        const authModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js");
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
+            authDomain: "join-ad1a9.firebaseapp.com",
+            projectId: "join-ad1a9",
+            appId: "1:159410908442:web:d2c57cbf551ca660add0a3",
+        };
+
+        const app =
+            appModule.getApps().length > 0
+                ? appModule.getApp()
+                : appModule.initializeApp(firebaseConfig);
+        const auth = authModule.getAuth(app);
+
+        authModule.onAuthStateChanged(auth, (user) => {
+            nameEl.textContent = user?.displayName || "Guest";
+        });
+    } catch (err) {
+        console.error("Konnte Benutzername nicht laden:", err);
+    }
+}
+
 //hover imgs 
 function pencilHoverEffect() {
     const img = document.querySelector('#to-do-container img');
@@ -41,4 +71,5 @@ function doneLeaveEffect() {
 function renderAll(){
     fetchHtmlTemplates();
     renderGreeting();
+    renderGreetingName();
 }
