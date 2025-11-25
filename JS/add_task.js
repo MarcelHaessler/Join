@@ -212,9 +212,14 @@ function addInitialsBackgroundColors() {
 document.addEventListener("click", function(e){
     const assignmentInput = document.getElementById("assign-input");
     const assignmentDropdown = document.getElementById("contacts-dropdown");
+    const assignmentArrow = document.querySelector("#assign-input-box .dropdown-img-container");
+    const assignmentArrowImg = document.getElementById("assignment-arrow");
 
-    if (!assignmentInput.contains(e.target) && !assignmentDropdown.contains(e.target)) {
+    if (!assignmentInput.contains(e.target) &&
+        !assignmentDropdown.contains(e.target) &&
+        !assignmentArrow.contains(e.target)) {
         assignmentDropdown.classList.remove("open");
+        assignmentArrowImg.classList.remove("rotate");
     }
 });
 
@@ -248,9 +253,11 @@ function openCloseCategoryDropdown() {
 document.addEventListener("click", function(e){
     const categoryInput = document.getElementById("category-input");
     const categoryDropdown = document.getElementById("category-dropdown");
+    const assignmentArrowImg = document.getElementById("category-arrow");
 
     if (!categoryInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
         categoryDropdown.classList.remove("open");
+        assignmentArrowImg.classList.remove("rotate");
     }
 });
 

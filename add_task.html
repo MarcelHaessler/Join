@@ -63,7 +63,7 @@
                     <div class="input-container" id="assignment-container">
                         <label for="assign-input">Assigned to</label>
                         <div id="assign-input-box">
-                            <input onclick="event.preventDefault()" id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" placeholder="Select contacts to assign">
                             <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
                                 <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
@@ -71,7 +71,7 @@
                         <div id="contacts-dropdown"></div>
                     </div>
                     <div class="input-container" id="category-container">
-                        <label onclick="event.preventDefault()" for="category">Category <p class="red-star">*</p></label>
+                        <label for="category">Category <p class="red-star">*</p></label>
                         <div id="category-input">
                             <input onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
                             <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
