@@ -17,11 +17,11 @@ function renderGreeting() {
 
 // Read the current Firebase user and inject their name into the greeting.
 const firebaseConfig = {
-            apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
-            authDomain: "join-ad1a9.firebaseapp.com",
-            projectId: "join-ad1a9",
-            appId: "1:159410908442:web:d2c57cbf551ca660add0a3",
-        };
+    apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
+    authDomain: "join-ad1a9.firebaseapp.com",
+    projectId: "join-ad1a9",
+    appId: "1:159410908442:web:d2c57cbf551ca660add0a3",
+};
 
 async function renderGreetingName() {
     const nameEl = document.getElementById("greet-name");
@@ -31,8 +31,6 @@ async function renderGreetingName() {
         const appModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js");
         const authModule = await import("https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js");
 
-        
-
         let app;
         if (appModule.getApps().length > 0) {
             app = appModule.getApp();
@@ -41,9 +39,14 @@ async function renderGreetingName() {
         }
         const auth = authModule.getAuth(app);
 
-        authModule.onAuthStateChanged(auth, (user) => {
-            nameEl.textContent = user?.displayName || "Guest";
+        authModule.onAuthStateChanged(auth, function (user) {
+            if (user && user.displayName) {
+                nameEl.textContent = user.displayName;
+            } else {
+                nameEl.textContent = "Guest";
+            }
         });
+
     } catch (err) {
         console.error("Konnte Benutzername nicht laden:", err);
     }
