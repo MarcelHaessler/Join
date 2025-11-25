@@ -61,21 +61,21 @@
                         </div>
                     </div>
                     <div class="input-container" id="assignment-container">
-                        <label for="assignment">Assigned to</label>
+                        <label for="assign-input">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" oninput="delaySearchContact()" onblur="renderAssignmentDropdown()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
+                            <input onclick="event.preventDefault()" id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" id="assignment" placeholder="Select contacts to assign">
                             <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
-                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                                <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
                         <div id="contacts-dropdown"></div>
                     </div>
                     <div class="input-container" id="category-container">
-                        <label for="category">Category <p class="red-star">*</p></label>
+                        <label onclick="event.preventDefault()" for="category">Category <p class="red-star">*</p></label>
                         <div id="category-input">
-                            <input onblur="openCloseCategoryDropdown()" onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
+                            <input onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
                             <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
-                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                                <img class="dropdown-img" id="category-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
                             </div>
                         </div>
                         <div id="category-dropdown">
