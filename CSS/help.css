@@ -1,0 +1,12 @@
+.flex-row{
+    display: flex;
+    flex-direction: row;   
+    margin-top: 20px;
+}
+.flex-row h2{
+    margin-right: 30px;
+}
+
+.margin-0{
+    margin: 0;
+}
