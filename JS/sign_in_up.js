@@ -1,5 +1,5 @@
 const false_password = document.querySelector('.false_password');
-
+const pw = document.getElementById("signup-password");
 // Checkbox activation
 function activateCheckbox() {
     const checkbox = document.getElementById("checkbox");
@@ -10,51 +10,63 @@ function activateCheckbox() {
     }
 }
 
-function hoverBackButton() {
-    const backButton = document.getElementById("back_button");
-    backButton.src="./assets/img/back_button_active.svg"
-}
-function unhoverBackButton() {
-    const backButton = document.getElementById("back_button");
-    backButton.src="./assets/img/back_button_inactive.svg"
-}
-
-window.onload = () => {
-    document.body.classList.add('loaded');
-};
-
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^.{4,}$/;
 
 // Input validation on blur and red border for invalid inputs
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
+        if (input.placeholder === 'Name') {
+            validateName(input.value, input);
+        }
         if (input.type === 'email') {
             validateEmail(input.value, input);
         }
         if (input.placeholder === 'Password') { 
             validatePassword(input.value, input)
         }
+        if (input.placeholder === 'Confirm Password') { 
+            validateConfirmPassword(input.value, input)
+        }
+        const hasInvalid = document.querySelector('.invalid') !== null;
+        if (hasInvalid) {
+            false_password.classList.add('show');
+        } else {
+            false_password.classList.remove('show');
+        }
     });
 });
+
+function validateName(name, input) {
+    if (name !== "") {
+        input.classList.remove('invalid');
+    } else {
+        input.classList.add('invalid');
+    }
+}
 
 function validateEmail(email, input) {
     if (mailRegex.test(email)) {
         input.classList.remove('invalid');
-        false_password.classList.remove('show');
     } else {
         input.classList.add('invalid');
-        false_password.classList.add('show');
     }
 }
 
 function validatePassword(password, input) {
     if (passwordRegex.test(password)) {
         input.classList.remove('invalid');
-        false_password.classList.remove('show');
     } else {
         input.classList.add('invalid');
-        false_password.classList.add('show');
+    }
+}
+
+function validateConfirmPassword(password, input) {
+    console.log(pw.value);
+    if (pw.value === password && password !== "") {
+        input.classList.remove('invalid');
+    } else {
+        input.classList.add('invalid');
     }
 }
 
