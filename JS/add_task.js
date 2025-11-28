@@ -179,34 +179,48 @@ async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
     for (let key in data.contact) {contacts.push(data.contact[key]);}
+
+    contacts.forEach((contact, i) => {
+    contact.colorIndex = (i % 15) + 1;
+    });
+
     console.log(contacts);
+    
+    fillAssignmentDropdown();
+}
+
+function fillAssignmentDropdown() {
+    let contactsDropdown = document.getElementById("contacts-dropdown");
+    contactsDropdown.innerHTML = "";
+
+    for (let index = 0; index < contacts.length; index++) {
+    let contactName = contacts[index].name;
+    let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
+    contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    }
 }
 
 function renderAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     contactsDropdown.classList.toggle("open");
-    contactsDropdown.innerHTML = "";
 
     let arrowImage = document.getElementById("assignment-arrow");
     arrowImage.classList.toggle("rotate");
 
-    for (let index = 0; index < contacts.length; index++) {
-        let contactName = contacts[index].name;
-        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
-    }
     addInitialsBackgroundColors();
     searchContact();
 }
 
+
 function addInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".contact-initials");
-    let colorIndex = 1;
-    for (let index = 0; index < contactInitials.length; index++) {
-        if (colorIndex > 15) {colorIndex = 1;}
-        contactInitials[index].style.backgroundImage = `url('../assets/img/contacts/color${colorIndex}.svg')`;
-        colorIndex++;
-    }
+
+    contactInitials.forEach((initial, index) => {
+        let contact = contacts[index];
+ 
+        initial.style.backgroundImage =
+            `url('../assets/img/contacts/color${contact.colorIndex}.svg')`;
+    });
 }
 
 document.addEventListener("click", function(e){
@@ -227,7 +241,7 @@ let searchTimeout;
 
 function delaySearchContact() {
     clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => searchContact2(), 500);
+    searchTimeout = setTimeout(() => searchContact(), 500);
 }
 
 function searchContact(){
@@ -241,6 +255,70 @@ function searchContact(){
         const txtValue = contactName.innerText || contactName.textContent;
         e.style.display = txtValue.toUpperCase().includes(input) ? "" : "none";
     })
+}
+
+let selectedContacts =[];
+
+function selectContact(index) {
+    let currentContact = document.getElementById(`contact${index}`);
+    currentContact.classList.toggle('selected-contact');
+    
+    let contact = contacts[index]
+    let deleteContact = selectedContacts.find(c => c === contact);
+    console.log(deleteContact);
+
+    if (deleteContact) {
+        selectedContacts = selectedContacts.filter(c => c !== contact);
+    } else {selectedContacts.push(contact)};
+
+    console.log(selectedContacts);
+    renderSelectedContacts();
+    addChosenInitialsBackgroundColors();
+    changeCheckbox(index);
+}
+
+function renderSelectedContacts() {
+    let selectedContactsContainer = document.getElementById('chosen-contacts');
+    selectedContactsContainer.innerHTML = '';
+    if (selectedContacts.length > 0) {
+        selectedContactsContainer.classList.remove('d_none');
+    } else { selectedContactsContainer.classList.add('d_none'); }
+    for (let index = 0; index < selectedContacts.length; index++) {
+        if (index <= 2) {
+            let contactInitials = selectedContacts[index].name.charAt(0).toUpperCase() 
+            + selectedContacts[index].name.charAt(selectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
+            selectedContactsContainer.innerHTML += addInitialTemplate(contactInitials);
+        }
+    }
+    if (selectedContacts.length > 3) {
+        let number = selectedContacts.length - 3;
+        selectedContactsContainer.innerHTML += addNumberOfExtraPeople(number);
+    }
+    addChosenInitialsBackgroundColors();
+}
+
+function addChosenInitialsBackgroundColors() {
+    let chosenContactInitials = document.querySelectorAll(".chosen-contact-initials");
+
+    chosenContactInitials.forEach((initial, index) => {
+        let contact = selectedContacts[index];
+        initial.style.backgroundImage =
+            `url('../assets/img/contacts/color${contact.colorIndex}.svg')`;
+    });
+}
+
+function changeCheckbox(index) {
+    let checkbox = document.getElementById(`checkbox${index}`);
+    const checkboxInactive = './assets/img/checkbox_inactive.svg';
+    const checkboxActive = './assets/img/checkbox_active.svg'
+
+    if (checkbox.src.includes('checkbox_inactive.svg')) {
+        checkbox.src = checkboxActive
+        checkbox.classList.add('checkbox-active');
+    } else {
+        checkbox.src = checkboxInactive
+        checkbox.classList.remove('checkbox-active');
+    }
 }
 
 function openCloseCategoryDropdown() {
