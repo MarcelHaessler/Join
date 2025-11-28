@@ -14,3 +14,22 @@
 .light-blue{
     color: #29ABE2;
 }
+
+.floating-back-button {
+    position: sticky;
+    top: 24px;
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    margin-bottom: 16px;
+    text-decoration: none;
+    z-index: 5;
+}
+
+.floating-back-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+
