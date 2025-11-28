@@ -192,6 +192,9 @@ textarea {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     margin-top: -8px;
     padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 #contacts-dropdown.open {
@@ -205,7 +208,7 @@ textarea {
 }
 
 .dropdown-box{
-    height: 48px;
+    height: 56px;
     display: flex;
     align-items: center;
     padding: 0px 12px 0px 12px;
@@ -214,20 +217,33 @@ textarea {
     gap: 12px;
 }
 
+.selected-contact {
+    background-color: #2a3647 !important;
+    color: white;
+}
+
+.selected-contact:hover{
+    background-color: #091930 !important;
+}
+
 .dropdown-box:hover {
     background-color: rgb(231, 231, 231);
     cursor: pointer;
 }
 
-.contact-initials{
-    width: 48px;
+.contact-initials, .chosen-contact-initials{
+    width: 38px;
+    height: 38px;
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    border: solid white 2px;
+    border-radius: 50%;
 }
 
 .contact-name-checkbox{
@@ -238,6 +254,17 @@ textarea {
 
 .checkbox{
     width: 16px;
+}
+
+.checkbox-active{
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%);
+}
+
+#chosen-contacts{
+    display: flex;
+    gap: 6px;
+    height: 56px;
+    align-items: center;
 }
 
 .category-box{
