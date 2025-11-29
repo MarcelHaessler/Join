@@ -11,7 +11,7 @@ function activateCheckbox() {
 }
 
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const passwordRegex = /^.{4,}$/;
+const passwordRegex = /^.{6,}$/;
 
 // Input validation on blur and red border for invalid inputs
 document.querySelectorAll('input').forEach(input => {
