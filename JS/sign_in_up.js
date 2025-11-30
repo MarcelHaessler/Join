@@ -84,3 +84,8 @@ document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
     });
 });
 
+
+
+window.addEventListener("userReady", (auth) => {
+    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+});
