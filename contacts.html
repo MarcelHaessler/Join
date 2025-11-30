@@ -1,25 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Contacts</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
     <link rel="stylesheet" href="./CSS/sidebar.css">
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/layout.css">
+    <link rel="stylesheet" href="./CSS/buttons.css">
+    <link rel="stylesheet" href="./CSS/contacts.css">
     <link rel="stylesheet" href="./style.css">
-
-    <link rel="prefetch" href="./assets/templates/header.html">
-    <link rel="prefetch" href="./assets/templates/sideBar.html">
-    
-    <title>Contacts</title>
 </head>
 
 <body onload="fetchHtmlTemplates()">
     <div id="header"></div>
     <div id="side-bar"></div>
     <main>
-        <h1>Contacts</h1>
+        <div class="sideBar">
+            <div class="addNewContact">
+                <button>
+                    Add new contact
+                </button>
+            </div>
+            <div id="contactList">
+
+            </div>
+        </div>
+
+        <div class="contacts">
+            <div class="contactHeader">
+                <h1>Contacts</h1>
+                <hr>
+                <h2>Better with a team</h2>
+            </div>
+            <div id="contactinfo">
+
+            </div>
+        </div>
     </main>
 
 <script src="./JS/fetch.js"></script>    
