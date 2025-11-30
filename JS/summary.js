@@ -9,6 +9,7 @@ function getGreetingTextByTime(date = new Date()) {
     return "Good evening,";
 }
 
+
 function renderGreeting() {
     const el = document.getElementById("greeting-text");
     if (!el) return; // bail out if the element is missing
@@ -16,7 +17,7 @@ function renderGreeting() {
 }
 
 // Read the current Firebase user and inject their name into the greeting.
-const firebaseConfig = {
+ const firebaseConfig = {
     apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
     authDomain: "join-ad1a9.firebaseapp.com",
     projectId: "join-ad1a9",

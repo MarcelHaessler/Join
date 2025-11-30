@@ -56,7 +56,7 @@ onAuthStateChanged(auth, (user) => {
 
         const icon = document.getElementById("personIcon");
         if (icon) {
-            icon.textContent = getFirstAndLastInitial(user.displayName || "NN"); // user.displayName = full Name
+            icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
         }
         if (manualLogin && window.location.pathname.includes("log_in.html")) {
             manualLogin = false;
