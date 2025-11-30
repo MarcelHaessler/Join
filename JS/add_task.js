@@ -178,21 +178,233 @@ let contacts = [];
 async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
-    for (let key in data.contact) {
-        contacts.push(data.contact[key]);
-    }
+    for (let key in data.contact) {contacts.push(data.contact[key]);}
+
+    contacts.forEach((contact, i) => {
+    contact.colorIndex = (i % 15) + 1;
+    });
+
     console.log(contacts);
+    
+    fillAssignmentDropdown();
+}
+
+function fillAssignmentDropdown() {
+    let contactsDropdown = document.getElementById("contacts-dropdown");
+    contactsDropdown.innerHTML = "";
+
+    for (let index = 0; index < contacts.length; index++) {
+    let contactName = contacts[index].name;
+    let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
+    contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    }
 }
 
 function renderAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     contactsDropdown.classList.toggle("open");
-    contactsDropdown.innerHTML = "";
 
-    for (let index = 0; index < contacts.length; index++) {
-        let contactName = contacts[index].name;
-        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
+    let arrowImage = document.getElementById("assignment-arrow");
+    arrowImage.classList.toggle("rotate");
 
-        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials);
+    addInitialsBackgroundColors();
+    searchContact();
+}
+
+
+function addInitialsBackgroundColors() {
+    let contactInitials = document.querySelectorAll(".contact-initials");
+
+    contactInitials.forEach((initial, index) => {
+        let contact = contacts[index];
+ 
+        initial.style.backgroundImage =
+            `url('../assets/img/contacts/color${contact.colorIndex}.svg')`;
+    });
+}
+
+document.addEventListener("click", function(e){
+    const assignmentInput = document.getElementById("assign-input");
+    const assignmentDropdown = document.getElementById("contacts-dropdown");
+    const assignmentArrow = document.querySelector("#assign-input-box .dropdown-img-container");
+    const assignmentArrowImg = document.getElementById("assignment-arrow");
+
+    if (!assignmentInput.contains(e.target) &&
+        !assignmentDropdown.contains(e.target) &&
+        !assignmentArrow.contains(e.target)) {
+        assignmentDropdown.classList.remove("open");
+        assignmentArrowImg.classList.remove("rotate");
+    }
+});
+
+let searchTimeout;
+
+function delaySearchContact() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => searchContact(), 500);
+}
+
+function searchContact(){
+    let assignInput = document.getElementById('assign-input');
+    let input = assignInput.value.toUpperCase();
+    let contactElements = document.getElementById("contacts-dropdown");   
+    let singleContacts = Array.from(contactElements.getElementsByClassName("dropdown-box"));
+
+    singleContacts.forEach(e => {
+        const contactName = e.querySelector('.contact-fullname');   
+        const txtValue = contactName.innerText || contactName.textContent;
+        e.style.display = txtValue.toUpperCase().includes(input) ? "" : "none";
+    })
+}
+
+let selectedContacts =[];
+
+function selectContact(index) {
+    let currentContact = document.getElementById(`contact${index}`);
+    currentContact.classList.toggle('selected-contact');
+    
+    let contact = contacts[index]
+    let deleteContact = selectedContacts.find(c => c === contact);
+    console.log(deleteContact);
+
+    if (deleteContact) {
+        selectedContacts = selectedContacts.filter(c => c !== contact);
+    } else {selectedContacts.push(contact)};
+
+    console.log(selectedContacts);
+    renderSelectedContacts();
+    addChosenInitialsBackgroundColors();
+    changeCheckbox(index);
+}
+
+function renderSelectedContacts() {
+    let selectedContactsContainer = document.getElementById('chosen-contacts');
+    selectedContactsContainer.innerHTML = '';
+    if (selectedContacts.length > 0) {
+        selectedContactsContainer.classList.remove('d_none');
+    } else { selectedContactsContainer.classList.add('d_none'); }
+    for (let index = 0; index < selectedContacts.length; index++) {
+        if (index <= 2) {
+            let contactInitials = selectedContacts[index].name.charAt(0).toUpperCase() 
+            + selectedContacts[index].name.charAt(selectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
+            selectedContactsContainer.innerHTML += addInitialTemplate(contactInitials);
+        }
+    }
+    if (selectedContacts.length > 3) {
+        let number = selectedContacts.length - 3;
+        selectedContactsContainer.innerHTML += addNumberOfExtraPeople(number);
+    }
+    addChosenInitialsBackgroundColors();
+}
+
+function addChosenInitialsBackgroundColors() {
+    let chosenContactInitials = document.querySelectorAll(".chosen-contact-initials");
+
+    chosenContactInitials.forEach((initial, index) => {
+        let contact = selectedContacts[index];
+        initial.style.backgroundImage =
+            `url('../assets/img/contacts/color${contact.colorIndex}.svg')`;
+    });
+}
+
+function changeCheckbox(index) {
+    let checkbox = document.getElementById(`checkbox${index}`);
+    const checkboxInactive = './assets/img/checkbox_inactive.svg';
+    const checkboxActive = './assets/img/checkbox_active.svg'
+
+    if (checkbox.src.includes('checkbox_inactive.svg')) {
+        checkbox.src = checkboxActive
+        checkbox.classList.add('checkbox-active');
+    } else {
+        checkbox.src = checkboxInactive
+        checkbox.classList.remove('checkbox-active');
     }
 }
+
+function openCloseCategoryDropdown() {
+    let categoryDropdown = document.getElementById("category-dropdown");
+    let arrowImage = document.getElementById("category-arrow");
+    arrowImage.classList.toggle("rotate");
+    categoryDropdown.classList.toggle("open");
+}
+
+document.addEventListener("click", function(e){
+    const categoryInput = document.getElementById("category-input");
+    const categoryDropdown = document.getElementById("category-dropdown");
+    const assignmentArrowImg = document.getElementById("category-arrow");
+
+    if (!categoryInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
+        categoryDropdown.classList.remove("open");
+        assignmentArrowImg.classList.remove("rotate");
+    }
+});
+
+let currentCategory = ""
+
+function choseTechnicalTask() {
+    let categoryInput = document.getElementById("category");
+    categoryInput.value = "Technical Task";
+    currentCategory = "Technical Task";
+    openCloseCategoryDropdown();
+    console.log(currentCategory);
+    
+}
+
+function choseUserStory() {
+    let categoryInput = document.getElementById("category");
+    categoryInput.value = "User Story";
+    currentCategory = "User Story";
+    openCloseCategoryDropdown();
+    console.log(currentCategory);
+}
+
+
+function showHideSubtaskButtons() {
+    let subtasks = document.getElementById("subtasks");
+
+    subtasks.value.length === 0 
+    
+    ? document.getElementById("subtask-button-container").classList.add("d_none") 
+    : document.getElementById("subtask-button-container").classList.remove("d_none");
+}
+
+function clearInputField() {
+    let subtasks = document.getElementById("subtasks");
+    subtasks.value = '';
+    document.getElementById("subtask-button-container").classList.add("d_none"); 
+}
+
+let subtaskIndex = 0;
+
+function addSubtaskToList() {
+    let subtasks = document.getElementById("subtasks");
+    let subtaskList = document.getElementById("subtask-list");
+    
+    subtaskList.innerHTML += `<div class="subtask-element-box" id="task${subtaskIndex}">  
+                                <li class="subtask-element">${subtasks.value}</li>
+                                <div class="subtask-list-button-container">
+                                    <div class="subtask-button" onclick="">
+                                        <img class="subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
+                                    </div>
+                                    <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
+                                    <div class="subtask-button" onclick="deleteSubtaskListElement('task${subtaskIndex}')">
+                                        <img class="subtask-list-button" id="delete-button" src="./assets/img/add_task/delete.svg" alt="Delete">
+                                    </div>
+                                </div>
+                            </div>`;
+    
+    let subtaskListArray = Array.from(document.getElementsByClassName("subtask-element"));
+    console.log(subtaskListArray);
+
+    subtaskIndex++;
+}
+
+//Function to delete chosen subtask from list
+function deleteSubtaskListElement(id) {
+    let subtaskElement = document.getElementById(id);
+    subtaskElement.remove();
+}
+
+/**By clicking on the clear button in subtasks, the buttons should disappear.
+ * OnBlur functions have to be repaired. often they do the exact opposite that we want. instead toggle we need remove or add.
+ */
