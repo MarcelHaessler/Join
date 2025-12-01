@@ -24,6 +24,7 @@ window.addEventListener("userReady", (auth) => {
 }
 );
 
+
 //hover imgs 
 function pencilHoverEffect() {
     const img = document.querySelector('#to-do-container img');
