@@ -58,6 +58,8 @@ onAuthStateChanged(auth, (user) => {
         if (icon) {
             icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
         }
+
+        window.dispatchEvent(new CustomEvent("userReady", { detail: { name: user.displayName || "Guest", email: user.email } }));
         if (manualLogin && window.location.pathname.includes("log_in.html")) {
             manualLogin = false;
             window.location.href = "summary.html";
