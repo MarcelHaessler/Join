@@ -6,6 +6,9 @@ const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
 const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/";
 
+// export let currentUserEmail = null;
+// export let currentUserName = null;
+
 // Login with firebase Authentication
 let manualLogin = false;
 
@@ -35,7 +38,6 @@ function loginUser() {
     const email = document.getElementById("login-mail").value;
     const password = document.getElementById("login-password").value;
     document.querySelector(".false_password").style.display = "none";
-    manualLogin = true;
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -51,16 +53,19 @@ function loginUser() {
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("User ist eingeloggt:", user.email);
-        console.log("Display Name:", user.displayName);
+        // console.log("User ist eingeloggt:", user.email);
+        // console.log("Display Name:", user.displayName);playName;
 
+        const event = new CustomEvent("userReady", {
+            detail: { name: user.displayName, email: user.email }
+        });
+        window.dispatchEvent(event);
+        
         const icon = document.getElementById("personIcon");
         if (icon) {
             icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
         }
-
-        window.dispatchEvent(new CustomEvent("userReady", { detail: { name: user.displayName || "Guest", email: user.email } }));
-        if (manualLogin && window.location.pathname.includes("log_in.html")) {
+        if (manualLogin && window.location.pathname.includes("index.html")) {
             manualLogin = false;
             window.location.href = "summary.html";
         }
@@ -162,3 +167,4 @@ async function postData(path = "", data = {}) {
 window.loginUser = loginUser;
 window.logoutUser = logoutUser;
 window.registerUser = registerUser;
+
