@@ -19,7 +19,7 @@
     <div id="side-bar"></div>
     <main>
         <a id="help-back-link" class="floating-back-button" href="./summary.html" aria-label="Back to summary">
-            <img id="help-back-img" src="./assets/img/back_button_inactive.svg" alt="Back to summary">
+            <img id="back_button" onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()" src="./assets/img/back_button_inactive.svg" alt="Back to summary">
         </a>
         <h1>Help</h1>
         <p>Welcome to the help page for <span class="light-blue">Join</span>, your guide to using our kanban project management tool. Here, we'll
@@ -70,6 +70,7 @@
 
     <script src="./JS/back.js"> </script>
     <script src="./JS/fetch.js"></script>
+    <script src="./JS/buttons.js"></script>
 </body>
 
 </html>
