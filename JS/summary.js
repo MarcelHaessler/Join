@@ -16,7 +16,7 @@ function renderGreeting() {
     el.textContent = getGreetingTextByTime();
 }
 
-// Read the current Firebase user and inject their name into the greeting.
+/* // Read the current Firebase user and inject their name into the greeting.
  const firebaseConfig = {
     apiKey: "AIzaSyDSu3EKowLDqtiFCKaMWTVDG_PB-cIA5t0",
     authDomain: "join-ad1a9.firebaseapp.com",
@@ -51,7 +51,18 @@ async function renderGreetingName() {
     } catch (err) {
         console.error("Konnte Benutzername nicht laden:", err);
     }
-}
+} */
+
+window.addEventListener("userReady", (auth) => {
+    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+    let nameEl = document.getElementById('greet-name');
+        nameEl.textContent = auth.detail.name;
+});
+
+    function renderGreetingName(auth) {
+        let nameEl = document.getElementById('greet-name');
+        nameEl.textContent = auth.detail.name;
+    }
 
 //hover imgs 
 function pencilHoverEffect() {
@@ -75,9 +86,10 @@ function doneLeaveEffect() {
 }
 
 
+
 // onload
 function renderAll() {
     fetchHtmlTemplates();
     renderGreeting();
-    renderGreetingName();
+    //renderGreetingName();
 }
