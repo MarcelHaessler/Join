@@ -13,7 +13,7 @@ function getGreetingTextByTime(date = new Date()) {
 window.addEventListener("userReady", (auth) => {
     let nameEl = document.getElementById('greet-name');
     nameEl.textContent = auth.detail.name;
-    if (nameEl) {
+    if (nameEl && nameEl.textContent.trim() !== "") {
         const greetEl = document.getElementById("greeting-text");
         greetEl.textContent = getGreetingTextByTime() + ",";
     }
