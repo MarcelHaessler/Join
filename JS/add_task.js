@@ -1,3 +1,22 @@
+let userInitials = '';
+let username = ''
+window.addEventListener("userReady",async (auth) => {
+    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+    username = auth.detail.name
+    await fetchContacts();
+    putSelfOnFirstPlace(username);
+    console.log(username);
+    userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase()
+    addInitialToHeader();
+    fillAssignmentDropdown();
+});
+
+function addInitialToHeader() {
+    let initialSpace = document.getElementById('user-initials');
+    initialSpace.innerHTML = userInitials; 
+    console.log(userInitials);
+}
+
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         if (input.id === 'date') {
@@ -178,15 +197,24 @@ let contacts = [];
 async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
-    for (let key in data.contact) {contacts.push(data.contact[key]);}
+    for (let key in data.users) {
+        if (data.users[key]) {   // nur echte Objekte
+            contacts.push(data.users[key]);
+        }
+    }
 
-    contacts.forEach((contact, i) => {
-    contact.colorIndex = (i % 15) + 1;
+    contacts.forEach((users, i) => {
+    users.colorIndex = (i % 15) + 1;
     });
 
     console.log(contacts);
-    
-    fillAssignmentDropdown();
+}
+
+function putSelfOnFirstPlace(username) {
+   let array = contacts.findIndex(e => e.name == username);
+   if (array !== -1) contacts.unshift(...contacts.splice(array, 1));
+   console.log(contacts);
+   
 }
 
 function fillAssignmentDropdown() {
@@ -196,7 +224,11 @@ function fillAssignmentDropdown() {
     for (let index = 0; index < contacts.length; index++) {
     let contactName = contacts[index].name;
     let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-    contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    if (index === 0) {
+        contactsDropdown.innerHTML += addSelfTemplate(contactName, contactInitials, index);
+    }else{
+        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    }
     }
 }
 
