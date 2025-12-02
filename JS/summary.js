@@ -9,6 +9,13 @@ function getGreetingTextByTime(date = new Date()) {
     return "Good evening";
 }
 
+// greet without name
+document.addEventListener("DOMContentLoaded", () => {
+    const greetEl = document.getElementById("greeting-text");
+    if (greetEl) {
+        greetEl.textContent = getGreetingTextByTime();
+    }
+});
 // add name and greet
 window.addEventListener("userReady", (auth) => {
     let nameEl = document.getElementById('greet-name');
@@ -51,5 +58,4 @@ function doneLeaveEffect() {
 // onload
 function renderAll() {
     fetchHtmlTemplates();
-    renderGreeting();
 }
