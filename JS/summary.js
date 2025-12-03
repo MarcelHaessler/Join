@@ -1,6 +1,4 @@
 
-
-
 //greeting depends on time
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
