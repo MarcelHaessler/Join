@@ -1,7 +1,7 @@
 
 
 
-//greeting screen
+//greeting depends on time
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
     if (hour < 12) return "Good morning";
@@ -9,27 +9,32 @@ function getGreetingTextByTime(date = new Date()) {
     return "Good evening";
 }
 
-// greet without name
-document.addEventListener("DOMContentLoaded", () => {
+//render greeting
+function updateGreeting(name = "") {
     const greetEl = document.getElementById("greeting-text");
-    if (greetEl) {
-        greetEl.textContent = getGreetingTextByTime();
-    }
-});
-// add name and greet
-window.addEventListener("userReady", (auth) => {
-    let nameEl = document.getElementById('greet-name');
-    nameEl.textContent = auth.detail.name;
-    if (nameEl && nameEl.textContent.trim() !== "") {
-        const greetEl = document.getElementById("greeting-text");
-        greetEl.textContent = getGreetingTextByTime() + ",";
-    }
-    else {
-        const greetEl = document.getElementById("greeting-text");
-        greetEl.textContent = getGreetingTextByTime()
+    const nameEl  = document.getElementById("greet-name");
+
+    if (!greetEl || !nameEl) return;
+
+    const greeting = getGreetingTextByTime();
+
+    if (name.trim() !== "") {
+        greetEl.textContent = greeting + ",";
+        nameEl.textContent = name;
+    } else {
+        greetEl.textContent = greeting + "!";
+        nameEl.textContent = "";
     }
 }
-);
+
+//eventListener
+document.addEventListener("DOMContentLoaded", () => {
+    updateGreeting("");
+});
+
+window.addEventListener("userReady", (auth) => {
+    updateGreeting(auth.detail.name || "");
+});
 
 
 //hover imgs 
