@@ -1,35 +1,38 @@
-.flex-row{
+.flex-row {
     display: flex;
-    flex-direction: row;   
+    flex-direction: row;
     margin-top: 20px;
 }
-.flex-row h2{
+
+.flex-row h2 {
     margin-right: 30px;
 }
 
-.margin-0{
+.margin-0 {
     margin: 0;
 }
 
-.light-blue{
+.light-blue {
     color: #29ABE2;
 }
 
 .floating-back-button {
     position: sticky;
     top: 24px;
-    display: block;
+    display: grid;
+    place-items: center;
     width: 32px;
     height: 32px;
     margin-left: auto;
     margin-bottom: 16px;
+    border-radius: 50%;
     text-decoration: none;
     z-index: 5;
+    transition: background-color 100ms ease-in-out;
 }
 
 .floating-back-button:hover {
-    cursor: pointer;
-    opacity: 0.8;
+
+    background-color: #dddddd;
+
 }
-
-
