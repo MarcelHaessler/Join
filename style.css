@@ -20,6 +20,7 @@ body{
     --contrastColor: white; 
     --secondColor: #29ABE2;
     --invalideColor: #ec405e;
+    --greyBackround: #f4f4f4;
 }
 body {
     font-family: 'Inter', sans-serif;

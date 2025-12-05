@@ -2,11 +2,12 @@ main {
     display: flex;
     height: 100vh;
     width: 100%;
+    padding: 0;
 }
 
 .sideBar {
     width: 35%;
-    background: #f4f4f4;
+    background: var(--contrastColor);
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -14,10 +15,30 @@ main {
     overflow-y: auto; 
 }
 
+.addNewContact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+    button {
+        display: flex;
+        background-color: var(--primerColor);
+        color: var(--contrastColor);
+        border: none;
+        gap: 12px;
+
+        &:hover {
+            background-color: var(--secondColor);
+        }
+    }
+}
+
+/* ---------------------------------------------------- */
+
 .contacts{
     flex: 1;
     padding: 20px;
-    background: #fff;
     border-left: 2px solid #ddd;
 }
 
@@ -38,5 +59,6 @@ main {
     h2 {
         font-size: 27px;
         font-weight: 400;
+        color: var(--primerColor);
     }
 }
