@@ -108,14 +108,13 @@ a {
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        justify-content: center;
         width: 100%;
     }
 
     .link-wrapper {
-        width: auto;
-        flex: 1;
+        width: 76px;
         max-height: 80px;
+        border-radius: 16px;
     }
 
     .link-container {
@@ -124,9 +123,11 @@ a {
         align-items: center;
         justify-content: center;
         margin-top: 15px;
-    
-        gap: 4px;
-        width: auto;
+        width: 76px;
+        height: 80px;
+
+            gap: 4px;
+        
     }
 
     /* Icon-Größe 24x24 */
