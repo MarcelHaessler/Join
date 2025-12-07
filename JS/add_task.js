@@ -194,6 +194,9 @@ function lowBtnToNormal() {
 
 let contacts = [];
 
+/**Put all Background colors in the array after style.css has been Updated. */
+let backgroundColorCodes = [];
+
 async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
