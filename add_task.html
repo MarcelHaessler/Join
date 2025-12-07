@@ -15,7 +15,7 @@
     <link rel="prefetch" href="./assets/templates/sideBar.html">
 
 </head>
-<body onload="fetchHtmlTemplates(), fetchContacts()">
+<body onload="fetchHtmlTemplates()">
 
     <div id="header"></div>
     <div id="side-bar"></div>
@@ -111,8 +111,22 @@
                     </div>  
                 </div>
             </div>
+            <div id="bottom-section">
+                <div id="required-info"><p class="red-star">*</p><p>This field is required</p></div>
+                <div id="bottom-button-container">
+                    <button id="clear-task-button">
+                        Clear
+                        <img src="./assets/img/add_task/close.svg" alt="Clear">
+                    </button>
+                    <button id="create-task-button">
+                        Create Task
+                        <img src="./assets/img/add_task/check.svg" alt="Accept">
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
+<script type="module" src="./JS/firebaseSignInUp.js"></script>
 <script src="./JS/add_task.js"></script>
 <script src="./JS/fetchTemplate.js"></script>
 <script src="./JS/templates.js"></script>
