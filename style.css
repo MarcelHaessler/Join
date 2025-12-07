@@ -21,6 +21,8 @@ body{
     --secondColor: #29ABE2;
     --invalideColor: #ec405e;
     --greyBackround: #f4f4f4;
+    --linkColor: #007CEE;
+    --ligthGrey: #D1D1D1;
 }
 body {
     font-family: 'Inter', sans-serif;
