@@ -198,12 +198,13 @@ textarea {
 }
 
 #contacts-dropdown.open {
-    max-height: 300px;
+    max-height: 280px;
+    overflow-y: auto;
     opacity: 1;
 }
 
 #category-dropdown.open {
-    max-height: 300px;
+    max-height: 280px;
     opacity: 1;
 }
 
@@ -211,7 +212,7 @@ textarea {
     height: 56px;
     display: flex;
     align-items: center;
-    padding: 0px 12px 0px 12px;
+    padding: 2px 12px 2px 12px;
     transition: 200ms;
     border-radius: 10px;
     gap: 12px;
