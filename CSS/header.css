@@ -9,6 +9,10 @@ header{
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
 }
 
+#header-logo{
+    display: none;
+}
+
 #header-title{
     display: flex;
     align-items: center;
@@ -66,4 +70,17 @@ header{
 #user-initials{
     font-size: 20px;
     font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+    #header-title {
+        display: none;
+    }
+
+    #header-logo {
+        display: block;
+        width: 32px;
+        height: 39.2px;
+        z-index: 1;
+    }
 }
