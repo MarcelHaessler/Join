@@ -311,7 +311,7 @@ textarea {
 }
 
 ul {
-        padding-inline-start: 0px;
+    padding-inline-start: 0px;
 }
 
 li {
@@ -324,6 +324,13 @@ li {
     width: 100%;
     margin-bottom: 12px;
     border-radius: 8px;
+}
+
+.subtask-element-box input {
+    width: 100%;
+    padding: 4px 20px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
 }
 
 .subtask-element-box:hover {
@@ -345,5 +352,11 @@ li {
 
 .subtask-list-button {
     width: 14px;
+}
 
+#edit_subtask_input{
+    height: 30px;
+    border-radius: 0;
+    border-bottom: #2aaae2 solid 2px;
+    text-align: left;
 }
