@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@
     <main>
         <div class="login_signup_container">
             <div class="sign_up_title_container">
-                <div class="back_button_container"> 
+                <div onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()" class="back_button_container"> 
                     <a href="./log_in.html">
                         <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
                     </a>
@@ -72,5 +72,6 @@
 
     <script src="./JS/sign_in_up.js"></script>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    <script src="./JS/buttons.js"></script>
 </body>
 </html>

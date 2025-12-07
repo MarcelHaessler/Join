@@ -62,3 +62,10 @@ function doneLeaveEffect() {
 function renderAll() {
     fetchHtmlTemplates();
 }
+
+
+window.addEventListener("userReady", (auth) => {
+    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+    // Username bzw. displayName -> auth.detail.name
+    // Usermail -> auth.detail.email
+});
