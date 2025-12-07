@@ -26,7 +26,7 @@
         </section>
 
         <section id="task-metrics" class="container-spacing">
-            <div id="to-do-container" class="metrics-container">
+            <div onmouseenter="pencilHoverEffect()" onmouseleave="pencilLeaveEffect()" id="to-do-container" class="metrics-container">
                 <div class="button-and-cat">
                     <img src="./assets/img/pencil-button.svg" alt="">
 
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div id="done-container" class="metrics-container">
+            <div onmouseenter="doneHoverEffect()" onmouseleave="doneLeaveEffect()" id="done-container" class="metrics-container">
                 <div class="button-and-cat">
                     <img src="./assets/img/done-button.svg" alt="checked-img">
 
@@ -69,8 +69,8 @@
                 </div>
             </div>
             <div id="greeting-section">
-                <p id="greeting-text" class="greeting-text">,</p>
-                <p id="greet-name">Sofia Müller</p>
+                <p id="greeting-text" class="greeting-text"></p>
+                <p id="greet-name"></p>
 
             </div>
         </section>
@@ -104,6 +104,10 @@
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
     <script src="./JS/summary.js"></script>
     <script src="./JS/fetch.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    
+    
+    
 </body>
 
 </html>
