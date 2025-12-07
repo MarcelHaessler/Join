@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="./CSS/add_task.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
 
+    <link rel="prefetch" href="./assets/templates/header.html">
+    <link rel="prefetch" href="./assets/templates/sideBar.html">
+
 </head>
 <body onload="fetchHtmlTemplates(), fetchContacts()">
 
@@ -61,29 +64,51 @@
                         </div>
                     </div>
                     <div class="input-container" id="assignment-container">
-                        <label for="assignment">Assigned to</label>
+                        <label for="assign-input">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" onclick="renderAssignmentDropdown()" type="text" id="assignment" placeholder="Select contacts to assign">
-                            <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
-                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" placeholder="Select contacts to assign">
+                            <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
+                                <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
-                        <div id="contacts-dropdown" class="dropdown open"></div>
+                        <div id="contacts-dropdown"></div>
+                        <div id="chosen-contacts" class="d_none"></div>
                     </div>
                     <div class="input-container" id="category-container">
                         <label for="category">Category <p class="red-star">*</p></label>
                         <div id="category-input">
-                            <input type="text" id="category" placeholder="Select task category">
-                            <div class="dropdown-img-container">
-                                <img class="dropdown-img" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                            <input onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
+                            <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
+                                <img class="dropdown-img" id="category-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
                             </div>
                         </div>
-                        <ul id="contacts-dropdown" class="dropdown d_none"></ul>
+                        <div id="category-dropdown">
+                            <div onclick="choseTechnicalTask()" class="dropdown-box">
+                                Technical Task
+                            </div>
+                            <div onclick="choseUserStory()" class="dropdown-box">
+                                User Story
+                            </div>
+                        </div>
                         <p></p>
                     </div>
 
                     <label for="subtasks">Subtasks</label>
-                    <input type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
+                    <div id="subtask-input-wrapper">    
+                        <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
+                        <div class="d_none" id="subtask-button-container">
+                            <div onclick="clearInputField()" class="subtask-button">
+                                <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
+                            </div>
+                            <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
+                            <div onclick="addSubtaskToList()" class="subtask-button">
+                                <img id="accept-button" src="./assets/img/add_task/check.svg" alt="Accept">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="subtask-list-container">
+                        <ul id="subtask-list"></ul>
+                    </div>  
                 </div>
             </div>
         </div>
