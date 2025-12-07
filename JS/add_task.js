@@ -1,3 +1,22 @@
+let userInitials = '';
+let username = ''
+window.addEventListener("userReady",async (auth) => {
+    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+    username = auth.detail.name
+    await fetchContacts();
+    putSelfOnFirstPlace(username);
+    console.log(username);
+    userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase()
+    addInitialToHeader();
+    fillAssignmentDropdown();
+});
+
+function addInitialToHeader() {
+    let initialSpace = document.getElementById('user-initials');
+    initialSpace.innerHTML = userInitials; 
+    console.log(userInitials);
+}
+
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         if (input.id === 'date') {
@@ -178,15 +197,29 @@ let contacts = [];
 async function fetchContacts() {
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
-    for (let key in data.contact) {contacts.push(data.contact[key]);}
+    for (let key in data.users) {
+        if (data.users[key]) {   
+            contacts.push(data.users[key]);
+        }
+    }
+    for (let key in data.contact) {
+        if (data.contact[key]) {   
+            contacts.push(data.contact[key]);
+        }
+    }
 
-    contacts.forEach((contact, i) => {
-    contact.colorIndex = (i % 15) + 1;
+    contacts.forEach((users, i) => {
+    users.colorIndex = (i % 15) + 1;
     });
 
     console.log(contacts);
-    
-    fillAssignmentDropdown();
+}
+
+function putSelfOnFirstPlace(username) {
+   let array = contacts.findIndex(e => e.name == username);
+   if (array !== -1) contacts.unshift(...contacts.splice(array, 1));
+   console.log(contacts);
+   
 }
 
 function fillAssignmentDropdown() {
@@ -196,7 +229,11 @@ function fillAssignmentDropdown() {
     for (let index = 0; index < contacts.length; index++) {
     let contactName = contacts[index].name;
     let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-    contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    if (index === 0) {
+        contactsDropdown.innerHTML += addSelfTemplate(contactName, contactInitials, index);
+    }else{
+        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+    }
     }
 }
 
@@ -376,24 +413,15 @@ function clearInputField() {
 
 let subtaskIndex = 0;
 
+let subtaskListArray;
+
 function addSubtaskToList() {
     let subtasks = document.getElementById("subtasks");
     let subtaskList = document.getElementById("subtask-list");
     
-    subtaskList.innerHTML += `<div class="subtask-element-box" id="task${subtaskIndex}">  
-                                <li class="subtask-element">${subtasks.value}</li>
-                                <div class="subtask-list-button-container">
-                                    <div class="subtask-button" onclick="">
-                                        <img class="subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
-                                    </div>
-                                    <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
-                                    <div class="subtask-button" onclick="deleteSubtaskListElement('task${subtaskIndex}')">
-                                        <img class="subtask-list-button" id="delete-button" src="./assets/img/add_task/delete.svg" alt="Delete">
-                                    </div>
-                                </div>
-                            </div>`;
-    
-    let subtaskListArray = Array.from(document.getElementsByClassName("subtask-element"));
+    subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
+
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
     console.log(subtaskListArray);
 
     subtaskIndex++;
@@ -403,8 +431,63 @@ function addSubtaskToList() {
 function deleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     subtaskElement.remove();
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
+    console.log(subtaskListArray);
+}
+//Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li.
+function editSubtask(taskId) {
+    const box = document.getElementById(taskId);
+    const li = box.querySelector("li.subtask-element");
+    const oldText = li.textContent.trim();
+
+    const input = createEditInput(oldText);
+    box.innerHTML = "";
+    box.appendChild(input);
+
+    const buttonContainer = createEditButtons(input, box, taskId);
+    box.appendChild(buttonContainer);
+
+    console.log(subtaskListArray);
 }
 
-/**By clicking on the clear button in subtasks, the buttons should disappear.
- * OnBlur functions have to be repaired. often they do the exact opposite that we want. instead toggle we need remove or add.
- */
+function createEditInput(text) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = text;
+    input.id = "edit_subtask_input";
+    return input;
+}
+
+function createEditButtons(input, box, taskId) {
+    const container = document.createElement("div");
+    container.className = "subtask-list-button-container";
+
+    const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
+        deleteSubtaskListElement(taskId);
+        subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
+        console.log(subtaskListArray);
+    });
+    const divider = createDivider();
+    const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
+        box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
+        subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
+        console.log(subtaskListArray);
+    });
+
+    container.append(deleteBtn, divider, saveBtn);
+    return container;
+}
+
+function createButton(imgSrc, onClick) {
+    const btn = document.createElement("div");
+    btn.className = "subtask-button";
+    btn.innerHTML = `<img src="${imgSrc}" alt="button">`;
+    btn.addEventListener("click", onClick);
+    return btn;
+}
+
+function createDivider() {
+    const div = document.createElement("div");
+    div.innerHTML = '<img src="./assets/img/add_task/Vector 3.svg" alt="Divider">';
+    return div;
+}
