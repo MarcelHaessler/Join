@@ -20,6 +20,10 @@ body{
     --contrastColor: white; 
     --secondColor: #29ABE2;
     --invalideColor: #ec405e;
+    --greyBackround: #f4f4f4;
+    --linkColor: #007CEE;
+    --ligthGrey: #D1D1D1;
+    --maxWidth: 1100px;
 }
 body {
     font-family: 'Inter', sans-serif;
