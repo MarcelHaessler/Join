@@ -21,72 +21,40 @@
             <div class="addNewContact">
                 <button>
                     Add new contact
-                    <img src="./assets/img/contacts/person_add.svg" alt="" srcset="">
+                    <img src="./assets/img/contacts/person_add.svg" alt="add person">
                 </button>
             </div>
             <div id="contacList">
-                <div class="sectionList">
-                    M
-                </div>
-                <hr>
+                <!-- Contact items will be dynamically inserted here -->
             </div>
-            <div id="contactEntry">
-                <div class="contactlistIcon">
-                    MH
-                </div>
-                <div class="contactDitails">
-                    <div class="name">Name</div>
-                    <div class="mail">Mail@mail.de</div>
-                </div>
+            <div class="sideBarOption">
+                <button><img src="./assets/img/contacts/person_add.svg" alt="mobile add person"></button>
             </div>
-
-            
         </div>
 
         <div class="contacts">
             <div class="contactHeader">
                 <h1>Contacts</h1>
-                <button class="contactBackArrow"><img src="./assets/img/contacts/Vector.svg" alt=""></button>
+                <button class="contactBackArrow" onclick="sideBarVisable()"><img src="./assets/img/contacts/Vector.svg" alt=""></button>
                 <hr class="desktop">
                 <h2>Better with a team</h2>
                 <hr class="mobile">
             </div>
             <div id="contactSelectet">
-                <div class="selectedIconName">
-                    <div class="selectetIcon">
-                        MH
-                    </div>
-                    <div class="selectedName">
-                        Marcel Hassler
-                        <div class="selectedNameButtons">
-                            <button><img src="./assets/img/contacts/edit.svg" alt="edit">Edit</button>
-                            <button><img src="./assets/img/contacts/delete.svg" alt="delite">Delete</button>
-                        </div>
-                    </div>    
-                </div>
-                <div class="contactInfos">
-                    Contact Information
-                </div>
-                <table>
-                    <tr>
-                        <th>Email</th>
-                    </tr>
-                    <tr>
-                        <td class="mail">mail@mail.com</td>
-                    </tr>
-                    <tr>
-                        <th>Phone</th>
-                    </tr>
-                    <tr>
-                        <td>+49 1234 567890</td>
-                    </tr>
-                </table>
-
+                <!-- Contact details will be dynamically inserted here -->
+            </div>
+            <div class="sideBarOption">
+                <button id="mobileMenuTrigger"><img src="./assets/img/contacts/more_vert.svg" alt="mobile more option"></button>
+            </div>
+            <div id="mobileEditeBar">
+                <button><img src="./assets/img/contacts/edit.svg" alt="">Edit</button>
+                <button><img src="./assets/img/contacts/delete.svg" alt="">Delete</button>
             </div>
         </div>
     </main>
 
 <script src="./JS/fetch.js"></script>    
+<script src="./JS/contacts.js"></script>  
 </body>
 
 </html>
