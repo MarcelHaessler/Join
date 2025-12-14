@@ -21,7 +21,7 @@
     <div id="side-bar"></div>
     <main>
         <div id="main">
-            
+            <div id="top-section">
             <h2>Add Task</h2>
             
             <div id="form-container">
@@ -111,10 +111,11 @@
                     </div>  
                 </div>
             </div>
+            </div>
             <div id="bottom-section">
                 <div id="required-info"><p class="red-star">*</p><p>This field is required</p></div>
                 <div id="bottom-button-container">
-                    <button id="clear-task-button">
+                    <button id="clear-task-button" onclick="clearTask()">
                         Clear
                         <img src="./assets/img/add_task/close.svg" alt="Clear">
                     </button>

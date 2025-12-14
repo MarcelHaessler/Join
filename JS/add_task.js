@@ -45,6 +45,7 @@ function checkFullfilledRequirements() {
 
     console.log(createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks));
     uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks);
+    clearTask();
     /*createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks);*/
 }
 
@@ -59,4 +60,54 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         subtasks: taskSubtasks,
         createdAt: new Date().toISOString()
     }
+}
+
+function clearTask() {
+    // Text / Date Inputs
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('date').value = '';
+
+    // Category
+    document.getElementById('category').value = '';
+    currentCategory = '';
+
+    // Priority
+    currentPriotity = 'medium';
+    defaultPriority();
+
+    // Assignments
+    selectedContacts = [];
+    renderSelectedContacts();
+    resetAssignmentSelection();
+
+    // Subtasks
+    subtaskListArray = [];
+    subtaskIndex = 0;
+    document.getElementById('subtask-list').innerHTML = '';
+    document.getElementById('subtasks').value = '';
+
+    // Clear Warnings
+    clearWarnings();
+}
+
+function resetAssignmentSelection() {
+    document.querySelectorAll('.dropdown-box').forEach(box => {
+        box.classList.remove('selected-contact');
+    });
+
+    document.querySelectorAll('[id^="checkbox"]').forEach(cb => {
+        cb.src = './assets/img/checkbox_inactive.svg';
+        cb.classList.remove('checkbox-active');
+    });
+}
+
+function clearWarnings() {
+    document.querySelectorAll('.invalid').forEach(el => {
+        el.classList.remove('invalid');
+    });
+
+    document.querySelectorAll('[id$="-warning"]').forEach(warn => {
+        warn.innerHTML = '';
+    });
 }
