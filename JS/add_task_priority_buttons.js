@@ -1,6 +1,19 @@
 //Button color changing functions on click
 let currentPriotity = '';
 
+function defaultPriority() {
+    mediumBtn.disabled = true;
+    mediumBtn.classList.add('no-hover')
+    mediumBtn.style.cursor = 'default';
+    mediumBtn.style.backgroundColor = 'rgba(255, 168, 0, 1)';
+    mediumBtn.style.color = 'white';
+    mediumImg.src = './assets/img/add_task/medium-active.svg'
+    urgentBtnToNormal();
+    lowBtnToNormal();
+    currentPriotity = 'medium';
+    console.log(currentPriotity);
+}
+
 let urgentBtn = document.getElementById('urgent-btn');
 let mediumBtn = document.getElementById('medium-btn');
 let lowBtn = document.getElementById('low-btn');
