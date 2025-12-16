@@ -1,5 +1,6 @@
 let cachedHeader = null;
 let cachedSidebar = null;
+let contacts = [];
 
 async function fetchHtmlTemplates() {
     if (!cachedHeader) {
@@ -28,3 +29,23 @@ function highlightActiveWrapper() {
     });
 }
 
+async function fetchContacts() {
+    let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
+    let data = await response.json();
+    for (let key in data.users) {
+        if (data.users[key]) {   
+            contacts.push(data.users[key]);
+        }
+    }
+    for (let key in data.contact) {
+        if (data.contact[key]) {   
+            contacts.push(data.contact[key]);
+        }
+    }
+
+    contacts.forEach((users, i) => {
+    users.colorIndex = i % backgroundColorCodes.length;
+    });
+
+    console.log(contacts);
+}
