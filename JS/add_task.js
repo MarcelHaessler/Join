@@ -7,7 +7,7 @@ window.addEventListener("userReady",async (auth) => {
     await fetchContacts();
     putSelfOnFirstPlace(username);
     console.log(username);
-    userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase()
+    userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase();
     addInitialToHeader();
     fillAssignmentDropdown();
 });
