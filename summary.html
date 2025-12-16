@@ -21,14 +21,15 @@
     <main>
         <section id="top-section">
             <h1>Join 360</h1>
-            <img src="./assets/img/vertical-divider.svg" alt="vertical-divider">
+            <img id="top-vertical-divider" src="./assets/img/vertical-divider.svg" alt="vertical-divider">
             <p id="keyMetricsText">Key Metrics at a Glance</p>
+            <img id="horizontal-divider" src="./assets/img/horizontal-divider.svg" alt="">
         </section>
 
-        <section id="task-metrics" class="container-spacing">
+        <section id="task-metrics" class="container-spacing main-section">
             <div onmouseenter="pencilHoverEffect()" onmouseleave="pencilLeaveEffect()" id="to-do-container" class="metrics-container">
                 <div class="button-and-cat">
-                    <img src="./assets/img/pencil-button.svg" alt="">
+                    <img class="btn-img" src="./assets/img/pencil-button.svg" alt="">
 
                     <div class="number-and-category">
                         <p id="number-todo" class="number-category">1</p>
@@ -39,7 +40,7 @@
 
             <div onmouseenter="doneHoverEffect()" onmouseleave="doneLeaveEffect()" id="done-container" class="metrics-container">
                 <div class="button-and-cat">
-                    <img src="./assets/img/done-button.svg" alt="checked-img">
+                    <img class="btn-img" src="./assets/img/done-button.svg" alt="checked-img">
 
                     <div class="number-and-category">
                         <p id="number-done" class="number-category">1</p>
@@ -53,14 +54,14 @@
             <div class="urgent-overview">
                 <div class="urgent-container">
                     <div class="button-and-cat">
-                        <img src="./assets/img/urgent-button.svg" alt="">
+                        <img class="btn-img" src="./assets/img/urgent-button.svg" alt="">
                         <div class="number-and-category">
                             <p class="number-category">1</p>
                             <p class="category">Urgent</p>
                         </div>
                     </div>
 
-                    <img src="./assets/img/urgent-vertical-divider.png" alt="a vertival divider">
+                    <img class="urgent-vertical-img" src="./assets/img/urgent-vertical-divider.png" alt="a vertival divider">
                     <div class="deadline-container">
                         <p id="current-date">October 16, 2022</p>
                         <p class="category">Upcoming Deadline</p>
