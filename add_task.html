@@ -15,13 +15,13 @@
     <link rel="prefetch" href="./assets/templates/sideBar.html">
 
 </head>
-<body onload="fetchHtmlTemplates()">
+<body onload="fetchHtmlTemplates(), defaultPriority()">
 
     <div id="header"></div>
     <div id="side-bar"></div>
     <main>
         <div id="main">
-            
+            <div id="top-section">
             <h2>Add Task</h2>
             
             <div id="form-container">
@@ -90,7 +90,7 @@
                                 User Story
                             </div>
                         </div>
-                        <p></p>
+                        <p id="category-warning"></p>
                     </div>
 
                     <label for="subtasks">Subtasks</label>
@@ -111,14 +111,15 @@
                     </div>  
                 </div>
             </div>
+            </div>
             <div id="bottom-section">
                 <div id="required-info"><p class="red-star">*</p><p>This field is required</p></div>
                 <div id="bottom-button-container">
-                    <button id="clear-task-button">
+                    <button id="clear-task-button" onclick="clearTask()">
                         Clear
                         <img src="./assets/img/add_task/close.svg" alt="Clear">
                     </button>
-                    <button id="create-task-button">
+                    <button id="create-task-button" onclick="checkFullfilledRequirements()">
                         Create Task
                         <img src="./assets/img/add_task/check.svg" alt="Accept">
                     </button>
@@ -127,9 +128,13 @@
         </div>
     </main>
 <script type="module" src="./JS/firebaseSignInUp.js"></script>
-<script src="./JS/add_task.js"></script>
 <script src="./JS/fetchTemplate.js"></script>
+<script src="./JS/add_task.js"></script>
+<script src="./JS/add_task_form_left.js"></script>
+<script src="./JS/add_task_priority_buttons.js"></script>
+<script src="./JS/add_task_form_right.js"></script>
 <script src="./JS/templates.js"></script>
 <script src="./JS/fetch.js"></script>
+<script src="./JS/add_task_firebase.js"></script>
 </body>
 </html>
