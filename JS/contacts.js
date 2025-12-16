@@ -160,23 +160,25 @@ function showContactDetails(contact) {
 }
 
 
-const mobileEditeBar = document.getElementById('mobileEditeBar');
-const mobileMenuTrigger = document.getElementById('mobileMenuTrigger'); // Der neue Trigger-Button
+function sideBarVisable() {
+    
+}
 
-// 1. Öffnen/Schließen-Logik (Toggle)
+const mobileEditeBar = document.getElementById('mobileEditeBar');
+const mobileMenuTrigger = document.getElementById('mobileMenuTrigger'); 
+
+
 mobileMenuTrigger.addEventListener('click', (e) => {
-    // Verhindert, dass der Klick sofort zum 'document' hochwandert
-    // und das Menü sofort wieder geschlossen wird.
     e.stopPropagation(); 
     mobileEditeBar.classList.toggle('visible');
 });
 
-// 2. Globaler Schließ-Mechanismus
+
 document.addEventListener('click', (e) => {
     const isClickInsideMenu = mobileEditeBar.contains(e.target);
     const isClickOnTrigger = mobileMenuTrigger.contains(e.target);
 
-    // Schließen, wenn der Klick NICHT im Menü UND NICHT auf dem Trigger-Button war
+    
     if (!isClickInsideMenu && !isClickOnTrigger) {
         mobileEditeBar.classList.remove('visible');
     }

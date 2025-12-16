@@ -234,12 +234,11 @@ table {
 }
 
 #mobileEditeBar {
-    z-index: 10;
+    position: fixed;
+    z-index: 100;
     display: none;
     flex-direction: column;
     width: 116px;
-    height: 100px;
-    position: absolute;
     bottom: 112px;
     right: 8px;
     background-color: var(--contrastColor);
@@ -263,6 +262,54 @@ table {
         color: var(--primerColor);
     }   
 }
+
+dialog {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    width: 80%;
+    display: flex;
+    padding: 0;
+}
+
+.ACBetterTeam {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    background-color: var(--primerColor);
+    border-radius: 12px 0 0 12px;
+    padding: 12px;
+    color: var(--contrastColor);
+
+
+    img {
+        width: 56px;
+        height: auto;
+    }
+
+    hr {
+        border: solid 3px var(--secondColor);
+        width: 90px;
+    }
+
+    /* img {
+        width: 120px;
+        height: auto;
+    }
+
+    h2 {
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        color: var(--primerColor);
+    } */
+}
+
+
 
 
 
