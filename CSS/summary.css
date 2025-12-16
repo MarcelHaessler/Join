@@ -187,6 +187,7 @@
     #top-section {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0;
     }
     #task-metrics,
 #task-status-overview,
