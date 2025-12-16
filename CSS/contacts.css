@@ -1,6 +1,6 @@
 main {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 96px);
     width: 100%;
     padding: 0;
 }
@@ -9,7 +9,7 @@ main {
     width: 30%;
     max-width: 456px;
     background: var(--contrastColor);
-    padding: 12px 32px;
+    padding: 12px 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -51,9 +51,7 @@ main {
         display: flex;
         justify-content: center;
         gap: 8px;
-        margin-top: 8px;
         margin-left: 12px;
-        padding: 8 12px
     }
     hr {
         border: none;
@@ -63,12 +61,12 @@ main {
     }
 }
 
-#contactEntry {
+.contactEntry {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 32px;
-    padding: 12px 24px;
+    padding: 12px;
     border-radius: 12px;
 
     &:hover {
@@ -79,7 +77,7 @@ main {
 
 .contactlistIcon {
     width: 42px;
-    height: 42px;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     background-color: var(--secondColor);
     display: flex;
@@ -87,15 +85,28 @@ main {
     align-items: center;
     color: var(--contrastColor);
     border: solid 2px var(--contrastColor);
+    flex-shrink: 0;
 }
 
 .contactDitails {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0; 
 
+    .name,
+    .mail {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .name {
+        font-size: 20px;
+    }
     .mail {
         color: var(--linkColor);
+        font-size: 16px;
     }    
 }
 
@@ -203,22 +214,133 @@ table {
     }
 }
 
+.sideBarOption {
+    display: none;
+    position: absolute;
+    bottom: 112px;
+    right: 16px;
+
+    button {
+        display: flex;
+        height: 56px;
+        width: 56px;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: var(--primerColor);
+        border-radius: 50%;
+    }
+}
+
+#mobileEditeBar {
+    position: fixed;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    width: 116px;
+    bottom: 112px;
+    right: 8px;
+    background-color: var(--contrastColor);
+    border: solid 2px var(--contrastColor);
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 20px 20px 0 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &.visible {
+    display: flex;
+    }
+
+    button {
+        display: flex;
+        border: none;
+        background-color: transparent;
+        gap: 8px;
+        justify-content: flex-start;
+        align-items: center;
+        color: var(--primerColor);
+    }   
+}
+
+dialog {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    width: 80%;
+    display: flex;
+    padding: 0;
+}
+
+.ACBetterTeam {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    background-color: var(--primerColor);
+    border-radius: 12px 0 0 12px;
+    padding: 12px;
+    color: var(--contrastColor);
+
+
+    img {
+        width: 56px;
+        height: auto;
+    }
+
+    hr {
+        border: solid 3px var(--secondColor);
+        width: 90px;
+    }
+
+    /* img {
+        width: 120px;
+        height: auto;
+    }
+
+    h2 {
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        color: var(--primerColor);
+    } */
+}
+
+
+
+
+
 @media (max-width: 1100px) {
     main {
         display: block;
+        height: calc(100vh - 96px - 80px);
     }
 
     .sideBar {
         width: 100%;
-        max-width: calc(100% - 64Px);
-        /* display: block; */
+        max-width: calc(100% - 24px);
+        padding: 12px 12px;
+        display: block;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .addNewContact {
         display: none;
     }
 
     .contacts {
         width: calc(100% - 42Px);
-        /* display: none; */
-        display: block;
+        display: none;
+        
+        &.visible {
+            display: block;
+        }
     }
 
     .contactHeader {
@@ -277,6 +399,10 @@ table {
             height: 24px;
             width: auto;
         }
+    }
+
+    .sideBarOption {
+        display: block;
     }
 
     /* .back-btn {
