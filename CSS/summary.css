@@ -173,6 +173,13 @@
     text-align: center;
 }
 
+/* ===== Divider ===== */
+#horizontal-divider {
+    display: none;
+}
+#top-vertical-divider {
+    display: block;
+}
 /* ===== Responsive Tweaks ===== */
 
 
@@ -226,7 +233,14 @@
     .category  {
         font-size: 16px;
     }
+        #top-vertical-divider {
+        display: none;
+    }
+    #horizontal-divider {
+    display: block;
 }
+}
+
 
 @media (max-width: 1250px) {
     #greet-name {
