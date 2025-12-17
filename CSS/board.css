@@ -58,3 +58,34 @@ textarea {
     font-size: 21px;
     font-style: bold;
 }
+
+/* main section */
+
+
+.progress{
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin: 24px;
+}
+
+.tasks-status-row {
+    display: flex;
+    flex-direction: row;
+    width: 224px;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 700;
+    color: #42526E;
+}
+
+.add-plus{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px #2A3647 solid;
+    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    color: #2A3647;
+}
