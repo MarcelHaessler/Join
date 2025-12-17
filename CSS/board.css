@@ -54,7 +54,7 @@ textarea {
     color:white;
     border-radius: 10px;
     border: none;
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     font-size: 21px;
     font-style: bold;
 }
