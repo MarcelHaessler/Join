@@ -1,0 +1,47 @@
+/* Join Board Input Styles */
+
+input, textarea{
+    width: 312px;
+    height: 48px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 1);
+    padding: 0 20px 0 20px;
+    transition: 200ms;
+}
+
+textarea {
+    resize: none;
+}
+
+input::placeholder, textarea::placeholder{
+    color: rgba(209, 209, 209, 1);
+}
+
+
+input:hover, textarea:hover {
+    cursor: pointer;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #2aaae2;
+    outline: none;
+}
+
+textarea {
+    height: 106px;
+    padding-top: 12px;
+}
+
+/* Buttons */
+.add-task-button{
+    width: 160px;
+    height: 48px;
+    background-color: #2A3647;
+    color:white;
+    border-radius: 10px;
+    border: none;
+    font-family: Inter;
+    font-size: 21px;
+    font-style: bold;
+}

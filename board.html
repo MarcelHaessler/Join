@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/layout.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./CSS/board.css">
 
     <link rel="prefetch" href="./assets/templates/header.html">
     <link rel="prefetch" href="./assets/templates/sideBar.html">
@@ -20,7 +21,13 @@
     <div id="header"></div>
     <div id="side-bar"></div>
     <main>
-        <h1>Board</h1>
+        <top-section>
+            <h1>Board</h1>
+            <div class="find-container">
+                <input placeholder="Find Task" type="text">
+                <button class="add-task-button">Add task +</button>
+            </div>
+        </top-section>
     </main>
 
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
