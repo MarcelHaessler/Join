@@ -29,6 +29,25 @@
                 <button class="add-task-button">Add task +</button>
             </div>
         </top-section>
+        <main-section>
+            <div class="progress">
+                <div class="tasks-status-row" id="todo">
+                    <p>To do</p>
+                    <p class="add-plus" id="add-todo">+</p>
+                </div>
+                <div class="tasks-status-row" id="in-progress">
+                    <p>In progress</p>
+                    <p class="add-plus" id="add-progress">+</p>
+                </div>
+                <div class="tasks-status-row" id="await-feedback">
+                    <p>Await feedback</p>
+                    <p class="add-plus" id="add-feedback">+</p>
+                </div>
+                <div class="tasks-status-row" id="done">
+                    <p>Done</p>
+                </div>
+            </div>
+        </main-section>
     </main>
 
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
