@@ -60,13 +60,29 @@ textarea {
 }
 
 /* main section */
-
+main-section{
+    display: flex;
+    flex-direction: column;
+}
 
 .progress{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 24px;
     margin: 24px;
+}
+
+.progress-header{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.task-tiles-section{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 .tasks-status-row {
@@ -88,4 +104,10 @@ textarea {
     width: 24px;
     height: 24px;
     color: #2A3647;
+}
+
+.placeholder-tiles{
+    width: 252px;
+    border: 1px #A8A8A8 dashed;
+    border-radius: 10px;
 }
