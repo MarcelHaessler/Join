@@ -165,7 +165,7 @@ main {
     width: 120px;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background-color: var(--secondColor);
+    /* background-color: var(--secondColor); */
     display: flex;
     justify-content: center;
     align-items: center;
