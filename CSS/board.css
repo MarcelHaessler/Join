@@ -72,23 +72,36 @@ main-section{
     margin: 24px;
 }
 
+.progress-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 24px 0;
+}
+
+.progress-table th,
+.progress-table td {
+    padding: 0;
+    vertical-align: top;
+}
+
+.progress-table th {
+    text-align: left;
+    font-weight: inherit;
+}
+
 .progress-header{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 24px;
+    display: table-row;
 }
 
 .task-tiles-section{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+    display: table-row;
 }
 
 .tasks-status-row {
     display: flex;
     flex-direction: row;
-    width: 224px;
+    width: 100%;
     justify-content: space-between;
     font-size: 20px;
     font-weight: 700;
@@ -107,7 +120,10 @@ main-section{
 }
 
 .placeholder-tiles{
-    width: 252px;
+    width: 100%;
     border: 1px #A8A8A8 dashed;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
