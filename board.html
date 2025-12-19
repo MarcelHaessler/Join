@@ -32,38 +32,82 @@
         </top-section>
 
         <main-section>
-            <div class="progress">
-                <div class="progress-header">
-                    <div class="tasks-status-row" id="todo">
-                        <p>To do</p>
-                        <p class="add-plus" id="add-todo">+</p>
-                    </div>
-                    <div class="tasks-status-row" id="in-progress">
-                        <p>In progress</p>
-                        <p class="add-plus" id="add-progress">+</p>
-                    </div>
-                    <div class="tasks-status-row" id="await-feedback">
-                        <p>Await feedback</p>
-                        <p class="add-plus" id="add-feedback">+</p>
-                    </div>
-                    <div class="tasks-status-row" id="done">
-                        <p>Done</p>
-                    </div>
-                </div>
+  <div class="progress">
+    <table class="progress-table">
+      <colgroup>
+        <col span="4" />
+      </colgroup>
 
-                <div class="task-tiles-section">
-                    <div id="todo-tiles"> <!--hier mit js Inhalte einfügen-->
-                        <div class="no-tasks placeholder-tiles">
-                            <p class="placeholder-p">No tasks To do</p>
-                        </div>
-                    </div>
-                    <div class="placeholder-tiles" id="progress-tiles">
-                        <p class="placeholder-p">No tasks in progress</p>
-                    </div>
-                </div>
+      <thead>
+        <tr class="progress-header">
+          <th>
+            <div class="tasks-status-row" id="todo">
+              <p>To do</p>
+              <p class="add-plus" id="add-todo">+</p>
             </div>
-        </main-section>
-    </main>
+          </th>
+
+          <th>
+            <div class="tasks-status-row" id="in-progress">
+              <p>In progress</p>
+              <p class="add-plus" id="add-progress">+</p>
+            </div>
+          </th>
+
+          <th>
+            <div class="tasks-status-row" id="await-feedback">
+              <p>Await feedback</p>
+              <p class="add-plus" id="add-feedback">+</p>
+            </div>
+          </th>
+
+          <th>
+            <div class="tasks-status-row" id="done">
+              <p>Done</p>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="task-tiles-section">
+          <td>
+            <div id="todo-tiles">
+              <div class="no-tasks placeholder-tiles">
+                <p class="placeholder-p">No tasks To do</p>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div id="progress-tiles">
+              <div class="no-tasks placeholder-tiles">
+                <p class="placeholder-p">No tasks in progress</p>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div id="feedback-tiles">
+              <div class="no-tasks placeholder-tiles">
+                <p class="placeholder-p">No tasks await feedback</p>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div id="done-tiles">
+              <div class="no-tasks placeholder-tiles">
+                <p class="placeholder-p">No tasks done</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main-section>
+
 
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
     <script src="./JS/fetch.js"></script>
