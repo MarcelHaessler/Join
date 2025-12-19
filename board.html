@@ -26,7 +26,13 @@
         <top-section>
             <h1>Board</h1>
             <div class="find-container">
-                <input placeholder="Find Task" type="text">
+                <div class="search-input" role="search">
+                    <input placeholder="Find Task" type="text" aria-label="Find Task">
+                    <img class="search-divider" src="./assets/img/search-divider.svg" alt="" aria-hidden="true">
+                    <button class="search-icon-btn" type="button" aria-label="Search">
+                        <img class="search-icon" src="./assets/img/search.svg" alt="" aria-hidden="true">
+                    </button>
+                </div>
                 <button class="add-task-button">Add task +</button>
             </div>
         </top-section>
