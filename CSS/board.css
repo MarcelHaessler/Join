@@ -186,6 +186,12 @@ main-section{
     color: #2A3647;
 }
 
+.add-plus:hover{
+    cursor: pointer;
+    border-color: #29ABE2;
+    color:#29ABE2;
+}
+
 .placeholder-tiles{
     width: 100%;
     border: 1px #A8A8A8 dashed;
@@ -193,4 +199,5 @@ main-section{
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #A8A8A8;
 }
