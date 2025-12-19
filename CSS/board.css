@@ -13,6 +13,66 @@ top-section{
     gap: 32px;
 }
 
+.search-input{
+    display: flex;
+    align-items: center;
+    width: 312px;
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 1);
+    background-color: white;
+    overflow: hidden;
+    transition: 200ms;
+}
+
+.search-input:focus-within{
+    border: 1px solid #2aaae2;
+}
+
+.search-input input{
+    flex: 1;
+    width: auto;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0 12px 0 20px;
+    cursor: text;
+}
+
+.search-input input:hover{
+    cursor: text;
+}
+
+.search-input input:focus{
+    border: none;
+}
+
+.search-divider{
+    height: 60%;
+    width: auto;
+    display: block;
+}
+
+.search-icon-btn{
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.search-icon-btn:hover{
+    cursor: pointer;
+}
+
+.search-icon{
+    width: 20px;
+    height: 20px;
+}
+
 input, textarea{
     width: 312px;
     height: 48px;
@@ -63,7 +123,7 @@ textarea {
 .add-task-button:hover{
     cursor: pointer;
     background-color: #29ABE2;
-    box-shadow: #00000040 0px 4px 4px;
+    box-shadow: #00000040 0px 4px;
 }
 
 /* main section */
