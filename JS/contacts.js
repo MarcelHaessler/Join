@@ -82,7 +82,7 @@ function showContactDetails(contact) {
                     ${contact.name}
                     <div class="selectedNameButtons">
                         <button><img src="./assets/img/contacts/edit.svg" alt="edit">Edit</button>
-                        <button><img src="./assets/img/contacts/delete.svg" alt="delite">Delete</button>
+                        <button><img src="./assets/img/contacts/trash.svg" alt="delite">Delete</button>
                     </div>
                 </div>    
             </div>

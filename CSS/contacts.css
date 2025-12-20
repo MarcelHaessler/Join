@@ -263,23 +263,31 @@ table {
     }   
 }
 
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
 dialog {
     border: none;
-    border-radius: 12px;
+    border-radius: 34px 32px 32px 34px;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
     width: 80%;
+    height: 480px;
     display: flex;
     padding: 0;
 }
 
 .ACBetterTeam {
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 12px;
     background-color: var(--primerColor);
-    border-radius: 12px 0 0 12px;
-    padding: 12px;
+    border-radius: 32px 0 0 32px;
+    padding: 48px;
     color: var(--contrastColor);
 
 
@@ -289,28 +297,157 @@ dialog {
     }
 
     hr {
-        border: solid 3px var(--secondColor);
+        border: solid 1.5px var(--secondColor);
         width: 90px;
+        margin: 0;
     }
 
-    /* img {
-        width: 120px;
+    img {
+        width: 56px;
         height: auto;
     }
 
     h2 {
-        font-size: 24px;
-        font-weight: 500;
+        font-size: 61px;
+        font-weight: 700;
+        margin: 0;
     }
 
     p {
-        font-size: 16px;
-        color: var(--primerColor);
-    } */
+        font-size: 27px;
+        margin: 0;
+    }
 }
 
+.contactAdd {
+    display: flex;
+    width: 67%;
+}
 
+.ananymPerson {
+    width: 120px;
+    height: 120px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: var(--ligthGrey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px;
+    border: solid 3px var(--contrastColor);
+    align-self: center;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 
+    img {
+        width: 42px;
+        height: auto;
+    }
+}
+
+.contactAddForm {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    margin-right: 24px;
+
+    .cancel {
+        /* display: absolute; */
+        display: flex;
+        justify-content: center;
+        align-self: flex-end;
+        margin: 0;
+        padding: 4px;
+        border: none;
+        background-color: transparent;
+
+        img {
+            height: 16px;
+            width: auto;
+        }
+    }
+
+    div {
+        /* display: flex; */
+        position: relative;
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+            height: 50px;
+            font-size: 16px;
+            padding-left: 24px;
+            border: solid 1px var(--ligthGrey);
+            border-radius: 12px;
+            color: red;
+
+            &::placeholder {
+                color: var(--ligthGrey);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: var(--secondColor);
+            }
+        }
+
+        .inputIcon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px;
+            width: auto;
+        }
+    } 
+}
+
+.contactAddButtons {
+    display: inline-flex;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+
+    button {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px;
+        border: none;
+        gap: 8px;
+        font-size: 16px;
+
+        .contactAddButtonsImg {
+            align-self: center;
+        }
+    }
+
+    .contactAddCancel {
+        background-color: transparent;
+        color: var(--primerColor);
+        border: solid 1px var(--primerColor);
+
+        &:hover {
+            color: var(--secondColor);
+            border-color: var(--secondColor);
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+            img {
+                filter: invert(68%) sepia(21%) saturate(7319%) hue-rotate(165deg) brightness(96%) contrast(85%);
+            }
+        }
+    }
+    .contactAddCreate {
+        background-color: var(--primerColor);
+        color: var(--contrastColor);
+
+        &:hover {
+            background-color: var(--secondColor);
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+}  
 
 
 @media (max-width: 1100px) {
