@@ -7,6 +7,8 @@ const contactList = document.getElementById("contacList");
 const contactDetails = document.getElementById("contactSelectet");
 const contactSidebarCss = document.querySelector('.sideBar');
 const contactDetailsCss = document.querySelector('.contacts');
+const dialogAddPerson = document.getElementById("dialogAddPerson");
+const dialogEdit = document.getElementById("dialogEdit");
 
 async function nameList() {
     await fetchContacts();
@@ -81,7 +83,7 @@ function showContactDetails(contact) {
                 <div class="selectedName">
                     ${contact.name}
                     <div class="selectedNameButtons">
-                        <button><img src="./assets/img/contacts/edit.svg" alt="edit">Edit</button>
+                        <button onclick="openDialogEdit()"><img src="./assets/img/contacts/edit.svg" alt="edit">Edit</button>
                         <button><img src="./assets/img/contacts/trash.svg" alt="delite">Delete</button>
                     </div>
                 </div>    
@@ -128,4 +130,23 @@ document.addEventListener('click', (e) => {
     if (!isClickInsideMenu && !isClickOnTrigger) {
         mobileEditeBar.classList.remove('visible');
     }
+});
+
+function openDialogAdd() {
+  dialogAddPerson.showModal();
+}
+
+function openDialogEdit() {
+  dialogEdit.showModal();
+}
+
+function closeDialog() {
+  dialogAddPerson.close();
+  dialogEdit.close();
+}
+
+dialogAddPerson.addEventListener("click", (event) => {
+  if (event.target === dialogAddPerson) {
+    closeDialog();
+  }
 });
