@@ -43,13 +43,13 @@
             <div id="contactSelectet">
                 <!-- Contact details will be dynamically inserted here -->
             </div>
-            <div class="sideBarOption">
+            <!-- <div class="sideBarOption">
                 <button id="mobileMenuTrigger"><img src="./assets/img/contacts/more_vert.svg" alt="mobile more option"></button>
             </div>
             <div id="mobileEditeBar">
                 <button onclick="openDialogEdit()"><img src="./assets/img/contacts/edit.svg" alt="">Edit</button>
                 <button><img src="./assets/img/contacts/trash.svg" alt="">Delete</button>
-            </div>
+            </div> -->
         </div>
 
         <dialog id="dialogAddPerson">
@@ -80,18 +80,17 @@
                         </div>
                         <div class="contactAddButtons">
                             <button class="contactAddCancel" onclick="closeDialog()"><span>Cancel</span><img class="contactAddButtonsImg" src="./assets/img/contacts/delete.svg" alt=""></button>
-                            <button class="contactAddCreate"><span>Create Contact</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
+                            <button class="contactAddCreate" onclick="uploadContact()"><span>Create Contact</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
                         </div>
                     </div>
                 </div>
             </div>
         </dialog>
         <dialog id="dialogEdit">
-            <div>
+            <!-- <div>
                 <div class="ACBetterTeam">
                     <img src="./assets/img/logo_light.svg" alt="">
                     <h2>Edit contact</h2>
-                    <!-- <p>Tasks are better with a team</p> -->
                     <hr>
                 </div>
                 <div class="contactAdd">
@@ -112,13 +111,13 @@
                             <input type="phone" id="contactAddPhone" name="contactPhone" placeholder="Phone">
                             <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
                         </div>
-                        <div class="contactAddButtons">
-                            <button class="contactAddCancel" onclick="closeDialog()"><span>Delete</span></button>
-                            <button class="contactAddCreate"><span>Save</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
+                        <div class="contactEditButtons">
+                            <button class="contactEditDelete" onclick="closeDialog()"><span>Delete</span></button>
+                            <button class="contactEditSave"><span>Save</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </dialog>
     </main>
 
