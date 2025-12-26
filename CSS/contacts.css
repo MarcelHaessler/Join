@@ -379,7 +379,6 @@ dialog {
             padding-left: 24px;
             border: solid 1px var(--ligthGrey);
             border-radius: 12px;
-            color: red;
 
             &::placeholder {
                 color: var(--ligthGrey);
@@ -388,6 +387,9 @@ dialog {
             &:focus {
                 outline: none;
                 border-color: var(--secondColor);
+            }
+            &.invalid {
+                border-color: var(--invalideColor);
             }
         }
 
@@ -402,7 +404,7 @@ dialog {
     } 
 }
 
-.contactAddButtons {
+.contactAddButtons, .contactEditButtons {
     display: inline-flex;
     justify-content: flex-start;
     gap: 12px;
@@ -422,7 +424,7 @@ dialog {
         }
     }
 
-    .contactAddCancel {
+    .contactAddCancel, .contactEditDelete {
         display: inline-flex;
         background-color: transparent;
         color: var(--primerColor);
@@ -438,7 +440,7 @@ dialog {
             }
         }
     }
-    .contactAddCreate {
+    .contactAddCreate, .contactEditSave {
         display: inline-flex;
         background-color: var(--primerColor);
         color: var(--contrastColor);
@@ -621,4 +623,17 @@ dialog {
             margin: 0 auto;
         }
     }
+
+    .contactEditButtons {
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: center;   
+        flex-direction: row;
+
+        .contactEditDelete, .contactEditSave {
+            width: max-content;
+            justify-content: center;
+        }
+    }
+    
 }
