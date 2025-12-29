@@ -192,7 +192,7 @@ main-section{
     color:#29ABE2;
 }
 
-.placeholder-tiles{
+.no-tasks{
     width: 100%;
     border: 1px #A8A8A8 dashed;
     border-radius: 10px;
@@ -200,4 +200,40 @@ main-section{
     align-items: center;
     justify-content: center;
     color: #A8A8A8;
+}
+
+.placeholder-task{
+    width: 100%;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.task-title{
+    font-weight: 700;
+}
+
+.task-content{
+    color: #A8A8A8;
+    font-weight: 400;
+}
+
+.subtasks-container{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.subtasks-counter{
+    font-weight: 400;
+}
+
+#label-user-story{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0038FF;
+    color: white;
+    border-radius: 8px;
+    width: 113px;
+    height: 27px;
 }
