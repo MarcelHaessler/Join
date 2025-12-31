@@ -47,16 +47,23 @@ function highlightActiveWrapper() {
 
 
 async function fetchContacts() {
+    contacts = [];
     let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
     let data = await response.json();
     for (let key in data.users) {
         if (data.users[key]) {   
-            contacts.push(data.users[key]);
+            contacts.push({
+                id: key,
+                root: 'users',
+                ...data.users[key]});
         }
     }
     for (let key in data.contact) {
         if (data.contact[key]) {   
-            contacts.push(data.contact[key]);
+            contacts.push({
+                id: key,
+                root: 'contact',
+                ...data.contact[key]});
         }
     }
 

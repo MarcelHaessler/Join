@@ -5,6 +5,8 @@ const contactDetailsCss = document.querySelector('.contacts');
 const dialogAddPerson = document.getElementById("dialogAddPerson");
 const dialogEdit = document.getElementById("dialogEdit");
 const mobileMenuTrigger = document.getElementById('mobileMenuTrigger'); 
+const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/; 
 
 window.addEventListener("load", () => {
   nameList();
@@ -14,6 +16,7 @@ window.addEventListener("load", () => {
 async function nameList() {
     await fetchContacts();
     contacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
+    contactList.innerHTML = "";
     let currentLetter = "";
     contacts.forEach(contact => {
         const letter = contact.name[0].toUpperCase();
@@ -105,7 +108,17 @@ function openDialogEdit() {
 // Close all Dialog
 function closeDialog() {
   dialogAddPerson.close();
+  clearForm();
   dialogEdit.close();
+}
+
+// Clear form inputs and remove invalid class
+function clearForm() {
+    const inputs = dialogAddPerson.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('invalid');
+    });
 }
 
 // Backdrop click Add to close Dialogs
@@ -150,36 +163,42 @@ contactDetails.addEventListener('click', (e) => {
 // Upload new contact to database
 const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
 
-// function CreateNewContact() {
-//     const name = document.getElementById("contactAddName");
-//     const email = document.getElementById("contactAddMail");
-//     const phone = document.getElementById("contactAddPhone");
-//     let NewContact = createContactObject(name, email, phone);
-//     if 
-// }
 
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => {
-        if (input.type === 'name') {
-            validateName(input.value, input);
-        }
-        if (input.type === 'email') {
-            validateEmail(input.value, input);
-        }
-        if (input.type === 'phone') { 
-            validatePassword(input.value, input)
-        }
-    });
+// Input validation on blur and red border for invalid inputs
+const validators = {
+  text: value => value.trim() !== '',
+  email: value => mailRegex.test(value),
+  tel: value => phoneRegex.test(value),
+};
+
+dialogAddPerson.querySelectorAll('input').forEach(input => {
+  input.addEventListener('blur', () => {
+    const validator = validators[input.type];
+    if (!validator) return;
+    input.classList.toggle('invalid', !validator(input.value));
+  });
 });
 
-function validateName(name, input) {
-    if (name !== "") {
-        input.classList.remove('invalid');
-    } else {
-        input.classList.add('invalid');
+// Check if form is valid before uploading contact
+function isFormValid() {
+    const inputs = dialogAddPerson.querySelectorAll('input');
+    const allValid = [...inputs].every(input => validateInput(input));
+    if (!allValid) {
+    console.log('Formular ist ungültig');
+    return;
     }
+    uploadContact();
 }
 
+function validateInput(input) {
+    const validator = validators[input.type];
+    if (!validator) return true;
+    const isValid = validator(input.value);
+    input.classList.toggle('invalid', !isValid);
+    return isValid;
+}
+
+// Upload new contact to database
 async function uploadContact() {
     const name = document.getElementById("contactAddName");
     const email = document.getElementById("contactAddMail");
@@ -194,6 +213,9 @@ async function uploadContact() {
         body: JSON.stringify(NewContact)
     });
     console.log('Contact succesfully uploaded');
+    window.location.reload(true);
+    closeDialog();
+    
 }
 
 function createContactObject(nameInput, emailInput, phoneInput) {
@@ -203,6 +225,39 @@ function createContactObject(nameInput, emailInput, phoneInput) {
         phone: phoneInput.value,
         createdAt: new Date().toISOString()
     };
+}
+
+// Update contact to database
+async function updateContact(root, id) {
+    console.log('Updating contact with ID:', id);
+    const name = document.getElementById("contactUpdateName");
+    const email = document.getElementById("contactUpdateMail");
+    const phone = document.getElementById("contactUpdatePhone");
+    let UpdateContact = createContactObject(name, email, phone);
+
+    await fetch(`${BASE_URL}/${root}/${id}.json`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(UpdateContact)
+    });
+    const allContacts = await fetchContacts(); 
+    nameList();
+    const updatedContact = allContacts.find(c => c.id === id);
+    if (updatedContact) {
+        contactDetails.innerHTML = showContactDetails(updatedContact);
+    } 
+    closeDialog();
+}
+
+// Delete contact from database
+async function deleteContact(root, id) {
+    await fetch(`${BASE_URL}/${root}/${id}.json`, {
+        method: 'DELETE'
+    });
+    nameList();
+    window.location.reload(true);
 }
 
 // Render contact details
@@ -215,7 +270,7 @@ function showContactDetails(contact) {
                     ${contact.name}
                     <div class="selectedNameButtons">
                         <button id="editContactButton" data-mail="${contact.email}"><img src="./assets/img/contacts/edit.svg" alt="edit">Edit</button>
-                        <button><img src="./assets/img/contacts/trash.svg" alt="delite">Delete</button>
+                        <button onclick="deleteContact('${contact.root}','${contact.id}')"><img src="./assets/img/contacts/trash.svg" alt="delite">Delete</button>
                     </div>
                 </div>    
             </div>
@@ -241,7 +296,7 @@ function showContactDetails(contact) {
             </div>
             <div id="mobileEditeBar">
                 <button id="editContactButton" data-mail="${contact.email}"><img src="./assets/img/contacts/edit.svg" alt="">Edit</button>
-                <button><img src="./assets/img/contacts/trash.svg" alt="">Delete</button>
+                <button onclick="deleteContact('${contact.root}','${contact.id}')"><img src="./assets/img/contacts/trash.svg" alt="">Delete</button>
             </div>`
 }
 
@@ -260,20 +315,20 @@ function editContact(contact) {
                     <div class="contactAddForm">
                         <button class="cancel" onclick="closeDialog()"><img src="./assets/img/contacts/delete.svg" alt="" srcset=""></button>
                         <div>
-                            <input type="text" id="contactAddName" name="contactName" value="${contact.name}">
+                            <input type="text" id="contactUpdateName" name="contactName" value="${contact.name}">
                             <img class="inputIcon" src="./assets/img/contacts/person.svg" alt="" srcset="">
                         </div>
                         <div>
-                            <input type="email" id="contactAddMail" name="contactMail" value="${contact.email}">
+                            <input type="email" id="contactUpdateMail" name="contactMail" value="${contact.email}">
                             <img class="inputIcon" src="./assets/img/contacts/mail.svg" alt="" srcset="">
                         </div>
                         <div>
-                            <input type="phone" id="contactAddPhone" name="contactPhone" value="${contact.phone}">
+                            <input type="phone" id="contactUpdatePhone" name="contactPhone" value="${contact.phone}">
                             <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
                         </div>
                         <div class="contactEditButtons">
-                            <button class="contactEditDelete" onclick="closeDialog()"><span>Delete</span></button>
-                            <button class="contactEditSave"><span>Save</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
+                            <button class="contactEditDelete" onclick="deleteContact('${contact.root}','${contact.id}')"><span>Delete</span></button>
+                            <button class="contactEditSave" onclick="updateContact('${contact.root}','${contact.id}')"><span>Save</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
                         </div>
                     </div>
                 </div>
