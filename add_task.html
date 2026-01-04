@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./CSS/add_task.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
-
+    <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
     <link rel="prefetch" href="./assets/templates/header.html">
     <link rel="prefetch" href="./assets/templates/sideBar.html">
 
@@ -19,8 +19,8 @@
 
     <div id="header"></div>
     <div id="side-bar"></div>
-    <main>
-        <div id="main">
+    <div id="content-section">
+        <div id="main-container">
             <div id="top-section">
             <h2>Add Task</h2>
             
@@ -29,17 +29,17 @@
                     <div class="input-container" id="title-container">                    
                         <label for="title">Title <p class="red-star">*</p></label>
                         <input id="title" type="text" placeholder="Enter a Title">
-                        <p id="title-warning"></p>
+                        <p class="warning-message" id="title-warning"></p>
                     </div>
                     <div class="input-container" id="description-container">
                         <label for="description">Description<p class="red-star">*</p></label>
                         <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
-                        <p id="description-warning"></p>
+                        <p class="warning-message" id="description-warning"></p>
                     </div>
                     <div class="input-container" id="date-container">
                         <label for="date">Due date<p class="red-star">*</p></label>
                         <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10">
-                        <p id="date-warning"></p>
+                        <p class="warning-message" id="date-warning"></p>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                                 User Story
                             </div>
                         </div>
-                        <p id="category-warning"></p>
+                        <p class="warning-message" id="category-warning"></p>
                     </div>
 
                     <label for="subtasks">Subtasks</label>
@@ -126,7 +126,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 <script type="module" src="./JS/firebaseSignInUp.js"></script>
 <script src="./JS/fetchTemplate.js"></script>
 <script src="./JS/add_task.js"></script>
