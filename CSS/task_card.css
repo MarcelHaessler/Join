@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+}
+
+#task-card {
+    width: 445px;
+    background-color: #ffff;
+    box-shadow: 2px 2px 2px 2px black;
+    padding: 48px 40px 48px 40px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#task-card-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#task-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+#delete-task{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#edit-task{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
