@@ -472,68 +472,117 @@ li {
 }
 
 @media (max-width: 900px) {
-    header, #header {
+/*Delete CSS if accepted in style.css from here*/
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px 1fr 80px;
+        background-color: #f6f7f8;
+    }
+    
+    #header, header{
         height: 80px;
         position: fixed;
         top: 0;
         z-index: 10;
     }
 
-    body{
-        flex-direction: column-reverse;
-        height: auto;
+    header{
+        padding: 0 16px 0 16px;
     }
 
-    #top-section {
-        margin-top: 112px;
-        overflow-y: auto;
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+    #help-button{
+        display: none;
     }
 
-    #top-section::-webkit-scrollbar {
-    display: none;
-}
-
-    #side-bar{
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        z-index: 10;
+    #user-icon {
+        width: 40px;
+        height: 40px;
     }
 
-    h2 {
-        position: fixed;
-        top: 80px;
-        background-color: #f6f7f8;
+    #user-initials{
+        font-size: 16px;
+    }
+/*Until here*/
+    h2{
         height: 112px;
-        width: 100%;
+        width: 101%;
+        margin-block-start: 0;
+        margin-block-end: 0;
         display: flex;
         align-items: flex-end;
-        margin-block-start: 0;
+        position: sticky;
+        top: 80px;
+        left: 0;
+        background-color: #f6f7f8;
+        font-size: 47px;
+        padding-bottom: 8px;
+        z-index: 9;
+    }
+
+    #main-container{
+        justify-content:flex-start
+    }
+
+    #side-bar{
+        z-index: 10;
+        position: fixed;
+        bottom: 0;
+    }
+
+    label{
+        height: 19px;
+        font-size: 16px;
     }
 
     #form-container {
-        display: flex;
         flex-direction: column;
-        justify-content: center;
-        width: 100%;
-        gap: 20px;
+        margin-top: 80px;
     }
 
-    #bottom-button-container{
-        height: 80px;
-        width: 100%;
+    input {
+        height: 18px;
+        padding: 10px 21px 10px 21px;
+    }
+
+    textarea {
+        padding: 18px 21px 18px 21px;
+        height: 62px;
+    }
+
+    input, textarea{
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #bottom-button-container {
         position: fixed;
-        right: 10px;
         bottom: 80px;
+        right: 10px;
+        padding-bottom: 10px;
+    }
+
+    #separator{
+        display: none;
+    }
+
+    #priority-container{
+        height: 88px;
+    }
+
+    #form-buttons{
+        height: 61px;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        background-color: #f6f7f8;
+    }
+
+    .priority-buttons {
+        height: 41px;
+        font-size: 16px;
     }
 
     #bottom-section {
-        padding-bottom: 80px;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 160px;
     }
 }
