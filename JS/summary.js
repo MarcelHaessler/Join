@@ -34,6 +34,7 @@ window.addEventListener("userReady", (auth) => {
     updateGreeting(auth.detail.name || "");
 });
 
+
 //hover imgs 
 function pencilHoverEffect() {
     const img = document.querySelector('#to-do-container img');
