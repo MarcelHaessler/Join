@@ -10,19 +10,23 @@ label {
     display: flex;
     align-items: center;
     pointer-events: none;
-    margin-top: 20px;
     margin-bottom: 8px;
-    height: 20px;
+    height: 24px;
+    font-size: 20px;
 }
 
-main{
+#content-section{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     padding: 0;
+    margin: 0;
+    background-color: #f6f7f8;
 }
 
-#main {
+#main-container {
     max-width: 1440px;
     width: 100%;
     height: 100%;
@@ -30,6 +34,7 @@ main{
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 }
 
 #top-section{
@@ -102,6 +107,13 @@ textarea {
     padding-top: 12px;
 }
 
+.warning-message{
+    height: 12px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-size: 12px;
+}
+
 /*Start of left side of Form Container*/
 #title-container{
     margin-bottom: 10px;
@@ -128,6 +140,7 @@ textarea {
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 #form-buttons {
@@ -154,6 +167,10 @@ textarea {
 .priority-buttons:not(.no-hover):hover {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor:pointer;
+}
+
+#assignment-container {
+    margin-bottom: 20px;
 }
 
 #assign-input-box{
@@ -442,4 +459,155 @@ li {
     background-color: var(--secondColor);
     cursor: pointer;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#task-message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 240px;
+    gap: 12px;
+
+    position: fixed; 
+    left: 50%;
+    bottom: -100px;              
+    transform: translateX(-50%);
+    opacity: 0;
+
+    background-color: var(--primerColor);
+    border-radius: 12px;
+    padding: 12px 20px;
+
+    z-index: 1000;
+
+    transition:
+        bottom 0.6s ease,
+        opacity 0.4s ease;
+}
+
+.overlay{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+/*Delete CSS if accepted in style.css from here*/
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px 1fr 80px;
+        background-color: #f6f7f8;
+    }
+    
+    #header, header{
+        height: 80px;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+    }
+
+    header{
+        padding: 0 16px 0 16px;
+    }
+
+    #help-button{
+        display: none;
+    }
+
+    #user-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    #user-initials{
+        font-size: 16px;
+    }
+/*Until here*/
+    h2{
+        height: 112px;
+        width: 101%;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        display: flex;
+        align-items: flex-end;
+        position: sticky;
+        top: 80px;
+        left: 0;
+        background-color: #f6f7f8;
+        font-size: 47px;
+        padding-bottom: 8px;
+        z-index: 9;
+    }
+
+    #main-container{
+        justify-content:flex-start
+    }
+
+    #side-bar{
+        z-index: 10;
+        position: fixed;
+        bottom: 0;
+    }
+
+    label{
+        height: 19px;
+        font-size: 16px;
+    }
+
+    #form-container {
+        flex-direction: column;
+        margin-top: 80px;
+    }
+
+    input {
+        height: 18px;
+        padding: 10px 21px 10px 21px;
+    }
+
+    textarea {
+        padding: 18px 21px 18px 21px;
+        height: 62px;
+    }
+
+    input, textarea{
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #bottom-button-container {
+        position: fixed;
+        bottom: 80px;
+        right: 10px;
+        padding-bottom: 10px;
+    }
+
+    #separator{
+        display: none;
+    }
+
+    #priority-container{
+        height: 88px;
+    }
+
+    #form-buttons{
+        height: 61px;
+        display: flex;
+        align-items: center;
+    }
+
+    .priority-buttons {
+        height: 41px;
+        font-size: 16px;
+    }
+
+    #bottom-section {
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 160px;
+    }
 }
