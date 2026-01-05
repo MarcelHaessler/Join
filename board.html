@@ -7,23 +7,135 @@
     <link rel="stylesheet" href="./CSS/sidebar.css">
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/layout.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./CSS/board.css">
 
+    <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
     <link rel="prefetch" href="./assets/templates/header.html">
     <link rel="prefetch" href="./assets/templates/sideBar.html">
-    
-    
+
+
     <title>Board</title>
 </head>
 
 <body onload="fetchHtmlTemplates()">
     <div id="header"></div>
     <div id="side-bar"></div>
-    <main>
-        <h1>Board</h1>
-    </main>
 
-<script src="./JS/fetch.js"></script>    
+    <main>
+        <top-section>
+            <h1>Board</h1>
+            <div class="find-container">
+                <div class="search-input" role="search">
+                    <input placeholder="Find Task" type="text" aria-label="Find Task">
+                    <img class="search-divider" src="./assets/img/search-divider.svg" alt="" aria-hidden="true">
+                    <button class="search-icon-btn" type="button" aria-label="Search">
+                        <img class="search-icon" src="./assets/img/search.svg" alt="" aria-hidden="true">
+                    </button>
+                </div>
+                <button class="add-task-button">Add task +</button>
+            </div>
+        </top-section>
+
+        <main-section>
+            <div class="progress">
+                <table class="progress-table">
+                    <colgroup>
+                        <col span="4" />
+                    </colgroup>
+
+                    <thead>
+                        <tr class="progress-header">
+                            <th>
+                                <div class="tasks-status-row" id="todo">
+                                    <p>To do</p>
+                                    <p class="add-plus" id="add-todo">+</p>
+                                </div>
+                            </th>
+
+                            <th>
+                                <div class="tasks-status-row" id="in-progress">
+                                    <p>In progress</p>
+                                    <p class="add-plus" id="add-progress">+</p>
+                                </div>
+                            </th>
+
+                            <th>
+                                <div class="tasks-status-row" id="await-feedback">
+                                    <p>Await feedback</p>
+                                    <p class="add-plus" id="add-feedback">+</p>
+                                </div>
+                            </th>
+
+                            <th>
+                                <div class="tasks-status-row" id="done">
+                                    <p>Done</p>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="task-tiles-section">
+                            <td>
+                                <div id="todo-tiles">
+                                    <div class="no-tasks placeholder-tiles">
+                                        <p class="placeholder-p">No tasks To do</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div id="progress-tiles">
+                                    <div class="placeholder-task placeholder-tiles">
+                                        <label id="label-user-story" for="">User Story</label>
+                                        <h4 class="task-title">Kochwelt Page & Recipe Recommender</h4>
+                                        <p class="task-content">Build start page with recipe recommendation...</p>
+                                        <div class="subtasks-container">
+                                            <img src="./assets/img/filler.svg" alt="" class="filler">
+                                            <p class="subtasks-counter">1/2 Subtasks</p>
+                                        </div>
+                                        <div class="tile-footer">
+                                            <div class="task-initials">
+                                                <div class="contact-initials"
+                                                    style="background-color: var(--color2);">
+                                                    <p>TU</p>
+                                                </div>
+                                            </div>
+                                            <div class="priority"><img src="./assets/img/add_task/medium.svg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div id="feedback-tiles">
+                                    <div class="no-tasks placeholder-tiles">
+                                        <p class="placeholder-p">No tasks await feedback</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div id="done-tiles">
+                                    <div class="no-tasks placeholder-tiles">
+                                        <p class="placeholder-p">No tasks done</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main-section>
+
+
+        <script type="module" src="./JS/firebaseSignInUp.js"></script>
+        <script src="./JS/fetch.js"></script>
+        <script src="./JS/board.js"></script>
+        <script src="./JS/initials.js"></script>
 </body>
 
 </html>

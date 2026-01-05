@@ -95,7 +95,7 @@ a {
         display: flex;
         align-items: center;
         justify-content: center;
-
+        width: 100%;
     }
 
     /* Logo ausblenden */
@@ -108,8 +108,10 @@ a {
         flex-direction: row;
         gap: 10px;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         width: 100%;
+        padding: 0 16px 0 16px;
+        box-sizing: border-box;
     }
 
     .link-wrapper {
@@ -123,7 +125,6 @@ a {
         /* Icon über Text */
         align-items: center;
         justify-content: center;
-        margin-top: 15px;
         width: 76px;
         height: 80px;
         gap: 4px;
