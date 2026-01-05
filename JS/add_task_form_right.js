@@ -1,20 +1,20 @@
 /**Put all Background colors in the array after style.css has been Updated. */
-let backgroundColorCodes = [
-'var(--color1)',
-'var(--color2)',
-'var(--color3)',
-'var(--color4)',
-'var(--color5)',
-'var(--color6)',
-'var(--color7)',
-'var(--color8)',
-'var(--color9)',
-'var(--color10)',
-'var(--color11)',
-'var(--color12)',
-'var(--color13)',
-'var(--color14)',
-'var(--color15)'];
+// let backgroundColorCodes = [
+// 'var(--color1)',
+// 'var(--color2)',
+// 'var(--color3)',
+// 'var(--color4)',
+// 'var(--color5)',
+// 'var(--color6)',
+// 'var(--color7)',
+// 'var(--color8)',
+// 'var(--color9)',
+// 'var(--color10)',
+// 'var(--color11)',
+// 'var(--color12)',
+// 'var(--color13)',
+// 'var(--color14)',
+// 'var(--color15)'];
 let searchTimeout;
 let selectedContacts =[];
 let currentCategory = "";
