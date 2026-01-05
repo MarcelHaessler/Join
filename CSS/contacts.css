@@ -165,7 +165,7 @@ main {
     width: 120px;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background-color: var(--secondColor);
+    /* background-color: var(--secondColor); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -263,23 +263,33 @@ table {
     }   
 }
 
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
 dialog {
     border: none;
-    border-radius: 12px;
+    border-radius: 34px;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
-    width: 80%;
-    display: flex;
+    /* width: 80%;
+    height: 480px; */
     padding: 0;
+
+    div {
+        display: flex;
+    }
 }
 
 .ACBetterTeam {
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 12px;
     background-color: var(--primerColor);
-    border-radius: 12px 0 0 12px;
-    padding: 12px;
+    padding: 48px;
     color: var(--contrastColor);
 
 
@@ -289,28 +299,158 @@ dialog {
     }
 
     hr {
-        border: solid 3px var(--secondColor);
+        border: solid 1.5px var(--secondColor);
         width: 90px;
-    }
-
-    /* img {
-        width: 120px;
-        height: auto;
+        margin: 0;
     }
 
     h2 {
-        font-size: 24px;
-        font-weight: 500;
+        font-size: 61px;
+        font-weight: 700;
+        margin: 0;
     }
 
     p {
-        font-size: 16px;
-        color: var(--primerColor);
-    } */
+        font-size: 27px;
+        margin: 0;
+    }
 }
 
+.contactAdd {
+    display: flex;
+    width: 67%;
+}
 
+.ananymPerson {
+    width: 120px;
+    height: 120px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: var(--ligthGrey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px;
+    border: solid 3px var(--contrastColor);
+    align-self: center;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 
+    img {
+        width: 42px;
+        height: auto;
+    }
+}
+
+.contactAddForm {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    margin-right: 24px;
+    margin-top: 24px;
+
+    .cancel {
+        /* display: absolute; */
+        display: flex;
+        justify-content: center;
+        align-self: flex-end;
+        margin: 0;
+        padding: 4px;
+        border: none;
+        background-color: transparent;
+
+        img {
+            height: 16px;
+            width: auto;
+        }
+    }
+
+    div {
+        /* display: flex; */
+        position: relative;
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+            height: 50px;
+            font-size: 16px;
+            padding-left: 24px;
+            border: solid 1px var(--ligthGrey);
+            border-radius: 12px;
+
+            &::placeholder {
+                color: var(--ligthGrey);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: var(--secondColor);
+            }
+            &.invalid {
+                border-color: var(--invalideColor);
+            }
+        }
+
+        .inputIcon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px;
+            width: auto;
+        }
+    } 
+}
+
+.contactAddButtons, .contactEditButtons {
+    display: inline-flex;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    button {
+        /* display: inline-flex; */
+        align-items: center;
+        padding: 12px;
+        border: none;
+        gap: 8px;
+        font-size: 16px;
+
+        .contactAddButtonsImg {
+            align-self: center;
+        }
+    }
+
+    .contactAddCancel, .contactEditDelete {
+        display: inline-flex;
+        background-color: transparent;
+        color: var(--primerColor);
+        border: solid 1px var(--primerColor);
+
+        &:hover {
+            color: var(--secondColor);
+            border-color: var(--secondColor);
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+            img {
+                filter: invert(68%) sepia(21%) saturate(7319%) hue-rotate(165deg) brightness(96%) contrast(85%);
+            }
+        }
+    }
+    .contactAddCreate, .contactEditSave {
+        display: inline-flex;
+        background-color: var(--primerColor);
+        color: var(--contrastColor);
+
+        &:hover {
+            background-color: var(--secondColor);
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+}  
 
 
 @media (max-width: 1100px) {
@@ -405,8 +545,99 @@ dialog {
         display: block;
     }
 
-    /* .back-btn {
-        display: inline-block;
-        margin-bottom: 10px;
-    } */
+    dialog {
+        width: 90%;
+
+        div {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .ACBetterTeam {
+        height: 32vh;
+        display: inline-flex;
+        width: calc(100% - 48px);
+        background-color: var(--primerColor);
+        padding: 24px;
+        
+        img {
+            display: none;
+        }
+
+        h2 {
+            font-size: 47px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+    }
+    .contactAdd {
+        display: inline-flex;
+        width: calc(100% - 48px);
+        padding: 0 24px;
+    }
+
+    .ananymPerson {
+        margin: 0; 
+        transform: translateY(-50%);
+        margin-bottom: -40px;
+    }
+
+    .contactAddForm {
+        margin-right: 0;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
+        .cancel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+
+            img {
+                filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(34deg) brightness(106%) contrast(101%);
+            }
+            
+        }
+
+        div {
+            gap: 12px;
+            width: 100%;
+            input {
+                height: 40px;
+
+                &.invalide {
+                    border-color: var(--invalideColor);
+                }
+            }
+        }
+    }
+
+    .contactAddButtons {
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: center;
+
+        .contactAddCancel {
+            display: none; 
+        }
+        .contactAddCreate {
+            width: max-content;
+            margin: 0 auto;
+        }
+    }
+
+    .contactEditButtons {
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: center;   
+        flex-direction: row;
+
+        .contactEditDelete, .contactEditSave {
+            width: max-content;
+            justify-content: center;
+        }
+    }
+    
 }
