@@ -1,4 +1,3 @@
-
 //greeting depends on time
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
@@ -69,3 +68,30 @@ window.addEventListener("userReady", (auth) => {
     // Username bzw. displayName -> auth.detail.name
     // Usermail -> auth.detail.email
 });
+
+// ===== Greeting overlay (mobile only, once per session) =====
+(function greetingOverlayOnce() {
+    const KEY = 'join_summary_greeting_shown';
+
+    window.addEventListener('load', () => {
+        // Only run on small screens
+        if (!window.matchMedia('(max-width: 1100px)').matches) return;
+
+        // Show only once per tab/session
+        if (sessionStorage.getItem(KEY) === '1') return;
+        sessionStorage.setItem(KEY, '1');
+
+        const greeting = document.getElementById('greeting-section');
+        if (!greeting) return;
+
+        document.body.classList.add('show-greeting');
+
+        // After the CSS animation ends, hide again
+        const cleanup = () => {
+            greeting.removeEventListener('animationend', cleanup);
+            document.body.classList.remove('show-greeting');
+        };
+
+        greeting.addEventListener('animationend', cleanup);
+    });
+})();
