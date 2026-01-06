@@ -37,6 +37,7 @@ async function loadSummaryCounts() {
     const tasks = await fetchAllTasks();
     renderBoardCount(tasks);
     renderUrgentCount(tasks);
+    renderUrgentDueDate(tasks);
 }
 /**
  * Updates the number of urgent tasks.
@@ -57,4 +58,36 @@ function renderUrgentCount(tasks) {
         .length;
 
     el.textContent = String(urgentCount);
+}
+
+/**
+ * Updates the upcoming due date for urgent tasks.
+ * Uses task.date and picks the earliest date.
+ * @param {object|null} tasks
+ */
+function renderUrgentDueDate(tasks) {
+    const el = document.getElementById('due-date');
+    if (!el) return;
+
+    if (!tasks) {
+        el.textContent = '-';
+        return;
+    }
+
+    const dates = Object.values(tasks)
+        .filter(task => task.priority === 'urgent' && task.date)
+        .map(task => new Date(task.date))
+        .filter(date => !isNaN(date.getTime()))
+        .sort((a, b) => a - b);
+
+    if (dates.length === 0) {
+        el.textContent = '-';
+        return;
+    }
+
+    el.textContent = dates[0].toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 }
