@@ -8,20 +8,9 @@ const mobileMenuTrigger = document.getElementById('mobileMenuTrigger');
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/; 
 
-import { auth, db } from './firebaseSignInUp.js';
-import { ref, get, push, update, remove, set } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
-
 window.addEventListener("load", () => {
   nameList();
 });
-
-// const user = auth.currentUser;
-// if (!user) {
-//     console.log("Kein User eingeloggt");
-//     window.location.href = "index.html";
-// } else {
-//     console.log("Eingeloggt als:", user.email);
-// }
 
 // Fetch Contactlist and display them sorted by name with letter sections
 async function nameList() {
@@ -216,23 +205,17 @@ async function uploadContact() {
     const phone = document.getElementById("contactAddPhone");
     let NewContact = createContactObject(name, email, phone);
 
-    try {
-        // Referenz zum 'contact'-Pfad in der DB
-        const contactListRef = ref(db, 'contact');
-        // Erstellt einen neuen, eindeutigen Key (push)
-        const newContactRef = push(contactListRef);
-        // Speichert die Daten unter diesem Key
-        await set(newContactRef, NewContact);
-
-        console.log('Contact successfully uploaded');
-        
-        closeDialog();
-        // Statt reload laden wir die Liste einfach neu:
-        nameList(); 
-        
-    } catch (error) {
-        console.error("Fehler beim Erstellen des Kontakts:", error);
-    }
+    await fetch(`${BASE_URL}/contact.json`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(NewContact)
+    });
+    console.log('Contact succesfully uploaded');
+    window.location.reload(true);
+    closeDialog();
+    
 }
 
 function createContactObject(nameInput, emailInput, phoneInput) {
@@ -252,50 +235,29 @@ async function updateContact(root, id) {
     const phone = document.getElementById("contactUpdatePhone");
     let UpdateContact = createContactObject(name, email, phone);
 
-    try {
-        // Exakte Referenz auf das Element (z.B. users/UID oder contact/KEY)
-        const itemRef = ref(db, `${root}/${id}`);
-        
-        // Update führt nur Änderungen an den übergebenen Feldern durch
-        await update(itemRef, UpdateContact);
-        
-        // Liste neu laden
-        await nameList();
-
-        // Da sich die Daten geändert haben, müssen wir das Detail-Fenster aktualisieren
-        // Wir suchen den Kontakt neu aus der frisch geladenen globalen 'contacts'-Liste
-        const updatedContact = contacts.find(c => c.id === id);
-        if (updatedContact) {
-            contactDetails.innerHTML = showContactDetails(updatedContact);
-        }
-        
-        closeDialog();
-
-    } catch (error) {
-        console.error("Fehler beim Aktualisieren:", error);
-    }
+    await fetch(`${BASE_URL}/${root}/${id}.json`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(UpdateContact)
+    });
+    const allContacts = await fetchContacts(); 
+    nameList();
+    const updatedContact = allContacts.find(c => c.id === id);
+    if (updatedContact) {
+        contactDetails.innerHTML = showContactDetails(updatedContact);
+    } 
+    closeDialog();
 }
 
 // Delete contact from database
 async function deleteContact(root, id) {
-    try {
-        const itemRef = ref(db, `${root}/${id}`);
-        await remove(itemRef);
-
-        console.log("Kontakt gelöscht");
-        
-        // Ansicht zurücksetzen
-        contactDetails.innerHTML = "";
-        
-        // Falls wir auf Mobile sind, zurück zur Liste springen
-        sideBarvisible();
-        
-        // Liste neu laden
-        nameList();
-
-    } catch (error) {
-        console.error("Fehler beim Löschen:", error);
-    }
+    await fetch(`${BASE_URL}/${root}/${id}.json`, {
+        method: 'DELETE'
+    });
+    nameList();
+    window.location.reload(true);
 }
 
 // Render contact details
