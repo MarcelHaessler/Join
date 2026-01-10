@@ -4,7 +4,7 @@ const pw = document.getElementById("signup-password");
 const pwRepeat = document.getElementById("signup-password-repeat");
 const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
-const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/";
+// const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/";
 
 // export let currentUserEmail = null;
 // export let currentUserName = null;
@@ -12,14 +12,31 @@ const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.
 // Login with firebase Authentication
 let manualLogin = false;
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
-import { 
-    getAuth, 
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    updateProfile
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
+// import { 
+//     getAuth, 
+//     signInWithEmailAndPassword,
+//     onAuthStateChanged,
+//     createUserWithEmailAndPassword,
+//     updateProfile
+// } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
+
+import { initializeApp } 
+  from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  set
+} from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 // Firebase-Konfig
 const firebaseConfig = {
@@ -31,7 +48,8 @@ const firebaseConfig = {
 
 // Start Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
+const db = getDatabase(app);
 
 // Login
 function loginUser() {
@@ -49,6 +67,13 @@ function loginUser() {
             document.querySelector(".false_password").style.display = "block";
         });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", loginUser);
+  }
+});
 
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
@@ -77,40 +102,68 @@ onAuthStateChanged(auth, (user) => {
 
 // Logout
 function logoutUser() {
-    const auth = getAuth(); 
     auth.signOut()
-        .then(() => {
-            console.log("Logout erfolgreich!"); 
-            window.location.href = "log_in.html";           
-        })
-        .catch((error) => {
-            console.error("Logout fehlgeschlagen:", error);
-        });
+      .then(() => window.location.href = "index.html")
+      .catch(console.error);
 }
 
 // Sign up
+// export async function registerUser() {
+//     const registration =  confirmInput();
+//     console.log(registration);
+//     if (registration) {
+//         try {
+//             const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
+//             const user = userCredential.user;
+//             console.log("User erstellt:", user.uid);
+//             await updateProfile(user, {
+//                 displayName: name.value
+//             });
+//             console.log("Profil aktualisiert mit Name:", name.value);
+//             await postData("users", { name: name.value, email: email.value })
+//             window.location.href = "index.html";
+//         } catch (error) {
+//             console.error("Fehler beim Erstellen:", error);
+//             if (error.code === "auth/email-already-in-use") {
+//                 alert("Diese Email wird bereits verwendet.");
+//                 email.classList.add('invalid');
+//             } else {
+//                 alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
+//             }
+//         }
+//     }
+// }
+
 export async function registerUser() {
-    const registration =  confirmInput();
-    console.log(registration);
-    if (registration) {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
-            const user = userCredential.user;
-            console.log("User erstellt:", user.uid);
-            await updateProfile(user, {
-                displayName: name.value
-            });
-            console.log("Profil aktualisiert mit Name:", name.value);
-            await postData("users", { name: name.value, email: email.value })
-            window.location.href = "index.html";
-        } catch (error) {
-            console.error("Fehler beim Erstellen:", error);
-            if (error.code === "auth/email-already-in-use") {
-                alert("Diese Email wird bereits verwendet.");
-                email.classList.add('invalid');
-            } else {
-                alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
-            }
+    const registration = confirmInput();
+    if (!registration) return;
+
+    try {
+        const userCredential =
+          await createUserWithEmailAndPassword(auth, email.value, pw.value);
+
+        const user = userCredential.user;
+
+        await updateProfile(user, {
+            displayName: name.value
+        });
+
+        // 🔐 RTDB über SDK, mit UID
+        const userRef = ref(db, `users/${user.uid}`);
+        await set(userRef, {
+            name: name.value,
+            email: email.value
+        });
+
+        window.location.href = "index.html";
+
+    } catch (error) {
+        console.error(error);
+        if (error.code === "auth/email-already-in-use") {
+            email.classList.add('invalid');
+            alert("Diese Email wird bereits verwendet.");
+        } else {
+            alert("Ein Fehler ist aufgetreten.");
         }
     }
 }
@@ -151,17 +204,17 @@ function getFirstAndLastInitial(fullName) {
     return (first + last);
 }
 
-async function postData(path = "", data = {}) {
-    let response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
+// async function postData(path = "", data = {}) {
+//     let response = await fetch(BASE_URL + path + ".json", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data),
+//     });
 
-    return await response.json();
-}
+//     return await response.json();
+// }
 
 // global functions
 window.loginUser = loginUser;
