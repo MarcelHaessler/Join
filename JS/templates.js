@@ -66,3 +66,58 @@ function editedSubtaskTemplate(taskId, newText) {
             </div>
         `
 }
+
+
+// Task Card Template
+function generateTodoHTML(element) {
+    let initialsHTML = '';
+    let progressHTML = ``;
+    let taskColor;
+    let completedSubtasks;
+    let totalSubtasks;
+    let progressValue;
+    
+    if (element.assignedPersons && element.assignedPersons.length > 0) {
+        initialsHTML = element.assignedPersons.map(Persons => {
+            return `
+            <div class="contact-initials" style="background-color: var(--color${Persons.colorIndex});">
+                <p>${Persons.initials}</p>
+            </div>
+            `;
+        }).join('');
+    }
+
+    if (element.category == "User Story") {
+        taskColor = 'var(--taskColor1)';
+    } else {
+        taskColor = 'var(--taskColor2)';
+    }
+
+    if (element.subtasks && element.subtasks.length > 0) {
+        completedSubtasks = element.subtasks.filter(subtask => subtask.completed).length;
+        totalSubtasks = element.subtasks.length;
+        progressValue = (completedSubtasks / totalSubtasks) * 100;
+        progressHTML =  `<progress id="progress" value="${progressValue}" max="100"></progress>
+                        <span id="progressText" class="subtasks-counter">${completedSubtasks}/${totalSubtasks} Subtasks</span>`;
+    } 
+
+    return `
+    <div draggable="true" ondragstart="startDragging('${element.id}')" class="taskCard">
+        <div>
+            <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
+            <h4 class="task-title">${element.title}</h4>
+            <p class="task-content">${element.description}</p>
+            <div class="subtasks-container">
+                ${progressHTML}
+            </div>
+            <div class="tile-footer">
+                <div class="assigned-contacts">
+                    ${initialsHTML}               
+                </div>
+                <div class="priority">
+                    <img src="./assets/img/add_task/${element.priority}.svg" alt="${element.priority}">
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
