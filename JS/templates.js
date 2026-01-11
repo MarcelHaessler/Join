@@ -97,8 +97,8 @@ function generateTodoHTML(element) {
         completedSubtasks = element.subtasks.filter(subtask => subtask.completed).length;
         totalSubtasks = element.subtasks.length;
         progressValue = (completedSubtasks / totalSubtasks) * 100;
-        progressHTML = `<progress id="progress" value="${progressValue}" max="100"></progress>
-                <span id="progressText" class="subtasks-counter">${completedSubtasks}/${totalSubtasks} Subtasks</span>`;
+        progressHTML =  `<progress id="progress" value="${progressValue}" max="100"></progress>
+                        <span id="progressText" class="subtasks-counter">${completedSubtasks}/${totalSubtasks} Subtasks</span>`;
     } 
 
     return `
