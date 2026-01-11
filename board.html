@@ -157,7 +157,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>To do</span>
-                    <button class="add-plus" id="add-todo"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
                 <div class="kanban-body"
@@ -171,7 +171,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>In progress</span>
-                    <button class="add-plus" id="add-progress"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('InProgress')" class="add-plus" id="add-progress"><img src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
                 <div class="kanban-body"
@@ -185,7 +185,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>Await feedback</span>
-                    <button class="add-plus" id="add-feedback"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('Awaiting')" class="add-plus" id="add-feedback"><img src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
                 <div class="kanban-body"
@@ -324,26 +324,18 @@
         </main-section>
     </main>
     -->
-
-    <script type="module" src="./JS/add_task_firebase.js"></script>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    <script type="module" src="./JS/add_task_firebase.js"></script>
     <script src="./JS/fetch.js"></script>
     <script src="./JS/board.js"></script>
-    <script src="./JS/templates.js"></script>
     <script src="./JS/initials.js"></script>
     <script src="./JS/fetchTemplate.js"></script>
-
-        <script type="module" src="./JS/firebaseSignInUp.js"></script>
-        <script src="./JS/fetch.js"></script>
-        <script src="./JS/board.js"></script>
-        <script src="./JS/initials.js"></script>
-        <script src="./JS/fetchTemplate.js"></script>
-        <script src="./JS/add_task.js"></script>
-        <script src="./JS/add_task_form_left.js"></script>
-        <script src="./JS/add_task_priority_buttons.js"></script>
-        <script src="./JS/add_task_form_right.js"></script>
-        <script src="./JS/templates.js"></script>
-        <script src="./JS/add_task_firebase.js"></script>
+    <script src="./JS/add_task.js"></script>
+    <script src="./JS/add_task_form_left.js"></script>
+    <script src="./JS/add_task_priority_buttons.js"></script>
+    <script src="./JS/add_task_form_right.js"></script>
+    <script src="./JS/templates.js"></script>
+    <script src="./JS/add_task_firebase.js"></script>
 
 </body>
 </html>

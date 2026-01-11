@@ -33,7 +33,6 @@ function checkFullfilledRequirements() {
     let taskDueDate = document.getElementById('date').value;
     let taskPriority = currentPriotity;
     let taskCategory = currentCategory;
-    let taskgroup = 'ToDo';
     let taskAssignments = selectedContacts;
     let taskSubtasks = subtaskListArray;
 
