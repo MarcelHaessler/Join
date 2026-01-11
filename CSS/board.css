@@ -267,6 +267,7 @@ textarea {
     width: 113px;
     height: 27px;
     padding: 0 8px;
+    font-size: 16px;
 }
 
 .task-title{
