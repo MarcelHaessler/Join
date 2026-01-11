@@ -1,5 +1,6 @@
 let userInitials = '';
 let username = '';
+let taskgroup = "ToDo"
 
 window.addEventListener("userReady",async (auth) => {
     console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
@@ -58,7 +59,8 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         category: taskCategory,
         assignedPersons: taskAssignments,
         subtasks: taskSubtasks,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        taskgroup: taskgroup
     }
 }
 
