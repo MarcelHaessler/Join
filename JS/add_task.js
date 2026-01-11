@@ -1,5 +1,6 @@
 let userInitials = '';
 let username = '';
+let taskgroup = "ToDo"
 
 window.addEventListener("userReady",async (auth) => {
     console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
@@ -32,7 +33,6 @@ function checkFullfilledRequirements() {
     let taskDueDate = document.getElementById('date').value;
     let taskPriority = currentPriotity;
     let taskCategory = currentCategory;
-    let taskgroup = 'ToDo';
     let taskAssignments = selectedContacts;
     let taskSubtasks = subtaskListArray;
 
