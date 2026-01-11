@@ -1,5 +1,6 @@
 let userInitials = '';
 let username = '';
+let taskgroup = "ToDo"
 
 window.addEventListener("userReady",async (auth) => {
     console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
