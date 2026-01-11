@@ -20,7 +20,7 @@
     <div id="header"></div>
     <div id="side-bar"></div>
     <main id="content-section">
-        <div id="main-container">
+        
             <div id="top-section">
             <h2>Add Task</h2>
             
@@ -66,8 +66,8 @@
                     <div class="input-container" id="assignment-container">
                         <label for="assign-input">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" type="text" placeholder="Select contacts to assign">
-                            <div onclick="renderAssignmentDropdown(), addInitialsBackgroundColors()" class="dropdown-img-container">
+                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown()" type="text" placeholder="Select contacts to assign">
+                            <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
                                 <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        
         <div id="task-message">
             <p>Task added to Board</p>
             <img src="./assets/img/side-bar/icon-board.svg" alt="Board">

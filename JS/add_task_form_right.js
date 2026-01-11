@@ -27,7 +27,7 @@ function addInitialsBackgroundColors() {
 
     contactInitials.forEach((initial, index) => {
         let contact = contacts[index];
- 
+        if (!contact) return;
         initial.style.backgroundColor = backgroundColorCodes[contact.colorIndex];
     });
 }
