@@ -43,7 +43,7 @@ body{
     --color15: #ffbb2c; 
     --taskColor1: #0038FF;
     --taskColor2: #1FD7C1;
-
+    --taskContant: #A8A8A8;
 }
 body {
     font-family: 'Inter', sans-serif;

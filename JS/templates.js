@@ -71,7 +71,11 @@ function editedSubtaskTemplate(taskId, newText) {
 // Task Card Template
 function generateTodoHTML(element) {
     let initialsHTML = '';
+    let progressHTML = ``;
     let taskColor;
+    let completedSubtasks;
+    let totalSubtasks;
+    let progressValue;
     
     if (element.assignedPersons && element.assignedPersons.length > 0) {
         initialsHTML = element.assignedPersons.map(Persons => {
@@ -88,7 +92,15 @@ function generateTodoHTML(element) {
     } else {
         taskColor = 'var(--taskColor2)';
     }
-    
+
+    if (element.subtasks && element.subtasks.length > 0) {
+        completedSubtasks = element.subtasks.filter(subtask => subtask.completed).length;
+        totalSubtasks = element.subtasks.length;
+        progressValue = (completedSubtasks / totalSubtasks) * 100;
+        progressHTML = `<progress id="progress" value="${progressValue}" max="100"></progress>
+                <span id="progressText" class="subtasks-counter">${completedSubtasks}/${totalSubtasks} Subtasks</span>`;
+    } 
+
     return `
     <div draggable="true" ondragstart="startDragging('${element.id}')" class="taskCard">
         <div>
@@ -96,8 +108,7 @@ function generateTodoHTML(element) {
             <h4 class="task-title">${element.title}</h4>
             <p class="task-content">${element.description}</p>
             <div class="subtasks-container">
-                <img src="./assets/img/filler.svg" alt="" class="filler">
-                <p class="subtasks-counter">1/2</p>
+                ${progressHTML}
             </div>
             <div class="tile-footer">
                 <div class="assigned-contacts">
