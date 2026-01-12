@@ -232,8 +232,7 @@ textarea {
     img {
         display: block;
         width: 16px;
-        height: 16px;
-        
+        height: 16px;      
     }
 }
 
@@ -245,17 +244,6 @@ textarea {
         filter: brightness(0) saturate(100%) invert(62%) sepia(93%) saturate(1170%) hue-rotate(166deg) brightness(92%) contrast(89%);
     }
 }
-
-/* .no-tasks{
-    width: 100%;
-    border: 1px #A8A8A8 dashed;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #A8A8A8;
-} */
-
 
 /* Tasks */
 .label-user-story{
@@ -432,11 +420,9 @@ textarea {
     transition: opacity 0.4s ease-in-out;
 }
 
-
 #add-task-overlay.active {
     opacity: 1;
 }
-
 
 #content-section {
     background-color: white;
@@ -448,9 +434,6 @@ textarea {
     transition: transform 0.4s ease-in-out;
 }
 
-#main-container {
-
-}
 #form-section{
     flex: 1 !important;
     overflow-y: auto !important;
@@ -459,7 +442,6 @@ textarea {
 #add-task-overlay.active #content-section {
     transform: translateX(0);
 }
-
 
 #add-task-overlay.closing #content-section {
     transform: translateX(100%);
@@ -495,12 +477,12 @@ textarea {
     width: 99% !important;
     flex: 1 1 auto; 
     overflow-y: auto; 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
 }
 
 #form-container::-webkit-scrollbar {
-    display: none; /* Chrome, Edge, Safari */
+    display: none; 
 }
 
 #bottom-section {

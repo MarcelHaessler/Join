@@ -73,28 +73,6 @@ function contactEntry(contact) {
             </div>`
 }
 
-
-
-// function mobileEditBar() {
-//     mobileEditeBar.classList.toggle('visible');
-// }
-
-
-// mobileMenuTrigger.addEventListener('click', (e) => {
-//     e.stopPropagation(); 
-//     mobileEditeBar.classList.toggle('visible');
-// });
-
-
-// document.addEventListener('click', (e) => {
-//     const isClickInsideMenu = mobileEditeBar.contains(e.target);
-//     const isClickOnTrigger = mobileMenuTrigger.contains(e.target);
-
-//     if (!isClickInsideMenu && !isClickOnTrigger) {
-//         mobileEditeBar.classList.remove('visible');
-//     }
-// });
-
 // Add Dialog open
 function openDialogAdd() {
   dialogAddPerson.showModal();
