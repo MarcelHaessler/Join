@@ -1,5 +1,8 @@
 const false_password = document.querySelector('.false_password');
 const pw = document.getElementById("signup-password");
+const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^.{6,}$/;
+
 // Checkbox activation
 function activateCheckbox() {
     const checkbox = document.getElementById("checkbox");
@@ -9,9 +12,6 @@ function activateCheckbox() {
         checkbox.src="./assets/img/checkbox_inactive.svg"
     }
 }
-
-const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const passwordRegex = /^.{6,}$/;
 
 // Input validation on blur and red border for invalid inputs
 document.querySelectorAll('input').forEach(input => {

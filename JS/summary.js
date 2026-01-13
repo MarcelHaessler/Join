@@ -1,4 +1,3 @@
-
 //greeting depends on time
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
@@ -34,7 +33,6 @@ window.addEventListener("userReady", (auth) => {
     updateGreeting(auth.detail.name || "");
 });
 
-
 //hover imgs 
 function pencilHoverEffect() {
     const img = document.querySelector('#to-do-container img');
@@ -56,16 +54,11 @@ function doneLeaveEffect() {
     if (img) img.src = './assets/img/done-button.svg';
 }
 
-
-
 // onload
 function renderAll() {
     fetchHtmlTemplates();
 }
 
-
 window.addEventListener("userReady", (auth) => {
     console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
-    // Username bzw. displayName -> auth.detail.name
-    // Usermail -> auth.detail.email
 });

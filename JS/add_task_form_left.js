@@ -15,7 +15,6 @@ function checkTitle() {
     const titleInput = document.getElementById("title");
     const titleResultDiv = document.getElementById("title-warning");
 
-
     if (titleInput.value.length === 0) {
         titleResultDiv.innerHTML = "This field is required.";
         titleResultDiv.style.color = "#e60025";
@@ -50,7 +49,6 @@ dateInput.addEventListener('input', function (e) {
   if (value.length > 0) formatted = value.slice(0, 2);
   if (value.length > 2) formatted += "/" + value.slice(2, 4);
   if (value.length > 4) formatted += "/" + value.slice(4, 8);
-
   e.target.value = formatted;
 });
 
