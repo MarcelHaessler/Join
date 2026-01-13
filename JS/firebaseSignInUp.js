@@ -81,7 +81,7 @@ function logoutUser() {
     auth.signOut()
         .then(() => {
             console.log("Logout erfolgreich!"); 
-            window.location.href = "log_in.html";           
+            window.location.href = "index.html";           
         })
         .catch((error) => {
             console.error("Logout fehlgeschlagen:", error);

@@ -125,10 +125,9 @@ a {
         /* Icon über Text */
         align-items: center;
         justify-content: center;
-        width: 76px;
+        width: auto;
         height: 80px;
         gap: 4px;
-
     }
 
     /* Icon-Größe 24x24 */
@@ -148,6 +147,12 @@ a {
 
     /* Footer-Links auf Mobile ausblenden */
     #sidebar-footer {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .link-container p {
         display: none;
     }
 }
