@@ -47,7 +47,7 @@ function updateBoard() {
         container.innerHTML = '';
 
         if (filteredTasks.length === 0) {
-            container.innerHTML = `<p class="no-tasks-message">No tasks in this category.</p>`;
+            container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
             return;
         }
 
