@@ -38,13 +38,11 @@ function highlightActiveWrapper() {
     const current = window.location.pathname.split('/').pop();
     const wrappers = document.querySelectorAll('#side-bar .link-wrapper');
 
-    // Compare each link target with the current file and toggle highlighting.
     wrappers.forEach((wrapper) => {
         const target = wrapper.getAttribute('href')?.split('/').pop();
         wrapper.classList.toggle('current-page', target === current);
     });
 }
-
 
 async function fetchContacts() {
     contacts = [];
@@ -72,8 +70,6 @@ async function fetchContacts() {
         users.initials = getFirstAndLastInitial(users.name);
         users.phone = getPhonenumber(users.phone);
     });
-
-    console.log(contacts);
     return contacts;
 }
 

@@ -11,8 +11,6 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
     },
     body: JSON.stringify(task)
   });
-
-  console.log('Task succesfully uploaded');
 }
 
 window.addEventListener("load", async () => {
@@ -31,6 +29,5 @@ async function fetchTasks() {
               ...data.tasks[key]});
       }
   }
-  // console.log(tasks);
   return tasks;
 }

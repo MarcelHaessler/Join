@@ -6,9 +6,6 @@ const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
 const BASE_URL = "https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// export let currentUserEmail = null;
-// export let currentUserName = null;
-
 // Login with firebase Authentication
 let manualLogin = false;
 
@@ -53,9 +50,6 @@ function loginUser() {
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // console.log("User ist eingeloggt:", user.email);
-        // console.log("Display Name:", user.displayName);playName;
-
         const event = new CustomEvent("userReady", {
             detail: { name: user.displayName, email: user.email }
         });
@@ -91,7 +85,6 @@ function logoutUser() {
 // Sign up
 export async function registerUser() {
     const registration =  confirmInput();
-    console.log(registration);
     if (registration) {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
@@ -100,11 +93,9 @@ export async function registerUser() {
             await updateProfile(user, {
                 displayName: name.value
             });
-            console.log("Profil aktualisiert mit Name:", name.value);
             await postData("users", { name: name.value, email: email.value })
             window.location.href = "index.html";
         } catch (error) {
-            console.error("Fehler beim Erstellen:", error);
             if (error.code === "auth/email-already-in-use") {
                 alert("Diese Email wird bereits verwendet.");
                 email.classList.add('invalid');

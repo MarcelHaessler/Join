@@ -7,6 +7,7 @@ const dialogEdit = document.getElementById("dialogEdit");
 const mobileMenuTrigger = document.getElementById('mobileMenuTrigger'); 
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/; 
+const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
 
 window.addEventListener("load", () => {
   nameList();
@@ -49,28 +50,10 @@ function sideBarvisible() {
 // Mobile view: show details and hide sidebar
 function Detailsvisible() {
     const screenWidth = window.innerWidth;
-    console.log('Neue Fensterbreite:', screenWidth);
     if (screenWidth <= 1100) {
         contactSidebarCss.classList.add('hidden');
         contactDetailsCss.classList.add('visible');
     } return
-}
-
-// Render letter section and contact entry
-function letterSection(letter) {
-    return `<div class="sectionList">${letter}</div><hr>`
-}
-
-function contactEntry(contact) {
-    return `<div class="contactEntry"  data-mail="${contact.email}">
-                <div class="contactlistIcon" style="background-color: ${backgroundColorCodes[contact.colorIndex]};">
-                    ${contact.initials}
-                </div>
-                <div class="contactDitails">
-                    <div class="name">${contact.name}</div>
-                    <div class="mail">${contact.email}</div>
-                </div>
-            </div>`
 }
 
 // Add Dialog open
@@ -134,13 +117,8 @@ contactDetails.addEventListener('click', (e) => {
         bar.classList.add('visible');
     } else {
         bar.classList.remove('visible');
-        console.log('clicked outside');
     }
 });
-
-// Upload new contact to database
-const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
-
 
 // Input validation on blur and red border for invalid inputs
 const validators = {
@@ -193,7 +171,6 @@ async function uploadContact() {
     console.log('Contact succesfully uploaded');
     window.location.reload(true);
     closeDialog();
-    
 }
 
 function createContactObject(nameInput, emailInput, phoneInput) {
@@ -207,7 +184,6 @@ function createContactObject(nameInput, emailInput, phoneInput) {
 
 // Update contact to database
 async function updateContact(root, id) {
-    console.log('Updating contact with ID:', id);
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
     const phone = document.getElementById("contactUpdatePhone");
@@ -236,6 +212,23 @@ async function deleteContact(root, id) {
     });
     nameList();
     window.location.reload(true);
+}
+
+// Render letter section and contact entry
+function letterSection(letter) {
+    return `<div class="sectionList">${letter}</div><hr>`
+}
+
+function contactEntry(contact) {
+    return `<div class="contactEntry"  data-mail="${contact.email}">
+                <div class="contactlistIcon" style="background-color: ${backgroundColorCodes[contact.colorIndex]};">
+                    ${contact.initials}
+                </div>
+                <div class="contactDitails">
+                    <div class="name">${contact.name}</div>
+                    <div class="mail">${contact.email}</div>
+                </div>
+            </div>`
 }
 
 // Render contact details

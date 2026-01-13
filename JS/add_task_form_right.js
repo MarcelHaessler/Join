@@ -1,20 +1,3 @@
-/**Put all Background colors in the array after style.css has been Updated. */
-// let backgroundColorCodes = [
-// 'var(--color1)',
-// 'var(--color2)',
-// 'var(--color3)',
-// 'var(--color4)',
-// 'var(--color5)',
-// 'var(--color6)',
-// 'var(--color7)',
-// 'var(--color8)',
-// 'var(--color9)',
-// 'var(--color10)',
-// 'var(--color11)',
-// 'var(--color12)',
-// 'var(--color13)',
-// 'var(--color14)',
-// 'var(--color15)'];
 let searchTimeout;
 let selectedContacts =[];
 let currentCategory = "";
@@ -102,13 +85,11 @@ function selectContact(index) {
     
     let contact = contacts[index]
     let deleteContact = selectedContacts.find(c => c === contact);
-    console.log(deleteContact);
 
     if (deleteContact) {
         selectedContacts = selectedContacts.filter(c => c !== contact);
     } else {selectedContacts.push(contact)};
 
-    console.log(selectedContacts);
     renderSelectedContacts();
     addChosenInitialsBackgroundColors();
     changeCheckbox(index);
@@ -201,9 +182,7 @@ function choseTechnicalTask() {
     let categoryInput = document.getElementById("category");
     categoryInput.value = "Technical Task";
     currentCategory = "Technical Task";
-    openCloseCategoryDropdown();
-    console.log(currentCategory);
-    
+    openCloseCategoryDropdown();    
 }
 
 /**Function to select chosen category that gives a user response and stores chosen category in currentCategory array.*/
@@ -212,7 +191,6 @@ function choseUserStory() {
     categoryInput.value = "User Story";
     currentCategory = "User Story";
     openCloseCategoryDropdown();
-    console.log(currentCategory);
 }
 
 /**Function to show input buttons from the first tryped character in the input field. */
@@ -238,10 +216,7 @@ function addSubtaskToList() {
     let subtaskList = document.getElementById("subtask-list");
     
     subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
-
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    console.log(subtaskListArray);
-
     subtaskIndex++;
 }
 
@@ -250,7 +225,6 @@ function deleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     subtaskElement.remove();
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    console.log(subtaskListArray);
 }
 //Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li.
 function editSubtask(taskId) {
@@ -264,8 +238,6 @@ function editSubtask(taskId) {
 
     const buttonContainer = createEditButtons(input, box, taskId);
     box.appendChild(buttonContainer);
-
-    console.log(subtaskListArray);
 }
 
 /**Function that creates an input field with what the user can directly edit the added subtask. */
@@ -285,13 +257,11 @@ function createEditButtons(input, box, taskId) {
     const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
         deleteSubtaskListElement(taskId);
         subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-        console.log(subtaskListArray);
     });
     const divider = createDivider();
     const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
         box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
         subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-        console.log(subtaskListArray);
     });
 
     container.append(deleteBtn, divider, saveBtn);

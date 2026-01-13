@@ -1,9 +1,14 @@
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
+closeBtn.addEventListener('click', addTaskOverlayClose);
+const ToDo = document.getElementById('todo-tiles');
+const InProgress = document.getElementById('progress-tiles');
+const Awaiting = document.getElementById('feedback-tiles');
+const Done = document.getElementById('done-tiles');
+let currentDraggedElement;
 
 function addTaskOverlayOpen(boardGroup) {
     addTaskOverlay.classList.remove('d_none', 'closing');
-    // kleine Verzögerung, damit CSS Transition greift
     setTimeout(() => {
         addTaskOverlay.classList.add('active');
     }, 10);
@@ -22,17 +27,6 @@ function addTaskOverlayClose() {
         }
     });
 }
-
-// Schließen über X
-closeBtn.addEventListener('click', addTaskOverlayClose);
- const ToDo = document.getElementById('todo-tiles');
- const InProgress = document.getElementById('progress-tiles');
- const Awaiting = document.getElementById('feedback-tiles');
- const Done = document.getElementById('done-tiles');
- let currentDraggedElement;
- //const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
 
 window.addEventListener("tasksLoaded", () => {
     updateBoard();
@@ -67,16 +61,12 @@ function allowDrop(ev) {
 
 function moveTo(taskgroup) {
     const task = tasks.find(t => t.id === currentDraggedElement);
-    console.log('Moved to ' + task.title);
-    console.log(task.taskgroup);
     task.taskgroup = taskgroup;
-    console.log(task.taskgroup);
     updateTask(task);
     updateBoard()
 }
 
 async function updateTask(task) {
-    console.log('Updating taskgroup for ' + task.title);
     await fetch(`${BASE_URL}/tasks/${task.id}.json`, {
         method: 'PATCH',
         headers: {

@@ -93,6 +93,24 @@ h1 {
     }
 }
 
+/* @media screen and (orientation: landscape) {
+    body {
+        display: none;
+    }
+
+    html::before {
+        content: "Bitte nutze dein Gerät im Hochformat";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: Inter, sans-serif;
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 2rem;
+    }
+} */
+
 
 /* Icon */
 #personIcon {
@@ -110,20 +128,3 @@ h1 {
     color: var(--secondColor);
 }
 
-@media screen and (orientation: landscape) {
-    body {
-        display: none;
-    }
-
-    html::before {
-        content: "Bitte nutze dein Gerät im Hochformat";
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        font-family: Inter, sans-serif;
-        text-align: center;
-        font-size: 1.5rem;
-        padding: 2rem;
-    }
-}

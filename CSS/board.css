@@ -509,20 +509,3 @@ textarea {
     }
 }
 
-/* Nur Portrait erlauben */
-@media screen and (orientation: landscape) {
-  body {
-    display: none;
-  }
-
-  html::before {
-    content: "Bitte nutze dein Gerät im Hochformat 📱";
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 2rem;
-  }
-}
