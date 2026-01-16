@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="En-en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +16,19 @@
     <link rel="prefetch" href="./assets/templates/sideBar.html">
 
 </head>
+
 <body onload="fetchHtmlTemplates(), defaultPriority()">
 
     <div id="header"></div>
     <div id="side-bar"></div>
     <main id="content-section">
-        
-            <div id="top-section">
+
+        <div id="top-section">
             <h2>Add Task</h2>
-            
+
             <div id="form-container">
                 <div id="form-left">
-                    <div class="input-container" id="title-container">                    
+                    <div class="input-container" id="title-container">
                         <label for="title">Title <p class="red-star">*</p></label>
                         <input id="title" type="text" placeholder="Enter a Title">
                         <p class="warning-message" id="title-warning"></p>
@@ -47,7 +49,7 @@
 
                 <div id="form-right">
                     <div id="priority-container">
-                        <label for="form-buttons">Priority</label>
+                        <label>Priority</label>
                         <div class="input-container" id="form-buttons">
                             <button id="urgent-btn" class="priority-buttons">
                                 <p>Urgent</p>
@@ -66,9 +68,11 @@
                     <div class="input-container" id="assignment-container">
                         <label for="assign-input">Assigned to</label>
                         <div id="assign-input-box">
-                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown()" type="text" placeholder="Select contacts to assign">
+                            <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown()"
+                                type="text" placeholder="Select contacts to assign">
                             <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
-                                <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                                <img class="dropdown-img" id="assignment-arrow"
+                                    src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                             </div>
                         </div>
                         <div id="contacts-dropdown"></div>
@@ -77,9 +81,11 @@
                     <div class="input-container" id="category-container">
                         <label for="category">Category <p class="red-star">*</p></label>
                         <div id="category-input">
-                            <input onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
+                            <input onclick="openCloseCategoryDropdown()" type="text" id="category"
+                                placeholder="Select task category" readonly>
                             <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
-                                <img class="dropdown-img" id="category-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                                <img class="dropdown-img" id="category-arrow"
+                                    src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
                             </div>
                         </div>
                         <div id="category-dropdown">
@@ -94,8 +100,9 @@
                     </div>
 
                     <label for="subtasks">Subtasks</label>
-                    <div id="subtask-input-wrapper">    
-                        <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
+                    <div id="subtask-input-wrapper">
+                        <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks"
+                            placeholder="Add new subtask">
                         <div class="d_none" id="subtask-button-container">
                             <div onclick="clearInputField()" class="subtask-button">
                                 <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
@@ -108,38 +115,41 @@
                     </div>
                     <div id="subtask-list-container">
                         <ul id="subtask-list"></ul>
-                    </div>  
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="bottom-section">
+            <div id="required-info">
+                <p class="red-star">*</p>
+                <p>This field is required</p>
             </div>
-            <div id="bottom-section">
-                <div id="required-info"><p class="red-star">*</p><p>This field is required</p></div>
-                <div id="bottom-button-container">
-                    <button id="clear-task-button" onclick="clearTask()">
-                        Clear
-                        <img src="./assets/img/add_task/close.svg" alt="Clear">
-                    </button>
-                    <button id="create-task-button" onclick="checkFullfilledRequirements()">
-                        Create Task
-                        <img src="./assets/img/add_task/check.svg" alt="Accept">
-                    </button>
-                </div>
+            <div id="bottom-button-container">
+                <button id="clear-task-button" onclick="clearTask()">
+                    Clear
+                    <img src="./assets/img/add_task/close.svg" alt="Clear">
+                </button>
+                <button id="create-task-button" onclick="checkFullfilledRequirements()">
+                    Create Task
+                    <img src="./assets/img/add_task/check.svg" alt="Accept">
+                </button>
             </div>
-        
+        </div>
+
         <div id="task-message">
             <p>Task added to Board</p>
             <img src="./assets/img/side-bar/icon-board.svg" alt="Board">
         </div>
     </main>
-<script type="module" src="./JS/firebaseSignInUp.js"></script>
-<script src="./JS/fetchTemplate.js"></script>
-<script src="./JS/add_task.js"></script>
-<script src="./JS/add_task_form_left.js"></script>
-<script src="./JS/add_task_priority_buttons.js"></script>
-<script src="./JS/add_task_form_right.js"></script>
-<script src="./JS/templates.js"></script>
-<script src="./JS/fetch.js"></script>
-<script src="./JS/add_task_firebase.js"></script>
-<script src="./JS/initials.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    <script src="./JS/add_task.js"></script>
+    <script src="./JS/add_task_form_left.js"></script>
+    <script src="./JS/add_task_priority_buttons.js"></script>
+    <script src="./JS/add_task_form_right.js"></script>
+    <script src="./JS/templates.js"></script>
+    <script type="module" src="./JS/fetch.js"></script>
+    <script type="module" src="./JS/add_task_firebase.js"></script>
+    <script src="./JS/initials.js"></script>
 </body>
+
 </html>

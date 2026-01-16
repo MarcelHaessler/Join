@@ -19,20 +19,15 @@ export const db = getDatabase(app);
 
 // 3. Globaler Auth Listener (optional, aber praktisch für alle Seiten)
 // Feuert ein Event, sobald Firebase weiß, wer eingeloggt ist
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // Wir erstellen ein eigenes Event, auf das initials.js hören kann
-        const event = new CustomEvent("userReady", {
-            detail: { name: user.displayName, email: user.email }
-        });
-        window.dispatchEvent(event);
-    } else {
-        // Optional: Schutz für interne Seiten (wirft User raus, wenn nicht eingeloggt)
-        // if (!window.location.pathname.includes("index.html") && !window.location.pathname.includes("registration.html")) {
-        //    window.location.href = "index.html";
-        // }
-    }
-});
+// 3. Globaler Auth Listener (handled in firebaseSignInUp.js)
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//         const event = new CustomEvent("userReady", {
+//             detail: { name: user.displayName, email: user.email }
+//         });
+//         window.dispatchEvent(event);
+//     }
+// });
 
 // 4. Globale Logout Funktion
 async function logoutUser() {

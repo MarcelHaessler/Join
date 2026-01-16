@@ -2,21 +2,24 @@ let cachedHeader = null;
 let cachedSidebar = null;
 window.contacts = [];
 window.backgroundColorCodes = [
-'var(--color1)',
-'var(--color2)',
-'var(--color3)',
-'var(--color4)',
-'var(--color5)',
-'var(--color6)',
-'var(--color7)',
-'var(--color8)',
-'var(--color9)',
-'var(--color10)',
-'var(--color11)',
-'var(--color12)',
-'var(--color13)',
-'var(--color14)',
-'var(--color15)'];
+    'var(--color1)',
+    'var(--color2)',
+    'var(--color3)',
+    'var(--color4)',
+    'var(--color5)',
+    'var(--color6)',
+    'var(--color7)',
+    'var(--color8)',
+    'var(--color9)',
+    'var(--color10)',
+    'var(--color11)',
+    'var(--color12)',
+    'var(--color13)',
+    'var(--color14)',
+    'var(--color15)'];
+
+import { db } from "./firebaseAuth.js";
+import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchHtmlTemplates() {
     if (!cachedHeader) {
@@ -46,25 +49,42 @@ function highlightActiveWrapper() {
 
 async function fetchContacts() {
     contacts = [];
-    let response = await fetch("https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/.json");
-    let data = await response.json();
-    for (let key in data.users) {
-        if (data.users[key]) {   
+    const dbRef = ref(db);
+
+    try {
+        const [usersSnapshot, contactSnapshot] = await Promise.all([
+            get(child(dbRef, 'users')),
+            get(child(dbRef, 'contact'))
+        ]);
+
+        const usersData = usersSnapshot.exists() ? usersSnapshot.val() : {};
+        const contactData = contactSnapshot.exists() ? contactSnapshot.val() : {};
+
+        for (let key in usersData) {
             contacts.push({
                 id: key,
                 root: 'users',
-                ...data.users[key]});
+                ...usersData[key]
+            });
         }
-    }
-    for (let key in data.contact) {
-        if (data.contact[key]) {   
+
+        for (let key in contactData) {
             contacts.push({
                 id: key,
                 root: 'contact',
-                ...data.contact[key]});
+                ...contactData[key]
+            });
         }
+
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
     }
 
+    contacts.forEach((users, i) => {
+        users.colorIndex = i % backgroundColorCodes.length;
+        users.initials = getFirstAndLastInitial(users.name);
+        users.phone = getPhonenumber(users.phone);
+    });
     contacts.forEach((users, i) => {
         users.colorIndex = i % backgroundColorCodes.length;
         users.initials = getFirstAndLastInitial(users.name);
@@ -76,13 +96,16 @@ async function fetchContacts() {
 function getFirstAndLastInitial(fullName) {
     const parts = fullName.trim().split(/\s+/);
     const first = parts[0][0];
-    const last = parts[parts.length - 1][0];
-    return (first + last);
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+    return (first + last).toUpperCase();
 }
 
 function getPhonenumber(phone) {
     if (phone && phone.trim() !== "") {
         return phone;
-    }   
+    }
     return "No phone number available";
 }
+
+window.fetchHtmlTemplates = fetchHtmlTemplates;
+window.fetchContacts = fetchContacts;
