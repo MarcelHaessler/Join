@@ -27,15 +27,15 @@
     <div class="d_none" id="add-task-overlay">
         <div id="content-section">
             <div id="top-section">
-                <div id="head-container">                
+                <div id="head-container">
                     <h2>Add Task</h2>
                     <img id="close-add-task-overlay" src="./assets/img/Close.svg" alt="close add task">
                 </div>
 
-                
+
                 <div id="form-container">
                     <div id="form-left">
-                        <div class="input-container" id="title-container">                    
+                        <div class="input-container" id="title-container">
                             <label for="title">Title <p class="red-star">*</p></label>
                             <input id="title" type="text" placeholder="Enter a Title">
                             <p class="warning-message" id="title-warning"></p>
@@ -56,7 +56,7 @@
 
                     <div id="form-right">
                         <div id="priority-container">
-                            <label for="form-buttons">Priority</label>
+                            <label>Priority</label>
                             <div class="input-container" id="form-buttons">
                                 <button id="urgent-btn" class="priority-buttons">
                                     <p>Urgent</p>
@@ -75,9 +75,12 @@
                         <div class="input-container" id="assignment-container">
                             <label for="assign-input">Assigned to</label>
                             <div id="assign-input-box">
-                                <input id="assign-input" oninput="delaySearchContact()" onclick="renderAssignmentDropdown()" type="text" placeholder="Select contacts to assign">
+                                <input id="assign-input" oninput="delaySearchContact()"
+                                    onclick="renderAssignmentDropdown()" type="text"
+                                    placeholder="Select contacts to assign">
                                 <div onclick="renderAssignmentDropdown()" class="dropdown-img-container">
-                                    <img class="dropdown-img" id="assignment-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
+                                    <img class="dropdown-img" id="assignment-arrow"
+                                        src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                                 </div>
                             </div>
                             <div id="contacts-dropdown"></div>
@@ -86,9 +89,11 @@
                         <div class="input-container" id="category-container">
                             <label for="category">Category <p class="red-star">*</p></label>
                             <div id="category-input">
-                                <input onclick="openCloseCategoryDropdown()" type="text" id="category" placeholder="Select task category" readonly>
+                                <input onclick="openCloseCategoryDropdown()" type="text" id="category"
+                                    placeholder="Select task category" readonly>
                                 <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
-                                    <img class="dropdown-img" id="category-arrow" src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
+                                    <img class="dropdown-img" id="category-arrow"
+                                        src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
                                 </div>
                             </div>
                             <div id="category-dropdown">
@@ -103,8 +108,9 @@
                         </div>
                         <div id="subtask-container" class="input-container">
                             <label for="subtasks">Subtasks</label>
-                            <div id="subtask-input-wrapper">    
-                                <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
+                            <div id="subtask-input-wrapper">
+                                <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks"
+                                    placeholder="Add new subtask">
                                 <div class="d_none" id="subtask-button-container">
                                     <div onclick="clearInputField()" class="subtask-button">
                                         <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
@@ -118,38 +124,41 @@
                             <div id="subtask-list-container">
                                 <ul id="subtask-list"></ul>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
             </div>
             <div id="bottom-section">
-                <div id="required-info"><p class="red-star">*</p><p>This field is required</p></div>
-                    <div id="bottom-button-container">
-                        <button id="clear-task-button" onclick="clearTask()">
-                            Clear
-                            <img src="./assets/img/add_task/close.svg" alt="Clear">
-                        </button>
-                        <button id="create-task-button" onclick="checkFullfilledRequirements()">
-                            Create Task
-                            <img src="./assets/img/add_task/check.svg" alt="Accept">
-                        </button>
-                    </div>
+                <div id="required-info">
+                    <p class="red-star">*</p>
+                    <p>This field is required</p>
+                </div>
+                <div id="bottom-button-container">
+                    <button id="clear-task-button" onclick="clearTask()">
+                        Clear
+                        <img src="./assets/img/add_task/close.svg" alt="Clear">
+                    </button>
+                    <button id="create-task-button" onclick="checkFullfilledRequirements()">
+                        Create Task
+                        <img src="./assets/img/add_task/check.svg" alt="Accept">
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
     <main>
         <top-section>
             <h1>Board</h1>
             <div class="find-container">
-            <div class="search-input" role="search">
-                <input placeholder="Find Task" type="text">
-                <img class="search-divider" src="./assets/img/search-divider.svg">
-                <button class="search-icon-btn">
-                <img class="search-icon" src="./assets/img/search.svg">
-                </button>
-            </div>
-            <button class="add-task-button">Add task <img src="./assets/img/plus.svg" alt="add"></button>
+                <div class="search-input" role="search">
+                    <input placeholder="Find Task" type="text">
+                    <img class="search-divider" src="./assets/img/search-divider.svg">
+                    <button class="search-icon-btn">
+                        <img class="search-icon" src="./assets/img/search.svg">
+                    </button>
+                </div>
+                <button class="add-task-button">Add task <img src="./assets/img/plus.svg" alt="add"></button>
             </div>
         </top-section>
         <section class="kanban-board">
@@ -158,13 +167,11 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>To do</span>
-                    <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img
+                            src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body"
-                    id="ToDo"
-                    ondrop="moveTo('ToDo')"
-                    ondragover="allowDrop(event)">
+                <div class="kanban-body" id="ToDo" ondrop="moveTo('ToDo')" ondragover="allowDrop(event)">
                 </div>
             </div>
 
@@ -172,13 +179,11 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>In progress</span>
-                    <button onclick="addTaskOverlayOpen('InProgress')" class="add-plus" id="add-progress"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('InProgress')" class="add-plus" id="add-progress"><img
+                            src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body"
-                    id="InProgress"
-                    ondrop="moveTo('InProgress')"
-                    ondragover="allowDrop(event)">
+                <div class="kanban-body" id="InProgress" ondrop="moveTo('InProgress')" ondragover="allowDrop(event)">
                 </div>
             </div>
 
@@ -186,13 +191,11 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <span>Await feedback</span>
-                    <button onclick="addTaskOverlayOpen('Awaiting')" class="add-plus" id="add-feedback"><img src="./assets/img/plus.svg" alt="add"></button>
+                    <button onclick="addTaskOverlayOpen('Awaiting')" class="add-plus" id="add-feedback"><img
+                            src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body"
-                    id="Awaiting"
-                    ondrop="moveTo('Awaiting')"
-                    ondragover="allowDrop(event)">
+                <div class="kanban-body" id="Awaiting" ondrop="moveTo('Awaiting')" ondragover="allowDrop(event)">
                 </div>
             </div>
 
@@ -202,15 +205,12 @@
                     <span>Done</span>
                 </div>
 
-                <div class="kanban-body"
-                    id="Done"
-                    ondrop="moveTo('Done')"
-                    ondragover="allowDrop(event)">
+                <div class="kanban-body" id="Done" ondrop="moveTo('Done')" ondragover="allowDrop(event)">
                 </div>
             </div>
 
         </section>
-</main>
+    </main>
 
     <!--
     <main>
@@ -276,12 +276,12 @@
                             </td>
                             <td id="ToDo" ondrop="moveTo('ToDo')" ondragover="allowDrop(event)" data-title="To do">
                             -->
-                                <!-- <div id="ToDo" ondrop="moveTo('ToDo')" ondragover="allowDrop(event)">
+    <!-- <div id="ToDo" ondrop="moveTo('ToDo')" ondragover="allowDrop(event)">
                                     <div class="no-tasks placeholder-tiles">
                                         <p class="placeholder-p">No tasks To do</p>
                                     </div>
                                 </div> -->
-                                <!--
+    <!--
                             </td>
                             <td>
                                 <div class="tasks-status-mobile">
@@ -291,10 +291,10 @@
                             </td>
                             <td id="InProgress" ondrop="moveTo('InProgress')" ondragover="allowDrop(event)" data-title="In progress">
                             -->
-                                <!-- <div id="InProgress" ondrop="moveTo('InProgress')" ondragover="allowDrop(event)">
+    <!-- <div id="InProgress" ondrop="moveTo('InProgress')" ondragover="allowDrop(event)">
                                    
                                 </div> -->
-                                <!--
+    <!--
                             </td>
                             <td>
                                 <div class="tasks-status-mobile">
@@ -304,12 +304,12 @@
                             </td>
                             <td id="Awaiting" ondrop="moveTo('Awaiting')" ondragover="allowDrop(event)" data-title="Await feedback">
                             -->
-                                <!-- <div id="Awaiting" ondrop="moveTo('Awaiting')" ondragover="allowDrop(event)">
+    <!-- <div id="Awaiting" ondrop="moveTo('Awaiting')" ondragover="allowDrop(event)">
                                     <div class="no-tasks placeholder-tiles">
                                         <p class="placeholder-p">No tasks await feedback</p>
                                     </div>
                                 </div> -->
-                                <!--
+    <!--
                             </td>
                             <td>
                                 <div class="tasks-status-mobile">
@@ -327,16 +327,15 @@
     -->
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
     <script type="module" src="./JS/add_task_firebase.js"></script>
-    <script src="./JS/fetch.js"></script>
-    <script src="./JS/board.js"></script>
-    <script src="./JS/fetchTemplate.js"></script>
+    <script type="module" src="./JS/fetch.js"></script>
+    <script type="module" src="./JS/board.js"></script>
     <script src="./JS/add_task.js"></script>
     <script src="./JS/add_task_form_left.js"></script>
     <script src="./JS/add_task_priority_buttons.js"></script>
     <script src="./JS/add_task_form_right.js"></script>
     <script src="./JS/templates.js"></script>
-    <script src="./JS/add_task_firebase.js"></script>
     <script src="./JS/initials.js"></script>
 
 </body>
+
 </html>

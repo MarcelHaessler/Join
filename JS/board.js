@@ -36,7 +36,7 @@ function updateBoard() {
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
     statuses.forEach(status => {
         let filteredTasks = tasks.filter(t => t['taskgroup'] == status);
-        
+
         let container = document.getElementById(status);
         container.innerHTML = '';
 
@@ -66,13 +66,17 @@ function moveTo(taskgroup) {
     updateBoard()
 }
 
+import { db } from "./firebaseAuth.js";
+import { ref, update } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+
 async function updateTask(task) {
-    await fetch(`${BASE_URL}/tasks/${task.id}.json`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({taskgroup: task.taskgroup})
-    });
-    updateBoard();
+    try {
+        const taskRef = ref(db, `tasks/${task.id}`);
+        await update(taskRef, { taskgroup: task.taskgroup });
+        updateBoard();
+    } catch (error) {
+        console.error("Error updating task:", error);
+    }
 }
+
+window.updateTask = updateTask;
