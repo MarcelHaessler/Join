@@ -1,10 +1,12 @@
 let userInitials = '';
 let username = '';
+let taskgroup = "ToDo"
 
 window.addEventListener("userReady",async (auth) => {
     console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
     username = auth.detail.name
     await fetchContacts();
+    await fetchTasks();
     putSelfOnFirstPlace(username);
     console.log(username);
     userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase();
@@ -25,7 +27,6 @@ function putSelfOnFirstPlace(username) {
    
 }
 
-
 function checkFullfilledRequirements() {
     let taskTitle = document.getElementById('title').value;
     let taskDescription = document.getElementById('description').value;
@@ -43,13 +44,13 @@ function checkFullfilledRequirements() {
         return
     }
 
-    console.log(createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks));
-    uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks);
+    console.log(createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks));
+    uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
     clearTask();
-    /*createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks);*/
+    /*createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory,taskgroup  taskAssignments, taskSubtasks);*/
 }
 
-function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskAssignments, taskSubtasks) {
+function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
     return {
         title : taskTitle,
         description : taskDescription,
@@ -58,7 +59,9 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         category: taskCategory,
         assignedPersons: taskAssignments,
         subtasks: taskSubtasks,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        taskgroup: taskgroup,
+        createdBy: username
     }
 }
 
