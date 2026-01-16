@@ -1,3 +1,15 @@
+@keyframes greetingFadeOut {
+    0% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 /* ===== Layout Containers ===== */
 #top-section {
     display: flex;
@@ -25,7 +37,7 @@
     font-weight: 400;
 }
 
-#current-date {
+#due-date {
     font-family: Inter;
     font-weight: 700;
     font-style: Bold;
@@ -137,7 +149,7 @@
 }
 
 /* ===== Greeting Block ===== */
-#greetin-section {
+#greeting-section {
     margin: 0;
 }
 
@@ -239,6 +251,28 @@
     }
     #horizontal-divider {
     display: block;
+}
+
+/* default: hide greeting on small screens */
+#greeting-section {
+    display: none;
+}
+
+/* only show as overlay when JS sets the flag */
+body.show-greeting #greeting-section {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    animation: greetingFadeOut 2.5s ease forwards;
+    pointer-events: auto;
 }
 }
 
