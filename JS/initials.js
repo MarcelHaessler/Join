@@ -2,12 +2,12 @@ window.addEventListener("userReady", (auth) => {
     let username = auth.detail.name;
     userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ")+1).toUpperCase();
     addInitialToHeader();
+    // toggleSidebar();
 });
 
 function addInitialToHeader() {
     let initialSpace = document.getElementById('user-initials');
     initialSpace.innerHTML = userInitials; 
-    console.log(userInitials);
     initLogoutDialog();
 };
 
@@ -24,4 +24,10 @@ function initLogoutDialog() {
     dialogLogOut.addEventListener("click", (e) => {
         if (e.target === dialogLogOut) dialogLogOut.close();
     });
+}
+
+
+
+function toggleSidebar() {
+    document.querySelector(".sidebar-main").style.display = "none";
 }
