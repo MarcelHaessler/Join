@@ -514,4 +514,46 @@ textarea {
     }
 }
 
+#task_card_overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 200ms ease-in-out;
+}
 
+
+#task_card_overlay.active {
+    opacity: 1;
+    z-index: 1000;
+}
+
+#task_card_overlay.closing {
+    transition: ease-in-out 200ms;
+    opacity: 0;
+    z-index: -1;
+}
+
+#task-card {
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    height: 90%;
+    max-width: 724px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+}
+
+#task_card_overlay.active #task-card {
+    transform: translateX(0);
+}
+
+#task_card_overlay.closing #task-card {
+    transform: translateX(100%);
+}

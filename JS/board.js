@@ -86,3 +86,36 @@ async function updateTask(task) {
     });
     updateBoard();
 }
+
+function openTaskCardOverlay(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+
+    let overlay = document.getElementById('task_card_overlay');
+
+    overlay.classList.remove('d_none');
+
+    setTimeout(() => {
+        overlay.classList.remove('closing');
+        overlay.classList.add('active');
+    }, 10);
+
+    overlay.innerHTML = generateOpenedTaskCardHTML(task);
+
+    console.log(task);
+}
+
+
+function closeTaskCardOverlay() {
+    const overlay = document.getElementById('task_card_overlay');
+
+    overlay.classList.add('closing');
+
+    setTimeout(() => {
+        overlay.classList.remove('active', 'closing');
+        overlay.innerHTML = '';
+    }, 400); // exakt zur transform-duration
+}
+
+function stopPropagation(event) {
+  event.stopPropagation(event);
+}
