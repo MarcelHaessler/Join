@@ -49,48 +49,40 @@ function highlightActiveWrapper() {
 
 async function fetchContacts() {
     contacts = [];
-    const dbRef = ref(db);
-
     try {
-        const [usersSnapshot, contactSnapshot] = await Promise.all([
-            get(child(dbRef, 'users')),
-            get(child(dbRef, 'contact'))
-        ]);
-
-        const usersData = usersSnapshot.exists() ? usersSnapshot.val() : {};
-        const contactData = contactSnapshot.exists() ? contactSnapshot.val() : {};
-
-        for (let key in usersData) {
-            contacts.push({
-                id: key,
-                root: 'users',
-                ...usersData[key]
-            });
-        }
-
-        for (let key in contactData) {
-            contacts.push({
-                id: key,
-                root: 'contact',
-                ...contactData[key]
-            });
-        }
-
+        const [usersSnapshot, contactSnapshot] = await fetchSnapshots();
+        processData(usersSnapshot, 'users');
+        processData(contactSnapshot, 'contact');
+        enhanceContacts();
     } catch (error) {
         console.error("Error fetching contacts:", error);
     }
-
-    contacts.forEach((users, i) => {
-        users.colorIndex = i % backgroundColorCodes.length;
-        users.initials = getFirstAndLastInitial(users.name);
-        users.phone = getPhonenumber(users.phone);
-    });
-    contacts.forEach((users, i) => {
-        users.colorIndex = i % backgroundColorCodes.length;
-        users.initials = getFirstAndLastInitial(users.name);
-        users.phone = getPhonenumber(users.phone);
-    });
     return contacts;
+}
+
+async function fetchSnapshots() {
+    const dbRef = ref(db);
+    return await Promise.all([
+        get(child(dbRef, 'users')),
+        get(child(dbRef, 'contact'))
+    ]);
+}
+
+function processData(snapshot, root) {
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (let key in data) {
+            contacts.push({ id: key, root: root, ...data[key] });
+        }
+    }
+}
+
+function enhanceContacts() {
+    contacts.forEach((user, i) => {
+        user.colorIndex = i % backgroundColorCodes.length;
+        user.initials = getFirstAndLastInitial(user.name);
+        user.phone = getPhonenumber(user.phone);
+    });
 }
 
 function getFirstAndLastInitial(fullName) {

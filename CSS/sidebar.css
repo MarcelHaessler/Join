@@ -34,7 +34,6 @@ a {
 
 #sidebar-footer .link-wrapper:not(.current-page):hover {
     background-color: transparent;
-    /* keep footer links flat */
 }
 
 .link-container {
@@ -87,8 +86,6 @@ a {
 }
 
 @media (max-width: 1100px) {
-
-    /* Sidebar: Bottom-Bar, 80px hoch */
     #side-bar {
         height: 80px;
         min-height: 80px;
@@ -98,12 +95,10 @@ a {
         width: 100%;
     }
 
-    /* Logo ausblenden */
     #logo {
         display: none;
     }
 
-    /* Links nebeneinander (hatten wir schon grob) */
     #buttons-container {
         flex-direction: row;
         gap: 10px;
@@ -122,7 +117,6 @@ a {
 
     .link-container {
         flex-direction: column;
-        /* Icon über Text */
         align-items: center;
         justify-content: center;
         width: auto;
@@ -130,22 +124,18 @@ a {
         gap: 4px;
     }
 
-    /* Icon-Größe 24x24 */
     .link-container img {
         width: 24px;
         height: 24px;
         margin-top: 8px;
     }
 
-
-    /* Schriftgröße 16px */
     .link-container p {
         font-size: 16px;
         margin: 0;
         padding-bottom: 8px;
     }
 
-    /* Footer-Links auf Mobile ausblenden */
     #sidebar-footer {
         display: none;
     }

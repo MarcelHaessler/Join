@@ -55,11 +55,11 @@ dateInput.addEventListener('input', function (e) {
 /**Function that checks if the input date is today or in the future */
 const isCorrectDate = (date) =>{
     let today = new Date();
-    today.setHours(0,0,0,0); // Set time to midnight for accurate comparison
+    today.setHours(0,0,0,0); 
 
     date = date.split("/");
     date = new Date(date[2], date[1] - 1, date[0]); 
-    date.setHours(0,0,0,0); // Set time to midnight for accurate comparison
+    date.setHours(0,0,0,0); 
 
     if (today.getTime() === date.getTime()) {
         return true

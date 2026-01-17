@@ -79,4 +79,9 @@ async function updateTask(task) {
     }
 }
 
+
 window.updateTask = updateTask;
+window.addTaskOverlayOpen = addTaskOverlayOpen;
+window.startDragging = startDragging;
+window.allowDrop = allowDrop;
+window.moveTo = moveTo;

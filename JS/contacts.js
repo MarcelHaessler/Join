@@ -18,7 +18,6 @@ const mobileMenuTrigger = document.getElementById('mobileMenuTrigger');
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/;
 
-// Event Listener beim Laden
 window.addEventListener("load", () => {
     nameList();
 });
@@ -170,8 +169,6 @@ function validateInput(input) {
     return isValid;
 }
 
-// --- FIREBASE SDK FUNCTIONS START ---
-
 // Upload new contact to database
 async function uploadContact() {
     const name = document.getElementById("contactAddName");
@@ -236,8 +233,6 @@ async function deleteContact(root, id) {
         console.error("Fehler beim Löschen:", error);
     }
 }
-
-// --- FIREBASE SDK FUNCTIONS END ---
 
 // Render letter section and contact entry
 function letterSection(letter) {
