@@ -7,8 +7,8 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
   let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
 
   try {
-    const tasksRef = ref(db, "tasks");
-    const newTaskRef = push(tasksRef); // Generates valid key
+    const tasksRef = ref(db, "tasks"); 
+    const newTaskRef = push(tasksRef);
     await set(newTaskRef, task);
     console.log("Task uploaded successfully with ID:", newTaskRef.key);
   } catch (error) {
@@ -17,10 +17,6 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
 }
 
 window.addEventListener("load", async () => {
-  // Only fetch if we are NOT on index.html (login) or registration.html
-  // But since this file is likely only included where needed, we might just be safe.
-  // However, fetchTasks should probably be distinct from window load if possible, 
-  // but preserving original logic for now which acted on load.
   if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('registration.html')) {
     await fetchTasks();
     window.dispatchEvent(new Event("tasksLoaded"));

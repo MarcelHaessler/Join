@@ -10,26 +10,12 @@ const firebaseConfig = {
     appId: "1:159410908442:web:d2c57cbf551ca660add0a3"
 };
 
-// 1. App initialisieren
 const app = initializeApp(firebaseConfig);
 
-// 2. Services exportieren (damit andere Dateien sie nutzen können)
 export const auth = getAuth(app);
 export const db = getDatabase(app);
 
-// 3. Globaler Auth Listener (optional, aber praktisch für alle Seiten)
-// Feuert ein Event, sobald Firebase weiß, wer eingeloggt ist
-// 3. Globaler Auth Listener (handled in firebaseSignInUp.js)
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//         const event = new CustomEvent("userReady", {
-//             detail: { name: user.displayName, email: user.email }
-//         });
-//         window.dispatchEvent(event);
-//     }
-// });
 
-// 4. Globale Logout Funktion
 async function logoutUser() {
     try {
         await signOut(auth);
@@ -40,5 +26,4 @@ async function logoutUser() {
     }
 }
 
-// WICHTIG: Funktion global verfügbar machen, damit HTML onclick="logoutUser()" sie findet
 window.logoutUser = logoutUser;

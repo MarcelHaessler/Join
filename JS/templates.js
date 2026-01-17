@@ -67,8 +67,6 @@ function editedSubtaskTemplate(taskId, newText) {
         `
 }
 
-
-// Task Card Template
 function generateTodoHTML(element) {
     let initialsHTML = ''; let progressHTML = ``; 
     let taskColor; let completedSubtasks;
