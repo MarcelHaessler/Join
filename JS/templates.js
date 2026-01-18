@@ -184,6 +184,9 @@ function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
     
+    if (!names || names.length === 0) {
+        return `<p>No assigned Persons available.</p>`;
+    }else {
 
     for (let index = 0; index < names.length; index++) {
         const person = names[index];
@@ -197,6 +200,7 @@ function addAssignedPersons(element) {
         `;
     }
     return assignedContainer;
+}
 }
 
 function addSubtasks(element, taskIndex) {
