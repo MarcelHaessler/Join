@@ -544,8 +544,8 @@ textarea {
     border-radius: 16px;
     padding: 32px;
     width: 100%;
-    height: 90%;
-    max-width: 724px;
+    max-width: 525px;
+    max-height: 931px;
     transform: translateX(100%);
     transition: transform 0.4s ease-in-out;
 }
@@ -556,4 +556,129 @@ textarea {
 
 #task_card_overlay.closing #task-card {
     transform: translateX(100%);
+}
+
+#task-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+}
+
+#task-category-box {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    width: auto;
+    height: 36px;
+    padding: 4px 24px 4px 24px;
+    font-size: 23px;
+    color: white;
+}
+
+#close-task-card-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 200ms ease-in-out;
+}
+
+#close-task-card-button:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+
+#task-title {
+    font-size: 61px;
+    font-weight: 700;
+    background: white;
+    text-align: start;
+    height: auto;
+    padding: 0;
+}
+
+#task-due-date-container{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    height: 24px;
+}
+
+#task-priority-container{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    height: 32px;
+}
+
+#task-priority{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: capitalize;
+    height: 100%;
+}
+
+#task-assignment-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+#assigned-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.assigned-person {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#task-subtasks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#task-card-head, #task-title, #task-description, #task-due-date-container, #task-priority-container, #task-assignment-container {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#task-assignment-container > p {
+    margin: 0;
+ }
+
+ #task-subtasks > p {
+    margin: 0;
+ }
+
+.subtask {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 32px;
+    padding-left: 20px;
+}
+
+#task-card-bottom {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 8px;
+}
+
+#edit-task, #delete-task {
+    display: flex;
+    gap: 8px;
 }
