@@ -148,16 +148,19 @@
 
     <main>
         <top-section>
-            <h1>Board</h1>
+            <div class="titleBoard">
+                <h1>Board</h1> 
+                <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img src="./assets/img/plus.svg" alt="add"></button>
+            </div>
             <div class="find-container">
                 <div class="search-input" role="search">
-                    <input placeholder="Find Task" type="text">
+                    <input id="search-tasks-input" oninput="updateBoard()" placeholder="Find Task" type="text">
                     <img class="search-divider" src="./assets/img/search-divider.svg">
                     <button class="search-icon-btn">
                         <img class="search-icon" src="./assets/img/search.svg">
                     </button>
                 </div>
-                <button class="add-task-button">Add task <img src="./assets/img/plus.svg" alt="add"></button>
+                <button class="add-task-button" onclick="addTaskOverlayOpen('ToDo')">Add task <img src="./assets/img/plus.svg" alt="add"></button>
             </div>
         </top-section>
         <section class="kanban-board">
