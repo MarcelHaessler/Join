@@ -15,7 +15,6 @@ function checkTitle() {
     const titleInput = document.getElementById("title");
     const titleResultDiv = document.getElementById("title-warning");
 
-
     if (titleInput.value.length === 0) {
         titleResultDiv.innerHTML = "This field is required.";
         titleResultDiv.style.color = "#e60025";
@@ -50,18 +49,17 @@ dateInput.addEventListener('input', function (e) {
   if (value.length > 0) formatted = value.slice(0, 2);
   if (value.length > 2) formatted += "/" + value.slice(2, 4);
   if (value.length > 4) formatted += "/" + value.slice(4, 8);
-
   e.target.value = formatted;
 });
 
 /**Function that checks if the input date is today or in the future */
 const isCorrectDate = (date) =>{
     let today = new Date();
-    today.setHours(0,0,0,0); // Set time to midnight for accurate comparison
+    today.setHours(0,0,0,0); 
 
     date = date.split("/");
     date = new Date(date[2], date[1] - 1, date[0]); 
-    date.setHours(0,0,0,0); // Set time to midnight for accurate comparison
+    date.setHours(0,0,0,0); 
 
     if (today.getTime() === date.getTime()) {
         return true
