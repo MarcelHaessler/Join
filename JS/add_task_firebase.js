@@ -4,15 +4,18 @@ import { ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.2.0/f
 window.tasks = [];
 
 async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
+  showLoader();
   let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
 
   try {
-    const tasksRef = ref(db, "tasks"); 
+    const tasksRef = ref(db, "tasks");
     const newTaskRef = push(tasksRef);
     await set(newTaskRef, task);
     console.log("Task uploaded successfully with ID:", newTaskRef.key);
   } catch (error) {
     console.error("Error uploading task:", error);
+  } finally {
+    hideLoader();
   }
 }
 
@@ -24,6 +27,7 @@ window.addEventListener("load", async () => {
 });
 
 async function fetchTasks() {
+  showLoader();
   tasks = [];
   try {
     const tasksRef = ref(db, "tasks");
@@ -42,6 +46,8 @@ async function fetchTasks() {
     }
   } catch (error) {
     console.error("Error fetching tasks:", error);
+  } finally {
+    hideLoader();
   }
   return tasks;
 }
