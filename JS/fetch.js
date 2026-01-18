@@ -47,7 +47,36 @@ function highlightActiveWrapper() {
     });
 }
 
+function initLoader() {
+    if (!document.getElementById('global-loader-overlay')) {
+        const overlay = document.createElement('div');
+        overlay.id = 'global-loader-overlay';
+        overlay.classList.add('d_none');
+        overlay.innerHTML = '<div class="loader-spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+}
+
+function showLoader() {
+    const loader = document.getElementById('global-loader-overlay');
+    if (loader) {
+        loader.classList.remove('d_none');
+    }
+}
+
+function hideLoader() {
+    const loader = document.getElementById('global-loader-overlay');
+    if (loader) {
+        loader.classList.add('d_none');
+    }
+}
+
+window.showLoader = showLoader;
+window.hideLoader = hideLoader;
+initLoader();
+
 async function fetchContacts() {
+    showLoader();
     contacts = [];
     try {
         const [usersSnapshot, contactSnapshot] = await fetchSnapshots();
@@ -56,6 +85,8 @@ async function fetchContacts() {
         enhanceContacts();
     } catch (error) {
         console.error("Error fetching contacts:", error);
+    } finally {
+        hideLoader();
     }
     return contacts;
 }
