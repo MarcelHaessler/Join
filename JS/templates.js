@@ -163,19 +163,23 @@ function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
     
+    if (!names || names.length === 0) {
+        return `<p>No assigned Persons available.</p>`;
+    }else {
 
-    for (let index = 0; index < names.length; index++) {
-        const person = names[index];
-        assignedContainer += `
-        <div class="assigned-person">
-            <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
-                <p>${person.initials}</p>
+        for (let index = 0; index < names.length; index++) {
+            const person = names[index];
+            assignedContainer += `
+            <div class="assigned-person">
+                <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+                    <p>${person.initials}</p>
+                </div>
+                <p class="assigned-person-name">${person.name}</p>
             </div>
-            <p class="assigned-person-name">${person.name}</p>
-        </div>
-        `;
+            `;
+        }
+        return assignedContainer;
     }
-    return assignedContainer;
 }
 
 function addSubtasks(element, taskIndex) {
@@ -197,6 +201,8 @@ function addSubtasks(element, taskIndex) {
         }
     }
     return subtasksContainer;
+}
+
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
         return element.assignedPersons
