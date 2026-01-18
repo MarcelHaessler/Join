@@ -23,7 +23,7 @@
     font-weight: 400;
 }
 
-#current-date {
+#due-date {
     font-family: Inter;
     font-weight: 700;
     font-style: Bold;
@@ -230,6 +230,28 @@
     }
     #horizontal-divider {
     display: block;
+}
+
+/* default: hide greeting on small screens */
+#greeting-section {
+    display: none;
+}
+
+/* only show as overlay when JS sets the flag */
+body.show-greeting #greeting-section {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    animation: greetingFadeOut 2.5s ease forwards;
+    pointer-events: auto;
 }
 }
 
