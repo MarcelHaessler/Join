@@ -18,7 +18,7 @@ h1{
 }
 
 .light-blue {
-    color: #29ABE2;
+    color: var(--secondColor);
 }
 
 .floating-back-button {
@@ -37,9 +37,7 @@ h1{
 }
 
 .floating-back-button:hover {
-
     background-color: #dddddd;
-
 }
 
 @media (max-width: 1100px){

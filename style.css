@@ -1,27 +1,9 @@
-body{
-    font-family: Inter;
-    margin: 0;
-    padding: 0;
-}
-
-.d_none {
-    display: none !important;
-}
-
-.blue_text{
-    color: rgba(41, 171, 226, 1);
-    text-decoration: none;
-}
-
-.red-star{
-    color: #ff8190;
-}
-
 :root {
     --primerColor: #2A3647;
-    --contrastColor: white; 
+    --contrastColor: #ffffff;
     --secondColor: #29ABE2;
-    --invalideColor: #ec405e;
+    --invalideColor: #ff002b;
+    --background: #f6f7f8;
     --greyBackround: #f4f4f4;
     --linkColor: #007CEE;
     --ligthGrey: #D1D1D1;
@@ -40,21 +22,43 @@ body{
     --color12: #c3ff2b;
     --color13: #ffe62c;
     --color14: #ff4647;
-    --color15: #ffbb2c; 
+    --color15: #ffbb2c;
     --taskColor1: #0038FF;
     --taskColor2: #1FD7C1;
     --taskContant: #A8A8A8;
 }
+
+body {
+    font-family: Inter;
+    margin: 0;
+    padding: 0;
+}
+
+.d_none {
+    display: none !important;
+}
+
+.blue_text {
+    color: var(--secondColor);
+    text-decoration: none;
+}
+
+.red-star {
+    color: var(--invalideColor);
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
 }
+
 h1 {
     font-size: 61px;
-    font-weight: 700!important;
+    font-weight: 700 !important;
     margin: 12px 0;
-    
+
 }
+
 @media (max-width: 780px) {
     h1 {
         font-size: 47px;
@@ -65,21 +69,22 @@ h1 {
     body {
         grid-template-columns: 1fr;
         grid-template-rows: 80px 1fr 80px;
-        background-color: #f6f7f8;
+        background-color: var(--background);
     }
-    
-    #header, header{
+
+    #header,
+    header {
         height: 80px;
         position: fixed;
         top: 0;
         z-index: 10;
     }
 
-    header{
+    header {
         padding: 0 16px 0 16px;
     }
 
-    #help-button{
+    #help-button {
         display: none;
     }
 
@@ -88,24 +93,56 @@ h1 {
         height: 40px;
     }
 
-    #user-initials{
+    #user-initials {
         font-size: 16px;
     }
 }
 
-
-/* Icon */
 #personIcon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    display: inline-flex;    
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     border: solid 3px var(--primerColor);
-    line-height: 1;             
+    line-height: 1;
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
     color: var(--secondColor);
+}
+
+/* Global Loader Overlay */
+#global-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Simple CSS Spinner */
+.loader-spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid var(--primerColor);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
