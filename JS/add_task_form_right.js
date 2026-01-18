@@ -209,7 +209,7 @@ function checkCategory() {
         categoryInput.classList.add("invalid");
     }
     if (currentCategory !== '') {
-        descriptionResultDiv.innerHTML = "";
+        categoryInputWarning.innerHTML = "";
         categoryInput.classList.remove("invalid");
     }
 }
@@ -221,6 +221,7 @@ function choseTechnicalTask() {
     categoryInput.value = "Technical Task";
     currentCategory = "Technical Task";
     openCloseCategoryDropdown();
+    checkCategory();
 }
 
 /**Function to select chosen category that gives a user response and stores chosen category in currentCategory array.*/

@@ -75,18 +75,13 @@ import { db } from "./firebaseAuth.js";
 import { ref, update } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function updateTask(task) {
-    console.log('Updating taskgroup for ' + task.title);
-    await fetch(`${BASE_URL}/tasks/${task.id}.json`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-                                taskgroup: task.taskgroup,
-                                subtasks: task.subtasks
-                        })
-    });
-    updateBoard();
+    try {
+        const taskRef = ref(db, `tasks/${task.id}`);
+        await update(taskRef, { taskgroup: task.taskgroup });
+        updateBoard();
+    } catch (error) {
+        console.error("Error updating task:", error);
+    }
 }
 
 function openTaskCardOverlay(taskId) {
@@ -142,14 +137,8 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
     }
     updateTask(tasks[taskIndex]);
 }
-    try {
-        const taskRef = ref(db, `tasks/${task.id}`);
-        await update(taskRef, { taskgroup: task.taskgroup });
-        updateBoard();
-    } catch (error) {
-        console.error("Error updating task:", error);
-    }
-}
+
+
 
 
 window.updateTask = updateTask;
@@ -158,3 +147,7 @@ window.startDragging = startDragging;
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
 window.updateBoard = updateBoard;
+window.openTaskCardOverlay = openTaskCardOverlay;
+window.closeTaskCardOverlay = closeTaskCardOverlay;
+window.stopPropagation = stopPropagation;
+window.checkboxSubtask = checkboxSubtask;
