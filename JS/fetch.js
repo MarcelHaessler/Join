@@ -22,13 +22,18 @@ import { db } from "./firebaseAuth.js";
 import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchHtmlTemplates() {
+    cachedHeader = localStorage.getItem('headerTemplate');
+    cachedSidebar = localStorage.getItem('sidebarTemplate');
+
     if (!cachedHeader) {
         const resp = await fetch('./assets/templates/header.html');
         cachedHeader = await resp.text();
+        localStorage.setItem('headerTemplate', cachedHeader);
     }
     if (!cachedSidebar) {
         const resp = await fetch('./assets/templates/sideBar.html');
         cachedSidebar = await resp.text();
+        localStorage.setItem('sidebarTemplate', cachedSidebar);
     }
 
     document.getElementById('header').innerHTML = cachedHeader;
