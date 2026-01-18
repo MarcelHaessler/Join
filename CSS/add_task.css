@@ -1,13 +1,9 @@
 body {
-    background-color: #f6f7f8;
+    background-color: var(--contrastColor);
 }
 
 .invalid{
-    border-color: #e60025;
-}
-
-.no-hover{
-    /*This is an empty CSS class that is being used in JavaScript (add_task.js)*/
+    border-color: var(--invalideColor);
 }
 
 label {
@@ -28,7 +24,7 @@ label {
     height: 100%;
     padding: 0;
     margin: 0;
-    background-color: #f6f7f8;
+    background-color: var(--contrastColor);
     max-width: 1440px;
 }
 
@@ -82,7 +78,7 @@ textarea {
 }
 
 input::placeholder, textarea::placeholder{
-    color: rgba(209, 209, 209, 1);
+    color: var(--ligthGrey);
 }
 
 
@@ -111,7 +107,6 @@ textarea {
     font-size: 12px;
 }
 
-/*Start of left side of Form Container*/
 #title-container{
     margin-bottom: 10px;
 }
@@ -129,10 +124,9 @@ textarea {
 #separator{
     width: 1px;
     height: 100%;
-    background-color: rgba(209, 209, 209, 1);
+    background-color: var(--ligthGrey);
 }
 
-/*Start of right side of Form Container*/
 #priority-container {
     width: 100%;
     display: flex;
@@ -158,7 +152,7 @@ textarea {
     border: none;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    background-color: var(--contrastColor);
 }
 
 .priority-buttons:not(.no-hover):hover {
@@ -205,7 +199,7 @@ textarea {
 }
 
 .dropdown-img-container:hover {
-    background-color: #d1d1d1;
+    background-color: var(--ligthGrey);
     cursor: pointer;
 }
 
@@ -215,7 +209,7 @@ textarea {
     opacity: 0;
     transition: max-height 0.3s ease, opacity 0.3s ease;
     width: 100%;
-    background-color: #fff;
+    background-color: var(--contrastColor);
     border: 1px solid #ccc;
     border-radius:0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -248,8 +242,8 @@ textarea {
 }
 
 .selected-contact {
-    background-color: #2a3647 !important;
-    color: white;
+    background-color: var(--primerColor) !important;
+    color: var(--contrastColor);
 }
 
 .selected-contact:hover{
@@ -336,7 +330,7 @@ textarea {
 
 .subtask-button:hover {
     cursor: pointer;
-    background-color: rgb(231, 231, 231);
+    background-color: var(--ligthGrey);
 }
 
 ul {
@@ -431,7 +425,7 @@ li {
 
 #create-task-button {
     background-color: var(--primerColor);
-    color: white;
+    color: var(--contrastColor);
     border: none;
     transition: 200ms;
 }
@@ -462,7 +456,7 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--contrastColor);
     width: 240px;
     gap: 12px;
 
@@ -494,7 +488,6 @@ li {
 }
 
 @media (max-width: 900px) {
-/*Delete CSS if accepted in style.css from here*/
     body {
         grid-template-columns: 1fr;
         grid-template-rows: 80px 1fr 80px;
@@ -524,7 +517,7 @@ li {
     #user-initials{
         font-size: 16px;
     }
-/*Until here*/
+
     h2{
         box-sizing: border-box;
         height: 112px;
@@ -567,8 +560,8 @@ li {
 
     #form-container {
         flex-direction: column;
-        flex: 1 1 auto; /* ADDED: takes remaining space */
-        overflow-y: auto; /* ADDED: scroll if content too big */
+        flex: 1 1 auto; 
+        overflow-y: auto; 
         justify-content: flex-start;
     }
 

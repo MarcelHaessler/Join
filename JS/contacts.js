@@ -1,23 +1,36 @@
+import { db, auth } from "./firebaseAuth.js";
+import {
+    ref,
+    push,
+    set,
+    update,
+    remove
+} from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
+
 const contactList = document.getElementById("contacList");
 const contactDetails = document.getElementById("contactSelectet");
 const contactSidebarCss = document.querySelector('.sideBar');
 const contactDetailsCss = document.querySelector('.contacts');
 const dialogAddPerson = document.getElementById("dialogAddPerson");
 const dialogEdit = document.getElementById("dialogEdit");
-const mobileMenuTrigger = document.getElementById('mobileMenuTrigger'); 
+const mobileMenuTrigger = document.getElementById('mobileMenuTrigger');
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/; 
+const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/;
 
 window.addEventListener("load", () => {
-  nameList();
+    nameList();
 });
 
 // Fetch Contactlist and display them sorted by name with letter sections
 async function nameList() {
-    await fetchContacts();
+    await window.fetchContacts();
+
     contacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
+
     contactList.innerHTML = "";
     let currentLetter = "";
+
     contacts.forEach(contact => {
         const letter = contact.name[0].toUpperCase();
         if (letter !== currentLetter) {
@@ -36,8 +49,10 @@ contactList.addEventListener("click", (event) => {
     const mail = entry.dataset.mail;
     const contact = contacts.find(c => c.email === mail);
 
-    contactDetails.innerHTML = showContactDetails(contact);
-    Detailsvisible();
+    if (contact) {
+        contactDetails.innerHTML = showContactDetails(contact);
+        Detailsvisible();
+    }
 });
 
 // Mobile view: show sidebar and hide details
@@ -49,67 +64,27 @@ function sideBarvisible() {
 // Mobile view: show details and hide sidebar
 function Detailsvisible() {
     const screenWidth = window.innerWidth;
-    console.log('Neue Fensterbreite:', screenWidth);
     if (screenWidth <= 1100) {
         contactSidebarCss.classList.add('hidden');
         contactDetailsCss.classList.add('visible');
-    } return
+    }
 }
-
-// Render letter section and contact entry
-function letterSection(letter) {
-    return `<div class="sectionList">${letter}</div><hr>`
-}
-
-function contactEntry(contact) {
-    return `<div class="contactEntry"  data-mail="${contact.email}">
-                <div class="contactlistIcon" style="background-color: ${backgroundColorCodes[contact.colorIndex]};">
-                    ${contact.initials}
-                </div>
-                <div class="contactDitails">
-                    <div class="name">${contact.name}</div>
-                    <div class="mail">${contact.email}</div>
-                </div>
-            </div>`
-}
-
-
-
-// function mobileEditBar() {
-//     mobileEditeBar.classList.toggle('visible');
-// }
-
-
-// mobileMenuTrigger.addEventListener('click', (e) => {
-//     e.stopPropagation(); 
-//     mobileEditeBar.classList.toggle('visible');
-// });
-
-
-// document.addEventListener('click', (e) => {
-//     const isClickInsideMenu = mobileEditeBar.contains(e.target);
-//     const isClickOnTrigger = mobileMenuTrigger.contains(e.target);
-
-//     if (!isClickInsideMenu && !isClickOnTrigger) {
-//         mobileEditeBar.classList.remove('visible');
-//     }
-// });
 
 // Add Dialog open
 function openDialogAdd() {
-  dialogAddPerson.showModal();
+    dialogAddPerson.showModal();
 }
 
 // Edit Dialog open
 function openDialogEdit() {
-  dialogEdit.showModal();
+    dialogEdit.showModal();
 }
 
 // Close all Dialog
 function closeDialog() {
-  dialogAddPerson.close();
-  clearForm();
-  dialogEdit.close();
+    dialogAddPerson.close();
+    clearForm();
+    dialogEdit.close();
 }
 
 // Clear form inputs and remove invalid class
@@ -123,16 +98,16 @@ function clearForm() {
 
 // Backdrop click Add to close Dialogs
 dialogAddPerson.addEventListener("click", (event) => {
-  if (event.target === dialogAddPerson) {
-    closeDialog();
-  }
+    if (event.target === dialogAddPerson) {
+        closeDialog();
+    }
 });
 
 // Backdrop click Edite to close Dialogs
 dialogEdit.addEventListener("click", (event) => {
-  if (event.target === dialogEdit) {
-    closeDialog();
-  }
+    if (event.target === dialogEdit) {
+        closeDialog();
+    }
 });
 
 // Open edit dialog on edit button click
@@ -143,12 +118,13 @@ document.addEventListener("click", (event) => {
     const mail = button.dataset.mail;
     const contact = contacts.find(c => c.email === mail);
 
-    dialogEdit.innerHTML = editContact(contact);
-
-    dialogEdit.showModal();
+    if (contact) {
+        dialogEdit.innerHTML = editContact(contact);
+        dialogEdit.showModal();
+    }
 });
 
-// Open edit dialog on edit button click
+// Open mobile edit bar
 contactDetails.addEventListener('click', (e) => {
     const bar = document.getElementById('mobileEditeBar');
     if (!bar) return;
@@ -156,27 +132,22 @@ contactDetails.addEventListener('click', (e) => {
         bar.classList.add('visible');
     } else {
         bar.classList.remove('visible');
-        console.log('clicked outside');
     }
 });
 
-// Upload new contact to database
-const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
 // Input validation on blur and red border for invalid inputs
 const validators = {
-  text: value => value.trim() !== '',
-  email: value => mailRegex.test(value),
-  tel: value => phoneRegex.test(value),
+    text: value => value.trim() !== '',
+    email: value => mailRegex.test(value),
+    tel: value => phoneRegex.test(value),
 };
 
 dialogAddPerson.querySelectorAll('input').forEach(input => {
-  input.addEventListener('blur', () => {
-    const validator = validators[input.type];
-    if (!validator) return;
-    input.classList.toggle('invalid', !validator(input.value));
-  });
+    input.addEventListener('blur', () => {
+        const validator = validators[input.type];
+        if (!validator) return;
+        input.classList.toggle('invalid', !validator(input.value));
+    });
 });
 
 // Check if form is valid before uploading contact
@@ -184,8 +155,8 @@ function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     const allValid = [...inputs].every(input => validateInput(input));
     if (!allValid) {
-    console.log('Formular ist ungültig');
-    return;
+        console.log('Formular ist ungültig');
+        return;
     }
     uploadContact();
 }
@@ -205,17 +176,16 @@ async function uploadContact() {
     const phone = document.getElementById("contactAddPhone");
     let NewContact = createContactObject(name, email, phone);
 
-    await fetch(`${BASE_URL}/contact.json`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(NewContact)
-    });
-    console.log('Contact succesfully uploaded');
-    window.location.reload(true);
-    closeDialog();
-    
+    try {
+        const newContactRef = push(ref(db, "contact"));
+        await set(newContactRef, NewContact);
+
+        console.log('Contact succesfully uploaded');
+        closeDialog();
+        await nameList(); 
+    } catch (error) {
+        console.error("Fehler beim Erstellen:", error);
+    }
 }
 
 function createContactObject(nameInput, emailInput, phoneInput) {
@@ -229,41 +199,70 @@ function createContactObject(nameInput, emailInput, phoneInput) {
 
 // Update contact to database
 async function updateContact(root, id) {
-    console.log('Updating contact with ID:', id);
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
     const phone = document.getElementById("contactUpdatePhone");
     let UpdateContact = createContactObject(name, email, phone);
 
-    await fetch(`${BASE_URL}/${root}/${id}.json`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(UpdateContact)
-    });
-    const allContacts = await fetchContacts(); 
-    nameList();
-    const updatedContact = allContacts.find(c => c.id === id);
-    if (updatedContact) {
-        contactDetails.innerHTML = showContactDetails(updatedContact);
-    } 
-    closeDialog();
+    try {
+        const contactRef = ref(db, `${root}/${id}`);
+        await update(contactRef, UpdateContact);
+
+        closeDialog();
+        await nameList(); 
+
+        const updatedContact = contacts.find(c => c.id === id);
+        if (updatedContact) {
+            contactDetails.innerHTML = showContactDetails(updatedContact);
+        }
+    } catch (error) {
+        console.error("Fehler beim Update:", error);
+    }
 }
 
 // Delete contact from database
 async function deleteContact(root, id) {
-    await fetch(`${BASE_URL}/${root}/${id}.json`, {
-        method: 'DELETE'
-    });
-    nameList();
-    window.location.reload(true);
+    try {
+        const contactRef = ref(db, `${root}/${id}`);
+        await remove(contactRef);
+
+        contactDetails.innerHTML = "";
+        sideBarvisible(); 
+        await nameList(); 
+    } catch (error) {
+        console.error("Fehler beim Löschen:", error);
+    }
+}
+
+// Render letter section and contact entry
+function letterSection(letter) {
+    return `<div class="sectionList">${letter}</div><hr>`
+}
+
+function contactEntry(contact) {
+    const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
+        ? window.backgroundColorCodes[contact.colorIndex]
+        : '#ccc';
+
+    return `<div class="contactEntry"  data-mail="${contact.email}">
+                <div class="contactlistIcon" style="background-color: ${color};">
+                    ${contact.initials}
+                </div>
+                <div class="contactDitails">
+                    <div class="name">${contact.name}</div>
+                    <div class="mail">${contact.email}</div>
+                </div>
+            </div>`
 }
 
 // Render contact details
 function showContactDetails(contact) {
+    const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
+        ? window.backgroundColorCodes[contact.colorIndex]
+        : '#ccc';
+
     return `<div class="selectedIconName">
-                <div class="selectetIcon" style="background-color: ${backgroundColorCodes[contact.colorIndex]};">
+                <div class="selectetIcon" style="background-color: ${color};">
                     ${contact.initials}
                 </div>
                 <div class="selectedName">
@@ -334,3 +333,19 @@ function editContact(contact) {
                 </div>
             </div>`
 }
+
+function mobileEditBar() {
+    const bar = document.getElementById('mobileEditeBar');
+    if (bar) bar.classList.add('visible');
+}
+
+window.openDialogAdd = openDialogAdd;
+window.openDialogEdit = openDialogEdit;
+window.closeDialog = closeDialog;
+window.isFormValid = isFormValid;
+window.uploadContact = uploadContact;
+window.updateContact = updateContact;
+window.deleteContact = deleteContact;
+window.sideBarvisible = sideBarvisible;
+window.mobileEditBar = mobileEditBar;
+window.nameList = nameList;            

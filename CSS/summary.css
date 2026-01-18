@@ -1,16 +1,3 @@
-@keyframes greetingFadeOut {
-    0% {
-        opacity: 1;
-    }
-    60% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-/* ===== Layout Containers ===== */
 #top-section {
     display: flex;
     flex-direction: row;
@@ -31,7 +18,6 @@
     align-items: center;
 }
 
-/* ===== Typography Helpers ===== */
 #keyMetricsText {
     font-size: 27px;
     font-weight: 400;
@@ -67,7 +53,6 @@
     margin: 0;
 }
 
-/* ===== Metric Cards ===== */
 .metrics-container {
     display: flex;
     flex-direction: row;
@@ -118,7 +103,6 @@
     margin: 0;
 }
 
-/* ===== Urgent Overview ===== */
 .urgent-container {
     display: flex;
     flex-direction: row;
@@ -148,12 +132,10 @@
     gap: 18px;
 }
 
-/* ===== Greeting Block ===== */
-#greeting-section {
+#greetin-section {
     margin: 0;
 }
 
-/* ===== Task Status Row ===== */
 .task-status-row {
     display: flex;
     gap: 24px;
@@ -185,15 +167,12 @@
     text-align: center;
 }
 
-/* ===== Divider ===== */
 #horizontal-divider {
     display: none;
 }
 #top-vertical-divider {
     display: block;
 }
-/* ===== Responsive Tweaks ===== */
-
 
 @media (max-width: 1100px) {
     #top-section {

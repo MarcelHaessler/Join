@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="./CSS/summary.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
     <link rel="icon" type="image/x-icon" href="./assets/img/Logo for Favicon construction.png">
-
     <title>Summary</title>
 </head>
 
-<body onload="renderAll()">
+<body>
     <div id="header"></div>
     <div id="side-bar"></div>
+    <script src="./JS/render_templates.js"></script>
     <main>
         <section id="top-section">
             <h1>Join 360</h1>
@@ -27,7 +27,8 @@
         </section>
 
         <section id="task-metrics" class="container-spacing main-section">
-            <div onmouseenter="pencilHoverEffect()" onmouseleave="pencilLeaveEffect()" id="to-do-container" class="metrics-container">
+            <div onmouseenter="pencilHoverEffect()" onmouseleave="pencilLeaveEffect()" id="to-do-container"
+                class="metrics-container">
                 <div class="button-and-cat">
                     <img class="btn-img" src="./assets/img/pencil-button.svg" alt="">
 
@@ -38,7 +39,8 @@
                 </div>
             </div>
 
-            <div onmouseenter="doneHoverEffect()" onmouseleave="doneLeaveEffect()" id="done-container" class="metrics-container">
+            <div onmouseenter="doneHoverEffect()" onmouseleave="doneLeaveEffect()" id="done-container"
+                class="metrics-container">
                 <div class="button-and-cat">
                     <img class="btn-img" src="./assets/img/done-button.svg" alt="checked-img">
 
@@ -61,7 +63,8 @@
                         </div>
                     </div>
 
-                    <img class="urgent-vertical-img" src="./assets/img/urgent-vertical-divider.png" alt="a vertival divider">
+                    <img class="urgent-vertical-img" src="./assets/img/urgent-vertical-divider.png"
+                        alt="a vertival divider">
                     <div class="deadline-container">
                         <p id="due-date">October 16, 2022</p>
                         <p class="category">Upcoming Deadline</p>
@@ -104,14 +107,8 @@
     </main>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
     <script src="./JS/summary.js"></script>
-    <script src="./JS/summary-firebase.js"></script>
-    <script src="./JS/fetch.js"></script>
+    
     <script src="./JS/initials.js"></script>
-    
-    
-    
-    
-    
 </body>
 
 </html>
