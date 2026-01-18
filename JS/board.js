@@ -33,9 +33,14 @@ window.addEventListener("tasksLoaded", () => {
 });
 
 function updateBoard() {
+    let searchTerm = document.getElementById('search-tasks-input').value.toLowerCase();
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
+
     statuses.forEach(status => {
-        let filteredTasks = tasks.filter(t => t['taskgroup'] == status);
+        let filteredTasks = tasks.filter(t =>
+            t['taskgroup'] == status &&
+            (t.title.toLowerCase().includes(searchTerm) || t.description.toLowerCase().includes(searchTerm))
+        );
 
         let container = document.getElementById(status);
         container.innerHTML = '';
@@ -85,3 +90,4 @@ window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
+window.updateBoard = updateBoard;

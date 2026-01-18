@@ -25,6 +25,28 @@ top-section{
     }
 }
 
+.titleBoard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    button {
+        display: none;
+        height: 40px;
+        width: 40px;
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--primerColor);
+
+        img {
+            height: 20px;
+            width: 20px;
+            filter: brightness(0) saturate(100%) invert(98%) sepia(2%) saturate(0%) hue-rotate(254deg) brightness(117%) contrast(100%);
+        }
+    }
+}
+
 .find-container{
     display:flex;
     gap: 32px;
@@ -353,6 +375,12 @@ textarea {
         height: calc(100dvh - 96px - 80px);
         padding: 16px;
         overflow: visible;
+    }
+
+    .titleBoard {
+        button {
+            display: flex;
+        }
     }
 
     .add-task-button {
