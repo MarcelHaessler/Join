@@ -404,6 +404,7 @@ li {
 #bottom-button-container {
     display: flex;
     gap: 16px;
+    z-index: 10;
 }
 
 #clear-task-button, #create-task-button {
