@@ -27,6 +27,7 @@ function updateGreeting(name = "") {
 //eventListener
 document.addEventListener("DOMContentLoaded", () => {
     updateGreeting("");
+    loadSummaryCounts();
 });
 
 window.addEventListener("userReady", (auth) => {
