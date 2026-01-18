@@ -82,7 +82,10 @@ async function updateTask(task) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({taskgroup: task.taskgroup})
+        body: JSON.stringify({
+                                taskgroup: task.taskgroup,
+                                subtasks: task.subtasks
+                        })
     });
     updateBoard();
 }
@@ -118,4 +121,25 @@ function closeTaskCardOverlay() {
 
 function stopPropagation(event) {
   event.stopPropagation(event);
+}
+
+function checkboxSubtask(subtaskIndex, taskIndex) {
+    const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
+
+    if (checkbox.src.includes('checkbox_inactive.svg')) {
+        checkbox.src = './assets/img/checkbox_active.svg';
+    } else {
+        checkbox.src = './assets/img/checkbox_inactive.svg';
+    }
+    subtaskCompleted(subtaskIndex, taskIndex);
+}
+
+function subtaskCompleted(subtaskIndex, taskIndex) {
+    const subtask = tasks[taskIndex].subtasks[subtaskIndex];
+    if (subtask.subtaskComplete === false) {
+        subtask.subtaskComplete = true;
+    } else {
+        subtask.subtaskComplete = false;
+    }
+    updateTask(tasks[taskIndex]);
 }

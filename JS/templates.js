@@ -125,19 +125,7 @@ function generateTodoHTML(element) {
 // Opened Task Card Template
 
 function generateOpenedTaskCardHTML(element) {
-    let initialsHTML = '';
     let taskColor;
-
-
-    if (element.assignedPersons && element.assignedPersons.length > 0) {
-        initialsHTML = element.assignedPersons.map(Persons => {
-            return `
-            <div class="contact-initials" style="background-color: var(--color${Persons.colorIndex});">
-                <p>${Persons.initials}</p>
-            </div>
-            `;
-        }).join('');
-    }
 
     if (element.category == "User Story") {
         taskColor = 'var(--taskColor1)';
@@ -146,10 +134,12 @@ function generateOpenedTaskCardHTML(element) {
     }
     return `    <section onclick="stopPropagation(event)" id="task-card">
                     <div id="task-card-head">
-                        <div id="task-category-box">
-                            <p id="task-category-text">Placeholder</p>
+                        <div style="background-color: ${taskColor};" id="task-category-box">
+                            <p id="task-category-text">${element.category}</p>
                         </div>
-                        <img onclick="closeTaskCardOverlay()" src="./assets/img/add_task/close.svg" alt="close-task-card">
+                        <div id="close-task-card-button" onclick="closeTaskCardOverlay()" >
+                            <img src="./assets/img/add_task/close.svg" alt="close-task-card">
+                        </div>
                     </div>
                     <h2 id="task-title">${element.title}</h2>
                     <p id="task-description">${element.description}</p>
@@ -158,7 +148,7 @@ function generateOpenedTaskCardHTML(element) {
                         <p id="due-date">${element.date}</p>
                     </div>
                     <div id="task-priority-container">
-                        <p>Priority</p>
+                        <p>Priority:</p>
                         <div id="task-priority">
                             <p id="priority-level">${element.priority}</p>
                             <img src="./assets/img/add_task/${element.priority}.svg" alt="${element.priority}">
@@ -167,14 +157,13 @@ function generateOpenedTaskCardHTML(element) {
                     <div id="task-assignment-container">
                         <p>Assigned to:</p>
                         <div id="assigned-contacts">
-                            ${initialsHTML}
+                            ${addAssignedPersons(element)}
                         </div>
                     </div>
                     <div id="task-subtasks">
                         <p>Subtasks:</p>
                         <div>
-                            <img src="./assets/img/checkbox_inactive.svg" alt="checkbox-inactive">
-                            <p id="subtask-text"></p>
+                            ${addSubtasks(element, tasks.indexOf(element))}
                         </div>
                     </div>
                     <div id="task-card-bottom">
@@ -189,5 +178,44 @@ function generateOpenedTaskCardHTML(element) {
                         </div>
                     </div>
                 </section>`;
+}
 
+function addAssignedPersons(element) {
+    let assignedContainer = '';
+    let names = element.assignedPersons;
+    
+
+    for (let index = 0; index < names.length; index++) {
+        const person = names[index];
+        assignedContainer += `
+        <div class="assigned-person">
+            <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+                <p>${person.initials}</p>
+            </div>
+            <p class="assigned-person-name">${person.name}</p>
+        </div>
+        `;
+    }
+    return assignedContainer;
+}
+
+function addSubtasks(element, taskIndex) {
+    let subtasksContainer = '';
+    let subtasks = element.subtasks;
+
+    if (!subtasks || subtasks.length === 0) {
+        return `<p>No subtasks available.</p>`;
+    }else {
+
+        for (let index = 0; index < subtasks.length; index++) {
+            const subtask = subtasks[index].text;
+            subtasksContainer += `
+            <div onclick="checkboxSubtask(${index}, ${taskIndex})" id="subtask-${index}" class="subtask">
+                <img id="subtask-checkbox-${index}" src="./assets/img/checkbox_inactive.svg" alt="checkbox-inactive">
+                <p>${subtask}</p>
+            </div>
+            `;
+        }
+    }
+    return subtasksContainer;
 }
