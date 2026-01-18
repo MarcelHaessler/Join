@@ -79,6 +79,7 @@ function hideLoader() {
 window.showLoader = showLoader;
 window.hideLoader = hideLoader;
 initLoader();
+fetchHtmlTemplates();
 
 async function fetchContacts() {
     showLoader();
