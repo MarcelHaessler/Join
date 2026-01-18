@@ -1,13 +1,19 @@
 <header>
-        <p id="header-title">Kanban Project Management Tool</p>
-        <img id="header-logo" src="./assets/img/logo_dark.svg" alt="">
-        <div id="header-right">
-            <div id="help-container">
-                <a href="help.html"><img id="help-button" src="./assets/img/help_button.svg" alt="Help"></a>
-            </div>
-            <div id="user-icon">
-                <p id="user-initials"></p>
-            </div>
-            
+    <p id="header-title">Kanban Project Management Tool</p>
+    <img id="header-logo" src="./assets/img/logo_dark.svg" alt="" width="32" height="39">
+    <div id="header-right">
+        <div id="help-container">
+            <a href="help.html"><img id="help-button" src="./assets/img/help_button.svg" alt="Help" width="26"
+                    height="26"></a>
         </div>
-    </header>
+        <div id="user-icon">
+            <p id="user-initials"></p>
+        </div>
+    </div>
+    <dialog id="dialogLogOut">
+        <button id="help-button" onclick="window.location.href='./help.html'">Help</button>
+        <button id="legal-button" onclick="window.location.href='./legal_notice.html'">Legal Notice</button>
+        <button id="policy-button" onclick="window.location.href='./privacy_policy.html'">Privacy Policy</button>
+        <button id="logout-button" onclick="logoutUser()">Log out</button>
+    </dialog>
+</header>

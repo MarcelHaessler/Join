@@ -4,22 +4,18 @@ body {
     margin: 0;
 }
 
-/* Das gesamte Layout */
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     display: grid;
     grid-template-columns: 232px 1fr;
-    /* Sidebar + Rest */
     grid-template-rows: 96px 1fr;
-    /* Header + Main */
     grid-template-areas:
         "sidebar header"
         "sidebar main";
     height: 100vh;
 }
 
-/* Sidebar-Container (den du per fetch() befüllst) */
 #side-bar {
     grid-area: sidebar;
     background: #2A3647;
@@ -27,17 +23,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    /* wichtig für volle Breite */
 }
 
-/* Header (per fetch) */
 #header {
     grid-area: header;
     height: 96px;
 }
 
-
-/* Main Content */
 main {
     grid-area: main;
     padding: 40px;
@@ -68,7 +60,6 @@ main {
 
     main {
         padding-bottom: 80px;
-        /* Platz für Bottom-Navigation */
     }
 
     #greeting-section {

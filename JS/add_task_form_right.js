@@ -1,27 +1,46 @@
-/**Put all Background colors in the array after style.css has been Updated. */
-// let backgroundColorCodes = [
-// 'var(--color1)',
-// 'var(--color2)',
-// 'var(--color3)',
-// 'var(--color4)',
-// 'var(--color5)',
-// 'var(--color6)',
-// 'var(--color7)',
-// 'var(--color8)',
-// 'var(--color9)',
-// 'var(--color10)',
-// 'var(--color11)',
-// 'var(--color12)',
-// 'var(--color13)',
-// 'var(--color14)',
-// 'var(--color15)'];
 let searchTimeout;
-let selectedContacts =[];
+let selectedContacts = [];
 let currentCategory = "";
 let subtaskIndex = 0;
-let subtaskListArray;
+let subtaskListArray = [];
 
-/**This function adds the defined colors in backgroundColorCodes array to user initials*/
+function addSubtaskToList() {
+    let subtasks = document.getElementById("subtasks");
+    let subtaskList = document.getElementById("subtask-list");
+
+    subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
+        title: li.textContent.trim(),
+        completed: false
+    }));
+    subtaskIndex++;
+}
+
+function deleteSubtaskListElement(id) {
+    let subtaskElement = document.getElementById(id);
+    subtaskElement.remove();
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
+        title: li.textContent.trim(),
+        completed: false
+    }));
+}
+
+
+const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
+    box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
+        title: li.textContent.trim(),
+        completed: false
+    }));
+});
+
+const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
+    deleteSubtaskListElement(taskId);
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
+        title: li.textContent.trim(),
+        completed: false
+    }));
+});
 function addInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".contact-initials");
 
@@ -38,13 +57,13 @@ function fillAssignmentDropdown() {
     contactsDropdown.innerHTML = "";
 
     for (let index = 0; index < contacts.length; index++) {
-    let contactName = contacts[index].name;
-    let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-    if (index === 0) {
-        contactsDropdown.innerHTML += addSelfTemplate(contactName, contactInitials, index);
-    }else{
-        contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
-    }
+        let contactName = contacts[index].name;
+        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
+        if (index === 0) {
+            contactsDropdown.innerHTML += addSelfTemplate(contactName, contactInitials, index);
+        } else {
+            contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
+        }
     }
 }
 
@@ -61,7 +80,7 @@ function renderAssignmentDropdown() {
 }
 
 /**Function that rotates the arrow on opening/closing the dropdown of assignment dropdown*/
-document.addEventListener("click", function(e){
+document.addEventListener("click", function (e) {
     const assignmentInput = document.getElementById("assign-input");
     const assignmentDropdown = document.getElementById("contacts-dropdown");
     const assignmentArrow = document.querySelector("#assign-input-box .dropdown-img-container");
@@ -82,14 +101,14 @@ function delaySearchContact() {
 }
 
 /**Function to search between the contacts and show them in assignment dropdown*/
-function searchContact(){
+function searchContact() {
     let assignInput = document.getElementById('assign-input');
     let input = assignInput.value.toUpperCase();
-    let contactElements = document.getElementById("contacts-dropdown");   
+    let contactElements = document.getElementById("contacts-dropdown");
     let singleContacts = Array.from(contactElements.getElementsByClassName("dropdown-box"));
 
     singleContacts.forEach(e => {
-        const contactName = e.querySelector('.contact-fullname');   
+        const contactName = e.querySelector('.contact-fullname');
         const txtValue = contactName.innerText || contactName.textContent;
         e.style.display = txtValue.toUpperCase().includes(input) ? "" : "none";
     })
@@ -99,16 +118,14 @@ function searchContact(){
 function selectContact(index) {
     let currentContact = document.getElementById(`contact${index}`);
     currentContact.classList.toggle('selected-contact');
-    
+
     let contact = contacts[index]
     let deleteContact = selectedContacts.find(c => c === contact);
-    console.log(deleteContact);
 
     if (deleteContact) {
         selectedContacts = selectedContacts.filter(c => c !== contact);
-    } else {selectedContacts.push(contact)};
+    } else { selectedContacts.push(contact) };
 
-    console.log(selectedContacts);
     renderSelectedContacts();
     addChosenInitialsBackgroundColors();
     changeCheckbox(index);
@@ -123,8 +140,8 @@ function renderSelectedContacts() {
     } else { selectedContactsContainer.classList.add('d_none'); }
     for (let index = 0; index < selectedContacts.length; index++) {
         if (index <= 2) {
-            let contactInitials = selectedContacts[index].name.charAt(0).toUpperCase() 
-            + selectedContacts[index].name.charAt(selectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
+            let contactInitials = selectedContacts[index].name.charAt(0).toUpperCase()
+                + selectedContacts[index].name.charAt(selectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
             selectedContactsContainer.innerHTML += addInitialTemplate(contactInitials);
         }
     }
@@ -141,7 +158,7 @@ function addChosenInitialsBackgroundColors() {
 
     chosenContactInitials.forEach((initial, index) => {
         let contact = contacts[index];
- 
+
         initial.style.backgroundColor = backgroundColorCodes[contact.colorIndex];
     });
 }
@@ -170,7 +187,7 @@ function openCloseCategoryDropdown() {
 }
 
 /**Function that rotates on opening/closing the category dropdown */
-document.addEventListener("click", function(e){
+document.addEventListener("click", function (e) {
     const categoryInput = document.getElementById("category-input");
     const categoryDropdown = document.getElementById("category-dropdown");
     const assignmentArrowImg = document.getElementById("category-arrow");
@@ -189,10 +206,12 @@ function checkCategory() {
     if (currentCategory === '') {
         categoryInputWarning.innerHTML = "This field is required.";
         categoryInputWarning.style.color = "#e60025";
-        categoryInput.classList.add("invalid");}
+        categoryInput.classList.add("invalid");
+    }
     if (currentCategory !== '') {
         descriptionResultDiv.innerHTML = "";
-        categoryInput.classList.remove("invalid");}
+        categoryInput.classList.remove("invalid");
+    }
 }
 
 
@@ -202,8 +221,6 @@ function choseTechnicalTask() {
     categoryInput.value = "Technical Task";
     currentCategory = "Technical Task";
     openCloseCategoryDropdown();
-    console.log(currentCategory);
-    
 }
 
 /**Function to select chosen category that gives a user response and stores chosen category in currentCategory array.*/
@@ -212,47 +229,42 @@ function choseUserStory() {
     categoryInput.value = "User Story";
     currentCategory = "User Story";
     openCloseCategoryDropdown();
-    console.log(currentCategory);
 }
 
 /**Function to show input buttons from the first tryped character in the input field. */
 function showHideSubtaskButtons() {
     let subtasks = document.getElementById("subtasks");
 
-    subtasks.value.length === 0 
-    
-    ? document.getElementById("subtask-button-container").classList.add("d_none") 
-    : document.getElementById("subtask-button-container").classList.remove("d_none");
+    subtasks.value.length === 0
+
+        ? document.getElementById("subtask-button-container").classList.add("d_none")
+        : document.getElementById("subtask-button-container").classList.remove("d_none");
 }
 
 /**Function to empty the input field. */
 function clearInputField() {
     let subtasks = document.getElementById("subtasks");
     subtasks.value = '';
-    document.getElementById("subtask-button-container").classList.add("d_none"); 
+    document.getElementById("subtask-button-container").classList.add("d_none");
 }
 
-/**function that adds the value of input to the list of subtasks. */
+/**Function that adds the value of input to the list of subtasks. */
 function addSubtaskToList() {
     let subtasks = document.getElementById("subtasks");
     let subtaskList = document.getElementById("subtask-list");
-    
+
     subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
-
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    console.log(subtaskListArray);
-
     subtaskIndex++;
 }
 
-//Function to delete chosen subtask from list
+/**Function to delete chosen subtask from list */
 function deleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     subtaskElement.remove();
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    console.log(subtaskListArray);
 }
-//Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li.
+/**Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li. */
 function editSubtask(taskId) {
     const box = document.getElementById(taskId);
     const li = box.querySelector("li.subtask-element");
@@ -264,8 +276,6 @@ function editSubtask(taskId) {
 
     const buttonContainer = createEditButtons(input, box, taskId);
     box.appendChild(buttonContainer);
-
-    console.log(subtaskListArray);
 }
 
 /**Function that creates an input field with what the user can directly edit the added subtask. */
@@ -277,7 +287,7 @@ function createEditInput(text) {
     return input;
 }
 
-/**function that creates new buttons and a divider in the new input field. */
+/**Function that creates new buttons and a divider in the new input field. */
 function createEditButtons(input, box, taskId) {
     const container = document.createElement("div");
     container.className = "subtask-list-button-container";
@@ -285,13 +295,11 @@ function createEditButtons(input, box, taskId) {
     const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
         deleteSubtaskListElement(taskId);
         subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-        console.log(subtaskListArray);
     });
     const divider = createDivider();
     const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
         box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
         subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-        console.log(subtaskListArray);
     });
 
     container.append(deleteBtn, divider, saveBtn);
