@@ -67,39 +67,18 @@ function editedSubtaskTemplate(taskId, newText) {
         `
 }
 
-
-// Task Card Template
 function generateTodoHTML(element) {
-    let initialsHTML = '';
-    let progressHTML = ``;
-    let taskColor;
-    let completedSubtasks;
-    let totalSubtasks;
-    let progressValue;
+    let initialsHTML = ''; let progressHTML = ``; 
+    let taskColor; let completedSubtasks;
+    let totalSubtasks; let progressValue;
     
-    if (element.assignedPersons && element.assignedPersons.length > 0) {
-        initialsHTML = element.assignedPersons.map(Persons => {
-            return `
-            <div class="contact-initials" style="background-color: var(--color${Persons.colorIndex});">
-                <p>${Persons.initials}</p>
-            </div>
-            `;
-        }).join('');
-    }
+    initialsHTML = generateOptionHTML(element);
 
-    if (element.category == "User Story") {
-        taskColor = 'var(--taskColor1)';
-    } else {
-        taskColor = 'var(--taskColor2)';
-    }
+    taskColor = element.category === "User Story"
+    ? 'var(--taskColor1)'
+    : 'var(--taskColor2)';
 
-    if (element.subtasks && element.subtasks.length > 0) {
-        completedSubtasks = element.subtasks.filter(subtask => subtask.completed).length;
-        totalSubtasks = element.subtasks.length;
-        progressValue = (completedSubtasks / totalSubtasks) * 100;
-        progressHTML =  `<progress id="progress" value="${progressValue}" max="100"></progress>
-                        <span id="progressText" class="subtasks-counter">${completedSubtasks}/${totalSubtasks} Subtasks</span>`;
-    } 
+    progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
     return `
     <div draggable="true" ondragstart="startDragging('${element.id}')" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
@@ -218,4 +197,29 @@ function addSubtasks(element, taskIndex) {
         }
     }
     return subtasksContainer;
+function generateOptionHTML(element) {
+    if (element.assignedPersons && element.assignedPersons.length > 0) {
+        return element.assignedPersons
+            .map(person => `
+                <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+                    <p>${person.initials}</p>
+                </div>
+            `)
+            .join('');
+    }
+    return '';
+}
+
+function generateSubtaskProgressHTML(subtasks) {
+    if (!subtasks || subtasks.length === 0) {
+        return '';
+    }
+    const completed = subtasks.filter(subtask => subtask.completed).length;
+    const total = subtasks.length;
+    const progressValue = (completed / total) * 100;
+
+    return `
+        <progress value="${progressValue}" max="100"></progress>
+        <span class="subtasks-counter">${completed}/${total} Subtasks</span>
+    `;
 }

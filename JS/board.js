@@ -1,9 +1,14 @@
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
+closeBtn.addEventListener('click', addTaskOverlayClose);
+const ToDo = document.getElementById('todo-tiles');
+const InProgress = document.getElementById('progress-tiles');
+const Awaiting = document.getElementById('feedback-tiles');
+const Done = document.getElementById('done-tiles');
+let currentDraggedElement;
 
 function addTaskOverlayOpen(boardGroup) {
     addTaskOverlay.classList.remove('d_none', 'closing');
-    // kleine Verzögerung, damit CSS Transition greift
     setTimeout(() => {
         addTaskOverlay.classList.add('active');
     }, 10);
@@ -23,31 +28,25 @@ function addTaskOverlayClose() {
     });
 }
 
-// Schließen über X
-closeBtn.addEventListener('click', addTaskOverlayClose);
- const ToDo = document.getElementById('todo-tiles');
- const InProgress = document.getElementById('progress-tiles');
- const Awaiting = document.getElementById('feedback-tiles');
- const Done = document.getElementById('done-tiles');
- let currentDraggedElement;
- //const BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
-
 window.addEventListener("tasksLoaded", () => {
     updateBoard();
 });
 
 function updateBoard() {
+    let searchTerm = document.getElementById('search-tasks-input').value.toLowerCase();
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
+
     statuses.forEach(status => {
-        let filteredTasks = tasks.filter(t => t['taskgroup'] == status);
-        
+        let filteredTasks = tasks.filter(t =>
+            t['taskgroup'] == status &&
+            (t.title.toLowerCase().includes(searchTerm) || t.description.toLowerCase().includes(searchTerm))
+        );
+
         let container = document.getElementById(status);
         container.innerHTML = '';
 
         if (filteredTasks.length === 0) {
-            container.innerHTML = `<p class="no-tasks-message">No tasks in this category.</p>`;
+            container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
             return;
         }
 
@@ -67,13 +66,13 @@ function allowDrop(ev) {
 
 function moveTo(taskgroup) {
     const task = tasks.find(t => t.id === currentDraggedElement);
-    console.log('Moved to ' + task.title);
-    console.log(task.taskgroup);
     task.taskgroup = taskgroup;
-    console.log(task.taskgroup);
     updateTask(task);
     updateBoard()
 }
+
+import { db } from "./firebaseAuth.js";
+import { ref, update } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function updateTask(task) {
     console.log('Updating taskgroup for ' + task.title);
@@ -143,3 +142,19 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
     }
     updateTask(tasks[taskIndex]);
 }
+    try {
+        const taskRef = ref(db, `tasks/${task.id}`);
+        await update(taskRef, { taskgroup: task.taskgroup });
+        updateBoard();
+    } catch (error) {
+        console.error("Error updating task:", error);
+    }
+}
+
+
+window.updateTask = updateTask;
+window.addTaskOverlayOpen = addTaskOverlayOpen;
+window.startDragging = startDragging;
+window.allowDrop = allowDrop;
+window.moveTo = moveTo;
+window.updateBoard = updateBoard;
