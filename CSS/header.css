@@ -1,4 +1,8 @@
-header{
+#header {
+    min-height: 96px;
+}
+
+header {
     width: 100%;
     height: 96px;
     display: flex;
@@ -6,17 +10,17 @@ header{
     align-items: center;
     padding: 0 40px;
     box-sizing: border-box;
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     z-index: 10;
     position: relative;
 }
 
-#header-logo{
+#header-logo {
     display: none;
 }
 
-#header-title{
+#header-title {
     display: flex;
     align-items: center;
     font-size: 20px;
@@ -24,7 +28,7 @@ header{
     color: rgba(0, 0, 0, 1);
 }
 
-#header-right{
+#header-right {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,7 +37,7 @@ header{
     gap: 16px;
 }
 
-#help-container{
+#help-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,19 +45,19 @@ header{
     height: 32px;
 }
 
-#help-button{
+#help-button {
     width: 26px;
     height: 26px;
 }
 
-#help-button:hover{
+#help-button:hover {
     width: 32px;
     height: 32px;
     transition: 0.2s;
     cursor: pointer;
 }
 
-#user-icon{
+#user-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,13 +68,13 @@ header{
     color: #28abe2 !important;
 }
 
-#user-icon:hover{
+#user-icon:hover {
     background-color: #e2e6ec;
     cursor: pointer;
     transition: 0.2s;
 }
 
-#user-initials{
+#user-initials {
     font-size: 20px;
     font-weight: 600;
 }
@@ -102,17 +106,22 @@ header{
         justify-content: flex-start;
         align-items: center;
     }
+
     #help-button {
         display: none;
     }
 }
 
 #dialogLogOut::backdrop {
-  background: transparent;
-  backdrop-filter: none;
+    background: transparent;
+    backdrop-filter: none;
 }
 
 @media (max-width: 1100px) {
+    #header {
+        min-height: 80px;
+    }
+
     #header-title {
         display: none;
     }
@@ -127,7 +136,7 @@ header{
     #dialogLogOut {
         top: 60px;
         right: 12px;
-        
+
         #help-button {
             display: flex;
             width: 100%;

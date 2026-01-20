@@ -9,7 +9,7 @@ function getGreetingTextByTime(date = new Date()) {
 //render greeting
 function updateGreeting(name = "") {
     const greetEl = document.getElementById("greeting-text");
-    const nameEl  = document.getElementById("greet-name");
+    const nameEl = document.getElementById("greet-name");
 
     if (!greetEl || !nameEl) return;
 
@@ -27,6 +27,7 @@ function updateGreeting(name = "") {
 //eventListener
 document.addEventListener("DOMContentLoaded", () => {
     updateGreeting("");
+    loadSummaryCounts();
 });
 
 window.addEventListener("userReady", (auth) => {
@@ -54,11 +55,8 @@ function doneLeaveEffect() {
     if (img) img.src = './assets/img/done-button.svg';
 }
 
-// onload
-function renderAll() {
-    fetchHtmlTemplates();
-}
+
 
 window.addEventListener("userReady", (auth) => {
-    console.log("Name:",auth.detail.name, "Mail:", auth.detail.email);
+    console.log("Name:", auth.detail.name, "Mail:", auth.detail.email);
 });

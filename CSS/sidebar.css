@@ -1,9 +1,15 @@
+#side-bar {
+    min-width: 232px;
+    height: 100vh;
+}
+
 a {
     text-decoration: none;
 }
 
 #links-and-footer p {
     color: #CDCDCD;
+    top: 232px;
 }
 
 #sidebar-main {
@@ -13,7 +19,7 @@ a {
 #links-and-footer {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
@@ -34,7 +40,6 @@ a {
 
 #sidebar-footer .link-wrapper:not(.current-page):hover {
     background-color: transparent;
-    /* keep footer links flat */
 }
 
 .link-container {
@@ -66,13 +71,21 @@ a {
 }
 
 #logo {
-    padding-top: 64px;
-    margin-bottom: 100px;
+    /* padding-top: 64px;
+    margin-bottom: 100px; */
+    height: 284px;
     text-align: center;
+
+    img {
+        width: auto;
+        height: 120px;
+        padding-top: 64px;
+    }
 }
 
 #sidebar-footer {
     display: flex;
+    margin-top: auto;
     flex-direction: column;
     align-items: center;
     padding-bottom: 64px;
@@ -87,23 +100,20 @@ a {
 }
 
 @media (max-width: 1100px) {
-
-    /* Sidebar: Bottom-Bar, 80px hoch */
     #side-bar {
         height: 80px;
         min-height: 80px;
+        min-width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
     }
 
-    /* Logo ausblenden */
     #logo {
         display: none;
     }
 
-    /* Links nebeneinander (hatten wir schon grob) */
     #buttons-container {
         flex-direction: row;
         gap: 10px;
@@ -122,7 +132,6 @@ a {
 
     .link-container {
         flex-direction: column;
-        /* Icon über Text */
         align-items: center;
         justify-content: center;
         width: auto;
@@ -130,22 +139,18 @@ a {
         gap: 4px;
     }
 
-    /* Icon-Größe 24x24 */
     .link-container img {
         width: 24px;
         height: 24px;
         margin-top: 8px;
     }
 
-
-    /* Schriftgröße 16px */
     .link-container p {
         font-size: 16px;
         margin: 0;
         padding-bottom: 8px;
     }
 
-    /* Footer-Links auf Mobile ausblenden */
     #sidebar-footer {
         display: none;
     }
