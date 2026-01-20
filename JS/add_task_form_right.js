@@ -257,6 +257,7 @@ function addSubtaskToList() {
     subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
     subtaskIndex++;
+    clearInputField();
 }
 
 /**Function to delete chosen subtask from list */
