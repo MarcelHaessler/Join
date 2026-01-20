@@ -1,14 +1,18 @@
 // ===== Firebase tasks (Summary counts) =====
-const FIREBASE_BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app';
-
+import { db } from "./firebaseAuth.js";
+import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchAllTasks() {
     try {
-        const res = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
-        if (!res.ok) {
-            throw new Error(`Firebase request failed: ${res.status} ${res.statusText}`);
+        const tasksRef = ref(db, "tasks");
+        const snapshot = await get(tasksRef);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            console.log("No data available");
+            return null;
         }
-        return await res.json(); // object or null
     } catch (err) {
         console.error('fetchAllTasks() failed:', err);
         return null;
