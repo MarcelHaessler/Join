@@ -1,6 +1,8 @@
 const false_password = document.querySelector('.false_password');
 const pw = document.getElementById("signup-password");
-// Checkbox activation
+const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^.{6,}$/;
+
 function activateCheckbox() {
     const checkbox = document.getElementById("checkbox");
     if (checkbox.src.includes("checkbox_inactive.svg")){
@@ -10,10 +12,6 @@ function activateCheckbox() {
     }
 }
 
-const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const passwordRegex = /^.{6,}$/;
-
-// Input validation on blur and red border for invalid inputs
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         if (input.placeholder === 'Name') {
@@ -70,7 +68,6 @@ function validateConfirmPassword(password, input) {
     }
 }
 
-// Password visibility toggle
 document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
     icon.addEventListener('click', () => {
         const passwordInput = icon.parentElement.querySelector('input');
