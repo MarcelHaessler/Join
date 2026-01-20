@@ -51,7 +51,10 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         priority: taskPriority,
         category: taskCategory,
         assignedPersons: taskAssignments,
-        subtasks: taskSubtasks,
+        subtasks: taskSubtasks.map(subtask => ({
+            text: subtask,
+            subtaskComplete: false
+        })),
         createdAt: new Date().toISOString(),
         taskgroup: taskgroup,
         createdBy: username
