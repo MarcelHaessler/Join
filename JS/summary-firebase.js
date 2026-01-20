@@ -1,10 +1,7 @@
 // ===== Firebase tasks (Summary counts) =====
 const FIREBASE_BASE_URL = 'https://join-ad1a9-default-rtdb.europe-west1.firebasedatabase.app';
 
-/**
- * Fetches all tasks from Firebase Realtime Database.
- * @returns {Promise<object|null>} Object keyed by taskId, or null if no tasks exist.
- */
+
 async function fetchAllTasks() {
     try {
         const res = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
@@ -18,10 +15,8 @@ async function fetchAllTasks() {
     }
 }
 
-/**
- * Updates the "Tasks in Board" number (all tasks).
- * @param {object|null} tasks
- */
+//updates counter
+
 function renderBoardCount(tasks) {
     const el = document.getElementById('number-board');
     if (!el) return;
@@ -30,11 +25,6 @@ function renderBoardCount(tasks) {
     el.textContent = String(count);
 }
 
-/**
- * Updates the to-do counter (#number-todo).
- * Uses task.taskgroup from Firebase.
- * @param {object|null} tasks
- */
 function renderTodoCount(tasks) {
     const el = document.getElementById('number-todo');
     if (!el) return;
@@ -54,7 +44,6 @@ function renderTodoCount(tasks) {
     el.textContent = String(todoCount);
 }
 
-// updates done counter
 function renderDoneCount(tasks) {
     const el = document.getElementById('number-done');
     if (!el) return;
@@ -116,11 +105,6 @@ el.textContent = String(feedbackCount);
     
 }
 
-/**
- * Updates the number of urgent tasks.
- * A task is considered urgent if task.priority === 'urgent' (case-insensitive)
- * @param {object|null} tasks
- */
 function renderUrgentCount(tasks) {
     const el = document.getElementById('number-urgent');
     if (!el) return;
@@ -137,12 +121,8 @@ function renderUrgentCount(tasks) {
     el.textContent = String(urgentCount);
 }
 
-/**
- * Updates the upcoming due date for urgent tasks.
- * Uses task.date and picks the earliest date.
- * Your date format in Firebase is DD/MM/YYYY (e.g. 22/01/2026)
- * @param {object|null} tasks
- */
+//updates deadline date
+
 function renderUrgentDueDate(tasks) {
     const el = document.getElementById('due-date');
     if (!el) return;
@@ -182,9 +162,6 @@ function renderUrgentDueDate(tasks) {
     });
 }
 
-/**
- * Loads and renders summary counts.
- */
 async function loadSummaryCounts() {
     const tasks = await fetchAllTasks();
     renderBoardCount(tasks);
