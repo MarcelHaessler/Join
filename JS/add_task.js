@@ -41,6 +41,8 @@ function checkFullfilledRequirements() {
     }
     uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
     clearTask();
+    userResponseMessage();
+    setTimeout(goToBoard, 500);
 }
 
 function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
@@ -101,4 +103,16 @@ function clearWarnings() {
     document.querySelectorAll('[id$="-warning"]').forEach(warn => {
         warn.innerHTML = '';
     });
+}
+
+//Task that animates response message
+
+function userResponseMessage(){
+    let messageContainer = document.getElementById('task-message');
+    messageContainer.classList.add('active');
+}
+
+//Change to board afte created task
+function goToBoard(){
+    window.location.href = "board.html";
 }
