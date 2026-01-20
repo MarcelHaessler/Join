@@ -86,6 +86,7 @@ async function updateTask(task) {
     }
 }
 
+
 function openTaskCardOverlay(taskId) {
     const task = tasks.find(t => t.id === taskId);
 
@@ -139,8 +140,7 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
     }
     updateTask(tasks[taskIndex]);
 }
-
-
+   
 
 
 window.updateTask = updateTask;
@@ -149,7 +149,3 @@ window.startDragging = startDragging;
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
 window.updateBoard = updateBoard;
-window.openTaskCardOverlay = openTaskCardOverlay;
-window.closeTaskCardOverlay = closeTaskCardOverlay;
-window.stopPropagation = stopPropagation;
-window.checkboxSubtask = checkboxSubtask;
