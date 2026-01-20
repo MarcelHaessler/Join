@@ -77,7 +77,9 @@ import { ref, update } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-
 async function updateTask(task) {
     try {
         const taskRef = ref(db, `tasks/${task.id}`);
-        await update(taskRef, { taskgroup: task.taskgroup });
+        await update(taskRef, { taskgroup: task.taskgroup,
+            subtasks: task.subtasks 
+         });
         updateBoard();
     } catch (error) {
         console.error("Error updating task:", error);
