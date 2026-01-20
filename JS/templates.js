@@ -178,6 +178,7 @@ function addAssignedPersons(element) {
     return assignedContainer;
 }
 
+
 function addSubtasks(element, taskIndex) {
     let subtasksContainer = '';
     let subtasks = element.subtasks;
