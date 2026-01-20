@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +14,10 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 
-<body onload="fetchHtmlTemplates()">
+<body>
     <div id="header"></div>
     <div id="side-bar"></div>
+    <script src="./JS/render_templates.js"></script>
     <main>
         <div class="sideBar">
             <div class="addNewContact">
@@ -28,14 +30,16 @@
                 
             </div>
             <div class="sideBarOption">
-                <button onclick="openDialogAdd()"><img src="./assets/img/contacts/person_add.svg" alt="mobile add person"></button>
+                <button onclick="openDialogAdd()"><img src="./assets/img/contacts/person_add.svg"
+                        alt="mobile add person"></button>
             </div>
         </div>
 
         <div class="contacts">
             <div class="contactHeader">
                 <h1>Contacts</h1>
-                <button class="contactBackArrow" onclick="sideBarvisible()"><img src="./assets/img/contacts/backarrow.svg" alt=""></button>
+                <button class="contactBackArrow" onclick="sideBarvisible()"><img
+                        src="./assets/img/contacts/backarrow.svg" alt=""></button>
                 <hr class="desktop">
                 <h2>Better with a team</h2>
                 <hr class="mobile">
@@ -57,7 +61,8 @@
                         <img src="./assets/img/contacts/person_white.svg" alt="">
                     </div>
                     <div class="contactAddForm">
-                        <button class="cancel" onclick="closeDialog()"><img src="./assets/img/contacts/delete.svg" alt="" srcset=""></button>
+                        <button class="cancel" onclick="closeDialog()"><img src="./assets/img/contacts/delete.svg"
+                                alt="" srcset=""></button>
                         <div>
                             <input type="text" id="contactAddName" name="contactName" placeholder="Name">
                             <img class="inputIcon" src="./assets/img/contacts/person.svg" alt="" srcset="">
@@ -71,8 +76,11 @@
                             <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
                         </div>
                         <div class="contactAddButtons">
-                            <button class="contactAddCancel" onclick="closeDialog()"><span>Cancel</span><img class="contactAddButtonsImg" src="./assets/img/contacts/delete.svg" alt=""></button>
-                            <button class="contactAddCreate" onclick="isFormValid()"><span>Create Contact</span><img class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt="" srcset=""></button>
+                            <button class="contactAddCancel" onclick="closeDialog()"><span>Cancel</span><img
+                                    class="contactAddButtonsImg" src="./assets/img/contacts/delete.svg" alt=""></button>
+                            <button class="contactAddCreate" onclick="isFormValid()"><span>Create Contact</span><img
+                                    class="contactAddButtonsImg" src="./assets/img/contacts/check.svg" alt=""
+                                    srcset=""></button>
                         </div>
                     </div>
                 </div>
@@ -82,10 +90,10 @@
         </dialog>
     </main>
 
-<script type="module" src="./JS/firebaseSignInUp.js"></script>
-<script src="./JS/fetch.js"></script>    
-<script src="./JS/contacts.js"></script>
-<script src="./JS/initials.js"></script>
+    <script type="module" src="./JS/fetch.js"></script>
+    <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    <script type="module" src="./JS/contacts.js"></script>
+    <script src="./JS/initials.js"></script>
 </body>
 
 </html>
