@@ -182,6 +182,7 @@ section {
 #horizontal-divider {
     display: none;
 }
+
 #top-vertical-divider {
     display: block;
 }
@@ -192,16 +193,17 @@ section {
         align-items: flex-start;
         gap: 0;
     }
+
     #task-metrics,
-#task-status-overview,
-#urgent-overview {
-    display: flex;
-    flex-direction: row;
-    gap: 38px;
-    align-items: center;
-    justify-content: center;
-}
-    
+    #task-status-overview,
+    #urgent-overview {
+        display: flex;
+        flex-direction: row;
+        gap: 38px;
+        align-items: center;
+        justify-content: center;
+    }
+
     .metrics-container {
         width: 168;
         height: 110px;
@@ -219,7 +221,7 @@ section {
         padding-top: 20px;
     }
 
-    .urgent-vertical-img{
+    .urgent-vertical-img {
         height: 68px;
     }
 
@@ -227,44 +229,87 @@ section {
         width: 396px;
         height: 110px;
     }
+
     .status-box {
         width: 116px;
         height: 116px;
     }
+
     #current-date {
         font-size: 16px;
     }
-    .category  {
+
+    .category {
         font-size: 16px;
     }
-        #top-vertical-divider {
+
+    #top-vertical-divider {
         display: none;
     }
+
     #horizontal-divider {
-    display: block;
-}
+        display: block;
+    }
 
-/* default: hide greeting on small screens */
-#greeting-section {
-    display: none;
-}
+    /* default: hide greeting on small screens */
+    #greeting-section {
+        display: none;
+    }
 
-/* only show as overlay when JS sets the flag */
-body.show-greeting #greeting-section {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
+    /* only show as overlay when JS sets the flag */
+    body.show-greeting #greeting-section {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-    background: white;
+        background: white;
+        pointer-events: none;
+    }
 
-    animation: greetingFadeOut 2.5s ease forwards;
-    pointer-events: auto;
-}
+    body.show-greeting #greeting-section.hide-animation {
+        animation: greetingFadeOut 1s ease-in-out forwards;
+    }
+
+    @keyframes greetingFadeOut {
+        0% {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        80% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    @keyframes contentFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    body.show-greeting main {
+        opacity: 0;
+    }
+
+    body.show-greeting main.animate {
+        animation: contentFadeIn 0.8s ease-out both;
+    }
 }
 
 
@@ -276,6 +321,7 @@ body.show-greeting #greeting-section {
     .greeting-text {
         font-size: 28px;
     }
+}
 }
 
 @media (max-width: 420px) {

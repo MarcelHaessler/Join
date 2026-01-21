@@ -630,6 +630,7 @@ textarea {
     align-items: center;
     gap: 25px;
     height: 24px;
+    font-size: 20px;
 }
 
 #task-priority-container{
@@ -637,6 +638,7 @@ textarea {
     align-items: center;
     gap: 25px;
     height: 32px;
+    font-size: 20px;
 }
 
 #task-priority{
@@ -652,6 +654,7 @@ textarea {
     flex-direction: column;
     gap: 16px;
     box-sizing: border-box;
+    font-size: 20px;
 }
 
 #assigned-contacts {
@@ -671,6 +674,7 @@ textarea {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 20px;
+    font-size: 20px;
 }
 
 #task-card-head, #task-title, #task-description, #task-due-date-container, #task-priority-container, #task-assignment-container {
@@ -704,4 +708,48 @@ textarea {
 #edit-task, #delete-task {
     display: flex;
     gap: 8px;
+}
+
+@media (max-width: 900px) {
+
+    #task-card {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #task-card-head {
+        height: 32px;
+    }
+
+    #task-category-box {
+        height: 27px;
+        font-size: 16px;
+    }
+
+    #task-title {
+        font-size: 36px;
+    }
+
+    #task-description {
+        font-size: 16px;
+    }
+
+    #task-due-date-container {
+        font-size: 16px;
+    }
+
+    #task-priority-container {
+        font-size: 16px;
+    }
+
+    #task-assignment-container {
+        font-size: 16px;
+    }
+
+    #task-subtasks {
+        font-size: 16px;
+    }
 }

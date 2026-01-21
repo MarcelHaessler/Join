@@ -6,9 +6,14 @@ window.addEventListener("userReady", (auth) => {
 
 function addInitialToHeader() {
     let initialSpace = document.getElementById('user-initials');
-    initialSpace.innerHTML = userInitials;
-    console.log(userInitials);
-    initLogoutDialog();
+    if (initialSpace) {
+        initialSpace.innerHTML = userInitials;
+        console.log(userInitials);
+        initLogoutDialog();
+    } else {
+        console.warn("Header initials container not found, retrying...");
+        setTimeout(addInitialToHeader, 50);
+    }
 };
 
 function initLogoutDialog() {

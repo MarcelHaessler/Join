@@ -27,7 +27,47 @@ function updateGreeting(name = "") {
 //eventListener
 document.addEventListener("DOMContentLoaded", () => {
     updateGreeting("");
+    initMobileGreeting();
 });
+
+/**
+ * Handles the mobile-only greeting intro animation setup.
+ * Returns true if the greeting is being displayed.
+ */
+function initMobileGreeting() {
+    const isMobile = window.innerWidth <= 1100;
+    const shouldShow = sessionStorage.getItem('showSummaryGreeting') === 'true';
+
+    if (isMobile && shouldShow) {
+        document.body.classList.add('show-greeting');
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Triggers the actual fade-out transition of the greeting and fade-in of content.
+ * Should be called when data loading is finished.
+ */
+function finishMobileGreeting() {
+    if (!document.body.classList.contains('show-greeting')) return;
+
+    const greeting = document.getElementById('greeting-section');
+    const main = document.querySelector('main');
+
+    if (greeting) greeting.classList.add('hide-animation');
+    if (main) main.classList.add('animate');
+
+    sessionStorage.removeItem('showSummaryGreeting');
+
+    // Remove the whole class after the fade animation is done (1s duration in CSS)
+    setTimeout(() => {
+        document.body.classList.remove('show-greeting');
+    }, 1100);
+}
+
+window.initMobileGreeting = initMobileGreeting;
+window.finishMobileGreeting = finishMobileGreeting;
 
 window.addEventListener("userReady", (auth) => {
     updateGreeting(auth.detail.name || "");
