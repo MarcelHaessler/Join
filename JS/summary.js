@@ -27,7 +27,47 @@ function updateGreeting(name = "") {
 //eventListener
 document.addEventListener("DOMContentLoaded", () => {
     updateGreeting("");
+    initMobileGreeting();
 });
+
+/**
+ * Handles the mobile-only greeting intro animation setup.
+ * Returns true if the greeting is being displayed.
+ */
+function initMobileGreeting() {
+    const isMobile = window.innerWidth <= 1100;
+    const shouldShow = sessionStorage.getItem('showSummaryGreeting') === 'true';
+
+    if (isMobile && shouldShow) {
+        document.body.classList.add('show-greeting');
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Triggers the actual fade-out transition of the greeting and fade-in of content.
+ * Should be called when data loading is finished.
+ */
+function finishMobileGreeting() {
+    if (!document.body.classList.contains('show-greeting')) return;
+
+    const greeting = document.getElementById('greeting-section');
+    const main = document.querySelector('main');
+
+    if (greeting) greeting.classList.add('hide-animation');
+    if (main) main.classList.add('animate');
+
+    sessionStorage.removeItem('showSummaryGreeting');
+
+    // Remove the whole class after the fade animation is done (1s duration in CSS)
+    setTimeout(() => {
+        document.body.classList.remove('show-greeting');
+    }, 1100);
+}
+
+window.initMobileGreeting = initMobileGreeting;
+window.finishMobileGreeting = finishMobileGreeting;
 
 window.addEventListener("userReady", (auth) => {
     updateGreeting(auth.detail.name || "");
@@ -52,10 +92,31 @@ function pencilLeaveEffect() {
 function doneLeaveEffect() {
     const img = document.querySelector('#done-container img');
     if (img) img.src = './assets/img/done-button.svg';
-}
+}  
 
+// Greeting overlay trigger (mobile only, once per session)
+(function greetingOverlayOnce() {
+    const KEY = 'join_summary_greeting_shown';
 
+    window.addEventListener('load', () => {
+        // Only run on small screens
+        if (!window.matchMedia('(max-width: 1100px)').matches) return;
 
-window.addEventListener("userReady", (auth) => {
-    console.log("Name:", auth.detail.name, "Mail:", auth.detail.email);
-});
+        const greeting = document.getElementById('greeting-section');
+        if (!greeting) return;
+
+        // Show only once per tab/session
+        if (sessionStorage.getItem(KEY) === '1') return;
+        sessionStorage.setItem(KEY, '1');
+
+        document.body.classList.add('show-greeting');
+
+        // Remove class after CSS animation completes
+        const cleanup = () => {
+            greeting.removeEventListener('animationend', cleanup);
+            document.body.classList.remove('show-greeting');
+        };
+
+        greeting.addEventListener('animationend', cleanup);
+    });
+})();
