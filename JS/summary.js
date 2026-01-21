@@ -52,15 +52,9 @@ function pencilLeaveEffect() {
 function doneLeaveEffect() {
     const img = document.querySelector('#done-container img');
     if (img) img.src = './assets/img/done-button.svg';
-}
+}  
 
-
-
-window.addEventListener("userReady", (auth) => {
-    console.log("Name:", auth.detail.name, "Mail:", auth.detail.email);
-});
-
-// ===== Greeting overlay trigger (mobile only, once per session) =====
+// Greeting overlay trigger (mobile only, once per session)
 (function greetingOverlayOnce() {
     const KEY = 'join_summary_greeting_shown';
 
