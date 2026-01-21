@@ -63,7 +63,7 @@ function renderDoneCount(tasks) {
             return g === 'Done' || g === 'done';
         })
         .length
-    
+
     el.textContent = String(doneCount);
 }
 
@@ -99,14 +99,14 @@ function renderFeedbackCount(tasks) {
     }
 
     const feedbackCount = Object.values(tasks)
-    .filter(task => {
-        const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
-        return g === 'awaiting' || g === 'awaiting feedback' || g === 'feedback';
-    })
-    .length
+        .filter(task => {
+            const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
+            return g === 'awaiting' || g === 'awaiting feedback' || g === 'feedback';
+        })
+        .length
 
-el.textContent = String(feedbackCount);
-    
+    el.textContent = String(feedbackCount);
+
 }
 
 function renderUrgentCount(tasks) {
@@ -167,14 +167,31 @@ function renderUrgentDueDate(tasks) {
 }
 
 async function loadSummaryCounts() {
-    const tasks = await fetchAllTasks();
-    renderBoardCount(tasks);
-    renderTodoCount(tasks);
-    renderDoneCount(tasks);
-    renderProgressCount(tasks);
-    renderFeedbackCount(tasks);
-    renderUrgentCount(tasks);
-    renderUrgentDueDate(tasks);
+    const isGreetingActive = typeof window.initMobileGreeting === 'function' && window.initMobileGreeting();
+
+    // Show standard loader only if NO greeting intro is running
+    if (!isGreetingActive && typeof window.showLoader === 'function') {
+        window.showLoader();
+    }
+
+    try {
+        const tasks = await fetchAllTasks();
+        renderBoardCount(tasks);
+        renderTodoCount(tasks);
+        renderDoneCount(tasks);
+        renderProgressCount(tasks);
+        renderFeedbackCount(tasks);
+        renderUrgentCount(tasks);
+        renderUrgentDueDate(tasks);
+    } catch (error) {
+        console.error("Error loading summary counts:", error);
+    } finally {
+        if (isGreetingActive && typeof window.finishMobileGreeting === 'function') {
+            window.finishMobileGreeting();
+        } else if (typeof window.hideLoader === 'function') {
+            window.hideLoader();
+        }
+    }
 }
 
 // Ensure counts are loaded when the page is ready
