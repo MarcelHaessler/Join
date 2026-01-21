@@ -33,7 +33,7 @@
                     <img class="btn-img" src="./assets/img/pencil-button.svg" alt="">
 
                     <div class="number-and-category">
-                        <p id="number-todo" class="number-category">1</p>
+                        <p id="number-todo" class="number-category"></p>
                         <p class="category">To-do</p>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <img class="btn-img" src="./assets/img/done-button.svg" alt="checked-img">
 
                     <div class="number-and-category">
-                        <p id="number-done" class="number-category">1</p>
+                        <p id="number-done" class="number-category"></p>
                         <p class="category">Done</p>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <div class="button-and-cat">
                         <img class="btn-img" src="./assets/img/urgent-button.svg" alt="">
                         <div class="number-and-category">
-                            <p id="number-urgent" class="number-category">1</p>
+                            <p id="number-urgent" class="number-category"></p>
                             <p class="category">Urgent</p>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                     <img class="urgent-vertical-img" src="./assets/img/urgent-vertical-divider.png"
                         alt="a vertival divider">
                     <div class="deadline-container">
-                        <p id="due-date">October 16, 2022</p>
+                        <p id="due-date"></p>
                         <p class="category">Upcoming Deadline</p>
                     </div>
 
@@ -83,21 +83,21 @@
             <div class="task-status-row">
                 <div onclick="window.location.href='board.html'" class="status-box" style="cursor: pointer;">
                     <div class="number-and-category">
-                        <p id="number-board" class="number-category">5</p>
+                        <p id="number-board" class="number-category"></p>
                         <p class="category">Tasks <br>in Board</p>
                     </div>
                 </div>
 
                 <div onclick="window.location.href='board.html'" class="status-box" style="cursor: pointer;">
                     <div class="number-and-category">
-                        <p id="number-progress" class="number-category">2</p>
+                        <p id="number-progress" class="number-category"></p>
                         <p class="category">Tasks <br>in Progress</p>
                     </div>
                 </div>
 
                 <div onclick="window.location.href='board.html'" class="status-box" style="cursor: pointer;">
                     <div class="number-and-category">
-                        <p id="number-feedback" class="number-category">2</p>
+                        <p id="number-feedback" class="number-category"></p>
                         <p class="category">Awaiting Feedback</p>
                     </div>
                 </div>
@@ -106,6 +106,7 @@
 
     </main>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
+    <script type="module" src="./JS/fetch.js"></script>
     <script type="module" src="./JS/summary-firebase.js"></script>
     <script src="./JS/summary.js"></script>
     <script src="./JS/initials.js"></script>
