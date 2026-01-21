@@ -239,6 +239,7 @@ textarea {
     transition: 200ms;
     border-radius: 10px;
     gap: 12px;
+    box-sizing: border-box;
 }
 
 .selected-contact {
@@ -584,6 +585,15 @@ li {
     input, textarea{
         font-size: 16px;
         margin-bottom: 10px;
+    }
+
+    #contacts-dropdown, #category-dropdown {
+        margin-top: -15px;
+    }
+
+    .dropdown-box {
+        padding: 0 12px 0 12px;
+        height: 52px;
     }
 
     .dropdown-img-container {
