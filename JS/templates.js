@@ -163,7 +163,9 @@ function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
     
-
+    if (!names || names.length === 0) {
+        return ``;
+    }else{
     for (let index = 0; index < names.length; index++) {
         const person = names[index];
         assignedContainer += `
@@ -177,7 +179,7 @@ function addAssignedPersons(element) {
     }
     return assignedContainer;
 }
-
+}
 
 function addSubtasks(element, taskIndex) {
     let subtasksContainer = '';
