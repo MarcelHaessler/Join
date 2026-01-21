@@ -59,3 +59,30 @@ function doneLeaveEffect() {
 window.addEventListener("userReady", (auth) => {
     console.log("Name:", auth.detail.name, "Mail:", auth.detail.email);
 });
+
+// ===== Greeting overlay trigger (mobile only, once per session) =====
+(function greetingOverlayOnce() {
+    const KEY = 'join_summary_greeting_shown';
+
+    window.addEventListener('load', () => {
+        // Only run on small screens
+        if (!window.matchMedia('(max-width: 1100px)').matches) return;
+
+        const greeting = document.getElementById('greeting-section');
+        if (!greeting) return;
+
+        // Show only once per tab/session
+        if (sessionStorage.getItem(KEY) === '1') return;
+        sessionStorage.setItem(KEY, '1');
+
+        document.body.classList.add('show-greeting');
+
+        // Remove class after CSS animation completes
+        const cleanup = () => {
+            greeting.removeEventListener('animationend', cleanup);
+            document.body.classList.remove('show-greeting');
+        };
+
+        greeting.addEventListener('animationend', cleanup);
+    });
+})();
