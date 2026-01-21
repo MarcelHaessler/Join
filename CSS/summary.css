@@ -1,3 +1,14 @@
+@keyframes greetingFadeOut {
+    0% { opacity: 1; }
+    60% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+section {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
 #top-section {
     display: flex;
     flex-direction: row;
@@ -308,5 +319,59 @@
 
     .greeting-text {
         font-size: 28px;
+    }
+}
+}
+
+@media (max-width: 420px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    #keyMetricsText {
+        font-size: 20px;
+    }
+
+    .metrics-container {
+        width: 140px;
+        height: 90px;
+        gap: 12px;
+    }
+
+    .button-and-cat {
+        gap: 8px;
+    }
+
+    .category {
+        font-size: 14px;
+    }
+
+    .number-category {
+        font-size: 30px;
+    }
+
+    .btn-img {
+        width: 30px;
+        height: 30px;
+        padding-top: 15px;
+    }
+
+    .status-box {
+        width: 90px;
+        height: 90px;
+    }
+
+    .task-status-row {
+        gap: 12px;
+    }
+
+    .urgent-container {
+        width: 300px;
+        height: 90px;
+        gap: 20px;
+    }
+
+    #due-date {
+        font-size: 16px;
     }
 }
