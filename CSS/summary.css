@@ -187,6 +187,19 @@ section {
     display: block;
 }
 
+
+/* Responsive Design */
+
+@media (max-width: 1250px) {
+    #greet-name {
+        font-size: 36px;
+    }
+
+    .greeting-text {
+        font-size: 28px;
+    }
+}
+
 @media (max-width: 1100px) {
     #top-section {
         flex-direction: column;
@@ -201,7 +214,7 @@ section {
         flex-direction: row;
         gap: 24px;
         align-items: center;
-        justify-content: center;
+        
     }
 
     .metrics-container {
@@ -313,19 +326,14 @@ section {
     }
 }
 
-
-@media (max-width: 1250px) {
-    #greet-name {
-        font-size: 36px;
-    }
-
-    .greeting-text {
-        font-size: 28px;
+@media (max-width: 490px) {
+    #task-metrics,
+    #task-status-overview,
+    #urgent-overview {
+        justify-content: center;
     }
 
 }
-
-
 
 @media (max-width: 420px) {
     h1 {
