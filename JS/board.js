@@ -121,14 +121,21 @@ function stopPropagation(event) {
 }
 
 function checkboxSubtask(subtaskIndex, taskIndex) {
-    const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
+    // 1. Update the Data first
+    const subtask = tasks[taskIndex].subtasks[subtaskIndex];
+    subtask.subtaskComplete = !subtask.subtaskComplete; // Simple toggle
 
-    if (checkbox.src.includes('checkbox_inactive.svg')) {
-        checkbox.src = './assets/img/checkbox_active.svg';
-    } else {
-        checkbox.src = './assets/img/checkbox_inactive.svg';
-    }
-    subtaskCompleted(subtaskIndex, taskIndex);
+    // 2. Update the UI based on the new Data
+    const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
+    const imgPath = subtask.subtaskComplete 
+        ? './assets/img/checkbox_active.svg' 
+        : './assets/img/checkbox_inactive.svg';
+    
+    checkbox.src = imgPath;
+
+    // 3. Sync with backend/storage and refresh board
+    updateTask(tasks[taskIndex]);
+    updateBoard();
 }
 
 function subtaskCompleted(subtaskIndex, taskIndex) {
@@ -139,8 +146,26 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
         subtask.subtaskComplete = false;
     }
     updateTask(tasks[taskIndex]);
+    updateBoard();
 }
-   
+
+function editTask(taskId) {
+    const task = tasks.find(t => t.id == taskId);
+    if (!task) return;
+
+    let overlay = document.getElementById('task_card_overlay');
+    overlay.innerHTML = generateEditTaskHTML(task);
+
+    setTimeout(() => {
+        checkTaskPriority(task.priority);
+        window.currentPriority = task.priority;
+        
+        fillEditAssignmentDropdown();
+        editAddInitialsBackgroundColors();
+    }, 10);
+
+    
+}
 
 
 window.updateTask = updateTask;
@@ -154,3 +179,4 @@ window.closeTaskCardOverlay = closeTaskCardOverlay;
 window.stopPropagation = stopPropagation;
 window.checkboxSubtask = checkboxSubtask;
 window.subtaskCompleted = subtaskCompleted;
+window.editTask = editTask;

@@ -561,7 +561,7 @@ textarea {
     z-index: -1;
 }
 
-#task-card {
+#task-card, #edit-task-card {
     box-sizing: border-box;
     background-color: white;
     border-radius: 16px;
@@ -578,6 +578,14 @@ textarea {
 }
 
 #task_card_overlay.closing #task-card {
+    transform: translateX(100%);
+}
+
+#task_card_overlay.active #edit-task-card {
+    transform: translateX(0);
+}
+
+#task_card_overlay.closing #edit-task-card {
     transform: translateX(100%);
 }
 
@@ -712,7 +720,7 @@ textarea {
 
 @media (max-width: 900px) {
 
-    #task-card {
+    #task-card, #edit-task-card {
         width: 100%;
         height: 100vh;
         display: flex;
@@ -752,4 +760,151 @@ textarea {
     #task-subtasks {
         font-size: 16px;
     }
+}
+
+/*Edit Task Card Styles*/
+
+#edit-assignment-container {
+    margin-bottom: 20px;
+}
+
+#edit-assign-input-box{
+    position: relative;
+}
+
+#edit-assign-input::placeholder, #edit-category-input input::placeholder {
+    color: black;
+}
+
+#edit-assign-input:focus::placeholder {
+  color: transparent;
+  transition: 200ms;
+}
+
+#edit-category-input{
+    position: relative;
+    caret-color: transparent;
+}
+
+.edit-dropdown-img-container{
+    width: 20px;
+    height: 20px;
+}
+
+.edit-dropdown-img-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-dropdown-img-container:hover {
+    background-color: var(--ligthGrey);
+    cursor: pointer;
+}
+
+#edit-contacts-dropdown, #edit-category-dropdown{
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    width: 100%;
+    background-color: var(--contrastColor);
+    border: 1px solid #ccc;
+    border-radius:0 0 10px 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: -8px;
+    padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#edit-contacts-dropdown.open {
+    max-height: 280px;
+    overflow-y: auto;
+    opacity: 1;
+}
+
+#edit-category-dropdown.open {
+    max-height: 280px;
+    opacity: 1;
+}
+
+.edit-dropdown-box{
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 2px 12px 2px 12px;
+    transition: 200ms;
+    border-radius: 10px;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+.edit-selected-contact {
+    background-color: var(--primerColor) !important;
+    color: var(--contrastColor);
+}
+
+.edit-selected-contact:hover{
+    background-color: #091930 !important;
+}
+
+.edit-dropdown-box:hover {
+    background-color: rgb(231, 231, 231);
+    cursor: pointer;
+}
+
+.edit-contact-initials, .edit-chosen-contact-initials{
+    width: 38px;
+    height: 38px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: solid white 2px;
+    border-radius: 50%;
+}
+
+.edit-contact-name-checkbox{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-checkbox{
+    width: 16px;
+}
+
+.edit-checkbox-active{
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%);
+}
+
+#edit-chosen-contacts{
+    display: flex;
+    gap: 6px;
+    height: 56px;
+    align-items: center;
+}
+
+.edit-category-box{
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px 0px 20px;
+    transition: 200ms;
+}
+
+.rotate{
+    transform: rotate(180deg);
 }
