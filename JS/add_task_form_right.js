@@ -65,6 +65,8 @@ function fillAssignmentDropdown() {
             contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
         }
     }
+    console.log(contacts);
+    
 }
 
 /**Function to render/open the assignment dropdown*/
