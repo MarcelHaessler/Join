@@ -113,6 +113,35 @@ h1 {
     color: var(--secondColor);
 }
 
+/* Guest Mode Styles */
+body.mode-guest #help-container,
+body.mode-guest #user-icon,
+body.mode-guest #buttons-container {
+    display: none;
+}
+
+#sidebar-logIn {
+    display: none;
+}
+
+body.mode-guest #sidebar-logIn {
+    display: flex !important;
+    justify-content: center;
+    /* width: 100%; Removed to allow flex spacing on mobile */
+}
+
+@media (min-width: 1101px) {
+    body.mode-guest #sidebar-logIn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    body.mode-guest #sidebar-logIn p {
+        display: block !important;
+    }
+}
+
 /* Global Loader Overlay */
 #global-loader-overlay {
     position: fixed;

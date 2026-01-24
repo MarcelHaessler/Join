@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./CSS/buttons.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+    <script src="./JS/guest.js"></script>
 </head>
 
 <body class="start-animation">
@@ -46,7 +46,7 @@
 
             <div class="buttonLoginCon">
                 <button class="buttonLoginSignup" onclick="loginUser()">Log in</button>
-                <button class="buttonGuest">Guest Log in</button>
+                <button class="buttonGuest" onclick="window.location.href='summary.html'">Guest Log in</button>
             </div>
         </div>
         <div class="noUser mobile-only">
@@ -56,10 +56,10 @@
     </main>
     <footer class="start-animation">
         <div class="footer_link">
-            <a href="./privacy_policy.html">Privacy Policy</a>
+            <a href="./privacy_policy.html?Guest">Privacy Policy</a>
         </div>
         <div class="footer_link">
-            <a href="./legal_notice.html">Legal notice</a>
+            <a href="./legal_notice.html?Guest">Legal notice</a>
         </div>
     </footer>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
