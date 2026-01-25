@@ -18,7 +18,8 @@ window.backgroundColorCodes = [
     'var(--color14)',
     'var(--color15)'];
 
-import { db } from "./firebaseAuth.js";
+import { auth, db } from "./firebaseAuth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchHtmlTemplates() {
@@ -40,6 +41,27 @@ async function fetchHtmlTemplates() {
     document.getElementById('side-bar').innerHTML = cachedSidebar;
 
     highlightActiveWrapper();
+    checkGuestMode();
+}
+
+function checkGuestMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isGuestParam = urlParams.has('Guest') || urlParams.get('guest') === 'true';
+    const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
+    const isLegalPage = window.location.pathname.includes('legal_notice.html');
+
+    if (isGuestParam) {
+        sessionStorage.setItem('guestMode', 'true');
+    }
+
+    const sessionGuest = sessionStorage.getItem('guestMode');
+    console.log('Guest Mode Check:', { isGuestParam, sessionGuest, isPolicyPage, isLegalPage });
+
+    if ((isPolicyPage || isLegalPage) && sessionGuest === 'true') {
+        document.body.classList.add('mode-guest');
+    } else if (isPolicyPage || isLegalPage) {
+        document.body.classList.remove('mode-guest');
+    }
 }
 
 function highlightActiveWrapper() {

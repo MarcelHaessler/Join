@@ -45,25 +45,22 @@ function initMobileGreeting() {
     return false;
 }
 
-/**
- * Triggers the actual fade-out transition of the greeting and fade-in of content.
- * Should be called when data loading is finished.
- */
 function finishMobileGreeting() {
     if (!document.body.classList.contains('show-greeting')) return;
 
-    const greeting = document.getElementById('greeting-section');
-    const main = document.querySelector('main');
-
-    if (greeting) greeting.classList.add('hide-animation');
-    if (main) main.classList.add('animate');
-
-    sessionStorage.removeItem('showSummaryGreeting');
-
-    // Remove the whole class after the fade animation is done (1s duration in CSS)
     setTimeout(() => {
-        document.body.classList.remove('show-greeting');
-    }, 1100);
+        const greeting = document.getElementById('greeting-section');
+        const main = document.querySelector('main');
+
+        if (greeting) greeting.classList.add('hide-animation');
+        if (main) main.classList.add('animate');
+
+        sessionStorage.removeItem('showSummaryGreeting');
+
+        setTimeout(() => {
+            document.body.classList.remove('show-greeting');
+        }, 2100);
+    });
 }
 
 window.initMobileGreeting = initMobileGreeting;
@@ -92,7 +89,7 @@ function pencilLeaveEffect() {
 function doneLeaveEffect() {
     const img = document.querySelector('#done-container img');
     if (img) img.src = './assets/img/done-button.svg';
-}  
+}
 
 // Greeting overlay trigger (mobile only, once per session)
 (function greetingOverlayOnce() {
