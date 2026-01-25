@@ -23,12 +23,12 @@ function addTaskContactTemplate(name, initials, index) {
 }
 
 function addInitialTemplate(initials) {
-    return`     <div class="chosen-contact-initials">
+    return `     <div class="chosen-contact-initials">
                     <p>${initials}</p>
                 </div>`
 }
 
-function addNumberOfExtraPeople(number){
+function addNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
@@ -72,20 +72,20 @@ function editedSubtaskTemplate(taskId, newText) {
 }
 
 function generateTodoHTML(element) {
-    let initialsHTML = ''; let progressHTML = ``; 
+    let initialsHTML = ''; let progressHTML = ``;
     let taskColor; let completedSubtasks;
     let totalSubtasks; let progressValue;
-    
+
     initialsHTML = generateOptionHTML(element);
 
     taskColor = element.category === "User Story"
-    ? 'var(--taskColor1)'
-    : 'var(--taskColor2)';
+        ? 'var(--taskColor1)'
+        : 'var(--taskColor2)';
 
     progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
     return `
-    <div draggable="true" ondragstart="startDragging('${element.id}')" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
+    <div draggable="true" ondragstart="startDragging('${element.id}', event)" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
         <div>
             <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
             <h4 class="task-title">${element.title}</h4>
@@ -166,13 +166,13 @@ function generateOpenedTaskCardHTML(element) {
 function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
-    
+
     if (!names || names.length === 0) {
         return ``;
-    }else{
-    for (let index = 0; index < names.length; index++) {
-        const person = names[index];
-        assignedContainer += `
+    } else {
+        for (let index = 0; index < names.length; index++) {
+            const person = names[index];
+            assignedContainer += `
         <div class="assigned-person">
             <div class="contact-initials" style="background-color: ${backgroundColorCodes[person.colorIndex]};"">
                 <p>${person.initials}</p>
@@ -180,9 +180,9 @@ function addAssignedPersons(element) {
             <p class="assigned-person-name">${person.name}</p>
         </div>
         `;
+        }
+        return assignedContainer;
     }
-    return assignedContainer;
-}
 }
 
 function addSubtasks(element, taskIndex) {
@@ -191,7 +191,7 @@ function addSubtasks(element, taskIndex) {
 
     if (!subtasks || subtasks.length === 0) {
         return `<p>No subtasks available.</p>`;
-    }else {
+    } else {
 
         for (let index = 0; index < subtasks.length; index++) {
             const subtask = subtasks[index].text;
@@ -404,13 +404,23 @@ function editEditedSubtaskTemplate(taskId, newText) {
 
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
-        return element.assignedPersons
-            .map(person => `
-                <div class="contact-initials" style="background-color: ${backgroundColorCodes[person.colorIndex]};">
-                    <p>${person.initials}</p>
+        let contactsToDisplay = element.assignedPersons.slice(0, 3);
+        let extraCount = element.assignedPersons.length - 3;
+
+        let html = contactsToDisplay.map(person => `
+            <div class="contact-initials" style="background-color: ${backgroundColorCodes[person.colorIndex]};">
+                <p>${person.initials}</p>
+            </div>
+        `).join('');
+
+        if (extraCount > 0) {
+            html += `
+                <div class="contact-initials" style="background-color: #2A3647;">
+                    <p>+${extraCount}</p>
                 </div>
-            `)
-            .join('');
+            `;
+        }
+        return html;
     }
     return '';
 }
@@ -419,7 +429,8 @@ function generateSubtaskProgressHTML(subtasks) {
     if (!subtasks || subtasks.length === 0) {
         return '';
     }
-    const completed = subtasks.filter(subtask => subtask.completed).length;
+    const completed = subtasks.filter(subtask => subtask.subtaskComplete).length;
+    console.log('completed: ' + completed);
     const total = subtasks.length;
     const progressValue = (completed / total) * 100;
 

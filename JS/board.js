@@ -46,7 +46,11 @@ function updateBoard() {
         container.innerHTML = '';
 
         if (filteredTasks.length === 0) {
-            container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
+            if (searchTerm) {
+                container.innerHTML = `<p class="no-tasks-message">No results found</p>`;
+            } else {
+                container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
+            }
             return;
         }
 
@@ -56,9 +60,32 @@ function updateBoard() {
     });
 }
 
-function startDragging(id) {
+function startDragging(id, event) {
     currentDraggedElement = id;
+    let wrapper = prepareDragImage(event.target);
+    document.body.appendChild(wrapper);
+
+    let rect = event.target.getBoundingClientRect();
+    event.dataTransfer.setDragImage(wrapper, event.clientX - rect.left, event.clientY - rect.top);
+
+    setTimeout(() => wrapper.remove(), 10);
 }
+
+function prepareDragImage(element) {
+    let clone = element.cloneNode(true);
+    clone.style.width = element.offsetWidth + "px";
+    clone.style.height = element.offsetHeight + "px";
+    clone.classList.add('drag-rotated');
+
+    let wrapper = document.createElement('div');
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '-9999px';
+    wrapper.style.left = '-9999px';
+    wrapper.appendChild(clone);
+    return wrapper;
+}
+
+
 
 function allowDrop(ev) {
     ev.preventDefault();
@@ -93,6 +120,7 @@ async function updateTask(task) {
                 subtaskComplete: !!s.subtaskComplete
             }))
         });
+      updateBoard();
     } catch (error) {
         console.error("Error updating task:", error);
     }
@@ -125,11 +153,11 @@ function closeTaskCardOverlay() {
     setTimeout(() => {
         overlay.classList.remove('active', 'closing');
         overlay.innerHTML = '';
-    }, 400); // exakt zur transform-duration
+    }, 400);
 }
 
 function stopPropagation(event) {
-  event.stopPropagation(event);
+    event.stopPropagation(event);
 }
 
 function checkboxSubtask(subtaskIndex, taskIndex) {
@@ -233,6 +261,7 @@ function deleteTask(taskId) {
 window.updateTask = updateTask;
 window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
+
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
 window.updateBoard = updateBoard;
