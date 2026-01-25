@@ -32,6 +32,10 @@ function addNumberOfExtraPeople(number){
     return `<p>+${number}</p>`
 }
 
+function editAddNumberOfExtraPeople(number){
+    return `<p>+${number}</p>`
+}
+
 function addSubtaskTemplate(subtasks, subtaskIndex) {
     return `<div id="task${subtaskIndex}" class="subtask-element-box">  
                                     <li class="subtask-element" onclick="editSubtask('task${subtaskIndex}')">
@@ -170,7 +174,7 @@ function addAssignedPersons(element) {
         const person = names[index];
         assignedContainer += `
         <div class="assigned-person">
-            <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+            <div class="contact-initials" style="background-color: ${backgroundColorCodes[person.colorIndex]};"">
                 <p>${person.initials}</p>
             </div>
             <p class="assigned-person-name">${person.name}</p>
@@ -264,8 +268,6 @@ function generateEditTaskHTML(element) {
                                 </button>
                             </div>
                         </div>
-
-
                         <div class="input-container" id="assignment-container">
                             <label for="assign-input">Assigned to</label>
                             <div id="edit-assign-input-box">
@@ -280,48 +282,47 @@ function generateEditTaskHTML(element) {
                             <div id="edit-contacts-dropdown"></div>
                             <div id="edit-chosen-contacts" class="d_none"></div>
                         </div>
-
-
-                        <div class="input-container" id="category-container">
-                            <label for="category">Category <p class="red-star">*</p></label>
-                            <div id="category-input">
-                                <input onclick="openCloseCategoryDropdown()" type="text" id="category"
+                        <div class="input-container" id="edit-category-container">
+                            <label for="category">Category</label>
+                            <div id="edit-category-input">
+                                <input onclick="editOpenCloseCategoryDropdown()" type="text" id="edit-category"
                                     placeholder="Select task category" readonly>
-                                <div onclick="openCloseCategoryDropdown()" class="dropdown-img-container">
-                                    <img class="dropdown-img" id="category-arrow"
+                                <div onclick="editOpenCloseCategoryDropdown()" class="dropdown-img-container">
+                                    <img class="dropdown-img" id="edit-category-arrow"
                                         src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Category List">
                                 </div>
                             </div>
-                            <div id="category-dropdown">
-                                <div onclick="choseTechnicalTask()" class="dropdown-box">
+                            <div id="edit-category-dropdown">
+                                <div onclick="editChoseTechnicalTask()" class="dropdown-box">
                                     Technical Task
                                 </div>
-                                <div onclick="choseUserStory()" class="dropdown-box">
+                                <div onclick="editChoseUserStory()" class="dropdown-box">
                                     User Story
                                 </div>
                             </div>
-                            <p class="warning-message" id="category-warning"></p>
                         </div>
-                        <div id="subtask-container" class="input-container">
+
+
+                        <div id="edit-subtask-container" class="edit-input-container">
                             <label for="subtasks">Subtasks</label>
-                            <div id="subtask-input-wrapper">
-                                <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks"
+                            <div id="edit-subtask-input-wrapper">
+                                <input onkeyup="editShowHideSubtaskButtons()" type="text" name="subtasks" id="edit-subtasks"
                                     placeholder="Add new subtask">
-                                <div class="d_none" id="subtask-button-container">
-                                    <div onclick="clearInputField()" class="subtask-button">
-                                        <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
+                                <div class="d_none" id="edit-subtask-button-container">
+                                    <div onclick="editClearInputField()" class="edit-subtask-button">
+                                        <img id="edit-clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
                                     </div>
                                     <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
-                                    <div onclick="addSubtaskToList()" class="subtask-button">
+                                    <div onclick="editAddSubtaskToList()" class="edit-subtask-button">
                                         <img id="accept-button" src="./assets/img/add_task/check.svg" alt="Accept">
                                     </div>
                                 </div>
                             </div>
-                            <div id="subtask-list-container">
-                                <ul id="subtask-list"></ul>
+                            <div id="edit-subtask-list-container">
+                                <ul id="edit-subtask-list"></ul>
                             </div>
                         </div>
-                        <button id="save-edit-task-button">Save Changes</button>
+                        <button id="edit-save-edit-task-button">Save Changes</button>
                     </div>
                 </section>`;
 }
@@ -360,12 +361,49 @@ function editAddNumberOfExtraPeople(number){
     return `<p>+${number}</p>`
 }
 
+// Template für neue Subtasks
+function editAddSubtaskTemplate(subtasks, subtaskIndex) {
+    return `<div id="task${subtaskIndex}" class="edit-subtask-element-box">  
+                <li id="li-task${subtaskIndex}" class="edit-subtask-element" onclick="editSubtaskEditing('task${subtaskIndex}')">
+                    ${subtasks.value}
+                </li>
+
+                <div class="edit-subtask-list-button-container">
+                    <div class="edit-subtask-button" onclick="editSubtaskEditing('task${subtaskIndex}')">
+                        <img class="edit-subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
+                    </div>
+
+                    <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
+
+                    <div class="edit-subtask-button" onclick="editDeleteSubtaskListElement('task${subtaskIndex}')">
+                        <img class="edit-subtask-list-button" src="./assets/img/add_task/delete.svg" alt="Delete">
+                    </div>
+                </div>
+            </div>`;
+}
+
+// Template für bearbeitete Subtasks
+function editEditedSubtaskTemplate(taskId, newText) {
+    return `<li id="li-${taskId}" class="edit-subtask-element" onclick="editSubtaskEditing('${taskId}')">
+                ${newText}
+            </li>
+            <div class="edit-subtask-list-button-container">
+                <div class="edit-subtask-button" onclick="editSubtaskEditing('${taskId}')">
+                    <img class="edit-subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
+                </div>
+                <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
+                <div class="edit-subtask-button" onclick="editDeleteSubtaskListElement('${taskId}')">
+                    <img class="edit-subtask-list-button" src="./assets/img/add_task/delete.svg" alt="Delete">
+                </div>
+            </div>`;
+}
+
 
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
         return element.assignedPersons
             .map(person => `
-                <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+                <div class="contact-initials" style="background-color: ${backgroundColorCodes[person.colorIndex]};">
                     <p>${person.initials}</p>
                 </div>
             `)

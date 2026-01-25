@@ -162,9 +162,14 @@ function editTask(taskId) {
         
         fillEditAssignmentDropdown();
         editAddInitialsBackgroundColors();
+
+        requestAnimationFrame(() => {
+            activateAddedContacts(task);
+            editRenderSelectedContacts();
+            showExistingSubtasks(task);
+        });
     }, 10);
 
-    
 }
 
 

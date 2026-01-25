@@ -571,6 +571,8 @@ textarea {
     max-height: 931px;
     transform: translateX(100%);
     transition: transform 0.4s ease-in-out;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #task_card_overlay.active #task-card {
@@ -663,12 +665,15 @@ textarea {
     gap: 16px;
     box-sizing: border-box;
     font-size: 20px;
+
 }
 
 #assigned-contacts {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 120px;
+    overflow-y: auto;
 }
 
 .assigned-person {
@@ -907,4 +912,85 @@ textarea {
 
 .rotate{
     transform: rotate(180deg);
+}
+
+#edit-subtask-input-wrapper {
+    position: relative;
+}
+
+#edit-subtask-button-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 56px;
+}
+
+.edit-subtask-button {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.edit-subtask-button:hover {
+    cursor: pointer;
+    background-color: var(--ligthGrey);
+}
+
+ul {
+    padding-inline-start: 0px;
+}
+
+li {
+    padding: 4px 20px 4px 20px;
+}
+
+.edit-subtask-element-box {
+    list-style-position: inside;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.edit-subtask-element-box input {
+    width: 100%;
+    padding: 4px 20px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+}
+
+.edit-subtask-element-box:hover {
+    background-color: #d1d1d1;
+    cursor: pointer;
+}
+
+.edit-subtask-list-button-container{
+    width: 56px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5%;
+}
+
+.edit-subtask-list-button {
+    width: 14px;
+}
+
+#edit-subtask-input{
+    height: 30px;
+    border-radius: 0;
+    border-bottom: #2aaae2 solid 2px;
+    text-align: left;
 }
