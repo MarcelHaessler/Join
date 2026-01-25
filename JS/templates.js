@@ -124,7 +124,7 @@ function generateOpenedTaskCardHTML(element) {
                             <img src="./assets/img/add_task/close.svg" alt="close-task-card">
                         </div>
                     </div>
-                    <h2 id="task-title">${element.title}</h2>
+                    <h3 id="task-title">${element.title}</h3>
                     <p id="task-description">${element.description}</p>
                     <div id="task-due-date-container">
                         <p>Due date:</p>
