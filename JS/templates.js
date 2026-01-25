@@ -200,7 +200,7 @@ function addSubtasks(element, taskIndex) {
             
             if (subtasks[index].subtaskComplete) {
                 subtasksContainer += `
-            <divid="subtask-${index}" class="subtask">
+            <div id="subtask-${index}" class="subtask">
                 <img onclick="checkboxSubtask(${index}, ${taskIndex})" class="subtask-checkbox" id="subtask-checkbox-${index}" src="${inactive}" alt="checkbox-active">
                 <p>${subtask}</p>
             </div>

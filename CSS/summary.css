@@ -201,6 +201,11 @@ section {
 }
 
 @media (max-width: 1100px) {
+    main {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
     #top-section {
         flex-direction: column;
         align-items: flex-start;
@@ -326,19 +331,18 @@ section {
     }
 }
 
-@media (max-width: 490px) {
-    #task-metrics,
-    #task-status-overview,
-    #urgent-overview {
-        justify-content: center;
-    }
 
     .greeting-text {
         font-size: 28px;
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 446px) {
+    main {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
     h1 {
         font-size: 28px;
     }
@@ -387,7 +391,7 @@ section {
     }
 
     .urgent-container {
-        width: 300px;
+        width: 294px;
         height: 90px;
         gap: 20px;
     }
