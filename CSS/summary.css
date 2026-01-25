@@ -333,6 +333,9 @@ section {
         justify-content: center;
     }
 
+    .greeting-text {
+        font-size: 28px;
+    }
 }
 
 @media (max-width: 420px) {

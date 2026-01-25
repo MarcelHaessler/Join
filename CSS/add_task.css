@@ -257,8 +257,9 @@ textarea {
 }
 
 .contact-initials, .chosen-contact-initials{
-    width: 38px;
-    height: 38px;
+    box-sizing: border-box;
+    width: 42px;
+    height: 42px;
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
@@ -346,6 +347,7 @@ li {
     list-style-position: inside;
     position: relative;
     width: 100%;
+    height: 30px;
     margin-bottom: 12px;
     border-radius: 8px;
 }
