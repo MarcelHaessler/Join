@@ -46,7 +46,11 @@ function updateBoard() {
         container.innerHTML = '';
 
         if (filteredTasks.length === 0) {
-            container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
+            if (searchTerm) {
+                container.innerHTML = `<p class="no-tasks-message">No results found</p>`;
+            } else {
+                container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
+            }
             return;
         }
 
@@ -56,9 +60,32 @@ function updateBoard() {
     });
 }
 
-function startDragging(id) {
+function startDragging(id, event) {
     currentDraggedElement = id;
+    let wrapper = prepareDragImage(event.target);
+    document.body.appendChild(wrapper);
+
+    let rect = event.target.getBoundingClientRect();
+    event.dataTransfer.setDragImage(wrapper, event.clientX - rect.left, event.clientY - rect.top);
+
+    setTimeout(() => wrapper.remove(), 10);
 }
+
+function prepareDragImage(element) {
+    let clone = element.cloneNode(true);
+    clone.style.width = element.offsetWidth + "px";
+    clone.style.height = element.offsetHeight + "px";
+    clone.classList.add('drag-rotated');
+
+    let wrapper = document.createElement('div');
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '-9999px';
+    wrapper.style.left = '-9999px';
+    wrapper.appendChild(clone);
+    return wrapper;
+}
+
+
 
 function allowDrop(ev) {
     ev.preventDefault();
@@ -72,15 +99,28 @@ function moveTo(taskgroup) {
 }
 
 import { db } from "./firebaseAuth.js";
-import { ref, update } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
+//Firebase-Update-Funktion
 async function updateTask(task) {
     try {
         const taskRef = ref(db, `tasks/${task.id}`);
-        await update(taskRef, { taskgroup: task.taskgroup,
-            subtasks: task.subtasks 
-         });
-        updateBoard();
+        
+        const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+        
+        await update(taskRef, {
+            title: task.title || '',
+            description: task.description || '',
+            date: task.date || '',
+            priority: task.priority || '',
+            assignedPersons: task.assignedPersons || [],
+            category: task.category || '',
+            subtasks: subtasks.map(s => ({
+                text: s.text || '',
+                subtaskComplete: !!s.subtaskComplete
+            }))
+        });
+      updateBoard();
     } catch (error) {
         console.error("Error updating task:", error);
     }
@@ -113,22 +153,29 @@ function closeTaskCardOverlay() {
     setTimeout(() => {
         overlay.classList.remove('active', 'closing');
         overlay.innerHTML = '';
-    }, 400); // exakt zur transform-duration
+    }, 400);
 }
 
 function stopPropagation(event) {
-  event.stopPropagation(event);
+    event.stopPropagation(event);
 }
 
 function checkboxSubtask(subtaskIndex, taskIndex) {
-    const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
+    // 1. Update the Data first
+    const subtask = tasks[taskIndex].subtasks[subtaskIndex];
+    subtask.subtaskComplete = !subtask.subtaskComplete; // Simple toggle
 
-    if (checkbox.src.includes('checkbox_inactive.svg')) {
-        checkbox.src = './assets/img/checkbox_active.svg';
-    } else {
-        checkbox.src = './assets/img/checkbox_inactive.svg';
-    }
-    subtaskCompleted(subtaskIndex, taskIndex);
+    // 2. Update the UI based on the new Data
+    const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
+    const imgPath = subtask.subtaskComplete 
+        ? './assets/img/checkbox_active.svg' 
+        : './assets/img/checkbox_inactive.svg';
+    
+    checkbox.src = imgPath;
+
+    // 3. Sync with backend/storage and refresh board
+    updateTask(tasks[taskIndex]);
+    updateBoard();
 }
 
 function subtaskCompleted(subtaskIndex, taskIndex) {
@@ -139,13 +186,82 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
         subtask.subtaskComplete = false;
     }
     updateTask(tasks[taskIndex]);
+    updateBoard();
 }
-   
+
+function editTask(taskId) {
+    const task = tasks.find(t => t.id == taskId);
+    if (!task) return;
+    editedTitle = task.title;
+    let overlay = document.getElementById('task_card_overlay');
+    overlay.innerHTML = generateEditTaskHTML(task, taskId);
+    setTimeout(() => {
+        checkTaskPriority(task.priority);
+        window.currentPriority = task.priority;
+        fillEditAssignmentDropdown();
+        editAddInitialsBackgroundColors();
+        requestAnimationFrame(() => {
+            activateAddedContacts(task);
+            editRenderSelectedContacts();
+            activateChosenCategory(task);
+            showExistingSubtasks(task);
+        });
+    }, 10);
+}
+
+//Function that saves all edited task data and updates the task in the board
+function saveEditedTask(taskId) {
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex === -1) return;
+    tasks[taskIndex].title = editedTitle;
+    tasks[taskIndex].description = editedDescription;
+    tasks[taskIndex].date = editedDueDate;
+    tasks[taskIndex].priority = editedPriority;
+    tasks[taskIndex].assignedPersons = editSelectedContacts;
+    tasks[taskIndex].category = editedCategory;
+    tasks[taskIndex].subtasks = editedSubtaskListArray.map(text => ({
+        text: text,
+        subtaskComplete: false
+    }));
+    updateTask(tasks[taskIndex]);
+    updateBoard();
+    setTimeout(() => {
+    openTaskCardFromEdit(taskId);
+    }, 300);
+}
+
+//Function that changes to Open Task Card Overlay from Edit Task Overlay
+function openTaskCardFromEdit(taskId) {
+    const task = tasks.find(t => t.id == taskId);
+    let overlay = document.getElementById('task_card_overlay');
+    overlay.innerHTML = generateOpenedTaskCardHTML(task);
+
+}
+
+function deleteTask(taskId) {
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
+        const taskRef = ref(db, `tasks/${taskId}`);
+        remove(taskRef)
+            .then(() => {
+                console.log("Task deleted successfully.");
+                updateBoard();
+            })
+            .catch((error) => {
+                console.error("Error deleting task:", error);
+            });
+    }
+    updateBoard();
+    closeTaskCardOverlay();
+
+}
 
 
 window.updateTask = updateTask;
 window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
+
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
 window.updateBoard = updateBoard;
@@ -154,3 +270,7 @@ window.closeTaskCardOverlay = closeTaskCardOverlay;
 window.stopPropagation = stopPropagation;
 window.checkboxSubtask = checkboxSubtask;
 window.subtaskCompleted = subtaskCompleted;
+window.editTask = editTask;
+window.saveEditedTask = saveEditedTask;
+window.openTaskCardFromEdit = openTaskCardFromEdit;
+window.deleteTask = deleteTask;
