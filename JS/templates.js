@@ -23,12 +23,12 @@ function addTaskContactTemplate(name, initials, index) {
 }
 
 function addInitialTemplate(initials) {
-    return`     <div class="chosen-contact-initials">
+    return `     <div class="chosen-contact-initials">
                     <p>${initials}</p>
                 </div>`
 }
 
-function addNumberOfExtraPeople(number){
+function addNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
@@ -68,15 +68,15 @@ function editedSubtaskTemplate(taskId, newText) {
 }
 
 function generateTodoHTML(element) {
-    let initialsHTML = ''; let progressHTML = ``; 
+    let initialsHTML = ''; let progressHTML = ``;
     let taskColor; let completedSubtasks;
     let totalSubtasks; let progressValue;
-    
+
     initialsHTML = generateOptionHTML(element);
 
     taskColor = element.category === "User Story"
-    ? 'var(--taskColor1)'
-    : 'var(--taskColor2)';
+        ? 'var(--taskColor1)'
+        : 'var(--taskColor2)';
 
     progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
@@ -162,13 +162,13 @@ function generateOpenedTaskCardHTML(element) {
 function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
-    
+
     if (!names || names.length === 0) {
         return ``;
-    }else{
-    for (let index = 0; index < names.length; index++) {
-        const person = names[index];
-        assignedContainer += `
+    } else {
+        for (let index = 0; index < names.length; index++) {
+            const person = names[index];
+            assignedContainer += `
         <div class="assigned-person">
             <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
                 <p>${person.initials}</p>
@@ -176,9 +176,9 @@ function addAssignedPersons(element) {
             <p class="assigned-person-name">${person.name}</p>
         </div>
         `;
+        }
+        return assignedContainer;
     }
-    return assignedContainer;
-}
 }
 
 function addSubtasks(element, taskIndex) {
@@ -187,7 +187,7 @@ function addSubtasks(element, taskIndex) {
 
     if (!subtasks || subtasks.length === 0) {
         return `<p>No subtasks available.</p>`;
-    }else {
+    } else {
 
         for (let index = 0; index < subtasks.length; index++) {
             const subtask = subtasks[index].text;
@@ -219,7 +219,8 @@ function generateSubtaskProgressHTML(subtasks) {
     if (!subtasks || subtasks.length === 0) {
         return '';
     }
-    const completed = subtasks.filter(subtask => subtask.completed).length;
+    const completed = subtasks.filter(subtask => subtask.subtaskComplete).length;
+    console.log('completed: ' + completed);
     const total = subtasks.length;
     const progressValue = (completed / total) * 100;
 
