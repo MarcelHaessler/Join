@@ -4,16 +4,18 @@ button {
     padding: 12px 32px;
     border-radius: 8px;
     cursor: pointer;
+    transition: 100ms;
 }
 
-.buttonLoginSignup{
+.buttonLoginSignup {
     background-color: var(--primerColor);
     color: var(--contrastColor);
     border: none;
+}
 
-    :hover {
-        background-color: var(--secondColor);
-    }
+.buttonLoginSignup:hover {
+    background-color: var(--secondColor);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .buttonGuest {
@@ -22,15 +24,16 @@ button {
     border: none;
     outline: 1px solid var(--primerColor);
     outline-offset: -1px;
+}
 
-    :hover {
-        outline-color: var(--secondColor);
-        color: var(--secondColor);
-    }
+.buttonGuest:hover {
+    outline-color: var(--secondColor);
+    color: var(--secondColor);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 780px) {
-  button {
-    font-size: 16px;
-  }
+    button {
+        font-size: 16px;
+    }
 }
