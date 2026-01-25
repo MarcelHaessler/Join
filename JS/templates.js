@@ -150,13 +150,13 @@ function generateOpenedTaskCardHTML(element) {
                         </div>
                     </div>
                     <div id="task-card-bottom">
-                        <div id="delete-task">
-                            <img src="./assets/img/add_task/delete.svg" alt="delete-task">
+                        <div onclick="deleteTask('${element.id}')" id="delete-task">
+                            <img id="task-button-icon-delete" src="./assets/img/add_task/delete.svg" alt="delete-task">
                             <p>Delete</p>
                         </div>
                         <img src="./assets/img/add_task/Vector 3.svg" alt="divider">
                         <div onclick="editTask('${element.id}')" id="edit-task">
-                            <img src="./assets/img/add_task/edit.svg" alt="edit-task">
+                            <img id="task-button-icon-edit" src="./assets/img/add_task/edit.svg" alt="edit-task">
                             <p>Edit</p>
                         </div>
                     </div>
@@ -200,15 +200,15 @@ function addSubtasks(element, taskIndex) {
             
             if (subtasks[index].subtaskComplete) {
                 subtasksContainer += `
-            <div onclick="checkboxSubtask(${index}, ${taskIndex})" id="subtask-${index}" class="subtask">
-                <img id="subtask-checkbox-${index}" src="${inactive}" alt="checkbox-active">
+            <divid="subtask-${index}" class="subtask">
+                <img onclick="checkboxSubtask(${index}, ${taskIndex})" class="subtask-checkbox" id="subtask-checkbox-${index}" src="${inactive}" alt="checkbox-active">
                 <p>${subtask}</p>
             </div>
             `;
         } else {
             subtasksContainer += `
-            <div onclick="checkboxSubtask(${index}, ${taskIndex})" id="subtask-${index}" class="subtask">
-                <img id="subtask-checkbox-${index}" src="${active}" alt="checkbox-inactive">
+            <div id="subtask-${index}" class="subtask">
+                <img onclick="checkboxSubtask(${index}, ${taskIndex})" class="subtask-checkbox" id="subtask-checkbox-${index}" src="${active}" alt="checkbox-inactive">
                 <p>${subtask}</p>
             </div>
             `;
@@ -218,7 +218,7 @@ function addSubtasks(element, taskIndex) {
 }
 }
 
-function generateEditTaskHTML(element) {
+function generateEditTaskHTML(element, taskId) {
     let title = element.title;
     let description = element.description;
     let date = element.date;
@@ -236,17 +236,17 @@ function generateEditTaskHTML(element) {
                     </div>
                     <div id="edit-task-form">
                         <div class="input-container" id="title-container">
-                            <label for="title">Title <p class="red-star">*</p></label>
+                            <label for="title">Title</label>
                             <input id="title" type="text" placeholder="Enter a Title" value="${title}">
                             <p class="warning-message" id="title-warning"></p>
                         </div>
                         <div class="input-container" id="description-container">
-                            <label for="description">Description<p class="red-star">*</p></label>
+                            <label for="description">Description</label>
                             <textarea name="description" id="description" placeholder="Enter a Description">${description}</textarea>
                             <p class="warning-message" id="description-warning"></p>
                         </div>
                         <div class="input-container" id="date-container">
-                            <label for="date">Due date<p class="red-star">*</p></label>
+                            <label for="date">Due date</label>
                             <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatDateInput()">
                             <p class="warning-message" id="date-warning"></p>
                         </div>
@@ -322,7 +322,10 @@ function generateEditTaskHTML(element) {
                                 <ul id="edit-subtask-list"></ul>
                             </div>
                         </div>
-                        <button id="edit-save-edit-task-button">Save Changes</button>
+                        <div id="save-edit-task-button-container">
+                            <button onclick="saveEditedTask('${taskId}')" id="edit-save-edit-task-button">Ok
+                            <img id="save-edit-task-button-img" src="./assets/img/add_task/check.svg" alt="Save Edited Task"></button>
+                        </div>
                     </div>
                 </section>`;
 }
