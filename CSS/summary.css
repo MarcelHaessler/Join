@@ -22,8 +22,9 @@ section {
 #urgent-overview {
     display: flex;
     flex-direction: row;
-    gap: 38px;
+    gap: 28px;
 }
+
 
 #urgent-overview {
     align-items: center;
@@ -149,7 +150,7 @@ section {
 
 .task-status-row {
     display: flex;
-    gap: 24px;
+    gap: 28px;
     justify-content: flex-start;
     align-items: stretch;
     margin-top: 38px;
@@ -186,6 +187,19 @@ section {
     display: block;
 }
 
+
+/* Responsive Design */
+
+@media (max-width: 1250px) {
+    #greet-name {
+        font-size: 36px;
+    }
+
+    .greeting-text {
+        font-size: 28px;
+    }
+}
+
 @media (max-width: 1100px) {
     #top-section {
         flex-direction: column;
@@ -198,13 +212,14 @@ section {
     #urgent-overview {
         display: flex;
         flex-direction: row;
-        gap: 38px;
+        gap: 24px;
         align-items: center;
-        justify-content: center;
+        
     }
 
     .metrics-container {
-        width: 168;
+        width: 186px;
+        min-width: 186px;
         height: 110px;
     }
 
@@ -311,10 +326,11 @@ section {
     }
 }
 
-
-@media (max-width: 1250px) {
-    #greet-name {
-        font-size: 36px;
+@media (max-width: 490px) {
+    #task-metrics,
+    #task-status-overview,
+    #urgent-overview {
+        justify-content: center;
     }
 
     .greeting-text {
@@ -331,10 +347,16 @@ section {
         font-size: 20px;
     }
 
-    .metrics-container {
-        width: 140px;
-        height: 90px;
+    #task-metrics,
+    #task-status-overview,
+    #urgent-overview {
         gap: 12px;
+    }
+
+    .metrics-container {
+        min-width: 141px;
+        max-width: 141px;
+        height: 90px;
     }
 
     .button-and-cat {
