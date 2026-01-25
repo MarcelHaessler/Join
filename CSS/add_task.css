@@ -1,7 +1,3 @@
-body {
-    background-color: var(--contrastColor);
-}
-
 .invalid{
     border-color: var(--invalideColor);
 }
