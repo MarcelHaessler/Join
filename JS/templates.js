@@ -81,7 +81,7 @@ function generateTodoHTML(element) {
     progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
     return `
-    <div draggable="true" ondragstart="startDragging('${element.id}')" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
+    <div draggable="true" ondragstart="startDragging('${element.id}', event)" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
         <div>
             <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
             <h4 class="task-title">${element.title}</h4>
@@ -204,13 +204,23 @@ function addSubtasks(element, taskIndex) {
 
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
-        return element.assignedPersons
-            .map(person => `
-                <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
-                    <p>${person.initials}</p>
+        let contactsToDisplay = element.assignedPersons.slice(0, 3);
+        let extraCount = element.assignedPersons.length - 3;
+
+        let html = contactsToDisplay.map(person => `
+            <div class="contact-initials" style="background-color: var(--color${person.colorIndex});">
+                <p>${person.initials}</p>
+            </div>
+        `).join('');
+
+        if (extraCount > 0) {
+            html += `
+                <div class="contact-initials" style="background-color: #2A3647;">
+                    <p>+${extraCount}</p>
                 </div>
-            `)
-            .join('');
+            `;
+        }
+        return html;
     }
     return '';
 }
