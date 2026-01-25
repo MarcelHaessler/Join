@@ -704,7 +704,6 @@ textarea {
 #task-subtasks {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     margin-bottom: 20px;
     font-size: 20px;
 }
@@ -719,7 +718,7 @@ textarea {
  }
 
  #task-subtasks > p {
-    margin: 0;
+    margin-bottom: 8px;
  }
 
   #task-subtasks > div {
@@ -738,6 +737,7 @@ textarea {
     padding-left: 20px;
     padding: 6px 10px;
     border-radius: 6px;
+    margin-bottom: 8px;
 }
 
 .subtask:hover {
