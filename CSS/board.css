@@ -234,6 +234,10 @@ textarea {
     margin-bottom: 12px;
 }
 
+.drag-rotated {
+    transform: rotate(10deg);
+}
+
 .tasks-status-row {
     display: flex;
     flex-direction: row;
