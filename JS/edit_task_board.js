@@ -245,6 +245,8 @@ function editChoseUserStory() {
 function showExistingSubtasks(task) {
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML = '';
+    editedSubtaskListArray = [];   // ⭐ FIX: Array leeren
+    subtaskIndex = 0;              
     if (!task.subtasks || task.subtasks.length === 0 ) {  return;}
     task.subtasks.forEach((subtask, index) => {
         subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtask.text }, index);
@@ -294,7 +296,7 @@ function editSubtaskEditing(taskId) {
     const input = editCreateEditInput(oldText);
     box.innerHTML = "";
     box.appendChild(input);
-    const buttonContainer = editCreateEditButtons(input, box, taskId);
+    const buttonContainer = editCreateEditButtons(input, box, taskId, oldText);
     box.appendChild(buttonContainer);
 }
 
@@ -308,7 +310,7 @@ function editCreateEditInput(text) {
 }
 
 /**Function that creates new buttons and a divider in the new input field. */
-function editCreateEditButtons(input, box, taskId) {
+function editCreateEditButtons(input, box, taskId, oldText) {
     const container = document.createElement("div");
     container.className = "edit-subtask-list-button-container";
     const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
@@ -317,9 +319,19 @@ function editCreateEditButtons(input, box, taskId) {
     });
     const divider = editCreateDivider();
     const saveBtn = editCreateButton('./assets/img/add_task/check.svg', () => {
-        box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
-        editedSubtaskListArray = Array.from(document.getElementsByClassName("edit-subtask-element")).map(li => li.textContent.trim());
-    });
+        const newText = input.value.trim();
+        if (!newText) return;
+
+        box.innerHTML = editedSubtaskTemplate(taskId, newText);
+
+        // ⭐ FIX: alten Wert im Array ersetzen statt neu aus dem DOM lesen
+        const index = editedSubtaskListArray.findIndex(
+            text => text === oldText
+        );
+        if (index !== -1) {
+            editedSubtaskListArray[index] = newText;
+        }
+    })
     container.append(deleteBtn, divider, saveBtn);
     return container;
 }
@@ -340,7 +352,6 @@ function editCreateDivider() {
     return div;
 }
 
-/**Function that handles the Enter key press in the subtask input field to add the subtask. */
 function handleSubtaskEnter(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -348,7 +359,7 @@ function handleSubtaskEnter(event) {
         const input = document.getElementById("edit-subtasks");
 
         if (input.value.trim() !== "") {
-            editAddSubtaskToList();
+            addSubtaskToList();
             document.getElementById("edit-subtasks").value = "";
         }
     }
