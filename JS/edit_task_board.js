@@ -366,14 +366,14 @@ function editCreateDivider() {
     return div;
 }
 
-function handleSubtaskEnter(event) {
+function editHandleSubtaskEnter(event) {
     if (event.key === "Enter") {
         event.preventDefault();
 
         const input = document.getElementById("edit-subtasks");
-
+        if (!input) return; 
         if (input.value.trim() !== "") {
-            addSubtaskToList();
+            editAddSubtaskToList();
             document.getElementById("edit-subtasks").value = "";
         }
     }
