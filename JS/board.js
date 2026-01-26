@@ -219,14 +219,15 @@ function saveEditedTask(taskId) {
     tasks[taskIndex].priority = editedPriority;
     tasks[taskIndex].assignedPersons = editSelectedContacts;
     tasks[taskIndex].category = editedCategory;
-    tasks[taskIndex].subtasks = editedSubtaskListArray.map(text => ({
-        text: text,
-        subtaskComplete: false
+    // Übernehme sowohl text als auch subtaskComplete
+    tasks[taskIndex].subtasks = editedSubtaskListArray.map(obj => ({
+        text: obj.text,
+        subtaskComplete: !!obj.subtaskComplete
     }));
     updateTask(tasks[taskIndex]);
     updateBoard();
     setTimeout(() => {
-    openTaskCardFromEdit(taskId);
+        openTaskCardFromEdit(taskId);
     }, 300);
 }
 
