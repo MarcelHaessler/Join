@@ -340,3 +340,16 @@ function editCreateDivider() {
     return div;
 }
 
+/**Function that handles the Enter key press in the subtask input field to add the subtask. */
+function handleSubtaskEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+
+        const input = document.getElementById("edit-subtasks");
+
+        if (input.value.trim() !== "") {
+            editAddSubtaskToList();
+            document.getElementById("edit-subtasks").value = "";
+        }
+    }
+}

@@ -108,7 +108,7 @@
                         <div id="subtask-container" class="input-container">
                             <label for="subtasks">Subtasks</label>
                             <div id="subtask-input-wrapper">
-                                <input onkeyup="showHideSubtaskButtons()" type="text" name="subtasks" id="subtasks"
+                                <input onkeyup="showHideSubtaskButtons()" onkeydown="handleSubtaskEnter(event)" type="text" name="subtasks" id="subtasks"
                                     placeholder="Add new subtask">
                                 <div class="d_none" id="subtask-button-container">
                                     <div onclick="clearInputField()" class="subtask-button">

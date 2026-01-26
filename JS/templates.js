@@ -274,7 +274,7 @@ function generateEditTaskHTML(element, taskId) {
                                 <input id="edit-assign-input" oninput="editDelaySearchContact()"
                                     onclick="editRenderAssignmentDropdown()" type="text"
                                     placeholder="Select contacts to assign">
-                                <div onclick="editRenderAssignmentDropdown()" class="edit-dropdown-img-container">
+                                <div onclick="editRenderAssignmentDropdown()" class="dropdown-img-container">
                                     <img class="dropdown-img" id="edit-assignment-arrow"
                                         src="./assets/img/add_task/arrow_drop_down.svg" alt="Open Contact List">
                                 </div>
@@ -306,7 +306,7 @@ function generateEditTaskHTML(element, taskId) {
                         <div id="edit-subtask-container" class="edit-input-container">
                             <label for="subtasks">Subtasks</label>
                             <div id="edit-subtask-input-wrapper">
-                                <input onkeyup="editShowHideSubtaskButtons()" type="text" name="subtasks" id="edit-subtasks"
+                                <input onkeyup="editShowHideSubtaskButtons()" onkeydown="handleSubtaskEnter(event)" type="text" name="subtasks" id="edit-subtasks"
                                     placeholder="Add new subtask">
                                 <div class="d_none" id="edit-subtask-button-container">
                                     <div onclick="editClearInputField()" class="edit-subtask-button">

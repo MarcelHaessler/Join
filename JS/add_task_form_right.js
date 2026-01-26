@@ -325,3 +325,17 @@ function createDivider() {
     div.innerHTML = '<img src="./assets/img/add_task/Vector 3.svg" alt="Divider">';
     return div;
 }
+
+/**Function that handles the Enter key press in the subtask input field to add the subtask. */
+function handleSubtaskEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+
+        const input = document.getElementById("subtasks");
+
+        if (input.value.trim() !== "") {
+            addSubtaskToList();
+            document.getElementById("subtasks").value = "";
+        }
+    }
+}
