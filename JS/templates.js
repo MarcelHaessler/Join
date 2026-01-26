@@ -306,7 +306,7 @@ function generateEditTaskHTML(element, taskId) {
                         <div id="edit-subtask-container" class="edit-input-container">
                             <label for="subtasks">Subtasks</label>
                             <div id="edit-subtask-input-wrapper">
-                                <input onkeyup="editShowHideSubtaskButtons()" onkeydown="handleSubtaskEnter(event)" type="text" name="subtasks" id="edit-subtasks"
+                                <input onkeyup="editShowHideSubtaskButtons()" onkeydown="editHandleSubtaskEnter(event)" type="text" name="subtasks" id="edit-subtasks"
                                     placeholder="Add new subtask">
                                 <div class="d_none" id="edit-subtask-button-container">
                                     <div onclick="editClearInputField()" class="edit-subtask-button">
