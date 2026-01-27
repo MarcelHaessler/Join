@@ -193,6 +193,8 @@ function editTask(taskId) {
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
     editedTitle = task.title;
+    editedDescription = task.description;
+    editedDueDate = task.date;
     let overlay = document.getElementById('task_card_overlay');
     overlay.innerHTML = generateEditTaskHTML(task, taskId);
     setTimeout(() => {
@@ -200,6 +202,11 @@ function editTask(taskId) {
         window.currentPriority = task.priority;
         fillEditAssignmentDropdown();
         editAddInitialsBackgroundColors();
+        const editDateInput = document.getElementById('edit-date');
+        if (editDateInput) {
+            editDateInput.addEventListener('input', formatEditDateInput);
+            editDateInput.addEventListener('blur', editCheckDate);
+    }
         requestAnimationFrame(() => {
             activateAddedContacts(task);
             editRenderSelectedContacts();
@@ -211,6 +218,7 @@ function editTask(taskId) {
 
 //Function that saves all edited task data and updates the task in the board
 function saveEditedTask(taskId) {
+    editedTaskDetails();
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
     tasks[taskIndex].title = editedTitle;
@@ -229,6 +237,12 @@ function saveEditedTask(taskId) {
     setTimeout(() => {
         openTaskCardFromEdit(taskId);
     }, 300);
+}
+
+function editedTaskDetails() {
+    editSaveTitle();
+    editSaveDescription();
+    editSaveDueDate();
 }
 
 //Function that changes to Open Task Card Overlay from Edit Task Overlay
@@ -272,6 +286,7 @@ window.stopPropagation = stopPropagation;
 window.checkboxSubtask = checkboxSubtask;
 window.subtaskCompleted = subtaskCompleted;
 window.editTask = editTask;
+window.editedTaskDetails = editedTaskDetails;
 window.saveEditedTask = saveEditedTask;
 window.openTaskCardFromEdit = openTaskCardFromEdit;
 window.deleteTask = deleteTask;

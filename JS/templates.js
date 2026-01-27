@@ -1,3 +1,4 @@
+// Template for adding logged-in user to assignment dropdown
 function addSelfTemplate(name, initials, index) {
     return `<div id='contact${index}' class="dropdown-box" onclick='selectContact(${index})'>
                 <div class="contact-initials">
@@ -10,6 +11,8 @@ function addSelfTemplate(name, initials, index) {
             </div>`
 }
 
+
+// Template for adding other contacts to assignment dropdown
 function addTaskContactTemplate(name, initials, index) {
     return `<div id='contact${index}' class="dropdown-box" onclick='selectContact(${index})'>
                 <div class="contact-initials">
@@ -22,20 +25,20 @@ function addTaskContactTemplate(name, initials, index) {
             </div>`
 }
 
+// Template for contact initials in assigned contacts section
 function addInitialTemplate(initials) {
     return `     <div class="chosen-contact-initials">
                     <p>${initials}</p>
                 </div>`
 }
 
+// Template for number of extra assigned people
 function addNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
-function editAddNumberOfExtraPeople(number){
-    return `<p>+${number}</p>`
-}
 
+// Template for new Subtasks
 function addSubtaskTemplate(subtasks, subtaskIndex) {
     return `<div id="task${subtaskIndex}" class="subtask-element-box">  
                                     <li class="subtask-element" onclick="editSubtask('task${subtaskIndex}')">
@@ -56,6 +59,8 @@ function addSubtaskTemplate(subtasks, subtaskIndex) {
                                 </div>`
 }
 
+
+// Template for edited Subtasks
 function editedSubtaskTemplate(taskId, newText) {
     return `
             <li class="subtask-element" onclick="editSubtask('${taskId}')">${newText}</li>
@@ -71,6 +76,8 @@ function editedSubtaskTemplate(taskId, newText) {
         `
 }
 
+
+// Small Task Card Template
 function generateTodoHTML(element) {
     let initialsHTML = ''; let progressHTML = ``;
     let taskColor; let completedSubtasks;
@@ -105,8 +112,8 @@ function generateTodoHTML(element) {
     </div>`;
 }
 
-// Opened Task Card Template
 
+// Opened Task Card Template
 function generateOpenedTaskCardHTML(element) {
     let taskColor;
 
@@ -163,6 +170,8 @@ function generateOpenedTaskCardHTML(element) {
                 </section>`;
 }
 
+
+// Function to add assigned persons to opened task card
 function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
@@ -185,6 +194,8 @@ function addAssignedPersons(element) {
     }
 }
 
+
+// Function to add subtasks to opened task card
 function addSubtasks(element, taskIndex) {
     let subtasksContainer = '';
     let subtasks = element.subtasks;
@@ -218,6 +229,8 @@ function addSubtasks(element, taskIndex) {
 }
 }
 
+
+// Edit Task Card Template
 function generateEditTaskHTML(element, taskId) {
     let title = element.title;
     let description = element.description;
@@ -235,20 +248,20 @@ function generateEditTaskHTML(element, taskId) {
                         </div>
                     </div>
                     <div id="edit-task-form">
-                        <div class="input-container" id="title-container">
+                        <div class="input-container" id="edit-title-container">
                             <label for="title">Title</label>
-                            <input id="title" type="text" placeholder="Enter a Title" value="${title}">
-                            <p class="warning-message" id="title-warning"></p>
+                            <input id="edit-title" type="text" placeholder="Enter a Title" value="${title}">
+                            <p class="warning-message" id="edit-title-warning"></p>
                         </div>
-                        <div class="input-container" id="description-container">
+                        <div class="input-container" id="edit-description-container">
                             <label for="description">Description</label>
-                            <textarea name="description" id="description" placeholder="Enter a Description">${description}</textarea>
-                            <p class="warning-message" id="description-warning"></p>
+                            <textarea name="description" id="edit-description" placeholder="Enter a Description">${description}</textarea>
+                            <p class="warning-message" id="edit-description-warning"></p>
                         </div>
-                        <div class="input-container" id="date-container">
+                        <div class="input-container" id="edit-date-container">
                             <label for="date">Due date</label>
-                            <input id="date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatDateInput()">
-                            <p class="warning-message" id="date-warning"></p>
+                            <input id="edit-date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatEditDateInput(event)">
+                            <p class="warning-message" id="edit-date-warning"></p>
                         </div>
                     
                         <div id="priority-container">
@@ -330,6 +343,8 @@ function generateEditTaskHTML(element, taskId) {
                 </section>`;
 }
 
+
+// Template for adding logged-in user to assignment dropdown in edit task overlay
 function editAddSelfTemplate(name, initials, index) {
     return `<div id='edit-contact${index}' class="edit-dropdown-box" onclick='editSelectContact(${index})'>
                 <div class="edit-contact-initials">
@@ -342,6 +357,8 @@ function editAddSelfTemplate(name, initials, index) {
             </div>`
 }
 
+
+// Template for adding other contacts to assignment dropdown in edit task overlay
 function editAddTaskContactTemplate(name, initials, index) {
     return `<div id='edit-contact${index}' class="edit-dropdown-box" onclick='editSelectContact(${index})'>
                 <div class="edit-contact-initials">
@@ -354,15 +371,20 @@ function editAddTaskContactTemplate(name, initials, index) {
             </div>`
 }
 
+
+// Template for contact initials in assigned contacts section in edit task overlay
 function editAddInitialTemplate(initials) {
     return`     <div class="chosen-contact-initials">
                     <p>${initials}</p>
                 </div>`
 }
 
+
+// Template for number of extra assigned people in edit task overlay
 function editAddNumberOfExtraPeople(number){
     return `<p>+${number}</p>`
 }
+
 
 // Template für neue Subtasks
 function editAddSubtaskTemplate(subtasks, subtaskIndex) {
@@ -385,6 +407,7 @@ function editAddSubtaskTemplate(subtasks, subtaskIndex) {
             </div>`;
 }
 
+
 // Template für bearbeitete Subtasks
 function editEditedSubtaskTemplate(taskId, newText) {
     return `<li id="li-${taskId}" class="edit-subtask-element" onclick="editSubtaskEditing('${taskId}')">
@@ -402,6 +425,7 @@ function editEditedSubtaskTemplate(taskId, newText) {
 }
 
 
+// Function to generate assigned contacts initials on small task cards
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
         let contactsToDisplay = element.assignedPersons.slice(0, 3);
@@ -425,6 +449,8 @@ function generateOptionHTML(element) {
     return '';
 }
 
+
+// Function to generate subtask progress on small task cards
 function generateSubtaskProgressHTML(subtasks) {
     if (!subtasks || subtasks.length === 0) {
         return '';
