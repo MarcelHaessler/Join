@@ -1,3 +1,36 @@
+//Variable to store title of edited task
+let editedTitle = '';
+
+//Variable to store description of edited task
+let editedDescription = '';
+
+//Variable to store due date of edited task
+let editedDueDate = '';
+
+// Global variable to store the edited priority
+editedPriority = '';
+
+//Function to save title in editedTitle variable. If title input is empty, save the original title.
+function editSaveTitle() {
+    const titleInput = document.getElementById('edit-title');
+    editedTitle = titleInput.value.trim() || editedTitle;
+    console.log('Edited Title:', editedTitle);
+}
+
+//Function to save description in editedDescription variable. If description input is empty, save the original description.
+function editSaveDescription() {
+    const descriptionInput = document.getElementById('edit-description');
+    editedDescription = descriptionInput.value.trim() || editedDescription;
+    console.log('Edited Description:', editedDescription);
+}
+
+//Function to save due date in editedDueDate variable. If date input is empty, save the original date.
+function editSaveDueDate() {
+    const dateInput = document.getElementById('edit-date');
+    editedDueDate = dateInput.value.trim() || editedDueDate;
+    console.log('Edited Due Date:', editedDueDate);
+}
+
 // Function to check and set the task priority in the edit task overlay
 function checkTaskPriority(priority) {
     console.log('checkTaskPriority called with priority:', priority);
@@ -106,4 +139,55 @@ function editLowBtnToNormal() {
     editLowBtn.style.backgroundColor = 'rgba(255, 255, 255, 1)';
     editLowBtn.style.color = 'black';
     editLowImg.src = './assets/img/add_task/low.svg'
+}
+
+
+const editDateInput = document.getElementById('edit-date');
+
+function formatEditDateInput(e) {
+    let value = e.target.value.replace(/\D/g, "");
+    if (value.length > 8) value = value.slice(0, 8);
+    let formatted = "";
+    if (value.length > 0) formatted = value.slice(0, 2);
+    if (value.length > 2) formatted += "/" + value.slice(2, 4);
+    if (value.length > 4) formatted += "/" + value.slice(4, 8);
+    e.target.value = formatted;
+}
+
+function editIsCorrectDate(date) {
+    let today = new Date();
+    today.setHours(0,0,0,0);
+    let [d, m, y] = date.split("/");
+    let entered = new Date(+y, +m - 1, +d);
+    entered.setHours(0,0,0,0);
+
+    if (String(entered.getDate()).padStart(2, "0") !== d ||
+        String(entered.getMonth() + 1).padStart(2, "0") !== m ||
+        String(entered.getFullYear()) !== y) return false;
+
+    return entered.getTime() >= today.getTime();
+}
+
+function editCheckDate() {
+    const inputBorder = document.getElementById("edit-date");
+    const resultDiv = document.getElementById("edit-date-warning");
+    const dateReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(201[4-9]|20[2-9][0-9])$/;
+    if (!inputBorder || !resultDiv) return;
+    if (!inputBorder.value || inputBorder.value.replace(/\D/g, "").length < 8) {
+        inputBorder.classList.add("invalid");
+        return show("This field is required.");
+    }
+    if (!dateReg.test(inputBorder.value)) {
+        inputBorder.classList.add("invalid");
+        return show("It's an invalid date");
+    }
+    if (!editIsCorrectDate(inputBorder.value)){
+        inputBorder.classList.add("invalid");
+        return show("It's an invalid date");
+    }
+    inputBorder.classList.remove("invalid");
+    return show("");
+    function show(msg) {resultDiv.innerHTML = msg;
+        resultDiv.style.color = "#e60025";
+    }
 }

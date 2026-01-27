@@ -1,15 +1,3 @@
-//Variable to store title of edited task
-let editedTitle = '';
-
-//Variable to store description of edited task
-let editedDescription = '';
-
-//Variable to store due date of edited task
-let editedDueDate = '';
-
-// Global variable to store the edited priority
-editedPriority = '';
-
 //Array to hold selected contacts in edit task
 let editSelectedContacts = [];
 
@@ -28,6 +16,7 @@ function getAssignedPersonsToEdit(task) {
     console.log(allContacts);
 }
 
+//Function that adds background colors to contact initials in edit task overlay
 function editAddInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".edit-contact-initials");
     contactInitials.forEach((initial, index) => {
@@ -37,6 +26,7 @@ function editAddInitialsBackgroundColors() {
     });
 }
 
+//Function to fill assignment dropdown with all contacts
 function fillEditAssignmentDropdown() {
     let contactsDropdown = document.getElementById("edit-contacts-dropdown");
     contactsDropdown.innerHTML = "";
@@ -366,6 +356,7 @@ function editCreateDivider() {
     return div;
 }
 
+/**Function to handle the Enter key press in the subtask input field. */
 function editHandleSubtaskEnter(event) {
     if (event.key === "Enter") {
         event.preventDefault();
