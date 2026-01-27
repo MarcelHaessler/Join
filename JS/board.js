@@ -218,6 +218,9 @@ function editTask(taskId) {
 
 //Function that saves all edited task data and updates the task in the board
 function saveEditedTask(taskId) {
+    if (editCheckDate() === true) {
+        return;
+    }
     editedTaskDetails();
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
