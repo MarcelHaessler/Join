@@ -172,22 +172,30 @@ function editCheckDate() {
     const inputBorder = document.getElementById("edit-date");
     const resultDiv = document.getElementById("edit-date-warning");
     const dateReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(201[4-9]|20[2-9][0-9])$/;
-    if (!inputBorder || !resultDiv) return;
+
+    if (!inputBorder || !resultDiv) return true;
+
     if (!inputBorder.value || inputBorder.value.replace(/\D/g, "").length < 8) {
         inputBorder.classList.add("invalid");
-        return show("This field is required.");
+        show("This field is required.");
+        return true;
     }
     if (!dateReg.test(inputBorder.value)) {
         inputBorder.classList.add("invalid");
-        return show("It's an invalid date");
+        show("It's an invalid date");
+        return true;
     }
     if (!editIsCorrectDate(inputBorder.value)){
         inputBorder.classList.add("invalid");
-        return show("It's an invalid date");
+        show("It's an invalid date");
+        return true;
     }
     inputBorder.classList.remove("invalid");
-    return show("");
-    function show(msg) {resultDiv.innerHTML = msg;
+    show("");
+    return false;
+
+    function show(msg) {
+        resultDiv.innerHTML = msg;
         resultDiv.style.color = "#e60025";
     }
 }
