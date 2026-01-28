@@ -20,7 +20,7 @@ function addTaskOverlayClose() {
     addTaskOverlay.classList.add('closing');
 
     addTaskOverlay.addEventListener('transitionend', function handler(e) {
-        if (e.target.id === 'content-section') {
+        if (e.target.id === 'board-task-content-section') {
             addTaskOverlay.classList.add('d_none');
             addTaskOverlay.classList.remove('closing');
             addTaskOverlay.removeEventListener('transitionend', handler);

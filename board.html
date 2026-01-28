@@ -24,7 +24,7 @@
     <script src="./JS/render_templates.js"></script>
 
     <div class="d_none" id="add-task-overlay">
-        <div id="content-section">
+        <div id="board-task-content-section">
             <div id="top-section">
                 <div id="head-container">
                     <h3>Add Task</h3>
@@ -123,15 +123,16 @@
                             <div id="subtask-list-container">
                                 <ul id="subtask-list"></ul>
                             </div>
+                            <div id="required-info">
+                                <p class="red-star">*</p>
+                                <p>This field is required</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="bottom-section">
-                <div id="required-info">
-                    <p class="red-star">*</p>
-                    <p>This field is required</p>
-                </div>
+
                 <div id="bottom-button-container">
                     <button id="clear-task-button" onclick="clearTask()">
                         Clear
