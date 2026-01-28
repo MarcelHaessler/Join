@@ -95,7 +95,40 @@ function moveTo(taskgroup) {
     const task = tasks.find(t => t.id === currentDraggedElement);
     task.taskgroup = taskgroup;
     updateTask(task);
-    updateBoard()
+    updateBoard();
+    removeHighlight(taskgroup);
+}
+
+function highlight(id) {
+    document.getElementById(id).classList.add('drag-area-highlight');
+}
+
+function removeHighlight(id) {
+    document.getElementById(id).classList.remove('drag-area-highlight');
+}
+
+function toggleMobileMoveMenu(event, taskId) {
+    event.stopPropagation();
+    let menu = document.getElementById(`mobile-menu-${taskId}`);
+
+    // Close other open menus
+    document.querySelectorAll('.mobile-move-menu').forEach(m => {
+        if (m.id !== `mobile-menu-${taskId}`) {
+            m.classList.add('d_none');
+        }
+    });
+
+    menu.classList.toggle('d_none');
+}
+
+function moveToFromMobile(event, taskId, targetStatus) {
+    event.stopPropagation();
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.taskgroup = targetStatus;
+        updateTask(task);
+        updateBoard();
+    }
 }
 
 import { db } from "./firebaseAuth.js";
@@ -105,9 +138,9 @@ import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/f
 async function updateTask(task) {
     try {
         const taskRef = ref(db, `tasks/${task.id}`);
-        
+
         const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-        
+
         await update(taskRef, {
             title: task.title || '',
             description: task.description || '',
@@ -120,7 +153,7 @@ async function updateTask(task) {
                 subtaskComplete: !!s.subtaskComplete
             }))
         });
-      updateBoard();
+        updateBoard();
     } catch (error) {
         console.error("Error updating task:", error);
     }
@@ -167,10 +200,10 @@ function checkboxSubtask(subtaskIndex, taskIndex) {
 
     // 2. Update the UI based on the new Data
     const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
-    const imgPath = subtask.subtaskComplete 
-        ? './assets/img/checkbox_active.svg' 
+    const imgPath = subtask.subtaskComplete
+        ? './assets/img/checkbox_active.svg'
         : './assets/img/checkbox_inactive.svg';
-    
+
     checkbox.src = imgPath;
 
     // 3. Sync with backend/storage and refresh board
@@ -226,7 +259,7 @@ function saveEditedTask(taskId) {
     updateTask(tasks[taskIndex]);
     updateBoard();
     setTimeout(() => {
-    openTaskCardFromEdit(taskId);
+        openTaskCardFromEdit(taskId);
     }, 300);
 }
 
@@ -274,3 +307,7 @@ window.editTask = editTask;
 window.saveEditedTask = saveEditedTask;
 window.openTaskCardFromEdit = openTaskCardFromEdit;
 window.deleteTask = deleteTask;
+window.highlight = highlight;
+window.removeHighlight = removeHighlight;
+window.toggleMobileMoveMenu = toggleMobileMoveMenu;
+window.moveToFromMobile = moveToFromMobile;
