@@ -32,7 +32,7 @@ function addNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
-function editAddNumberOfExtraPeople(number){
+function editAddNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
@@ -87,7 +87,15 @@ function generateTodoHTML(element) {
     return `
     <div draggable="true" ondragstart="startDragging('${element.id}', event)" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
         <div>
-            <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
+            <div class="task-header-mobile">
+                <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
+                <div class="mobile-move-btn" onclick="toggleMobileMoveMenu(event, '${element.id}')">
+                   <img src="./assets/img/arrow_drop_down.svg" alt="Move">
+                </div>
+                <div id="mobile-menu-${element.id}" class="mobile-move-menu d_none">
+                    ${generateMoveMenu(element.id)}
+                </div>
+            </div>
             <h4 class="task-title">${element.title}</h4>
             <p class="task-content">${element.description}</p>
             <div class="subtasks-container">
@@ -197,7 +205,7 @@ function addSubtasks(element, taskIndex) {
             const subtask = subtasks[index].text;
             const active = "./assets/img/checkbox_inactive.svg";
             const inactive = "./assets/img/checkbox_active.svg";
-            
+
             if (subtasks[index].subtaskComplete) {
                 subtasksContainer += `
             <div id="subtask-${index}" class="subtask">
@@ -205,17 +213,17 @@ function addSubtasks(element, taskIndex) {
                 <p>${subtask}</p>
             </div>
             `;
-        } else {
-            subtasksContainer += `
+            } else {
+                subtasksContainer += `
             <div id="subtask-${index}" class="subtask">
                 <img onclick="checkboxSubtask(${index}, ${taskIndex})" class="subtask-checkbox" id="subtask-checkbox-${index}" src="${active}" alt="checkbox-inactive">
                 <p>${subtask}</p>
             </div>
             `;
+            }
         }
+        return subtasksContainer;
     }
-    return subtasksContainer;
-}
 }
 
 function generateEditTaskHTML(element, taskId) {
@@ -226,8 +234,8 @@ function generateEditTaskHTML(element, taskId) {
     let names = element.assignedPersons;
     let subtasks = element.subtasks;
     let category = element.category;
-    
-    
+
+
     return `    <section onclick="stopPropagation(event)" id="edit-task-card">
                     <div id="edit-task-card-head">
                         <div id="close-edit-task-card-button" onclick="closeTaskCardOverlay()" >
@@ -355,12 +363,12 @@ function editAddTaskContactTemplate(name, initials, index) {
 }
 
 function editAddInitialTemplate(initials) {
-    return`     <div class="chosen-contact-initials">
+    return `     <div class="chosen-contact-initials">
                     <p>${initials}</p>
                 </div>`
 }
 
-function editAddNumberOfExtraPeople(number){
+function editAddNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
@@ -437,5 +445,14 @@ function generateSubtaskProgressHTML(subtasks) {
     return `
         <progress value="${progressValue}" max="100"></progress>
         <span class="subtasks-counter">${completed}/${total} Subtasks</span>
+    `;
+}
+
+function generateMoveMenu(taskId) {
+    return `
+        <div onclick="moveToFromMobile(event, '${taskId}', 'ToDo')">To Do</div>
+        <div onclick="moveToFromMobile(event, '${taskId}', 'InProgress')">In Progress</div>
+        <div onclick="moveToFromMobile(event, '${taskId}', 'Awaiting')">Await Feedback</div>
+        <div onclick="moveToFromMobile(event, '${taskId}', 'Done')">Done</div>
     `;
 }
