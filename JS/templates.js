@@ -92,7 +92,7 @@ function generateTodoHTML(element) {
     progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
     return `
-    <div draggable="true" ondragstart="startDragging('${element.id}', event)" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
+    <div draggable="true" ondragstart="startDragging('${element.id}', event)" ontouchstart="handleTouchStart(event, '${element.id}')"  onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
         <div>
             <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
             <h4 class="task-title">${element.title}</h4>

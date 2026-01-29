@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    background-color: #F6F7F8;
 }
 
 body {
@@ -35,6 +36,8 @@ main {
     padding: 40px;
     overflow-y: auto;
     background-color: #F6F7F8;
+    box-sizing: border-box;
+    max-width: 1440px;
 }
 
 @media (max-width: 1100px) {
