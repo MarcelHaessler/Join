@@ -11,6 +11,8 @@ main {
     grid-template-rows: auto 1fr;
     flex-direction: column;
     padding-bottom: 0;
+    max-width: 1440px;
+    box-sizing: border-box;
 }
 
 top-section {
@@ -22,7 +24,7 @@ top-section {
     width: 100%;
 
     h1 {
-        color: var(--primerColor);
+        color: black;
     }
 }
 
