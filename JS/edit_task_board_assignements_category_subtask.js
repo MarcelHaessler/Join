@@ -1,15 +1,3 @@
-//Variable to store title of edited task
-let editedTitle = '';
-
-//Variable to store description of edited task
-let editedDescription = '';
-
-//Variable to store due date of edited task
-let editedDueDate = '';
-
-// Global variable to store the edited priority
-editedPriority = '';
-
 //Array to hold selected contacts in edit task
 let editSelectedContacts = [];
 
@@ -28,6 +16,7 @@ function getAssignedPersonsToEdit(task) {
     console.log(allContacts);
 }
 
+//Function that adds background colors to contact initials in edit task overlay
 function editAddInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".edit-contact-initials");
     contactInitials.forEach((initial, index) => {
@@ -37,6 +26,7 @@ function editAddInitialsBackgroundColors() {
     });
 }
 
+//Function to fill assignment dropdown with all contacts
 function fillEditAssignmentDropdown() {
     let contactsDropdown = document.getElementById("edit-contacts-dropdown");
     contactsDropdown.innerHTML = "";
@@ -245,10 +235,16 @@ function editChoseUserStory() {
 function showExistingSubtasks(task) {
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML = '';
+    editedSubtaskListArray = [];
+    subtaskIndex = 0;              
     if (!task.subtasks || task.subtasks.length === 0 ) {  return;}
     task.subtasks.forEach((subtask, index) => {
         subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtask.text }, index);
-        editedSubtaskListArray.push(subtask.text);
+        // Speichere sowohl Text als auch subtaskComplete!
+        editedSubtaskListArray.push({
+            text: subtask.text,
+            subtaskComplete: !!subtask.subtaskComplete
+        });
         subtaskIndex++;
     });
 }
@@ -273,7 +269,11 @@ function editAddSubtaskToList() {
     let subtasks = document.getElementById("edit-subtasks");
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtasks.value }, subtaskIndex);
-    editedSubtaskListArray = Array.from(document.getElementsByClassName("edit-subtask-element")).map(li => li.textContent.trim());
+    // Füge neues Objekt mit Default subtaskComplete:false hinz
+    editedSubtaskListArray.push({
+        text: subtasks.value.trim(),
+        subtaskComplete: false
+    });
     subtaskIndex++;
     editClearInputField();
     console.log(editedSubtaskListArray);
@@ -282,8 +282,14 @@ function editAddSubtaskToList() {
 /**Function to delete chosen subtask from list */
 function editDeleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
+    if (!subtaskElement) return;
+    // Text von diesem Subtask rauslesen
+    let li = subtaskElement.querySelector('.edit-subtask-element');
+    let text = li ? li.textContent.trim() : '';
     subtaskElement.remove();
-    editedSubtaskListArray = Array.from(document.getElementsByClassName("edit-subtask-element")).map(li => li.textContent.trim());
+
+    // Aus Array entfernen (per Text-Match)
+    editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text !== text);
 }
 
 /**Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li. */
@@ -294,7 +300,7 @@ function editSubtaskEditing(taskId) {
     const input = editCreateEditInput(oldText);
     box.innerHTML = "";
     box.appendChild(input);
-    const buttonContainer = editCreateEditButtons(input, box, taskId);
+    const buttonContainer = editCreateEditButtons(input, box, taskId, oldText);
     box.appendChild(buttonContainer);
 }
 
@@ -308,17 +314,27 @@ function editCreateEditInput(text) {
 }
 
 /**Function that creates new buttons and a divider in the new input field. */
-function editCreateEditButtons(input, box, taskId) {
+function editCreateEditButtons(input, box, taskId, oldText) {
     const container = document.createElement("div");
     container.className = "edit-subtask-list-button-container";
-    const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
-        deleteSubtaskListElement(taskId);
-        editedSubtaskListArray = Array.from(document.getElementsByClassName("edit-subtask-element")).map(li => li.textContent.trim());
+    const deleteBtn = editCreateButton('./assets/img/add_task/delete.svg', () => {
+        editDeleteSubtaskListElement(taskId);
     });
     const divider = editCreateDivider();
     const saveBtn = editCreateButton('./assets/img/add_task/check.svg', () => {
-        box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
-        editedSubtaskListArray = Array.from(document.getElementsByClassName("edit-subtask-element")).map(li => li.textContent.trim());
+        const newText = input.value.trim();
+        if (!newText) return;
+
+        box.innerHTML = editEditedSubtaskTemplate(taskId, newText);
+
+        // Ersetze nur Text, erhalte subtaskComplete
+        const index = editedSubtaskListArray.findIndex(obj => obj.text === oldText);
+        if (index !== -1) {
+            const prevComplete = !!editedSubtaskListArray[index].subtaskComplete;
+            editedSubtaskListArray[index] = { text: newText, subtaskComplete: prevComplete };
+        } else {
+            editedSubtaskListArray.push({ text: newText, subtaskComplete: false });
+        }
     });
     container.append(deleteBtn, divider, saveBtn);
     return container;
@@ -340,3 +356,16 @@ function editCreateDivider() {
     return div;
 }
 
+/**Function to handle the Enter key press in the subtask input field. */
+function editHandleSubtaskEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+
+        const input = document.getElementById("edit-subtasks");
+        if (!input) return; 
+        if (input.value.trim() !== "") {
+            editAddSubtaskToList();
+            document.getElementById("edit-subtasks").value = "";
+        }
+    }
+}

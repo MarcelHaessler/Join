@@ -20,7 +20,7 @@ function addTaskOverlayClose() {
     addTaskOverlay.classList.add('closing');
 
     addTaskOverlay.addEventListener('transitionend', function handler(e) {
-        if (e.target.id === 'content-section') {
+        if (e.target.id === 'board-task-content-section') {
             addTaskOverlay.classList.add('d_none');
             addTaskOverlay.classList.remove('closing');
             addTaskOverlay.removeEventListener('transitionend', handler);
@@ -92,7 +92,10 @@ function allowDrop(ev) {
 }
 
 function moveTo(taskgroup) {
-    const task = tasks.find(t => t.id === currentDraggedElement);
+    // Nimmt touchDragTaskId, wenn vorhanden, sonst currentDraggedElement
+    const taskId = touchDragTaskId || currentDraggedElement;
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return; // Schutz
     task.taskgroup = taskgroup;
     updateTask(task);
     updateBoard();
@@ -129,6 +132,11 @@ function moveToFromMobile(event, taskId, targetStatus) {
         updateTask(task);
         updateBoard();
     }
+    updateTask(task);    // <-- Firestore write
+    updateBoard();       // <-- sofortige UI-Aktualisierung (ggf. nach Backend-Update)
+    
+    // Nach Touchdrop aufräumen nicht vergessen:
+    touchDragTaskId = null; 
 }
 
 import { db } from "./firebaseAuth.js";
@@ -148,6 +156,7 @@ async function updateTask(task) {
             priority: task.priority || '',
             assignedPersons: task.assignedPersons || [],
             category: task.category || '',
+            taskgroup: task.taskgroup,
             subtasks: subtasks.map(s => ({
                 text: s.text || '',
                 subtaskComplete: !!s.subtaskComplete
@@ -226,6 +235,8 @@ function editTask(taskId) {
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
     editedTitle = task.title;
+    editedDescription = task.description;
+    editedDueDate = task.date;
     let overlay = document.getElementById('task_card_overlay');
     overlay.innerHTML = generateEditTaskHTML(task, taskId);
     setTimeout(() => {
@@ -233,6 +244,11 @@ function editTask(taskId) {
         window.currentPriority = task.priority;
         fillEditAssignmentDropdown();
         editAddInitialsBackgroundColors();
+        const editDateInput = document.getElementById('edit-date');
+        if (editDateInput) {
+            editDateInput.addEventListener('input', formatEditDateInput);
+            editDateInput.addEventListener('blur', editCheckDate);
+    }
         requestAnimationFrame(() => {
             activateAddedContacts(task);
             editRenderSelectedContacts();
@@ -244,6 +260,10 @@ function editTask(taskId) {
 
 //Function that saves all edited task data and updates the task in the board
 function saveEditedTask(taskId) {
+    if (editCheckDate() === true) {
+        return;
+    }
+    editedTaskDetails();
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
     tasks[taskIndex].title = editedTitle;
@@ -252,15 +272,22 @@ function saveEditedTask(taskId) {
     tasks[taskIndex].priority = editedPriority;
     tasks[taskIndex].assignedPersons = editSelectedContacts;
     tasks[taskIndex].category = editedCategory;
-    tasks[taskIndex].subtasks = editedSubtaskListArray.map(text => ({
-        text: text,
-        subtaskComplete: false
+    // Übernehme sowohl text als auch subtaskComplete
+    tasks[taskIndex].subtasks = editedSubtaskListArray.map(obj => ({
+        text: obj.text,
+        subtaskComplete: !!obj.subtaskComplete
     }));
     updateTask(tasks[taskIndex]);
     updateBoard();
     setTimeout(() => {
         openTaskCardFromEdit(taskId);
     }, 300);
+}
+
+function editedTaskDetails() {
+    editSaveTitle();
+    editSaveDescription();
+    editSaveDueDate();
 }
 
 //Function that changes to Open Task Card Overlay from Edit Task Overlay
@@ -291,6 +318,58 @@ function deleteTask(taskId) {
 }
 
 
+let touchDragTaskId = null;
+let initialTouch = {x: 0, y: 0};
+let ghost = null;
+
+function handleTouchStart(event, taskId) {
+    if (event.touches.length > 1) return;
+    touchDragTaskId = taskId;
+    initialTouch.x = event.touches[0].clientX;
+    initialTouch.y = event.touches[0].clientY;
+
+
+    ghost = event.target.cloneNode(true);
+    ghost.style.position = 'absolute';
+    ghost.style.opacity = '0.7';
+    ghost.style.pointerEvents = 'none';
+    ghost.style.left = initialTouch.x + 'px';
+    ghost.style.top = initialTouch.y + 'px';
+    ghost.style.width = event.target.offsetWidth + "px";
+    ghost.style.zIndex = 10000;
+    document.body.appendChild(ghost);
+
+    document.addEventListener('touchmove', handleTouchMove, {passive: false});
+    document.addEventListener('touchend', handleTouchEnd);
+}
+
+function handleTouchMove(event) {
+    if (!ghost) return;
+    event.preventDefault();
+    let touch = event.touches[0];
+    ghost.style.left = (touch.clientX - ghost.offsetWidth/2) + 'px';
+    ghost.style.top = (touch.clientY - ghost.offsetHeight/2) + 'px';
+}
+
+function handleTouchEnd(event) {
+    if (!ghost) return;
+    let touch = event.changedTouches[0];
+    let dropElem = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    while (dropElem && !dropElem.classList.contains('kanban-body') && dropElem !== document.body) {
+        dropElem = dropElem.parentElement;
+    }
+    if (dropElem && dropElem.classList.contains('kanban-body')) {
+        moveTo(dropElem.id); 
+    }
+
+    document.body.removeChild(ghost);
+    ghost = null;
+    touchDragTaskId = null;
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+}
+
 window.updateTask = updateTask;
 window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
@@ -304,6 +383,7 @@ window.stopPropagation = stopPropagation;
 window.checkboxSubtask = checkboxSubtask;
 window.subtaskCompleted = subtaskCompleted;
 window.editTask = editTask;
+window.editedTaskDetails = editedTaskDetails;
 window.saveEditedTask = saveEditedTask;
 window.openTaskCardFromEdit = openTaskCardFromEdit;
 window.deleteTask = deleteTask;
@@ -311,3 +391,6 @@ window.highlight = highlight;
 window.removeHighlight = removeHighlight;
 window.toggleMobileMoveMenu = toggleMobileMoveMenu;
 window.moveToFromMobile = moveToFromMobile;
+window.handleTouchStart = handleTouchStart;
+window.handleTouchMove = handleTouchMove;
+window.handleTouchEnd = handleTouchEnd;
