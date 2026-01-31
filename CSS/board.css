@@ -640,6 +640,9 @@ textarea {
     transition: transform 0.4s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 #task_card_overlay.active #task-card {
