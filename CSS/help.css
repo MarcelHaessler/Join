@@ -1,4 +1,4 @@
-h1{
+h1 {
     font-size: 61px;
     font-weight: 700;
 }
@@ -22,14 +22,13 @@ h1{
 }
 
 .floating-back-button {
-    position: sticky;
-    top: 24px;
     display: grid;
+    position: absolute;
+    top: 160px;
+    right: 24px;
     place-items: center;
     width: 32px;
     height: 32px;
-    margin-left: auto;
-    margin-bottom: 16px;
     border-radius: 50%;
     text-decoration: none;
     z-index: 5;
@@ -40,8 +39,12 @@ h1{
     background-color: #dddddd;
 }
 
-@media (max-width: 1100px){
+@media (max-width: 1100px) {
     h1 {
         font-size: 47px;
+    }
+
+    .floating-back-button {
+        top: 120px;
     }
 }
