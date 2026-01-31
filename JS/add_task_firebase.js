@@ -45,7 +45,7 @@ async function fetchTasks() {
       }
     }
   } catch (error) {
-    console.error("Error fetching tasks:", error);
+    /*console.error("Error fetching tasks:", error);*/
   } finally {
     hideLoader();
   }

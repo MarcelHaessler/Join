@@ -58,7 +58,10 @@ onAuthStateChanged(auth, (user) => {
             icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
         }
     } else {
-        console.log("Kein User eingeloggt");
+        const event = new CustomEvent("guestUser", {
+            detail: { name: 'Guest' }
+        });
+        window.dispatchEvent(event);
     }
 });
 
