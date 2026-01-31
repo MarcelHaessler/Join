@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./CSS/layout.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
     <link rel="stylesheet" href="./CSS/help.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Help</title>
 </head>
 
@@ -19,9 +20,10 @@
     <div id="side-bar"></div>
     <script src="./JS/render_templates.js"></script>
     <main>
-        <a id="help-back-link" class="floating-back-button" href="./summary.html" aria-label="Back to summary">
+        <a id="help-back-link" class="floating-back-button" href="#" onclick="window.history.back(); return false;"
+            aria-label="Go back">
             <img id="back_button" onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()"
-                src="./assets/img/back_button_inactive.svg" alt="Back to summary">
+                src="./assets/img/back_button_inactive.svg" alt="Go back">
         </a>
         <h1>Help</h1>
         <p>Welcome to the help page for <span class="light-blue">Join</span>, your guide to using our kanban project

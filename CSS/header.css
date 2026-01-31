@@ -121,6 +121,10 @@ header {
     backdrop-filter: none;
 }
 
+dialog button:focus {
+    outline: none;
+}
+
 @media (max-width: 1100px) {
     #header {
         min-height: 80px;

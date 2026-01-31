@@ -158,8 +158,9 @@
     <main>
         <top-section>
             <div class="titleBoard">
-                <h1>Board</h1> 
-                <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img src="./assets/img/plus.svg" alt="add"></button>
+                <h1>Board</h1>
+                <button onclick="addTaskOverlayOpen('ToDo')" class="add-plus" id="add-todo"><img
+                        src="./assets/img/plus.svg" alt="add"></button>
             </div>
             <div class="find-container">
                 <div class="search-input" role="search">
@@ -169,7 +170,8 @@
                         <img class="search-icon" src="./assets/img/search.svg">
                     </button>
                 </div>
-                <button class="add-task-button" onclick="addTaskOverlayOpen('ToDo')">Add task <img src="./assets/img/plus.svg" alt="add"></button>
+                <button class="add-task-button" onclick="addTaskOverlayOpen('ToDo')">Add task <img
+                        src="./assets/img/plus.svg" alt="add"></button>
             </div>
         </top-section>
         <section class="kanban-board">
@@ -182,7 +184,8 @@
                             src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body" id="ToDo" ondrop="moveTo('ToDo')" ondragover="allowDrop(event)">
+                <div class="kanban-body" id="ToDo" ondrop="moveTo('ToDo'); removeHighlight('ToDo')"
+                    ondragover="allowDrop(event)" ondragenter="highlight('ToDo')" ondragleave="removeHighlight('ToDo')">
                 </div>
             </div>
 
@@ -194,7 +197,9 @@
                             src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body" id="InProgress" ondrop="moveTo('InProgress')" ondragover="allowDrop(event)">
+                <div class="kanban-body" id="InProgress" ondrop="moveTo('InProgress'); removeHighlight('InProgress')"
+                    ondragover="allowDrop(event)" ondragenter="highlight('InProgress')"
+                    ondragleave="removeHighlight('InProgress')">
                 </div>
             </div>
 
@@ -206,7 +211,9 @@
                             src="./assets/img/plus.svg" alt="add"></button>
                 </div>
 
-                <div class="kanban-body" id="Awaiting" ondrop="moveTo('Awaiting')" ondragover="allowDrop(event)">
+                <div class="kanban-body" id="Awaiting" ondrop="moveTo('Awaiting'); removeHighlight('Awaiting')"
+                    ondragover="allowDrop(event)" ondragenter="highlight('Awaiting')"
+                    ondragleave="removeHighlight('Awaiting')">
                 </div>
             </div>
 
@@ -216,7 +223,8 @@
                     <span>Done</span>
                 </div>
 
-                <div class="kanban-body" id="Done" ondrop="moveTo('Done')" ondragover="allowDrop(event)">
+                <div class="kanban-body" id="Done" ondrop="moveTo('Done'); removeHighlight('Done')"
+                    ondragover="allowDrop(event)" ondragenter="highlight('Done')" ondragleave="removeHighlight('Done')">
                 </div>
             </div>
 
