@@ -248,17 +248,17 @@ function generateEditTaskHTML(element, taskId) {
                         </div>
                     </div>
                     <div id="edit-task-form">
-                        <div class="input-container" id="edit-title-container">
+                        <div class="edit-input-container" id="edit-title-container">
                             <label for="title">Title</label>
                             <input id="edit-title" type="text" placeholder="Enter a Title" value="${title}">
                             <p class="warning-message" id="edit-title-warning"></p>
                         </div>
-                        <div class="input-container" id="edit-description-container">
+                        <div class="edit-input-container" id="edit-description-container">
                             <label for="description">Description</label>
                             <textarea name="description" id="edit-description" placeholder="Enter a Description">${description}</textarea>
                             <p class="warning-message" id="edit-description-warning"></p>
                         </div>
-                        <div class="input-container" id="edit-date-container">
+                        <div class="edit-input-container" id="edit-date-container">
                             <label for="date">Due date</label>
                             <input id="edit-date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatEditDateInput(event)">
                             <p class="warning-message" id="edit-date-warning"></p>
@@ -266,7 +266,7 @@ function generateEditTaskHTML(element, taskId) {
                     
                         <div id="priority-container">
                             <label>Priority</label>
-                            <div class="input-container" id="form-buttons">
+                            <div class="edit-input-container" id="form-buttons">
                                 <button onclick="urgentPriority()" id="edit-urgent-btn" class="priority-buttons">
                                     <p>Urgent</p>
                                     <img id="edit-urgent-img" src="./assets/img/add_task/urgent.svg" alt="Urgent">
@@ -281,7 +281,7 @@ function generateEditTaskHTML(element, taskId) {
                                 </button>
                             </div>
                         </div>
-                        <div class="input-container" id="assignment-container">
+                        <div class="edit-input-container" id="assignment-container">
                             <label for="assign-input">Assigned to</label>
                             <div id="edit-assign-input-box">
                                 <input id="edit-assign-input" oninput="editDelaySearchContact()"
@@ -295,7 +295,7 @@ function generateEditTaskHTML(element, taskId) {
                             <div id="edit-contacts-dropdown"></div>
                             <div id="edit-chosen-contacts" class="d_none"></div>
                         </div>
-                        <div class="input-container" id="edit-category-container">
+                        <div class="edit-input-container" id="edit-category-container">
                             <label for="category">Category</label>
                             <div id="edit-category-input">
                                 <input onclick="editOpenCloseCategoryDropdown()" type="text" id="edit-category"
