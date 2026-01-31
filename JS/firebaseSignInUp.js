@@ -35,7 +35,8 @@ function loginUser() {
             console.log("Login erfolgreich:", userCredential.user.email);
             manualLogin = true; // Markiere manuellen Login für Weiterleitung
             sessionStorage.setItem('showSummaryGreeting', 'true');
-            window.location.href = "summary.html";
+            sessionStorage.setItem('guestMode', 'false');
+            window.location.href = "summary.html"; 
         })
         .catch((error) => {
             console.error("Login Fehler:", error);

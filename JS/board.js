@@ -97,11 +97,43 @@ function moveTo(taskgroup) {
     const task = tasks.find(t => t.id === taskId);
     if (!task) return; // Schutz
     task.taskgroup = taskgroup;
+    updateTask(task);
+    updateBoard();
+    removeHighlight(taskgroup);
+}
+
+function highlight(id) {
+    document.getElementById(id).classList.add('drag-area-highlight');
+}
+
+function removeHighlight(id) {
+    document.getElementById(id).classList.remove('drag-area-highlight');
+}
+
+function toggleMobileMoveMenu(event, taskId) {
+    event.stopPropagation();
+    let menu = document.getElementById(`mobile-menu-${taskId}`);
+
+    // Close other open menus
+    document.querySelectorAll('.mobile-move-menu').forEach(m => {
+        if (m.id !== `mobile-menu-${taskId}`) {
+            m.classList.add('d_none');
+        }
+    });
+
+    menu.classList.toggle('d_none');
+}
+
+function moveToFromMobile(event, taskId, targetStatus) {
+    event.stopPropagation();
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.taskgroup = targetStatus;
+        updateTask(task);
+        updateBoard();
+    }
     updateTask(task);    // <-- Firestore write
     updateBoard();       // <-- sofortige UI-Aktualisierung (ggf. nach Backend-Update)
-    
-    // Nach Touchdrop aufräumen nicht vergessen:
-    touchDragTaskId = null; 
 }
 
 import { db } from "./firebaseAuth.js";
@@ -111,9 +143,9 @@ import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/f
 async function updateTask(task) {
     try {
         const taskRef = ref(db, `tasks/${task.id}`);
-        
+
         const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-        
+
         await update(taskRef, {
             title: task.title || '',
             description: task.description || '',
@@ -127,7 +159,7 @@ async function updateTask(task) {
                 subtaskComplete: !!s.subtaskComplete
             }))
         });
-      updateBoard();
+        updateBoard();
     } catch (error) {
         console.error("Error updating task:", error);
     }
@@ -174,10 +206,10 @@ function checkboxSubtask(subtaskIndex, taskIndex) {
 
     // 2. Update the UI based on the new Data
     const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
-    const imgPath = subtask.subtaskComplete 
-        ? './assets/img/checkbox_active.svg' 
+    const imgPath = subtask.subtaskComplete
+        ? './assets/img/checkbox_active.svg'
         : './assets/img/checkbox_inactive.svg';
-    
+
     checkbox.src = imgPath;
 
     // 3. Sync with backend/storage and refresh board
@@ -213,7 +245,7 @@ function editTask(taskId) {
         if (editDateInput) {
             editDateInput.addEventListener('input', formatEditDateInput);
             editDateInput.addEventListener('blur', editCheckDate);
-    }
+        }
         requestAnimationFrame(() => {
             activateAddedContacts(task);
             editRenderSelectedContacts();
@@ -282,59 +314,6 @@ function deleteTask(taskId) {
 
 }
 
-
-let touchDragTaskId = null;
-let initialTouch = {x: 0, y: 0};
-let ghost = null;
-
-function handleTouchStart(event, taskId) {
-    if (event.touches.length > 1) return;
-    touchDragTaskId = taskId;
-    initialTouch.x = event.touches[0].clientX;
-    initialTouch.y = event.touches[0].clientY;
-
-
-    ghost = event.target.cloneNode(true);
-    ghost.style.position = 'absolute';
-    ghost.style.opacity = '0.7';
-    ghost.style.pointerEvents = 'none';
-    ghost.style.left = initialTouch.x + 'px';
-    ghost.style.top = initialTouch.y + 'px';
-    ghost.style.width = event.target.offsetWidth + "px";
-    ghost.style.zIndex = 10000;
-    document.body.appendChild(ghost);
-
-    document.addEventListener('touchmove', handleTouchMove, {passive: false});
-    document.addEventListener('touchend', handleTouchEnd);
-}
-
-function handleTouchMove(event) {
-    if (!ghost) return;
-    event.preventDefault();
-    let touch = event.touches[0];
-    ghost.style.left = (touch.clientX - ghost.offsetWidth/2) + 'px';
-    ghost.style.top = (touch.clientY - ghost.offsetHeight/2) + 'px';
-}
-
-function handleTouchEnd(event) {
-    if (!ghost) return;
-    let touch = event.changedTouches[0];
-    let dropElem = document.elementFromPoint(touch.clientX, touch.clientY);
-
-    while (dropElem && !dropElem.classList.contains('kanban-body') && dropElem !== document.body) {
-        dropElem = dropElem.parentElement;
-    }
-    if (dropElem && dropElem.classList.contains('kanban-body')) {
-        moveTo(dropElem.id); 
-    }
-
-    document.body.removeChild(ghost);
-    ghost = null;
-    touchDragTaskId = null;
-    document.removeEventListener('touchmove', handleTouchMove);
-    document.removeEventListener('touchend', handleTouchEnd);
-}
-
 window.updateTask = updateTask;
 window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
@@ -352,6 +331,7 @@ window.editedTaskDetails = editedTaskDetails;
 window.saveEditedTask = saveEditedTask;
 window.openTaskCardFromEdit = openTaskCardFromEdit;
 window.deleteTask = deleteTask;
-window.handleTouchStart = handleTouchStart;
-window.handleTouchMove = handleTouchMove;
-window.handleTouchEnd = handleTouchEnd;
+window.highlight = highlight;
+window.removeHighlight = removeHighlight;
+window.toggleMobileMoveMenu = toggleMobileMoveMenu;
+window.moveToFromMobile = moveToFromMobile;
