@@ -335,7 +335,7 @@ section {
     .greeting-text {
         font-size: 28px;
     }
-}
+
 
 @media (max-width: 446px) {
     main {
