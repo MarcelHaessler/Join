@@ -131,7 +131,7 @@ a {
         flex-direction: row;
         gap: 10px;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
         padding: 0 4px 0 4px;
         box-sizing: border-box;

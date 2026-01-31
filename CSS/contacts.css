@@ -13,7 +13,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 .addNewContact {
@@ -21,7 +21,7 @@ main {
     justify-content: center;
     align-items: center;
     margin: 10px;
-    
+
     button {
         display: flex;
         width: 100%;
@@ -51,6 +51,7 @@ main {
         gap: 8px;
         margin-left: 12px;
     }
+
     hr {
         border: none;
         height: 1px;
@@ -90,7 +91,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    min-width: 0; 
+    min-width: 0;
 
     .name,
     .mail {
@@ -102,13 +103,14 @@ main {
     .name {
         font-size: 20px;
     }
+
     .mail {
         color: var(--linkColor);
         font-size: 16px;
-    }    
+    }
 }
 
-.contacts{
+.contacts {
     flex: 1;
     padding: 20px;
     border-left: 2px solid #ddd;
@@ -116,8 +118,8 @@ main {
 
 .contactHeader {
     display: flex;
-    justify-content: flex-start; 
-    align-items: center;  
+    justify-content: flex-start;
+    align-items: center;
     gap: 12px;
 
     .desktop {
@@ -178,7 +180,7 @@ main {
     align-items: flex-start;
     gap: 24px;
 
-    button{
+    button {
         color: var(--primerColor);
         border: none;
         background-color: transparent;
@@ -202,6 +204,7 @@ table {
         text-align: left;
         padding: 12px 0;
     }
+
     .mail {
         color: var(--linkColor);
     }
@@ -242,7 +245,7 @@ table {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &.visible {
-    display: flex;
+        display: flex;
     }
 
     button {
@@ -253,7 +256,7 @@ table {
         justify-content: flex-start;
         align-items: center;
         color: var(--primerColor);
-    }   
+    }
 }
 
 dialog::backdrop {
@@ -377,6 +380,7 @@ dialog {
                 outline: none;
                 border-color: var(--secondColor);
             }
+
             &.invalid {
                 border-color: var(--invalideColor);
             }
@@ -390,10 +394,11 @@ dialog {
             height: 16px;
             width: auto;
         }
-    } 
+    }
 }
 
-.contactAddButtons, .contactEditButtons {
+.contactAddButtons,
+.contactEditButtons {
     display: inline-flex;
     justify-content: flex-start;
     gap: 12px;
@@ -412,7 +417,8 @@ dialog {
         }
     }
 
-    .contactAddCancel, .contactEditDelete {
+    .contactAddCancel,
+    .contactEditDelete {
         display: inline-flex;
         background-color: transparent;
         color: var(--primerColor);
@@ -428,7 +434,9 @@ dialog {
             }
         }
     }
-    .contactAddCreate, .contactEditSave {
+
+    .contactAddCreate,
+    .contactEditSave {
         display: inline-flex;
         background-color: var(--primerColor);
         color: var(--contrastColor);
@@ -438,13 +446,13 @@ dialog {
             box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
         }
     }
-}  
+}
 
 
 @media (max-width: 1100px) {
     main {
         display: block;
-        height: calc(100vh - 96px - 80px);
+        height: calc(100vh - 80px - 80px);
     }
 
     .sideBar {
@@ -465,7 +473,7 @@ dialog {
     .contacts {
         width: calc(100% - 42Px);
         display: none;
-        
+
         &.visible {
             display: block;
         }
@@ -480,13 +488,16 @@ dialog {
             font-size: 47px;
             margin-bottom: 0;
         }
+
         h2 {
             font-size: 20px;
             margin-top: 0;
         }
+
         .desktop {
             display: none;
         }
+
         .mobile {
             height: 3px;
             width: 90px;
@@ -505,14 +516,14 @@ dialog {
 
     .selectedName {
         font-size: 36px;
-    }  
-    
+    }
+
     .selectedNameButtons {
         display: none;
     }
 
     .contactBackArrow {
-        display:flex;
+        display: flex;
         position: absolute;
         top: 140px;
         right: 20px;
@@ -548,7 +559,7 @@ dialog {
         width: calc(100% - 48px);
         background-color: var(--primerColor);
         padding: 24px;
-        
+
         img {
             display: none;
         }
@@ -561,6 +572,7 @@ dialog {
             font-size: 20px;
         }
     }
+
     .contactAdd {
         display: inline-flex;
         width: calc(100% - 48px);
@@ -568,7 +580,7 @@ dialog {
     }
 
     .ananymPerson {
-        margin: 0; 
+        margin: 0;
         transform: translateY(-50%);
         margin-bottom: -40px;
     }
@@ -578,6 +590,7 @@ dialog {
         align-items: center;
         width: 100%;
         gap: 12px;
+
         .cancel {
             position: absolute;
             top: 20px;
@@ -591,6 +604,7 @@ dialog {
         div {
             gap: 12px;
             width: 100%;
+
             input {
                 height: 40px;
 
@@ -607,8 +621,9 @@ dialog {
         justify-content: center;
 
         .contactAddCancel {
-            display: none; 
+            display: none;
         }
+
         .contactAddCreate {
             width: max-content;
             margin: 0 auto;
@@ -618,13 +633,14 @@ dialog {
     .contactEditButtons {
         margin-bottom: 24px;
         display: flex;
-        justify-content: center;   
+        justify-content: center;
         flex-direction: row;
 
-        .contactEditDelete, .contactEditSave {
+        .contactEditDelete,
+        .contactEditSave {
             width: max-content;
             justify-content: center;
         }
     }
-    
+
 }

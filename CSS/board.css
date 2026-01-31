@@ -447,8 +447,8 @@ textarea {
     }
 
     main {
-        height: calc(100dvh - 112px - 80px);
-        padding: 16px;
+        height: calc(100dvh - 80px - 80px);
+        padding: 16px 16px 0 16px;
         overflow: visible;
     }
 
@@ -560,7 +560,7 @@ textarea {
     flex-shrink: 0;
 }
 
-#head-container > h3 {
+#head-container>h3 {
     margin-block-start: 0;
     margin-block-end: 0;
     font-size: 61px;
@@ -598,6 +598,7 @@ textarea {
     /*scrollbar-width: none;
     -ms-overflow-style: none;*/
 }
+
 /*
 #form-container::-webkit-scrollbar {
     display: none;
@@ -649,7 +650,7 @@ textarea {
 }
 
 @media (max-width: 550px) {
-    #board-task-content-section{
+    #board-task-content-section {
         padding: 12px;
     }
 }
@@ -839,7 +840,7 @@ textarea {
     margin-bottom: 8px;
 }
 
-  #task-subtasks > div {
+#task-subtasks>div {
     max-height: 120px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -1191,9 +1192,9 @@ li {
 
 .edit-subtask-element-box:hover .edit-subtask-list-button-container {
     visibility: visible;
-} 
+}
 
-.edit-subtask-list-button-container{
+.edit-subtask-list-button-container {
     width: 56px;
     display: flex;
     visibility: hidden;
@@ -1247,7 +1248,9 @@ li {
 }
 
 @media (max-width: 400px) {
-    #task-card, #edit-task-card {
+
+    #task-card,
+    #edit-task-card {
         padding: 16px;
     }
 }

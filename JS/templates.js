@@ -95,7 +95,7 @@ function generateTodoHTML(element) {
     progressHTML = generateSubtaskProgressHTML(element.subtasks);
 
     return `
-    <div draggable="true" ondragstart="startDragging('${element.id}', event)" ontouchstart="handleTouchStart(event, '${element.id}')"  onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
+    <div draggable="true" ondragstart="startDragging('${element.id}', event)" onclick="openTaskCardOverlay('${element.id}')" class="taskCard">
         <div>
             <div class="task-header-mobile">
                 <label class="label-user-story" for="" style="background-color: ${taskColor};">${element.category}</label>
@@ -391,7 +391,7 @@ function editAddInitialTemplate(initials) {
 }
 
 // Template for number of extra assigned people in edit task overlay
-function editAddNumberOfExtraPeople(number){
+function editAddNumberOfExtraPeople(number) {
     return `<p>+${number}</p>`
 }
 
