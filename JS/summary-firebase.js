@@ -14,7 +14,7 @@ async function fetchAllTasks() {
             return null;
         }
     } catch (err) {
-        console.error('fetchAllTasks() failed:', err);
+        /*console.error('fetchAllTasks() failed:', err);*/
         return null;
     }
 }

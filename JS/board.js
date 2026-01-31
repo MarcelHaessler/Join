@@ -93,7 +93,7 @@ function allowDrop(ev) {
 
 function moveTo(taskgroup) {
     // Nimmt touchDragTaskId, wenn vorhanden, sonst currentDraggedElement
-    const taskId = touchDragTaskId || currentDraggedElement;
+    const taskId = currentDraggedElement;
     const task = tasks.find(t => t.id === taskId);
     if (!task) return; // Schutz
     task.taskgroup = taskgroup;
