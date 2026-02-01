@@ -4,43 +4,6 @@ let currentCategory = "";
 let subtaskIndex = 0;
 let subtaskListArray = [];
 
-function addSubtaskToList() {
-    let subtasks = document.getElementById("subtasks");
-    let subtaskList = document.getElementById("subtask-list");
-
-    subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
-    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
-        title: li.textContent.trim(),
-        completed: false
-    }));
-    subtaskIndex++;
-}
-
-function deleteSubtaskListElement(id) {
-    let subtaskElement = document.getElementById(id);
-    subtaskElement.remove();
-    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
-        title: li.textContent.trim(),
-        completed: false
-    }));
-}
-
-
-const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
-    box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
-    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
-        title: li.textContent.trim(),
-        completed: false
-    }));
-});
-
-const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
-    deleteSubtaskListElement(taskId);
-    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => ({
-        title: li.textContent.trim(),
-        completed: false
-    }));
-});
 function addInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".contact-initials");
 
@@ -65,8 +28,6 @@ function fillAssignmentDropdown() {
             contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
         }
     }
-    console.log(contacts);
-    
 }
 
 /**Function to render/open the assignment dropdown*/

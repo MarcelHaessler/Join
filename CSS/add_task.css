@@ -84,7 +84,6 @@ textarea::placeholder {
     color: var(--ligthGrey);
 }
 
-
 input {
     height: 48px;
 }

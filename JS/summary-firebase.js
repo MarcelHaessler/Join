@@ -10,17 +10,14 @@ async function fetchAllTasks() {
         if (snapshot.exists()) {
             return snapshot.val();
         } else {
-            console.log("No data available");
             return null;
         }
     } catch (err) {
-        /*console.error('fetchAllTasks() failed:', err);*/
         return null;
     }
 }
 
 //updates counter
-
 function renderBoardCount(tasks) {
     const el = document.getElementById('number-board');
     if (!el) return;
@@ -85,7 +82,6 @@ function renderProgressCount(tasks) {
         .length
 
     el.textContent = String(progressCount);
-    console.log(Object.values(tasks).map(t => t.taskgroup));
 }
 
 // updates feedback counter
@@ -168,8 +164,6 @@ function renderUrgentDueDate(tasks) {
 
 async function loadSummaryCounts() {
     const isGreetingActive = typeof window.initMobileGreeting === 'function' && window.initMobileGreeting();
-
-    // Show standard loader only if NO greeting intro is running
     if (!isGreetingActive && typeof window.showLoader === 'function') {
         window.showLoader();
     }

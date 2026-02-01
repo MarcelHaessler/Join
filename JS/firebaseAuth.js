@@ -19,10 +19,8 @@ export const db = getDatabase(app);
 async function logoutUser() {
     try {
         await signOut(auth);
-        console.log("Logout erfolgreich");
         window.location.href = "index.html";
     } catch (error) {
-        console.error("Fehler beim Logout:", error);
     }
 }
 

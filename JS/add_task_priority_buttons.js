@@ -11,7 +11,6 @@ function defaultPriority() {
     urgentBtnToNormal();
     lowBtnToNormal();
     currentPriotity = 'medium';
-    console.log(currentPriotity);
 }
 
 let urgentBtn = document.getElementById('urgent-btn');
@@ -32,7 +31,6 @@ urgentBtn.addEventListener('click', () => {
     mediumBtnToNormal();
     lowBtnToNormal();
     currentPriotity = 'urgent';
-    console.log(currentPriotity);
 });
 
 mediumBtn.addEventListener('click', () => {
@@ -45,7 +43,6 @@ mediumBtn.addEventListener('click', () => {
     urgentBtnToNormal();
     lowBtnToNormal();
     currentPriotity = 'medium';
-    console.log(currentPriotity);
 });
 
 lowBtn.addEventListener('click', () => {
@@ -58,7 +55,6 @@ lowBtn.addEventListener('click', () => {
     mediumBtnToNormal();
     urgentBtnToNormal();
     currentPriotity = 'low';
-    console.log(currentPriotity);
 });
 
 function urgentBtnToNormal() {

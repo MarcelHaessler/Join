@@ -3,7 +3,6 @@ let username = '';
 let taskgroup = "ToDo"
 
 window.addEventListener("userReady", async (auth) => {
-    console.log("Name:", auth.detail.name, "Mail:", auth.detail.email);
     username = auth.detail.name
     await fetchContacts();
     await fetchTasks();
@@ -105,14 +104,11 @@ function clearWarnings() {
     });
 }
 
-//Task that animates response message
-
-function userResponseMessage(){
+function userResponseMessage() {
     let messageContainer = document.getElementById('task-message');
     messageContainer.classList.add('active');
 }
 
-//Change to board afte created task
-function goToBoard(){
+function goToBoard() {
     window.location.href = "board.html";
 }
