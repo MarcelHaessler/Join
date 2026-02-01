@@ -52,6 +52,7 @@ header {
 #help-button {
     width: 26px;
     height: 26px;
+    color: #cdcdcd;
 }
 
 #help-button:hover {
@@ -103,17 +104,27 @@ header {
         border: unset;
         border-radius: 10px;
         background-color: transparent;
-        color: var(--contrastColor);
+        color: #cdcdcd;
         padding: 0 12px;
         font-size: 16px;
         font-weight: 600;
         justify-content: flex-start;
         align-items: center;
+        transition: 0.2s;
     }
 
     #help-button {
         display: none;
     }
+}
+
+#dialogLogOut > button:hover{
+    cursor: pointer;
+    background-color: #3a4a62;
+}
+
+#dialogLogOut > #help-button:hover {
+    background-color: #3a4a62;
 }
 
 #dialogLogOut::backdrop {
@@ -152,7 +163,7 @@ dialog button:focus {
             border: none;
             border-radius: 10px;
             background-color: transparent;
-            color: var(--contrastColor);
+            color: #cdcdcd;
             padding: 0 12px;
             font-size: 16px;
             font-weight: 600;

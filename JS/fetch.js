@@ -128,7 +128,7 @@ async function fetchContacts() {
         processData(contactSnapshot, 'contact');
         enhanceContacts();
     } catch (error) {
-        console.error("Error fetching contacts:", error);
+        /*console.error("Error fetching contacts:", error);*/
     } finally {
         hideLoader();
     }
