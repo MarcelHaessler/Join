@@ -275,17 +275,13 @@ textarea {
     background-color: var(--background);
 }
 
-@media (max-width: 1100px) {
-    .mobile-move-btn {
-        display: block;
-    }
-}
-
 .drag-area-highlight {
     background-color: rgba(0, 0, 0, 0.05);
     border: 1px dashed var(--primerColor);
     border-radius: 16px;
 }
+
+
 
 .drag-rotated {
     transform: rotate(10deg);
@@ -438,6 +434,7 @@ textarea {
     font-weight: 500;
 }
 
+
 @media (max-width: 1100px) {
 
     html,
@@ -456,6 +453,10 @@ textarea {
         button {
             display: flex;
         }
+    }
+
+    .mobile-move-btn {
+        display: block;
     }
 
     .add-task-button {
