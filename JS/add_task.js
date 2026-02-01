@@ -12,6 +12,20 @@ window.addEventListener("userReady", async (auth) => {
     fillAssignmentDropdown();
 });
 
+window.addEventListener("guestUser", async (auth) => {
+    try {
+        username = auth && auth.detail && auth.detail.name ? auth.detail.name : 'Guest';
+        await fetchContacts();
+        await fetchTasks();
+        putSelfOnFirstPlace(username);
+        userInitials = username.charAt(0).toUpperCase() + (username.indexOf(" ") > -1 ? username.charAt(username.indexOf(" ") + 1).toUpperCase() : "");
+        addInitialToHeader();
+        fillAssignmentDropdown();
+    } catch (err) {
+        console.error("Fehler beim Initialisieren des Guest-Views:", err);
+    }
+});
+
 function addInitialToHeader() {
     let initialSpace = document.getElementById('user-initials');
     initialSpace.innerHTML = userInitials;
