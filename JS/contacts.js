@@ -156,7 +156,6 @@ function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     const allValid = [...inputs].every(input => validateInput(input));
     if (!allValid) {
-        console.log('Formular ist ungültig');
         return;
     }
     uploadContact();
@@ -180,8 +179,6 @@ async function uploadContact() {
     try {
         const newContactRef = push(ref(db, "contact"));
         await set(newContactRef, NewContact);
-
-        console.log('Contact succesfully uploaded');
         closeDialog();
         await nameList();
     } catch (error) {

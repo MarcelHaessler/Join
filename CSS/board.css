@@ -440,7 +440,6 @@ textarea {
     html,
     body {
         height: auto;
-        /*overflow-y: auto;*/
     }
 
     main {
@@ -596,14 +595,7 @@ textarea {
     overflow-x: hidden;
     max-height: 100% !important;
     margin-bottom: 20px !important;
-    /*scrollbar-width: none;
-    -ms-overflow-style: none;*/
 }
-
-/*
-#form-container::-webkit-scrollbar {
-    display: none;
-}*/
 
 #bottom-section {
     flex: 0 0 auto;
@@ -655,4 +647,3 @@ textarea {
         padding: 12px;
     }
 }
-

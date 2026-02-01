@@ -11,7 +11,6 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
     const tasksRef = ref(db, "tasks");
     const newTaskRef = push(tasksRef);
     await set(newTaskRef, task);
-    console.log("Task uploaded successfully with ID:", newTaskRef.key);
   } catch (error) {
     console.error("Error uploading task:", error);
   } finally {
@@ -45,7 +44,7 @@ async function fetchTasks() {
       }
     }
   } catch (error) {
-    /*console.error("Error fetching tasks:", error);*/
+
   } finally {
     hideLoader();
   }
