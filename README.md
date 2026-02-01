@@ -24,9 +24,13 @@ Informations about HTML Documents.
  Informations about CSS Documents.
  -- style.css - global css file to style elements that connects to most pages
 
- -- buttons.css - file to style all buttons
+ -- buttons.css - file to style buttons
 
- -- icons.css - file to style Logos and icons
+ -- task_card.css - file to store all styling of opened task card and edit task card
+
+ -- header.css - file to style header
+
+ -- sidebar.css - file to store all stylings of sideboard
 
  -- sign_in_up.css - file to style both sign in and sign up pages
 
@@ -36,16 +40,50 @@ Informations about HTML Documents.
 
  -- add_task.css - file to style add task page
 
- -- information.css - file to style all information pages (Help, Privacy Policy, Legal Notice)
+ -- layout.css - file to store layout of every page
 
  -- fonts.css - file to store all Fonts used on the website
 
+ -- help.css - file to strore all stylings for help page
+
+ -- logo_animation.css - file to store Join-logo animation
+
 
 Information about JS Documents.
--- script.js 
+-- summary.js - JS of summary page
 
--- templates.js
+-- summary.js - JS that pulls information of Firebase to be used on summary page
 
--- sign_in_up.js
+-- render_templates.js - JS that renders header and sidebar from cache
 
--- remoteStorage.js
+-- templates.js - JS that stores all Templates
+ 
+-- sign_in_up.js - JS for Sign In and Sign up page
+
+-- initials.js - JS that puts logged in users initials in header
+
+--guest.js - JS for Guest Mode
+
+-- firebaseSignInUp.js - JS for Firebase on Sign In/Up pages. (Log In / Log Out)
+
+-- firebaseAuth.js - JS for Firebase Authentification
+
+-- fetchTemplate.js - JS to fetch header and sidebar
+
+-- fetch.js - JS to fetch data from Firebase
+
+-- board.js - JS of board page
+
+-- add_task.js - Main JS of add task page
+
+-- add_task_firebase.js - JS to fetch data from Firebase and use on add task page
+
+-- add_task_form_left.js - JS for left side of add task form
+
+-- add_task_form_right.js - JS for right side of add task form
+
+-- add_task_priority_buttons.js - JS for special priority buttons on add task page
+
+-- edit_task_board_assignements_category_subtask.j - JS that stores logic of assignements, category selector and subtasks on edit task card on board page
+
+-- edit_task_board_title_description_date_priority.js - JS that storec logic of title, description, date and priority editing on edit task on board page
