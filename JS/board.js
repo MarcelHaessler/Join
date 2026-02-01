@@ -147,8 +147,8 @@ function moveToFromMobile(event, taskId, targetStatus) {
         updateTask(task);
         updateBoard();
     }
-    updateTask(task);    // <-- Firestore write
-    updateBoard();       // <-- sofortige UI-Aktualisierung (ggf. nach Backend-Update)
+    updateTask(task);
+    updateBoard();
 }
 
 import { db } from "./firebaseAuth.js";
@@ -194,8 +194,6 @@ function openTaskCardOverlay(taskId) {
     }, 10);
 
     overlay.innerHTML = generateOpenedTaskCardHTML(task);
-
-    console.log(task);
 }
 
 
@@ -329,7 +327,6 @@ function deleteTask(taskId) {
 window.updateTask = updateTask;
 window.addTaskOverlayOpen = addTaskOverlayOpen;
 window.startDragging = startDragging;
-
 window.allowDrop = allowDrop;
 window.moveTo = moveTo;
 window.updateBoard = updateBoard;

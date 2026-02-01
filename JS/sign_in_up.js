@@ -5,10 +5,10 @@ const passwordRegex = /^.{6,}$/;
 
 function activateCheckbox() {
     const checkbox = document.getElementById("checkbox");
-    if (checkbox.src.includes("checkbox_inactive.svg")){
-        checkbox.src="./assets/img/checkbox_active.svg"
-    }else{
-        checkbox.src="./assets/img/checkbox_inactive.svg"
+    if (checkbox.src.includes("checkbox_inactive.svg")) {
+        checkbox.src = "./assets/img/checkbox_active.svg"
+    } else {
+        checkbox.src = "./assets/img/checkbox_inactive.svg"
     }
 }
 
@@ -20,10 +20,10 @@ document.querySelectorAll('input').forEach(input => {
         if (input.type === 'email') {
             validateEmail(input.value, input);
         }
-        if (input.placeholder === 'Password') { 
+        if (input.placeholder === 'Password') {
             validatePassword(input.value, input)
         }
-        if (input.placeholder === 'Confirm Password') { 
+        if (input.placeholder === 'Confirm Password') {
             validateConfirmPassword(input.value, input)
         }
         const hasInvalid = document.querySelector('.invalid') !== null;
@@ -60,7 +60,6 @@ function validatePassword(password, input) {
 }
 
 function validateConfirmPassword(password, input) {
-    console.log(pw.value);
     if (pw.value === password && password !== "") {
         input.classList.remove('invalid');
     } else {

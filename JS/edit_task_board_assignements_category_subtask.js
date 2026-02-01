@@ -1,19 +1,10 @@
-//Array to hold selected contacts in edit task
 let editSelectedContacts = [];
-
-//Variable to store current category in edit task
 let editedCategory = '';
-
-//Array to store subtasks in edit task
 let editedSubtaskListArray = [];
-
-/////////////////////////////////////////////////////////////////
 
 //Function to call all selected users for assignment in edit task
 function getAssignedPersonsToEdit(task) {
     const assignedPersons = task.assignedPersons;
-    let allContacts = allContacts
-    console.log(allContacts);
 }
 
 //Function that adds background colors to contact initials in edit task overlay
@@ -38,8 +29,7 @@ function fillEditAssignmentDropdown() {
         } else {
             contactsDropdown.innerHTML += editAddTaskContactTemplate(contactName, contactInitials, index);
         }
-        }
-        console.log(contacts);
+    }
 }
 
 /**Function to render/open the assignment dropdown*/
@@ -98,7 +88,6 @@ function editSelectContact(index) {
     editRenderSelectedContacts();
     addChosenInitialsBackgroundColors();
     editChangeCheckbox(index);
-    console.log(editSelectedContacts);
 }
 
 /**Function to show the selected contacts. Only 3 contact initials will be rendered, from the 4th contact +(number of remaining contacts). */
@@ -148,7 +137,7 @@ function editChangeCheckbox(index) {
 }
 
 //Function that activates dropdown box of already assigned contacts in edit task overlay
-function activateAddedContacts(task){
+function activateAddedContacts(task) {
     editSelectedContacts = [];
     if (!task.assignedPersons || task.assignedPersons.length === 0) return;
     task.assignedPersons.forEach(p => {
@@ -157,7 +146,6 @@ function activateAddedContacts(task){
             activateContactWithoutToggle(contactIndex);
         }
     });
-    console.log(editSelectedContacts);
 }
 
 //Function that activates contact without toggling when loading assigned contacts in edit task overlay
@@ -173,7 +161,6 @@ function activateContactWithoutToggle(index) {
     editChangeCheckbox(index);
 }
 
-///////////////////////////////////////////////////
 //Function that shows/activates already chosen category in edit task overlay
 function activateChosenCategory(task) {
     if (task.category === 'Technical Task') {
@@ -229,18 +216,15 @@ function editChoseUserStory() {
     editCloseCategoryDropdown();
 }
 
-//////////////////////////////////////////////////////////////
-
 //Function that shows existing subtasks in subtask list
 function showExistingSubtasks(task) {
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML = '';
     editedSubtaskListArray = [];
-    subtaskIndex = 0;              
-    if (!task.subtasks || task.subtasks.length === 0 ) {  return;}
+    subtaskIndex = 0;
+    if (!task.subtasks || task.subtasks.length === 0) { return; }
     task.subtasks.forEach((subtask, index) => {
         subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtask.text }, index);
-        // Speichere sowohl Text als auch subtaskComplete!
         editedSubtaskListArray.push({
             text: subtask.text,
             subtaskComplete: !!subtask.subtaskComplete
@@ -269,26 +253,21 @@ function editAddSubtaskToList() {
     let subtasks = document.getElementById("edit-subtasks");
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtasks.value }, subtaskIndex);
-    // Füge neues Objekt mit Default subtaskComplete:false hinz
     editedSubtaskListArray.push({
         text: subtasks.value.trim(),
         subtaskComplete: false
     });
     subtaskIndex++;
     editClearInputField();
-    console.log(editedSubtaskListArray);
 }
 
 /**Function to delete chosen subtask from list */
 function editDeleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     if (!subtaskElement) return;
-    // Text von diesem Subtask rauslesen
     let li = subtaskElement.querySelector('.edit-subtask-element');
     let text = li ? li.textContent.trim() : '';
     subtaskElement.remove();
-
-    // Aus Array entfernen (per Text-Match)
     editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text !== text);
 }
 
@@ -326,8 +305,6 @@ function editCreateEditButtons(input, box, taskId, oldText) {
         if (!newText) return;
 
         box.innerHTML = editEditedSubtaskTemplate(taskId, newText);
-
-        // Ersetze nur Text, erhalte subtaskComplete
         const index = editedSubtaskListArray.findIndex(obj => obj.text === oldText);
         if (index !== -1) {
             const prevComplete = !!editedSubtaskListArray[index].subtaskComplete;
@@ -362,7 +339,7 @@ function editHandleSubtaskEnter(event) {
         event.preventDefault();
 
         const input = document.getElementById("edit-subtasks");
-        if (!input) return; 
+        if (!input) return;
         if (input.value.trim() !== "") {
             editAddSubtaskToList();
             document.getElementById("edit-subtasks").value = "";

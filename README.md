@@ -1,89 +1,83 @@
-# Join
-Join Project Kanban
+# Join - Kanban Project Management Tool
 
-Informations about HTML Documents.
- -- index.html - Sign in/Log in Landing page
+![Join Logo](./assets/img/logo_dark.svg)
 
- -- registration.html - Sign up page
+**Join** is a high-performance, web-based Kanban project management tool designed to streamline task tracking and team collaboration. Inspired by modern productivity suites, it offers a seamless experience for managing tasks from inception to completion.
 
- -- summary.html - Summary page (Main Page right after Logging in. You will see all your active and finished Tickets.)
+---
 
- -- add_task.html - Add Task page (Here you will be able to add a new task to your existing   ones. It is possible to add a Title, Description, Due Date, Level of Priority, choose assigned Persons, Category and different subtasks.)
+## 🚀 Key Features
 
- -- board.html - Board page (Here you can find all your tickets and can move them with Drag and Drop to a new Phase. You will be able to see the category, title, a part of the description, subtasks, assigned persons monograms and the Level of Priority. To open a detailed version of the tickets just click on the choosen icket to open a large Overlay version. On this page it is also possible to add a new task, or search for an existing one by the search bar.)
+### 📊 Dashboard (Summary)
+Get an immediate overview of your project status. View counts for tasks in progress, awaiting feedback, and upcoming deadlines at a glance.
 
- -- contacts.html - Contacts page (Here you can find a list of your contacts and can add new ones, edit existing ones or delete them. By clicking on one of the contact you will find all the important informations that you have saved about your contact.)
+### 📋 Kanban Board
+- **Drag & Drop:** Intuitively move tasks between phases (To Do, In Progress, Await Feedback, Done).
+- **Task Details:** Deep-dive into tasks to see descriptions, subtasks, and assigned team members.
+- **Search:** Quickly find specific tasks using the real-time search filter.
 
- -- help.html - Help page (Here you will find all the informations to be able to use Join as intended.)
+### ➕ Task Management
+Create comprehensive tasks with:
+- Titles and descriptions
+- Due dates with validation
+- Priority levels (Urgent, Medium, Low)
+- Assigned contacts
+- Categorization (User Story, Technical Task)
+- Nested subtasks with progress tracking
 
- -- privacy_policy.html - Privacy Policy page (Page about our Privacy Policy)
+### 👥 Contact Management
+Maintain a centralized contact list. Add, edit, or delete contacts to easily assign them to various project tasks.
 
- -- legal_notice.html - Legal Notice page (Page about our Legal Notice)
+---
 
+## 🛠️ Technology Stack
 
- Informations about CSS Documents.
- -- style.css - global css file to style elements that connects to most pages
+- **Frontend:** HTML5, Vanilla CSS3, JavaScript (ES6+)
+- **Backend/Database:** Firebase Realtime Database
+- **Authentication:** Firebase Auth (Email/Password & Guest Login)
+- **Architecture:** Modular JavaScript with Template rendering
 
- -- buttons.css - file to style buttons
+---
 
- -- task_card.css - file to store all styling of opened task card and edit task card
+## 📂 Project Structure
 
- -- header.css - file to style header
+### HTML Core
+- `index.html`: Desktop-optimized login landing page.
+- `summary.html`: The central hub for project metrics.
+- `board.html`: Interactive Kanban board.
+- `add_task.html`: Dedicated form for new task creation.
+- `contacts.html`: Address book for team management.
 
- -- sidebar.css - file to store all stylings of sideboard
+### Style System (`/CSS`)
+- `layout.css`: Core grid system and responsive breakpoints.
+- `style.css`: Global variables and base styling.
+- `task_card.css`: Detailed styles for the interactive task overlays.
+- `logo_animation.css`: Premium landing page animations.
 
- -- sign_in_up.css - file to style both sign in and sign up pages
+### Logic Layer (`/JS`)
+- `board.js`: Drag-and-drop logic and board rendering.
+- `firebaseAuth.js`: Secure initialization of Firebase services.
+- `summary-firebase.js`: Real-time data aggregation for the dashboard.
+- `add_task_form_right.js`: Sophisticated form handling for assignments and subtasks.
 
- -- board.css - file to style board page
+---
 
- -- contacts.css - file to style contacts page
+## 📥 Installation & Setup
 
- -- add_task.css - file to style add task page
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/marcelhassler/Join.git
+   ```
+2. **Open the Project:**
+   Simply open `index.html` in your preferred web browser, or use a Live Server extension (e.g., in VS Code) for the best experience.
 
- -- layout.css - file to store layout of every page
+3. **Firebase Configuration:**
+   *Note: The project is currently configured to connect to a specific Firebase instance. To use your own, update the config object in `JS/firebaseAuth.js`.*
 
- -- fonts.css - file to store all Fonts used on the website
+---
 
- -- help.css - file to strore all stylings for help page
+## 👤 Author
+Developed by **Marcel Hassler** as part of a high-end web development project.
 
- -- logo_animation.css - file to store Join-logo animation
-
-
-Information about JS Documents.
--- summary.js - JS of summary page
-
--- summary.js - JS that pulls information of Firebase to be used on summary page
-
--- render_templates.js - JS that renders header and sidebar from cache
-
--- templates.js - JS that stores all Templates
- 
--- sign_in_up.js - JS for Sign In and Sign up page
-
--- initials.js - JS that puts logged in users initials in header
-
---guest.js - JS for Guest Mode
-
--- firebaseSignInUp.js - JS for Firebase on Sign In/Up pages. (Log In / Log Out)
-
--- firebaseAuth.js - JS for Firebase Authentification
-
--- fetchTemplate.js - JS to fetch header and sidebar
-
--- fetch.js - JS to fetch data from Firebase
-
--- board.js - JS of board page
-
--- add_task.js - Main JS of add task page
-
--- add_task_firebase.js - JS to fetch data from Firebase and use on add task page
-
--- add_task_form_left.js - JS for left side of add task form
-
--- add_task_form_right.js - JS for right side of add task form
-
--- add_task_priority_buttons.js - JS for special priority buttons on add task page
-
--- edit_task_board_assignements_category_subtask.j - JS that stores logic of assignements, category selector and subtasks on edit task card on board page
-
--- edit_task_board_title_description_date_priority.js - JS that storec logic of title, description, date and priority editing on edit task on board page
+---
+*This project was created for educational purposes at the Developer Akademie.*

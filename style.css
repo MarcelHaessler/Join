@@ -56,14 +56,7 @@ h1 {
     font-size: 61px;
     font-weight: 700 !important;
     margin: 0;
-
 }
-
-/* @media (max-width: 780px) {
-    h1 {
-        font-size: 47px;
-    }
-} */
 
 @media (max-width: 1100px) {
     body {
@@ -131,7 +124,6 @@ body.mode-guest #buttons-container {
 body.mode-guest #sidebar-logIn {
     display: flex !important;
     justify-content: center;
-    /* width: 100%; Removed to allow flex spacing on mobile */
 }
 
 @media (min-width: 1101px) {

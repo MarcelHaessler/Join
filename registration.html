@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +10,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./CSS/buttons.css">
     <link rel="stylesheet" href="./CSS/fonts.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
+
 <body>
     <div id="overlay"></div>
     <img class="logo_dark_registration" src="./assets/img/logo_dark.svg" alt="Join-Logo">
@@ -20,15 +21,16 @@
     <main>
         <div class="login_signup_container">
             <div class="sign_up_title_container">
-                <div onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()" class="back_button_container"> 
+                <div onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()"
+                    class="back_button_container">
                     <a href="./index.html">
                         <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
                     </a>
                 </div>
                 <h2>Sign up</h2>
             </div>
-            <div class="formCon">    
-                <form class="sign_in_up_form" onsubmit="">
+            <div class="formCon">
+                <form class="sign_in_up_form">
                     <div class="inputForm">
                         <input id="signup-name" type="text" placeholder="Name">
                         <img src="./assets/img/person.svg" class="inputIcon">
@@ -42,14 +44,15 @@
                         <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
                     </div>
                     <div class="inputForm">
-                        <input id="signup-password-repeat" class="password" type="password" placeholder="Confirm Password">
+                        <input id="signup-password-repeat" class="password" type="password"
+                            placeholder="Confirm Password">
                         <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
                     </div>
                 </form>
                 <p class="false_password">Your passwords don't match. Please try again.</p>
                 <div id="sign_up_checkbox_container">
                     <input id="accept-policy" type="checkbox">
-                    <p>I accept the <a class="blue_text" href="">Privacy Policy</a></p>
+                    <p>I accept the <a class="blue_text" href="privacy_policy.html?Guest">Privacy Policy</a></p>
                 </div>
             </div>
             <button class="buttonLoginSignup" onclick="registerUser()">Sign up</button>
@@ -58,10 +61,10 @@
 
     <footer>
         <div class="footer_link">
-            <a href="">Privacy Policy</a>
+            <a href="privacy_policy.html?Guest">Privacy Policy</a>
         </div>
         <div class="footer_link">
-            <a href="">Legal notice</a>
+            <a href="legal_notice.html?Guest">Legal notice</a>
         </div>
     </footer>
 
@@ -69,4 +72,5 @@
     <script type="module" src="./JS/firebaseSignInUp.js"></script>
     <script src="./JS/buttons.js"></script>
 </body>
+
 </html>

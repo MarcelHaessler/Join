@@ -19,7 +19,6 @@ a {
 #links-and-footer {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
@@ -84,8 +83,6 @@ a {
 }
 
 #logo {
-    /* padding-top: 64px;
-    margin-bottom: 100px; */
     height: 284px;
     text-align: center;
 
