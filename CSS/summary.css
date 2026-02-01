@@ -1,12 +1,36 @@
 @keyframes greetingFadeOut {
-    0% { opacity: 1; }
-    60% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.containerGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 28px;
+}
+
+.containerSpacing {
+    display: flex;
+    flex-direction: column;
+    width: 610px;
+    max-width: 100%;
+    gap: 28px;
 }
 
 section {
-    margin-left: 8px;
-    margin-right: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #top-section {
@@ -23,6 +47,7 @@ section {
     display: flex;
     flex-direction: row;
     gap: 28px;
+    width: 100%;
 }
 
 
@@ -35,17 +60,25 @@ section {
     font-weight: 400;
 }
 
+.deadline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1;
+}
+
 #due-date {
-    font-family: Inter;
     font-weight: 700;
     font-style: Bold;
     font-size: 21px;
     line-height: 120%;
     letter-spacing: 0%;
+    margin: 0;
 }
 
 .greeting-text {
-    font-family: Inter;
     font-weight: 500;
     font-style: Medium;
     font-size: 47px;
@@ -55,7 +88,6 @@ section {
 }
 
 #greet-name {
-    font-family: Inter;
     font-weight: 700;
     font-style: Bold;
     font-size: 64px;
@@ -73,8 +105,10 @@ section {
     gap: 18px;
     margin-top: 38px;
     background-color: white;
-    width: 264px;
-    height: 168px;
+    width: 100%;
+    max-width: none;
+    height: 136px;
+    min-width: auto;
     border-radius: 30px;
     box-shadow: 0px 0px 4px 0px #0000001A;
     transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
@@ -120,15 +154,16 @@ section {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 36px;
-    margin-top: 38px;
+    gap: 0;
     background-color: white;
     color: #2A3647;
-    width: 560px;
-    height: 168px;
+    width: 100%;
+    max-width: none;
+    height: 136px;
     border-radius: 30px;
     box-shadow: 0px 0px 4px 0px #0000001A;
     transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
+    box-sizing: border-box;
 }
 
 .urgent-container:hover {
@@ -136,29 +171,41 @@ section {
     color: white;
     transform: scale(1.03);
     cursor: pointer;
+
+    .urgent-vertical-divider {
+        background-color: white;
+    }
+}
+
+.urgent-vertical-divider {
+    width: 1px;
+    height: 60%;
+    background-color: #2A3647;
 }
 
 .button-and-cat {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 18px;
+    flex: 1;
 }
 
-#greetin-section {
+.metrics-container .button-and-cat {
+    justify-content: center;
+}
+
+#greeting-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 0;
 }
 
-.task-status-row {
-    display: flex;
-    gap: 28px;
-    justify-content: flex-start;
-    align-items: stretch;
-    margin-top: 38px;
-}
-
 .status-box {
-    width: 168px;
-    height: 168px;
+    width: 100%;
+    height: 136px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,23 +234,9 @@ section {
     display: block;
 }
 
-
-/* Responsive Design */
-
-@media (max-width: 1250px) {
-    #greet-name {
-        font-size: 36px;
-    }
-
-    .greeting-text {
-        font-size: 28px;
-    }
-}
-
 @media (max-width: 1100px) {
     main {
-        padding-left: 16px;
-        padding-right: 16px;
+        padding: 16px;
     }
 
     #top-section {
@@ -212,21 +245,23 @@ section {
         gap: 0;
     }
 
+    .containerSpacing {
+        width: 100%;
+        gap: 8px;
+    }
+
     #task-metrics,
     #task-status-overview,
     #urgent-overview {
-        display: flex;
-        flex-direction: row;
-        gap: 24px;
+        gap: 8px;
         align-items: center;
-        
     }
 
     .metrics-container {
-        width: 186px;
-        min-width: 186px;
         height: 110px;
     }
+
+
 
     .number-category {
         font-size: 47px;
@@ -237,7 +272,6 @@ section {
     .btn-img {
         width: 40px;
         height: 40px;
-        padding-top: 20px;
     }
 
     .urgent-vertical-img {
@@ -245,13 +279,14 @@ section {
     }
 
     .urgent-container {
-        width: 396px;
+        width: 100%;
+        max-width: none;
         height: 110px;
     }
 
     .status-box {
-        width: 116px;
-        height: 116px;
+        width: 100%;
+        height: 110px;
     }
 
     #current-date {
@@ -270,12 +305,10 @@ section {
         display: block;
     }
 
-    /* default: hide greeting on small screens */
     #greeting-section {
         display: none;
     }
 
-    /* only show as overlay when JS sets the flag */
     body.show-greeting #greeting-section {
         position: fixed;
         inset: 0;
@@ -332,71 +365,6 @@ section {
 }
 
 
-    .greeting-text {
-        font-size: 28px;
-    }
-
-
-@media (max-width: 446px) {
-    main {
-        padding-left: 6px;
-        padding-right: 6px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    #keyMetricsText {
-        font-size: 20px;
-    }
-
-    #task-metrics,
-    #task-status-overview,
-    #urgent-overview {
-        gap: 12px;
-    }
-
-    .metrics-container {
-        min-width: 141px;
-        max-width: 141px;
-        height: 90px;
-    }
-
-    .button-and-cat {
-        gap: 8px;
-    }
-
-    .category {
-        font-size: 14px;
-    }
-
-    .number-category {
-        font-size: 30px;
-    }
-
-    .btn-img {
-        width: 30px;
-        height: 30px;
-        padding-top: 15px;
-    }
-
-    .status-box {
-        width: 90px;
-        height: 90px;
-    }
-
-    .task-status-row {
-        gap: 12px;
-    }
-
-    .urgent-container {
-        width: 294px;
-        height: 90px;
-        gap: 20px;
-    }
-
-    #due-date {
-        font-size: 16px;
-    }
+.greeting-text {
+    font-size: 28px;
 }

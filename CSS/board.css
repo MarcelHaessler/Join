@@ -208,7 +208,6 @@ textarea {
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 4px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -234,7 +233,55 @@ textarea {
     transition: 200ms;
     padding: 12px;
     margin-bottom: 12px;
+    position: relative;
 }
+
+.task-header-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.mobile-move-btn {
+    display: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.mobile-move-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.mobile-move-menu {
+    position: absolute;
+    top: 40px;
+    right: 12px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    overflow: hidden;
+}
+
+.mobile-move-menu div {
+    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.mobile-move-menu div:hover {
+    background-color: var(--background);
+}
+
+.drag-area-highlight {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px dashed var(--primerColor);
+    border-radius: 16px;
+}
+
+
 
 .drag-rotated {
     transform: rotate(10deg);
@@ -349,7 +396,7 @@ textarea {
     flex-direction: row;
 }
 
-.contact-initials{
+.contact-initials {
     box-sizing: border-box;
     width: 42px;
     height: 42px;
@@ -370,11 +417,11 @@ textarea {
     }
 }
 
-.contact-initials > p {
+.contact-initials>p {
     font-size: 16px;
 }
 
-.no-tasks-message{
+.no-tasks-message {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -387,17 +434,17 @@ textarea {
     font-weight: 500;
 }
 
+
 @media (max-width: 1100px) {
 
     html,
     body {
         height: auto;
-        /*overflow-y: auto;*/
     }
 
     main {
-        height: calc(100dvh - 112px - 80px);
-        padding: 16px;
+        height: calc(100dvh - 80px - 80px);
+        padding: 16px 16px 0 16px;
         overflow: visible;
     }
 
@@ -405,6 +452,10 @@ textarea {
         button {
             display: flex;
         }
+    }
+
+    .mobile-move-btn {
+        display: block;
     }
 
     .add-task-button {
@@ -509,7 +560,7 @@ textarea {
     flex-shrink: 0;
 }
 
-#head-container > h3 {
+#head-container>h3 {
     margin-block-start: 0;
     margin-block-end: 0;
     font-size: 61px;
@@ -544,13 +595,7 @@ textarea {
     overflow-x: hidden;
     max-height: 100% !important;
     margin-bottom: 20px !important;
-    /*scrollbar-width: none;
-    -ms-overflow-style: none;*/
 }
-/*
-#form-container::-webkit-scrollbar {
-    display: none;
-}*/
 
 #bottom-section {
     flex: 0 0 auto;
@@ -598,8 +643,7 @@ textarea {
 }
 
 @media (max-width: 550px) {
-    #board-task-content-section{
+    #board-task-content-section {
         padding: 12px;
     }
 }
-

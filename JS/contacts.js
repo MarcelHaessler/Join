@@ -4,7 +4,8 @@ import {
     push,
     set,
     update,
-    remove
+    remove,
+    get
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 
@@ -155,7 +156,6 @@ function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     const allValid = [...inputs].every(input => validateInput(input));
     if (!allValid) {
-        console.log('Formular ist ungültig');
         return;
     }
     uploadContact();
@@ -179,10 +179,8 @@ async function uploadContact() {
     try {
         const newContactRef = push(ref(db, "contact"));
         await set(newContactRef, NewContact);
-
-        console.log('Contact succesfully uploaded');
         closeDialog();
-        await nameList(); 
+        await nameList();
     } catch (error) {
         console.error("Fehler beim Erstellen:", error);
     }
@@ -209,7 +207,7 @@ async function updateContact(root, id) {
         await update(contactRef, UpdateContact);
 
         closeDialog();
-        await nameList(); 
+        await nameList();
 
         const updatedContact = contacts.find(c => c.id === id);
         if (updatedContact) {
@@ -223,14 +221,36 @@ async function updateContact(root, id) {
 // Delete contact from database
 async function deleteContact(root, id) {
     try {
+        await removeContactFromTasks(id);
         const contactRef = ref(db, `${root}/${id}`);
         await remove(contactRef);
 
         contactDetails.innerHTML = "";
-        sideBarvisible(); 
-        await nameList(); 
+        sideBarvisible();
+        await nameList();
     } catch (error) {
         console.error("Fehler beim Löschen:", error);
+    }
+}
+
+async function removeContactFromTasks(contactId) {
+    const tasksRef = ref(db, "tasks");
+    const snapshot = await get(tasksRef);
+
+    if (snapshot.exists()) {
+        const tasks = snapshot.val();
+        for (let taskId in tasks) {
+            let task = tasks[taskId];
+            if (task.assignedPersons) {
+                const originalLength = task.assignedPersons.length;
+                task.assignedPersons = task.assignedPersons.filter(p => p.id !== contactId);
+
+                if (task.assignedPersons.length !== originalLength) {
+                    const taskRef = ref(db, `tasks/${taskId}`);
+                    await update(taskRef, { assignedPersons: task.assignedPersons });
+                }
+            }
+        }
     }
 }
 

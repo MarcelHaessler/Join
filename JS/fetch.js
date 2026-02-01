@@ -55,7 +55,6 @@ function checkGuestMode() {
     }
 
     const sessionGuest = sessionStorage.getItem('guestMode');
-    console.log('Guest Mode Check:', { isGuestParam, sessionGuest, isPolicyPage, isLegalPage });
 
     if ((isPolicyPage || isLegalPage) && sessionGuest === 'true') {
         document.body.classList.add('mode-guest');
@@ -101,7 +100,23 @@ function hideLoader() {
 window.showLoader = showLoader;
 window.hideLoader = hideLoader;
 initLoader();
+initOrientationWarning();
 fetchHtmlTemplates();
+
+function initOrientationWarning() {
+    if (!document.getElementById('mobile-landscape-warning')) {
+        const warning = document.createElement('div');
+        warning.id = 'mobile-landscape-warning';
+        warning.classList.add('d_none');
+        warning.innerHTML = `
+            <div class="landscape-content">
+                <span class="rotate-device-icon">↻</span>
+                <p>Please rotate your device</p>
+            </div>
+        `;
+        document.body.appendChild(warning);
+    }
+}
 
 async function fetchContacts() {
     showLoader();
@@ -112,7 +127,6 @@ async function fetchContacts() {
         processData(contactSnapshot, 'contact');
         enhanceContacts();
     } catch (error) {
-        console.error("Error fetching contacts:", error);
     } finally {
         hideLoader();
     }

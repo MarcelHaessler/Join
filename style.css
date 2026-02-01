@@ -55,14 +55,7 @@ body {
 h1 {
     font-size: 61px;
     font-weight: 700 !important;
-    margin: 12px 0;
-
-}
-
-@media (max-width: 780px) {
-    h1 {
-        font-size: 47px;
-    }
+    margin: 0;
 }
 
 @media (max-width: 1100px) {
@@ -86,6 +79,10 @@ h1 {
 
     #help-button {
         display: none;
+    }
+
+    h1 {
+        font-size: 47px;
     }
 
     #user-icon {
@@ -127,7 +124,6 @@ body.mode-guest #buttons-container {
 body.mode-guest #sidebar-logIn {
     display: flex !important;
     justify-content: center;
-    /* width: 100%; Removed to allow flex spacing on mobile */
 }
 
 @media (min-width: 1101px) {
@@ -173,5 +169,60 @@ body.mode-guest #sidebar-logIn {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+/* Mobile Landscape Warning */
+#mobile-landscape-warning {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primerColor);
+    z-index: 9999;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.landscape-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.rotate-device-icon {
+    font-size: 48px;
+    animation: rotate-icon 2s infinite ease-in-out;
+}
+
+@keyframes rotate-icon {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(90deg);
+    }
+
+    75% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@media (max-height: 500px) and (min-width: 500px) {
+    #mobile-landscape-warning {
+        display: flex !important;
     }
 }

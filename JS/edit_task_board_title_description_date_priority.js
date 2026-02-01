@@ -1,88 +1,74 @@
-//Variable to store title of edited task
 let editedTitle = '';
-
-//Variable to store description of edited task
 let editedDescription = '';
-
-//Variable to store due date of edited task
 let editedDueDate = '';
-
-// Global variable to store the edited priority
-editedPriority = '';
+let editedPriority = '';
 
 //Function to save title in editedTitle variable. If title input is empty, save the original title.
 function editSaveTitle() {
     const titleInput = document.getElementById('edit-title');
     editedTitle = titleInput.value.trim() || editedTitle;
-    console.log('Edited Title:', editedTitle);
 }
 
 //Function to save description in editedDescription variable. If description input is empty, save the original description.
 function editSaveDescription() {
     const descriptionInput = document.getElementById('edit-description');
     editedDescription = descriptionInput.value.trim() || editedDescription;
-    console.log('Edited Description:', editedDescription);
 }
 
 //Function to save due date in editedDueDate variable. If date input is empty, save the original date.
 function editSaveDueDate() {
     const dateInput = document.getElementById('edit-date');
     editedDueDate = dateInput.value.trim() || editedDueDate;
-    console.log('Edited Due Date:', editedDueDate);
 }
 
 // Function to check and set the task priority in the edit task overlay
 function checkTaskPriority(priority) {
-    console.log('checkTaskPriority called with priority:', priority);
     if (priority === 'low') {
-        lowPriority();  
+        lowPriority();
     } else if (priority === 'medium') {
-        mediumPriority();   
+        mediumPriority();
     } else if (priority === 'urgent') {
-        urgentPriority();  
+        urgentPriority();
     }
 }
 
 // Functions to handle priority button states in the edit task overlay
 function lowPriority() {
     resetPriorityButtons();
-let editLowBtn = document.getElementById('edit-low-btn');
-let editLowImg = document.getElementById('edit-low-img');    
+    let editLowBtn = document.getElementById('edit-low-btn');
+    let editLowImg = document.getElementById('edit-low-img');
     editLowBtn.style.backgroundColor = 'rgba(122, 226, 41, 1)';
     editLowBtn.style.color = 'white';
     editLowImg.src = './assets/img/add_task/low-active.svg'
     editedPriority = 'low';
     editUrgentBtnToNormal();
     editMediumBtnToNormal();
-    console.log(editedPriority);
 }
 
 //medium priority function
 function mediumPriority() {
     resetPriorityButtons();
-let editMediumBtn = document.getElementById('edit-medium-btn');
-let editMediumImg = document.getElementById('edit-medium-img'); 
+    let editMediumBtn = document.getElementById('edit-medium-btn');
+    let editMediumImg = document.getElementById('edit-medium-img');
     editMediumBtn.style.backgroundColor = 'rgba(255, 168, 0, 1)';
     editMediumBtn.style.color = 'white';
     editMediumImg.src = './assets/img/add_task/medium-active.svg'
     editedPriority = 'medium';
     editLowBtnToNormal();
     editUrgentBtnToNormal();
-    console.log(editedPriority);
 }
 
 //urgent priority function
 function urgentPriority() {
     resetPriorityButtons();
-let editUrgentBtn = document.getElementById('edit-urgent-btn');
-let editUrgentImg = document.getElementById('edit-urgent-img');
+    let editUrgentBtn = document.getElementById('edit-urgent-btn');
+    let editUrgentImg = document.getElementById('edit-urgent-img');
     editUrgentBtn.style.backgroundColor = 'rgba(255, 61, 0, 1)';
     editUrgentBtn.style.color = 'white';
     editUrgentImg.src = './assets/img/add_task/urgent-active.svg'
     editedPriority = 'urgent';
     editMediumBtnToNormal();
     editLowBtnToNormal();
-    console.log(editedPriority);
 }
 
 // Function to reset all priority buttons to their default state
@@ -100,7 +86,7 @@ function resetPriorityButtons() {
             btn.style.backgroundColor = 'white';
             btn.style.color = 'black';
             img.src = `./assets/img/add_task/${p.icon}`;
-            
+
             btn.classList.remove('no-hover');
             btn.style.cursor = 'pointer';
         }
@@ -109,8 +95,8 @@ function resetPriorityButtons() {
 
 // Functions to reset individual edit priority buttons to normal state
 function editUrgentBtnToNormal() {
-let editUrgentBtn = document.getElementById('edit-urgent-btn');
-let editUrgentImg = document.getElementById('edit-urgent-img');
+    let editUrgentBtn = document.getElementById('edit-urgent-btn');
+    let editUrgentImg = document.getElementById('edit-urgent-img');
     editUrgentBtn.disabled = false;
     editUrgentBtn.classList.remove('no-hover')
     editUrgentBtn.style.cursor = 'pointer';
@@ -156,10 +142,10 @@ function formatEditDateInput(e) {
 
 function editIsCorrectDate(date) {
     let today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     let [d, m, y] = date.split("/");
     let entered = new Date(+y, +m - 1, +d);
-    entered.setHours(0,0,0,0);
+    entered.setHours(0, 0, 0, 0);
 
     if (String(entered.getDate()).padStart(2, "0") !== d ||
         String(entered.getMonth() + 1).padStart(2, "0") !== m ||
@@ -185,7 +171,7 @@ function editCheckDate() {
         show("It's an invalid date");
         return true;
     }
-    if (!editIsCorrectDate(inputBorder.value)){
+    if (!editIsCorrectDate(inputBorder.value)) {
         inputBorder.classList.add("invalid");
         show("It's an invalid date");
         return true;

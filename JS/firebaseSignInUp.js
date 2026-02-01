@@ -32,13 +32,12 @@ function loginUser() {
 
     signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
         .then((userCredential) => {
-            console.log("Login erfolgreich:", userCredential.user.email);
             manualLogin = true; // Markiere manuellen Login für Weiterleitung
             sessionStorage.setItem('showSummaryGreeting', 'true');
+            sessionStorage.setItem('guestMode', 'false');
             window.location.href = "summary.html";
         })
         .catch((error) => {
-            console.error("Login Fehler:", error);
             manualLogin = false;
             if (errorMsg) errorMsg.style.display = "block";
         });
@@ -57,7 +56,10 @@ onAuthStateChanged(auth, (user) => {
             icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
         }
     } else {
-        console.log("Kein User eingeloggt");
+        const event = new CustomEvent("guestUser", {
+            detail: { name: 'Guest' }
+        });
+        window.dispatchEvent(event);
     }
 });
 
@@ -65,11 +67,9 @@ onAuthStateChanged(auth, (user) => {
 function logoutUser() {
     signOut(auth)
         .then(() => {
-            console.log("Logout erfolgreich!");
             window.location.href = "index.html";
         })
         .catch((error) => {
-            console.error("Logout fehlgeschlagen:", error);
         });
 }
 
@@ -81,7 +81,6 @@ export async function registerUser() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
             const user = userCredential.user;
-            console.log("User erstellt:", user.uid);
 
             await updateProfile(user, {
                 displayName: name.value
@@ -95,7 +94,6 @@ export async function registerUser() {
             window.location.href = "index.html";
 
         } catch (error) {
-            console.error("Registrierungsfehler:", error);
             if (error.code === "auth/email-already-in-use") {
                 alert("Diese Email wird bereits verwendet.");
                 email.classList.add('invalid');
