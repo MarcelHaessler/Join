@@ -465,7 +465,6 @@ function generateSubtaskProgressHTML(subtasks) {
         return '';
     }
     const completed = subtasks.filter(subtask => subtask.subtaskComplete).length;
-    console.log('completed: ' + completed);
     const total = subtasks.length;
     const progressValue = (completed / total) * 100;
 

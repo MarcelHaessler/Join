@@ -125,8 +125,8 @@ function editAddChosenInitialsBackgroundColors() {
 function editChangeCheckbox(index) {
     let checkbox = document.getElementById(`edit-checkbox${index}`);
     if (!checkbox) return;
-    const checkboxInactive = '../assets/img/checkbox_inactive.svg';
-    const checkboxActive = '../assets/img/checkbox_active.svg';
+    const checkboxInactive = './assets/img/checkbox_inactive.svg';
+    const checkboxActive = './assets/img/checkbox_active.svg';
     if (checkbox.src.includes('checkbox_inactive.svg')) {
         checkbox.src = checkboxActive;
         checkbox.classList.add('edit-checkbox-active');
