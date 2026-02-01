@@ -6,6 +6,12 @@ const InProgress = document.getElementById('progress-tiles');
 const Awaiting = document.getElementById('feedback-tiles');
 const Done = document.getElementById('done-tiles');
 let currentDraggedElement;
+let dragCounters = {
+    ToDo: 0,
+    InProgress: 0,
+    Awaiting: 0,
+    Done: 0
+};
 
 function addTaskOverlayOpen(boardGroup) {
     addTaskOverlay.classList.remove('d_none', 'closing');
@@ -92,22 +98,31 @@ function allowDrop(ev) {
 }
 
 function moveTo(taskgroup) {
-    // Nimmt touchDragTaskId, wenn vorhanden, sonst currentDraggedElement
     const taskId = currentDraggedElement;
     const task = tasks.find(t => t.id === taskId);
-    if (!task) return; // Schutz
+    if (!task) return;
     task.taskgroup = taskgroup;
     updateTask(task);
     updateBoard();
-    removeHighlight(taskgroup);
+    removeHighlight(taskgroup, true);
 }
 
 function highlight(id) {
+    dragCounters[id]++;
     document.getElementById(id).classList.add('drag-area-highlight');
 }
 
-function removeHighlight(id) {
-    document.getElementById(id).classList.remove('drag-area-highlight');
+function removeHighlight(id, forced = false) {
+    if (forced) {
+        dragCounters[id] = 0;
+    } else {
+        dragCounters[id]--;
+    }
+
+    if (dragCounters[id] <= 0) {
+        dragCounters[id] = 0;
+        document.getElementById(id).classList.remove('drag-area-highlight');
+    }
 }
 
 function toggleMobileMoveMenu(event, taskId) {
@@ -200,11 +215,9 @@ function stopPropagation(event) {
 }
 
 function checkboxSubtask(subtaskIndex, taskIndex) {
-    // 1. Update the Data first
     const subtask = tasks[taskIndex].subtasks[subtaskIndex];
-    subtask.subtaskComplete = !subtask.subtaskComplete; // Simple toggle
+    subtask.subtaskComplete = !subtask.subtaskComplete;
 
-    // 2. Update the UI based on the new Data
     const checkbox = document.getElementById(`subtask-checkbox-${subtaskIndex}`);
     const imgPath = subtask.subtaskComplete
         ? './assets/img/checkbox_active.svg'
@@ -212,7 +225,6 @@ function checkboxSubtask(subtaskIndex, taskIndex) {
 
     checkbox.src = imgPath;
 
-    // 3. Sync with backend/storage and refresh board
     updateTask(tasks[taskIndex]);
     updateBoard();
 }
@@ -269,7 +281,7 @@ function saveEditedTask(taskId) {
     tasks[taskIndex].priority = editedPriority;
     tasks[taskIndex].assignedPersons = editSelectedContacts;
     tasks[taskIndex].category = editedCategory;
-    // Übernehme sowohl text als auch subtaskComplete
+
     tasks[taskIndex].subtasks = editedSubtaskListArray.map(obj => ({
         text: obj.text,
         subtaskComplete: !!obj.subtaskComplete
