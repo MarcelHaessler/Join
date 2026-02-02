@@ -68,7 +68,7 @@ async function guestLogin() {
   }
 }
 
-// AUTH STATE: unterscheide anonymous user
+// AUTH STATE:
 onAuthStateChanged(auth, (user) => {
   if (user) {
     if (user.isAnonymous) {
@@ -98,13 +98,10 @@ async function logoutUser() {
   try {
     const user = auth.currentUser;
     await signOut(auth);
-    // optional: wenn anonym und du möchtest das Konto entfernen:
     if (user && user.isAnonymous) {
-      // Löschen anonymer Konten muss über Admin SDK oder clientseitig per delete() erfolgen:
       try {
-        await user.delete(); // Vorsicht: user.delete() funktioniert nur, wenn Token nicht expired und keine multi-factor etc.
+        await user.delete();
       } catch (e) {
-        // wenn delete fehlschlägt, ist es nicht kritisch, das Konto bleibt im Auth-Tab
         console.debug("Anonymous account delete failed (non-fatal):", e);
       }
     }
