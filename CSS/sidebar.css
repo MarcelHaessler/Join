@@ -101,6 +101,10 @@ a {
     padding-bottom: 64px;
 }
 
+.mode-guest #sidebar-footer {
+    display: flex;
+}
+
 #sidebar-footer p {
     cursor: pointer;
 }
@@ -182,9 +186,10 @@ a {
 
     .mode-guest #links-and-footer {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         width: 100%;
+        padding: 0 10px;
     }
 
     .mode-guest #side-bar {
