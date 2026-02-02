@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/layout.css">
     <link rel="stylesheet" href="./style.css">
+    <style>
+        body.loading-auth #side-bar #links-and-footer { display: none; }
+        body.loading-auth #header { display: none; }
+    </style>
 </head>
 
-<body>
+<body class="loading-auth">
     <div id="header"></div>
     <div id="side-bar"></div>
     <script src="./JS/render_templates.js"></script>
