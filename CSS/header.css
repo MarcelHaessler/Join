@@ -1,5 +1,8 @@
 #header {
     min-height: 96px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    z-index: 10;
 }
 
 header {
@@ -10,10 +13,8 @@ header {
     align-items: center;
     padding: 0 40px;
     box-sizing: border-box;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    z-index: 10;
     position: relative;
+    max-width: calc(2560px - 232px);
 }
 
 #header-logo {
@@ -88,7 +89,7 @@ header {
     position: fixed;
     inset: auto;
     top: 96px;
-    right: 24px;
+    right: max(40px, calc(100vw - 1880px));
     width: 150px;
     height: auto;
     padding: 10px;

@@ -43,6 +43,8 @@ main {
     flex-direction: column;
     gap: 12px;
     padding: 8px 12px;
+    overflow-y: scroll;
+    max-height: 1240px;
 
     .sectionList {
         width: 42px;

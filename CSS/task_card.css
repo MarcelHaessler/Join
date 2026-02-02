@@ -36,6 +36,7 @@
     transition: transform 0.4s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -461,6 +462,10 @@
     gap: 6px;
     height: 56px;
     align-items: center;
+}
+
+#edit-contacts-dropdown.open ~ #edit-chosen-contacts {
+    display: none;
 }
 
 .edit-category-box{
