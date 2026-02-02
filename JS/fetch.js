@@ -41,10 +41,10 @@ async function fetchHtmlTemplates() {
     document.getElementById('side-bar').innerHTML = cachedSidebar;
 
     highlightActiveWrapper();
-    checkGuestMode();
+    // checkGuestMode(); // Deaktiviert - kein Unterschied zwischen Guest und normaler Anmeldung
 }
 
-function checkGuestMode() {
+/* function checkGuestMode() {
     const urlParams = new URLSearchParams(window.location.search);
     const isGuestParam = urlParams.has('Guest') || urlParams.get('guest') === 'true';
     const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
@@ -61,7 +61,7 @@ function checkGuestMode() {
     } else if (isPolicyPage || isLegalPage) {
         document.body.classList.remove('mode-guest');
     }
-}
+} */
 
 function highlightActiveWrapper() {
     const current = window.location.pathname.split('/').pop();

@@ -37,9 +37,9 @@ header {
     gap: 16px;
 }
 
-.mode-guest #header-right {
+/* .mode-guest #header-right {
     display: none !important;
-}
+} */
 
 #help-container {
     display: flex;
