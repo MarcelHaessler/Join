@@ -1,8 +1,27 @@
 body {
   margin: 0;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.page-border{
+  max-height: 1440px;
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+}
+
+main {
+  width: 100%;
 }
 
 .logo_dark {
@@ -14,7 +33,7 @@ body {
   width: 100px;
   transform: translate(-50%, -50%) scale(3);
   animation: moveLogo 0.5s ease-in-out 0.5s forwards;
-  position: fixed;
+  position: absolute;
 }
 
 .logo_light {
@@ -42,7 +61,7 @@ body {
   top: 20px;
   left: 20px;
   width: 100px;
-  position: fixed;
+  position: absolute;
   }
 
 header.start-animation ,
@@ -182,11 +201,11 @@ footer.start-animation  {
 .false_password {
   font-size: 12px;
   color: var(--invalideColor);
-  display: none;
+  visibility: hidden;
   margin: 12px 0 0 0;
-
+  height: 16px;
   &.show {
-    display: block;
+    visibility: visible;
   }
 }
 
@@ -304,6 +323,15 @@ main {
 
 
 @media (max-width: 780px) {
+  .page-border {
+    height: auto;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 110px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+  }
+
   .desktop-only {
     display: none;
   }
@@ -335,18 +363,28 @@ main {
     width: 64px;
     transform: translate(-50%, -50%) scale(2);
     z-index: 1000;
-    animation: moveDarkLogo 0.5s ease-in-out 0.5s forwards;
+    animation: moveDarkLogoMobile 0.5s ease-in-out 0.5s forwards;
   }
 
-  @keyframes moveDarkLogo {
+  @keyframes moveDarkLogoMobile {
     0% {
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(2);
       opacity: 0;
     }
 
+    99.9% {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+
     100% {
+      position: absolute;
       top: 18px;
       left: 18px;
       transform: translate(0, 0) scale(1);
@@ -362,18 +400,28 @@ main {
     width: 64px;
     transform: translate(-50%, -50%) scale(2);
     z-index: 1001;
-    animation: moveLightLogo 0.5s ease-in-out 0.5s forwards;
+    animation: moveLightLogoMobile 0.5s ease-in-out 0.5s forwards;
   }
 
-  @keyframes moveLightLogo {
+  @keyframes moveLightLogoMobile {
     0% {
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(2);
       opacity: 1;
     }
 
+    99.9% {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      transform: translate(0, 0) scale(1);
+      opacity: 0;
+    }
+
     100% {
+      position: absolute;
       top: 18px;
       left: 18px;
       transform: translate(0, 0) scale(1);
@@ -383,7 +431,7 @@ main {
 
   .logo_dark_registration {
     width: 64px;
-    position: fixed;
+    position: absolute;
     top: 18px;
     left: 18px;
     z-index: 1000;
