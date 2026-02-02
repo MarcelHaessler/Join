@@ -12,6 +12,7 @@ main {
     flex-direction: column;
     padding-bottom: 0;
     max-width: 1440px;
+    max-height: calc(1440px - 96px);
     box-sizing: border-box;
 }
 
