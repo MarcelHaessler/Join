@@ -17,7 +17,6 @@ label {
 
 #content-section {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     flex-direction: column;
     width: 100%;
@@ -25,15 +24,21 @@ label {
     padding: 0;
     margin: 0;
     background-color: var(--background);
-    max-width: 1688px;
+    max-width: calc(2560px - 232px);
+    max-height: calc(1440px - 96px);
 }
 
 #top-section {
     padding-top: 40px;
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
     gap: 40px;
-    width: 90%;
+    width: 100%;
+    max-width: 1440px;
 }
 
 h2 {
@@ -409,6 +414,9 @@ li {
     justify-content: space-between;
     width: 90%;
     margin-bottom: 40px;
+    padding-left: 40px;
+    max-width: 1440px;
+    box-sizing: border-box;
 }
 
 #required-info {
@@ -519,6 +527,19 @@ li {
     border-radius: 12px;
 }
 
+@media (max-width: 1100px) {
+    #board-task-content-section {
+        padding: 16px;
+    }
+
+    #top-section {
+        padding-top: 16px;
+        gap: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
 @media (max-width: 900px) {
     body {
         grid-template-columns: 1fr;
@@ -571,11 +592,17 @@ li {
     #top-section {
         padding-top: 16px;
         gap: 0;
+        padding-left: 16px;
+        padding-right: 0px;
     }
 
     #form-right,
     #form-left {
         flex: none;
+    }
+
+    #form-right {
+        scrollbar-gutter: auto;
     }
 
     #main-container {
@@ -669,6 +696,7 @@ li {
         margin-top: 0;
         padding-top: 0;
         padding-bottom: 40px;
+        padding-left: 16px;
     }
 
     #content-section {
