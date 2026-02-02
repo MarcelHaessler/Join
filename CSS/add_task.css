@@ -47,7 +47,6 @@ h2 {
     justify-content: center;
     width: 100%;
     gap: 20px;
-    max-height: 424px;
 }
 
 #form-left {
@@ -62,6 +61,8 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 input,
@@ -120,9 +121,7 @@ textarea {
 }
 
 #date {
-    background-image: url(../assets/img/add_task/event.svg);
-    background-repeat: no-repeat;
-    background-position: 95%;
+    cursor: pointer;
 }
 
 #separator {
@@ -300,6 +299,10 @@ textarea {
     align-items: center;
 }
 
+#contacts-dropdown.open ~ #chosen-contacts {
+    display: none;
+}
+
 .category-box {
     height: 48px;
     display: flex;
@@ -404,7 +407,7 @@ li {
     align-items: center;
     justify-content: space-between;
     width: 90%;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 #required-info {

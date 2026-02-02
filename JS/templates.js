@@ -271,7 +271,7 @@ function generateEditTaskHTML(element, taskId) {
                         </div>
                         <div class="edit-input-container" id="edit-date-container">
                             <label for="date">Due date</label>
-                            <input id="edit-date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatEditDateInput(event)">
+                            <input id="edit-date" type="date" value="${date}">
                             <p class="warning-message" id="edit-date-warning"></p>
                         </div>
                     

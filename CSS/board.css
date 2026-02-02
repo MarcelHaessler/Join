@@ -499,6 +499,7 @@ textarea {
         overflow-y: hidden;
         padding-bottom: 12px;
         scroll-snap-type: x proximity;
+        scrollbar-gutter: stable;
     }
 
     .taskCard {

@@ -41,20 +41,16 @@ function checkGuestMode() {
     const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
     const isLegalPage = window.location.pathname.includes('legal_notice.html');
 
-    console.log('checkGuestMode:', { isPolicyPage, isLegalPage });
     // Nur auf Privacy Policy und Legal Notice Seiten prüfen
     if (isPolicyPage || isLegalPage) {
         onAuthStateChanged(auth, (user) => {
-            console.log('Auth state changed:', user ? 'User logged in' : 'No user');
             // Entferne loading-auth Klasse und setze den richtigen Modus
             document.body.classList.remove('loading-auth');
             if (!user) {
                 // Kein eingeloggter Benutzer -> setze mode-guest
-                console.log('Adding mode-guest class');
                 document.body.classList.add('mode-guest');
             } else {
                 // Benutzer ist eingeloggt -> normale Navigation (kein mode-guest)
-                console.log('User logged in, normal mode');
             }
         });
     }

@@ -253,7 +253,6 @@ function editTask(taskId) {
         editAddInitialsBackgroundColors();
         const editDateInput = document.getElementById('edit-date');
         if (editDateInput) {
-            editDateInput.addEventListener('input', formatEditDateInput);
             editDateInput.addEventListener('blur', editCheckDate);
         }
         requestAnimationFrame(() => {
@@ -312,11 +311,10 @@ function deleteTask(taskId) {
         const taskRef = ref(db, `tasks/${taskId}`);
         remove(taskRef)
             .then(() => {
-                console.log("Task deleted successfully.");
                 updateBoard();
             })
             .catch((error) => {
-                console.error("Error deleting task:", error);
+                
             });
     }
     updateBoard();
