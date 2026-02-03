@@ -143,29 +143,70 @@ export async function registerUser() {
     }
 }
 
-function confirmInput() {
-    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordRegex = /^.{6,}$/;
-
-    const isNameValid = validateField(name, name.value.trim() !== "");
-    const isEmailValid = validateField(email, mailRegex.test(email.value));
-    const isPwValid = validateField(pw, passwordRegex.test(pw.value));
-    const isPwCheckValid = validateField(pwRepeat, pw.value === pwRepeat.value && pwRepeat.value !== "");
-
-    if (!accept.checked) {
-        alert("You must accept the Privacy Policy.");
-        return false;
+function setPasswordRepeatError(message, text) {
+    if (message) {
+        message.innerHTML = text;
+        message.classList.add("show");
     }
-
-    return isNameValid && isEmailValid && isPwValid && isPwCheckValid;
+    pwRepeat.classList.add("invalid");
 }
 
-function validateField(element, condition) {
+function clearPasswordRepeatError(message) {
+    pwRepeat.classList.remove("invalid");
+    if (message) message.classList.remove("show");
+}
+
+function validatePasswordRepeat() {
+    const passwordRegex = /^(?=.*[0-9]).{8,}$/;
+    const isPwCriteriaValid = passwordRegex.test(pw.value);
+    const pwsMatch = pw.value === pwRepeat.value;
+    const pwRepeatFilled = pwRepeat.value !== "";
+    const message = document.querySelector('#password_repeat_message');
+    
+    if (!isPwCriteriaValid) {
+        setPasswordRepeatError(message, "Please check criteries of adding a password.");
+        return false;
+    }
+    if (!pwRepeatFilled || !pwsMatch) {
+        setPasswordRepeatError(message, "Passwords does not match, please try again.");
+        return false;
+    }
+    clearPasswordRepeatError(message);
+    return true;
+}
+
+function validatePrivacyCheckbox() {
+    if (!accept.checked) {
+        if (window.validatePrivacyPolicy) window.validatePrivacyPolicy(accept);
+        return false;
+    }
+    if (window.validatePrivacyPolicy) window.validatePrivacyPolicy(accept);
+    return true;
+}
+
+function confirmInput() {
+    const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
+    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[0-9]).{8,}$/;
+
+    const isNameValid = validateField(name, nameRegex.test(name.value.trim()), '#name_message');
+    const isEmailValid = validateField(email, mailRegex.test(email.value), '#email_message');
+    const isPwValid = validateField(pw, passwordRegex.test(pw.value), '#password_message');
+    const isPwCheckValid = validatePasswordRepeat();
+    const isPrivacyAccepted = validatePrivacyCheckbox();
+
+    return isNameValid && isEmailValid && isPwValid && isPwCheckValid && isPrivacyAccepted;
+}
+
+function validateField(element, condition, messageSelector) {
+    const message = document.querySelector(messageSelector);
     if (condition) {
         element.classList.remove("invalid");
+        if (message) message.classList.remove("show");
         return true;
     } else {
         element.classList.add("invalid");
+        if (message) message.classList.add("show");
         return false;
     }
 }

@@ -14,11 +14,27 @@ function activateCheckbox() {
 
 function handleBlur(input) {
     if (input.placeholder === 'Name') validateName(input.value, input);
-    else if (input.type === 'email') validateEmail(input.value, input);
+    else if (input.type === 'email') {
+        if (input.id === 'login-mail') {
+            validateLoginEmail(input.value, input);
+        } else {
+            validateEmail(input.value, input);
+        }
+    }
     else if (input.placeholder === 'Password' && input.id !== 'login-password') validatePassword(input.value, input);
     else if (input.placeholder === 'Confirm Password') {
         validateConfirmPassword(input.value, input);
         updatePasswordMessage();
+    } else {
+        input.addEventListener('input', () => validateEmail(input.value, input));
+    }
+}
+
+function addEmailInputListener(input) {
+    if (input.id === 'login-mail') {
+        input.addEventListener('input', () => validateLoginEmail(input.value, input));
+    } else {
+        input.addEventListener('input', () => validateEmail(input.value, input));
     }
 }
 
@@ -35,6 +51,12 @@ function addConfirmPasswordListener(input) {
 
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => handleBlur(input));
+    if (input.type === 'email') {
+        addEmailInputListener(input);
+    }
+    if (input.placeholder === 'Name') {
+        input.addEventListener('input', () => validateName(input.value, input));
+    }
     if (input.placeholder === 'Password' && input.id !== 'login-password') {
         addPasswordInputListener(input);
     }
@@ -46,17 +68,33 @@ document.querySelectorAll('input').forEach(input => {
 function updatePasswordMessage() {
     const passwordInput = document.getElementById('signup-password');
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
-    if (!passwordInput || !confirmPasswordInput) return;
-    if (passwordInput.value === '' || confirmPasswordInput.value === '') {
-        false_password.classList.remove('show');
+    const message = document.getElementById('password_repeat_message');
+    
+    if (!passwordInput || !confirmPasswordInput || !message) return;
+    
+    if (confirmPasswordInput.value === '') {
+        message.classList.remove('show');
+        confirmPasswordInput.classList.remove('invalid');
         return;
     }
+    
+    const isPwCriteriaValid = passwordRegex.test(passwordInput.value);
     const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
-    const hasPasswordInvalid = passwordInput.classList.contains('invalid') || confirmPasswordInput.classList.contains('invalid');
-    if (passwordsMatch || !hasPasswordInvalid) {
-        false_password.classList.remove('show');
+    
+    if (!isPwCriteriaValid) {
+        // Passwort-Kriterien nicht erfüllt
+        message.innerHTML = "Please check criteries of adding a password.";
+        message.classList.add('show');
+        confirmPasswordInput.classList.add('invalid');
+    } else if (!passwordsMatch) {
+        // Kriterien erfüllt, aber Passwörter stimmen nicht überein
+        message.innerHTML = "Passwords does not match, please try again.";
+        message.classList.add('show');
+        confirmPasswordInput.classList.add('invalid');
     } else {
-        false_password.classList.add('show');
+        // Alles korrekt
+        message.classList.remove('show');
+        confirmPasswordInput.classList.remove('invalid');
     }
 }
 
@@ -95,6 +133,23 @@ function validateEmail(email, input) {
     }
 }
 
+function validateLoginEmail(email, input) {
+    const message = document.querySelector('.false_email');
+    if (!message) return;
+    if (email.trim() === '') {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+        return;
+    }
+    if (mailRegex.test(email)) {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+    } else {
+        input.classList.add('invalid');
+        message.classList.add('show');
+    }
+}
+
 function recheckConfirmPassword() {
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
     if (confirmPasswordInput && confirmPasswordInput.value !== '') {
@@ -115,24 +170,17 @@ function validatePassword(password, input) {
     if (passwordRegex.test(password)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
-        recheckConfirmPassword();
     } else {
         input.classList.add('invalid');
         message.classList.add('show');
     }
+    // Immer Confirm Password neu prüfen, wenn sich Password ändert
+    recheckConfirmPassword();
 }
 
 function validateConfirmPassword(password, input) {
-    const passwordInput = document.getElementById("signup-password");
-    const message = document.getElementById("password_repeat_message");
-    if (!passwordInput || passwordInput.value === '' || password === '') {
-        input.classList.remove('invalid');
-        if (message) message.classList.remove('show');
-        return;
-    }
-    const isMatch = passwordInput.value === password;
-    input.classList.toggle('invalid', !isMatch);
-    if (message) message.classList.toggle('show', !isMatch);
+    // Diese Funktion ruft nur updatePasswordMessage auf
+    updatePasswordMessage();
 }
 
 document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
@@ -147,6 +195,18 @@ document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
         }
     });
 });
+
+function validatePrivacyPolicy(checkbox) {
+    const message = document.querySelector('#privacy_policy_message');
+    if (!message) return;
+    if (checkbox.checked) {
+        message.classList.remove('show');
+    } else {
+        message.classList.add('show');
+    }
+}
+
+window.validatePrivacyPolicy = validatePrivacyPolicy;
 
 
 

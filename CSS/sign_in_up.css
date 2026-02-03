@@ -163,16 +163,21 @@ footer.start-animation  {
 .form-validation-text {
   margin-block-start: 0;
   margin-block-end: 0;
-  font-size: 12px;
+  margin: 4px 0 12px 0;
+  font-size: 16px;
   padding-left: 12px;
   color: red;
   visibility: hidden;
-  margin-bottom: 8px;
   height: 16px;
     &.show {
     visibility: visible;
   }
+}
 
+#privacy_policy_message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .formCon {
@@ -216,9 +221,10 @@ footer.start-animation  {
   }
 }
 
-.false_password {
-  font-size: 12px;
+.false_password, .false_email {
+  font-size: 16px;
   color: var(--invalideColor);
+  margin: 4px 0 12px 0;
   visibility: hidden;
   height: 16px;
   &.show {
@@ -320,7 +326,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 8px;
 }
 
 .buttonLoginCon {
