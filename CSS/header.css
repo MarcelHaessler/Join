@@ -89,7 +89,7 @@ header {
     position: fixed;
     inset: auto;
     top: 96px;
-    right: max(40px, calc(100vw - 1880px));
+    right: max(40px, calc(100vw - 2520px));
     width: 150px;
     height: auto;
     padding: 10px;

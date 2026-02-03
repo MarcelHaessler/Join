@@ -343,6 +343,15 @@
     color: black;
 }
 
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
+    color: black;
+}
+
 #edit-assign-input:focus::placeholder {
     color: transparent;
     transition: 200ms;

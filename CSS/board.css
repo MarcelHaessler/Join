@@ -121,6 +121,7 @@ textarea {
     width: 312px;
     height: 48px;
     font-size: 20px;
+    font-family: 'Inter', sans-serif;
     border-radius: 10px;
     border: 1px solid rgba(209, 209, 209, 1);
     padding: 0 20px 0 20px;
@@ -134,6 +135,15 @@ textarea {
 input::placeholder,
 textarea::placeholder {
     color: var(--ligthGrey);
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
+    color: black;
 }
 
 

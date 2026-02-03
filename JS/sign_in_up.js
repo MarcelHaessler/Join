@@ -39,16 +39,23 @@ function updatePasswordMessage() {
     const passwordInput = document.getElementById('signup-password');
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
     if (!passwordInput || !confirmPasswordInput) return;
-    if (passwordInput.value === '') {
+    if (passwordInput.value === '' || confirmPasswordInput.value === '') {
         false_password.classList.remove('show');
         return;
     }
-    const hasPasswordInvalid = passwordInput.classList.contains('invalid') || 
-                                confirmPasswordInput.classList.contains('invalid');
-    if (hasPasswordInvalid) {
-        false_password.classList.add('show');
-    } else {
+    
+    const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
+    
+    if (passwordsMatch) {
         false_password.classList.remove('show');
+    } else {
+        const hasPasswordInvalid = passwordInput.classList.contains('invalid') || 
+                                    confirmPasswordInput.classList.contains('invalid');
+        if (hasPasswordInvalid) {
+            false_password.classList.add('show');
+        } else {
+            false_password.classList.remove('show');
+        }
     }
 }
 
@@ -102,9 +109,16 @@ function validatePassword(password, input) {
 function validateConfirmPassword(password, input) {
     const passwordInput = document.getElementById("signup-password");
     const message = document.getElementById("password_repeat_message");
+    
     if (!passwordInput || passwordInput.value === '') {
+        input.classList.remove('invalid');
+        if (message) {
+            message.classList.remove('show');
+        }
         return;
-    }if (passwordInput.value === password && password !== "") {
+    }
+    
+    if (passwordInput.value === password) {
         input.classList.remove('invalid');
         if (message) {
             message.classList.remove('show');
