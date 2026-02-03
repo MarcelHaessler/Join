@@ -425,6 +425,7 @@ li {
     width: 90%;
     margin-bottom: 40px;
     padding-left: 40px;
+    padding-right: 40px;
     max-width: 1440px;
     box-sizing: border-box;
 }
