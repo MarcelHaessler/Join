@@ -117,6 +117,8 @@ async function loginUser() {
     const user = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
     if (user) {
+        emailInput.classList.remove("invalid");
+        passwordInput.classList.remove("invalid");
         setCurrentUser({
             name: user.name,
             email: user.email,
@@ -127,6 +129,8 @@ async function loginUser() {
         sessionStorage.setItem('guestMode', 'false');
         window.location.href = "summary.html";
     } else {
+        emailInput.classList.add("invalid");
+        passwordInput.classList.add("invalid");
         if (errorMsg) errorMsg.classList.add("show");
     }
 }
