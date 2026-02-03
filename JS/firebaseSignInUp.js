@@ -41,7 +41,6 @@ function loginUser() {
         .catch((error) => {
             manualLogin = false;
             if (errorMsg) errorMsg.classList.add("show");
-            // Unterdrücke Console-Ausgabe für erwartete Login-Fehler
             return;
         });
 }

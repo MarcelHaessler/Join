@@ -142,6 +142,12 @@ dialog button:focus {
         min-height: 80px;
     }
 
+    header {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        z-index: 10;
+    }
+
     #header-title {
         display: none;
     }
