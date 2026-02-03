@@ -21,15 +21,23 @@ function editAddInitialsBackgroundColors() {
 function fillEditAssignmentDropdown() {
     let contactsDropdown = document.getElementById("edit-contacts-dropdown");
     contactsDropdown.innerHTML = "";
+    renderEditContacts(contactsDropdown);
+}
+
+function renderEditContacts(dropdown) {
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;
-        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-        if (index === 0) {
-            contactsDropdown.innerHTML += editAddSelfTemplate(contactName, contactInitials, index);
-        } else {
-            contactsDropdown.innerHTML += editAddTaskContactTemplate(contactName, contactInitials, index);
-        }
+        let contactInitials = getEditContactInitials(contacts[index].name);
+        dropdown.innerHTML += getEditContactTemplate(contactName, contactInitials, index);
     }
+}
+
+function getEditContactInitials(name) {
+    return name.charAt(0).toUpperCase() + name.charAt(name.indexOf(" ") + 1).toUpperCase();
+}
+
+function getEditContactTemplate(name, initials, index) {
+    return index === 0 ? editAddSelfTemplate(name, initials, index) : editAddTaskContactTemplate(name, initials, index);
 }
 
 /**Function to render/open the assignment dropdown*/
@@ -94,21 +102,32 @@ function editSelectContact(index) {
 function editRenderSelectedContacts() {
     let selectedContactsContainer = document.getElementById('edit-chosen-contacts');
     selectedContactsContainer.innerHTML = '';
+    toggleEditContainerVisibility(selectedContactsContainer);
+    renderEditContactInitials(selectedContactsContainer);
+    renderEditExtraContacts(selectedContactsContainer);
+    editAddChosenInitialsBackgroundColors();
+}
+
+function toggleEditContainerVisibility(container) {
     if (editSelectedContacts.length > 0) {
-        selectedContactsContainer.classList.remove('d_none');
-    } else { selectedContactsContainer.classList.add('d_none'); }
-    for (let index = 0; index < editSelectedContacts.length; index++) {
-        if (index <= 2) {
-            let contactInitials = editSelectedContacts[index].name.charAt(0).toUpperCase()
-                + editSelectedContacts[index].name.charAt(editSelectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
-            selectedContactsContainer.innerHTML += editAddInitialTemplate(contactInitials);
-        }
+        container.classList.remove('d_none');
+    } else { 
+        container.classList.add('d_none'); 
     }
+}
+
+function renderEditContactInitials(container) {
+    for (let index = 0; index < editSelectedContacts.length && index <= 2; index++) {
+        let initials = getEditContactInitials(editSelectedContacts[index].name);
+        container.innerHTML += editAddInitialTemplate(initials);
+    }
+}
+
+function renderEditExtraContacts(container) {
     if (editSelectedContacts.length > 3) {
         let number = editSelectedContacts.length - 3;
-        selectedContactsContainer.innerHTML += editAddNumberOfExtraPeople(number);
+        container.innerHTML += editAddNumberOfExtraPeople(number);
     }
-    editAddChosenInitialsBackgroundColors();
 }
 
 /**Function that adds background color to chosen contacts, same as before. */
@@ -220,10 +239,18 @@ function editChoseUserStory() {
 function showExistingSubtasks(task) {
     let subtaskList = document.getElementById("edit-subtask-list");
     subtaskList.innerHTML = '';
+    resetSubtaskData();
+    if (!task.subtasks || task.subtasks.length === 0) { return; }
+    renderExistingSubtasks(task.subtasks, subtaskList);
+}
+
+function resetSubtaskData() {
     editedSubtaskListArray = [];
     subtaskIndex = 0;
-    if (!task.subtasks || task.subtasks.length === 0) { return; }
-    task.subtasks.forEach((subtask, index) => {
+}
+
+function renderExistingSubtasks(subtasks, subtaskList) {
+    subtasks.forEach((subtask, index) => {
         subtaskList.innerHTML += editAddSubtaskTemplate({ value: subtask.text }, index);
         editedSubtaskListArray.push({
             text: subtask.text,
@@ -276,9 +303,18 @@ function editSubtaskEditing(taskId) {
     const box = document.getElementById(taskId);
     const li = box.querySelector("li.edit-subtask-element");
     const oldText = li.textContent.trim();
-    const input = editCreateEditInput(oldText);
+    replaceEditWithInput(box, oldText);
+    addEditSubtaskButtons(box, taskId, oldText);
+}
+
+function replaceEditWithInput(box, text) {
+    const input = editCreateEditInput(text);
     box.innerHTML = "";
     box.appendChild(input);
+}
+
+function addEditSubtaskButtons(box, taskId, oldText) {
+    const input = box.querySelector("input");
     const buttonContainer = editCreateEditButtons(input, box, taskId, oldText);
     box.appendChild(buttonContainer);
 }
@@ -296,25 +332,34 @@ function editCreateEditInput(text) {
 function editCreateEditButtons(input, box, taskId, oldText) {
     const container = document.createElement("div");
     container.className = "edit-subtask-list-button-container";
-    const deleteBtn = editCreateButton('./assets/img/add_task/delete.svg', () => {
-        editDeleteSubtaskListElement(taskId);
-    });
+    const deleteBtn = editCreateButton('./assets/img/add_task/delete.svg', () => editDeleteSubtaskListElement(taskId));
     const divider = editCreateDivider();
-    const saveBtn = editCreateButton('./assets/img/add_task/check.svg', () => {
-        const newText = input.value.trim();
-        if (!newText) return;
-
-        box.innerHTML = editEditedSubtaskTemplate(taskId, newText);
-        const index = editedSubtaskListArray.findIndex(obj => obj.text === oldText);
-        if (index !== -1) {
-            const prevComplete = !!editedSubtaskListArray[index].subtaskComplete;
-            editedSubtaskListArray[index] = { text: newText, subtaskComplete: prevComplete };
-        } else {
-            editedSubtaskListArray.push({ text: newText, subtaskComplete: false });
-        }
-    });
+    const saveBtn = createEditSaveButton(input, box, taskId, oldText);
     container.append(deleteBtn, divider, saveBtn);
     return container;
+}
+
+function createEditSaveButton(input, box, taskId, oldText) {
+    return editCreateButton('./assets/img/add_task/check.svg', () => {
+        saveEditedSubtask(input, box, taskId, oldText);
+    });
+}
+
+function saveEditedSubtask(input, box, taskId, oldText) {
+    const newText = input.value.trim();
+    if (!newText) return;
+    box.innerHTML = editEditedSubtaskTemplate(taskId, newText);
+    updateSubtaskInArray(oldText, newText);
+}
+
+function updateSubtaskInArray(oldText, newText) {
+    const index = editedSubtaskListArray.findIndex(obj => obj.text === oldText);
+    if (index !== -1) {
+        const prevComplete = !!editedSubtaskListArray[index].subtaskComplete;
+        editedSubtaskListArray[index] = { text: newText, subtaskComplete: prevComplete };
+    } else {
+        editedSubtaskListArray.push({ text: newText, subtaskComplete: false });
+    }
 }
 
 /**Function that creates editing buttons to the new input field. */
