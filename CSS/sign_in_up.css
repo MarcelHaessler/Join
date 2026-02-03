@@ -8,8 +8,7 @@ body {
   width: 100%;
 }
 
-.page-border{
-  max-height: 1440px;
+.page-border {
   max-width: 1440px;
   width: 100%;
   display: flex;
@@ -62,11 +61,11 @@ main {
   left: 20px;
   width: 100px;
   position: absolute;
-  }
+}
 
-header.start-animation ,
-main.start-animation ,
-footer.start-animation  {
+header.start-animation,
+main.start-animation,
+footer.start-animation {
   opacity: 0;
   animation: fadeInContent 0.4s ease 0.8s forwards;
 }
@@ -79,7 +78,7 @@ footer.start-animation  {
 }
 
 .login_signup_container {
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 652px;
   box-sizing: border-box;
   height: auto;
@@ -89,7 +88,7 @@ footer.start-animation  {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 8px;
+  margin: 16px;
   padding: 32px 12px;
   background-color: var(--contrastColor);
   gap: 32px;
@@ -169,7 +168,8 @@ footer.start-animation  {
   visibility: hidden;
   margin-bottom: 8px;
   height: 16px;
-    &.show {
+
+  &.show {
     visibility: visible;
   }
 
@@ -221,6 +221,7 @@ footer.start-animation  {
   color: var(--invalideColor);
   visibility: hidden;
   height: 16px;
+
   &.show {
     visibility: visible;
   }
@@ -474,4 +475,29 @@ main {
 
 .invalid {
   border-color: var(--invalideColor);
+}
+
+/* Success Toast Styles */
+.success-toast {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primerColor);
+  color: var(--contrastColor);
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.success-toast.show-toast {
+  bottom: 50%;
+  transform: translate(-50%, 50%);
 }

@@ -271,7 +271,7 @@ function generateEditTaskHTML(element, taskId) {
                         </div>
                         <div class="edit-input-container" id="edit-date-container">
                             <label for="date">Due date</label>
-                            <input id="edit-date" type="date" value="${date}">
+                            <input id="edit-date" type="date" value="${date}" min="${new Date().toISOString().split('T')[0]}">
                             <p class="warning-message" id="edit-date-warning"></p>
                         </div>
                     
@@ -486,18 +486,18 @@ function generateMoveMenu(taskId) {
 // Helper function to convert date from dd/mm/yyyy to yyyy-MM-dd
 function convertDateToISO(dateString) {
     if (!dateString) return '';
-    
+
     // Check if already in ISO format (yyyy-MM-dd)
     if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
         return dateString;
     }
-    
+
     // Convert from dd/mm/yyyy to yyyy-MM-dd
     const parts = dateString.split('/');
     if (parts.length === 3) {
         const [day, month, year] = parts;
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
-    
+
     return dateString;
 }

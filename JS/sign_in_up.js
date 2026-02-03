@@ -65,8 +65,8 @@ function validateName(name, input) {
     const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     if (!message) return;
     if (name.trim() === '') {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
+        input.classList.add('invalid');
+        message.classList.add('show');
         return;
     }
     if (nameRegex.test(name.trim())) {
@@ -82,8 +82,8 @@ function validateEmail(email, input) {
     const message = document.querySelector('#email_message');
     if (!message) return;
     if (email.trim() === '') {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
+        input.classList.add('invalid');
+        message.classList.add('show');
         return;
     }
     if (mailRegex.test(email)) {
@@ -107,8 +107,8 @@ function validatePassword(password, input) {
     const message = document.querySelector('#password_message');
     if (!message) return;
     if (password === '') {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
+        input.classList.add('invalid');
+        message.classList.add('show');
         recheckConfirmPassword();
         return;
     }
@@ -125,9 +125,14 @@ function validatePassword(password, input) {
 function validateConfirmPassword(password, input) {
     const passwordInput = document.getElementById("signup-password");
     const message = document.getElementById("password_repeat_message");
-    if (!passwordInput || passwordInput.value === '' || password === '') {
+    if (!passwordInput || (passwordInput.value === '' && password === '')) {
         input.classList.remove('invalid');
         if (message) message.classList.remove('show');
+        return;
+    }
+    if (password === '') {
+        input.classList.add('invalid');
+        if (message) message.classList.add('show');
         return;
     }
     const isMatch = passwordInput.value === password;

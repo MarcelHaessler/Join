@@ -45,7 +45,7 @@ function checkFullfilledRequirements() {
     let taskAssignments = selectedContacts;
     let taskSubtasks = subtaskListArray || [];
 
-    if (taskTitle === '' || taskDescription === '' || taskDueDate === '' || currentCategory === '') {
+    if (taskTitle.trim() === '' || taskDescription.trim() === '' || taskDueDate === '' || currentCategory === '') {
         checkTitle();
         checkDescription();
         checkDate();

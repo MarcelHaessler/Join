@@ -14,63 +14,67 @@
 
 <body>
     <div class="page-border">
-    <div id="overlay"></div>
-    <img class="logo_dark_registration" src="./assets/img/logo_dark.svg" alt="Join-Logo">
+        <div id="overlay"></div>
+        <img class="logo_dark_registration" src="./assets/img/logo_dark.svg" alt="Join-Logo">
 
-    <header>
-    </header>
-    <main>
-        <div class="login_signup_container">
-            <div class="sign_up_title_container">
-                <div onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()"
-                    class="back_button_container">
-                    <a href="./index.html">
-                        <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
-                    </a>
+        <header>
+        </header>
+        <main>
+            <div class="login_signup_container">
+                <div class="sign_up_title_container">
+                    <div onmouseenter="arrowButtonHover()" onmouseleave="arrowButtonUnhover()"
+                        class="back_button_container">
+                        <a href="./index.html">
+                            <img id="back_button" src="./assets/img/back_button_inactive.svg" alt="Back to Sign In">
+                        </a>
+                    </div>
+                    <h2>Sign up</h2>
                 </div>
-                <h2>Sign up</h2>
-            </div>
-            <div class="formCon">
-                <form class="sign_in_up_form">
-                    <div class="inputForm">
-                        <input id="signup-name" type="text" placeholder="Name" autocomplete="name">
-                        <img src="./assets/img/person.svg" class="inputIcon">
+                <div class="formCon">
+                    <form class="sign_in_up_form">
+                        <div class="inputForm">
+                            <input id="signup-name" type="text" placeholder="Name" autocomplete="name">
+                            <img src="./assets/img/person.svg" class="inputIcon">
+                        </div>
+                        <p class="form-validation-text" id="name_message">Please give a correct name.</p>
+                        <div class="inputForm">
+                            <input id="signup-email" type="email" placeholder="Email" autocomplete="email">
+                            <img src="./assets/img/mail.svg" class="inputIcon">
+                        </div>
+                        <p class="form-validation-text" id="email_message">Please use a real E-Mail adress.</p>
+                        <div class="inputForm">
+                            <input id="signup-password" class="password" type="password" placeholder="Password"
+                                autocomplete="new-password">
+                            <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                        </div>
+                        <p class="form-validation-text" id="password_message">Minimum 8 characters. (incl. 1 number.)
+                        </p>
+                        <div class="inputForm">
+                            <input id="signup-password-repeat" class="password" type="password"
+                                placeholder="Confirm Password" autocomplete="new-password">
+                            <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                        </div>
+                    </form>
+                    <p class="form-validation-text false_password" id="password_repeat_message">Your passwords don't
+                        match. Please try again.</p>
+                    <div id="sign_up_checkbox_container">
+                        <input id="accept-policy" type="checkbox">
+                        <p>I accept the <a class="blue_text" href="privacy_policy.html?Guest">Privacy Policy</a></p>
                     </div>
-                    <p class="form-validation-text" id="name_message">Please give a correct name.</p>
-                    <div class="inputForm">
-                        <input id="signup-email" type="email" placeholder="Email" autocomplete="email">
-                        <img src="./assets/img/mail.svg" class="inputIcon">
-                    </div>
-                    <p class="form-validation-text" id="email_message">Please use a real E-Mail adress.</p>
-                    <div class="inputForm">
-                        <input id="signup-password" class="password" type="password" placeholder="Password" autocomplete="new-password">
-                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
-                    </div>
-                    <p class="form-validation-text" id="password_message">Minimum 8 characters. (incl. 1 number.) </p>
-                    <div class="inputForm">
-                        <input id="signup-password-repeat" class="password" type="password"
-                            placeholder="Confirm Password" autocomplete="new-password">
-                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
-                    </div>
-                </form>
-                <p class="form-validation-text false_password">Your passwords don't match. Please try again.</p>
-                <div id="sign_up_checkbox_container">
-                    <input id="accept-policy" type="checkbox">
-                    <p>I accept the <a class="blue_text" href="privacy_policy.html?Guest">Privacy Policy</a></p>
                 </div>
+                <button class="buttonLoginSignup" onclick="registerUser()">Sign up</button>
             </div>
-            <button class="buttonLoginSignup" onclick="registerUser()">Sign up</button>
-        </div>
-    </main>
+        </main>
 
-    <footer>
-        <div class="footer_link">
-            <a href="privacy_policy.html?Guest">Privacy Policy</a>
-        </div>
-        <div class="footer_link">
-            <a href="legal_notice.html?Guest">Legal notice</a>
-        </div>
-    </footer>
+        <footer>
+            <div class="footer_link">
+                <a href="privacy_policy.html?Guest">Privacy Policy</a>
+            </div>
+            <div class="footer_link">
+                <a href="legal_notice.html?Guest">Legal notice</a>
+            </div>
+        </footer>
+        <div id="success-toast" class="success-toast">You Signed Up successfully</div>
     </div>
     <script src="./JS/sign_in_up.js"></script>
     <script type="module" src="./JS/firebaseSignInUp.js"></script>

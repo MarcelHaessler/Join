@@ -1,18 +1,18 @@
 import { auth, db } from "./firebaseAuth.js";
 
 import {
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    signOut,
-    signInAnonymously
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 
 import {
-    ref,
-    push,
-    set
+  ref,
+  push,
+  set
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 const name = document.getElementById("signup-name");
@@ -25,24 +25,24 @@ let manualLogin = false;
 
 // LOGIN 
 function loginUser() {
-    const emailInput = document.getElementById("login-mail");
-    const passwordInput = document.getElementById("login-password");
-    const errorMsg = document.querySelector(".false_password");
+  const emailInput = document.getElementById("login-mail");
+  const passwordInput = document.getElementById("login-password");
+  const errorMsg = document.querySelector(".false_password");
 
-    if (errorMsg) errorMsg.classList.remove("show");
+  if (errorMsg) errorMsg.classList.remove("show");
 
-    signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-        .then((userCredential) => {
-            manualLogin = true;
-            sessionStorage.setItem('showSummaryGreeting', 'true');
-            sessionStorage.setItem('guestMode', 'false');
-            window.location.href = "summary.html";
-        })
-        .catch((error) => {
-            manualLogin = false;
-            if (errorMsg) errorMsg.classList.add("show");
-            return;
-        });
+  signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+    .then((userCredential) => {
+      manualLogin = true;
+      sessionStorage.setItem('showSummaryGreeting', 'true');
+      sessionStorage.setItem('guestMode', 'false');
+      window.location.href = "summary.html";
+    })
+    .catch((error) => {
+      manualLogin = false;
+      if (errorMsg) errorMsg.classList.add("show");
+      return;
+    });
 }
 
 // GUEST LOGIN
@@ -90,7 +90,7 @@ onAuthStateChanged(auth, (user) => {
     }
   } else {
     // kein angemeldeter Nutzer
-    const event = new CustomEvent("guestUser", { detail: { name: 'Guest' }});
+    const event = new CustomEvent("guestUser", { detail: { name: 'Guest' } });
     window.dispatchEvent(event);
   }
 });
@@ -114,71 +114,81 @@ async function logoutUser() {
 
 // Sign up
 export async function registerUser() {
-    const isInputValid = confirmInput();
+  const isInputValid = confirmInput();
 
-    if (isInputValid) {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
-            const user = userCredential.user;
+  if (isInputValid) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
+      const user = userCredential.user;
 
-            await updateProfile(user, {
-                displayName: name.value
-            });
+      await updateProfile(user, {
+        displayName: name.value
+      });
 
-            const newUserRef = push(ref(db, "users"));
-            await set(newUserRef, {
-                name: name.value,
-                email: email.value
-            });
-            window.location.href = "index.html";
+      const newUserRef = push(ref(db, "users"));
+      await set(newUserRef, {
+        name: name.value,
+        email: email.value
+      });
+      showSuccessToast();
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
 
-        } catch (error) {
-            if (error.code === "auth/email-already-in-use") {
-                alert("Diese Email wird bereits verwendet.");
-                email.classList.add('invalid');
-            } else {
-                alert("Ein Fehler ist aufgetreten: " + error.message);
-            }
-        }
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        alert("Diese Email wird bereits verwendet.");
+        email.classList.add('invalid');
+      } else {
+        alert("Ein Fehler ist aufgetreten: " + error.message);
+      }
     }
+  }
 }
 
 function confirmInput() {
-    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordRegex = /^.{6,}$/;
+  const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordRegex = /^(?=.*[0-9]).{8,}$/;
 
-    const isNameValid = validateField(name, name.value.trim() !== "");
-    const isEmailValid = validateField(email, mailRegex.test(email.value));
-    const isPwValid = validateField(pw, passwordRegex.test(pw.value));
-    const isPwCheckValid = validateField(pwRepeat, pw.value === pwRepeat.value && pwRepeat.value !== "");
+  const isNameValid = validateField(name, name.value.trim() !== "");
+  const isEmailValid = validateField(email, mailRegex.test(email.value));
+  const isPwValid = validateField(pw, passwordRegex.test(pw.value));
+  const isPwCheckValid = validateField(pwRepeat, pw.value === pwRepeat.value && pwRepeat.value !== "");
 
-    if (!accept.checked) {
-        alert("You must accept the Privacy Policy.");
-        return false;
-    }
+  if (!accept.checked) {
+    alert("You must accept the Privacy Policy.");
+    return false;
+  }
 
-    return isNameValid && isEmailValid && isPwValid && isPwCheckValid;
+  return isNameValid && isEmailValid && isPwValid && isPwCheckValid;
 }
 
 function validateField(element, condition) {
-    if (condition) {
-        element.classList.remove("invalid");
-        return true;
-    } else {
-        element.classList.add("invalid");
-        return false;
-    }
+  if (condition) {
+    element.classList.remove("invalid");
+    return true;
+  } else {
+    element.classList.add("invalid");
+    return false;
+  }
 }
 
 function getFirstAndLastInitial(fullName) {
-    if (!fullName) return "NN";
-    const parts = fullName.trim().split(/\s+/);
-    const first = parts[0][0];
-    const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
-    return (first + last).toUpperCase();
+  if (!fullName) return "NN";
+  const parts = fullName.trim().split(/\s+/);
+  const first = parts[0][0];
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+  return (first + last).toUpperCase();
 }
 
 window.loginUser = loginUser;
 window.logoutUser = logoutUser;
 window.registerUser = registerUser;
 window.guestLogin = guestLogin;
+
+function showSuccessToast() {
+  const toast = document.getElementById('success-toast');
+  if (toast) {
+    toast.classList.add('show-toast');
+  }
+}

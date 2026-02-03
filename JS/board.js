@@ -3,7 +3,7 @@ const closeBtn = document.getElementById('close-add-task-overlay');
 closeBtn.addEventListener('click', addTaskOverlayClose);
 
 // Close overlay when clicking outside content section
-addTaskOverlay.addEventListener('click', function(e) {
+addTaskOverlay.addEventListener('click', function (e) {
     if (e.target === addTaskOverlay) {
         addTaskOverlayClose();
     }
@@ -25,6 +25,7 @@ function addTaskOverlayOpen(boardGroup) {
     addTaskOverlay.classList.remove('d_none', 'closing');
     setTimeout(() => {
         addTaskOverlay.classList.add('active');
+        setMinDate();
     }, 10);
     taskgroup = boardGroup;
 }
@@ -259,6 +260,7 @@ function editTask(taskId) {
         window.currentPriority = task.priority;
         fillEditAssignmentDropdown();
         editAddInitialsBackgroundColors();
+        setMinDate();
         const editDateInput = document.getElementById('edit-date');
         if (editDateInput) {
             editDateInput.addEventListener('blur', editCheckDate);
@@ -322,7 +324,7 @@ function deleteTask(taskId) {
                 updateBoard();
             })
             .catch((error) => {
-                
+
             });
     }
     updateBoard();
