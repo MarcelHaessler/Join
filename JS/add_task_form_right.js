@@ -17,17 +17,35 @@ function addInitialsBackgroundColors() {
 /**Function to fill the dropdown with all the contacts in contacts array*/
 function fillAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
+    if (!contactsDropdown) return;
+    
     contactsDropdown.innerHTML = "";
+    
+    if (!window.contacts || !Array.isArray(window.contacts)) {
+        showNoContactsMessage(contactsDropdown);
+        return;
+    }
+    renderContactsInDropdown(contactsDropdown);
+}
 
+function showNoContactsMessage(dropdown) {
+    dropdown.innerHTML = '<div style="padding: 10px;">No contacts available</div>';
+}
+
+function renderContactsInDropdown(dropdown) {
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;
-        let contactInitials = contacts[index].name.charAt(0).toUpperCase() + contacts[index].name.charAt(contacts[index].name.indexOf(" ") + 1).toUpperCase();
-        if (index === 0) {
-            contactsDropdown.innerHTML += addSelfTemplate(contactName, contactInitials, index);
-        } else {
-            contactsDropdown.innerHTML += addTaskContactTemplate(contactName, contactInitials, index);
-        }
+        let contactInitials = getContactInitials(contacts[index].name);
+        dropdown.innerHTML += getContactTemplate(contactName, contactInitials, index);
     }
+}
+
+function getContactInitials(name) {
+    return name.charAt(0).toUpperCase() + name.charAt(name.indexOf(" ") + 1).toUpperCase();
+}
+
+function getContactTemplate(name, initials, index) {
+    return index === 0 ? addSelfTemplate(name, initials, index) : addTaskContactTemplate(name, initials, index);
 }
 
 /**Function to render/open the assignment dropdown*/
@@ -98,21 +116,32 @@ function selectContact(index) {
 function renderSelectedContacts() {
     let selectedContactsContainer = document.getElementById('chosen-contacts');
     selectedContactsContainer.innerHTML = '';
+    toggleContainerVisibility(selectedContactsContainer);
+    renderContactInitials(selectedContactsContainer);
+    renderExtraContactsCount(selectedContactsContainer);
+    addChosenInitialsBackgroundColors();
+}
+
+function toggleContainerVisibility(container) {
     if (selectedContacts.length > 0) {
-        selectedContactsContainer.classList.remove('d_none');
-    } else { selectedContactsContainer.classList.add('d_none'); }
-    for (let index = 0; index < selectedContacts.length; index++) {
-        if (index <= 2) {
-            let contactInitials = selectedContacts[index].name.charAt(0).toUpperCase()
-                + selectedContacts[index].name.charAt(selectedContacts[index].name.indexOf(" ") + 1).toUpperCase();
-            selectedContactsContainer.innerHTML += addInitialTemplate(contactInitials);
-        }
+        container.classList.remove('d_none');
+    } else { 
+        container.classList.add('d_none'); 
     }
+}
+
+function renderContactInitials(container) {
+    for (let index = 0; index < selectedContacts.length && index <= 2; index++) {
+        let initials = getContactInitials(selectedContacts[index].name);
+        container.innerHTML += addInitialTemplate(initials);
+    }
+}
+
+function renderExtraContactsCount(container) {
     if (selectedContacts.length > 3) {
         let number = selectedContacts.length - 3;
-        selectedContactsContainer.innerHTML += addNumberOfExtraPeople(number);
+        container.innerHTML += addNumberOfExtraPeople(number);
     }
-    addChosenInitialsBackgroundColors();
 }
 
 /**Function that adds background color to chosen contacts, same as before. */
@@ -235,10 +264,18 @@ function editSubtask(taskId) {
     const li = box.querySelector("li.subtask-element");
     const oldText = li.textContent.trim();
 
-    const input = createEditInput(oldText);
+    replaceWithEditInput(box, oldText);
+    addEditButtons(box, taskId);
+}
+
+function replaceWithEditInput(box, text) {
+    const input = createEditInput(text);
     box.innerHTML = "";
     box.appendChild(input);
+}
 
+function addEditButtons(box, taskId) {
+    const input = box.querySelector("input");
     const buttonContainer = createEditButtons(input, box, taskId);
     box.appendChild(buttonContainer);
 }

@@ -1,3 +1,13 @@
+// Set min date to today for all date inputs
+function setMinDateToToday() {
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelectorAll('input[type="date"]').forEach(dateInput => {
+        dateInput.setAttribute('min', today);
+    });
+}
+
+setMinDateToToday();
+
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         if (input.id === 'date') {
@@ -63,33 +73,38 @@ const isCorrectDate = (dateString) => {
     return selectedDate.getTime() >= today.getTime();
 }
 
-/**Function that checks the input date and gives a User response if date is incorrect
- * or missing.
- */
 function checkDate() {
     const inputBorder = document.getElementById("date");
     const resultDiv = document.getElementById("date-warning");
     
-    // Toggle has-value class for styling
+    updateDateInputStyling(inputBorder);
+    
+    if (!dateInput.value) {
+        showDateError(inputBorder, resultDiv, "This field is required.");
+        return;
+    }
+    if (!isCorrectDate(dateInput.value)) {
+        showDateError(inputBorder, resultDiv, "Date must be today or in the future");
+        return;
+    }
+    clearDateError(inputBorder, resultDiv);
+}
+
+function updateDateInputStyling(inputBorder) {
     if (dateInput.value) {
         inputBorder.classList.add("has-value");
     } else {
         inputBorder.classList.remove("has-value");
     }
-    
-    function show(msg) {
-        resultDiv.innerHTML = msg;
-        resultDiv.style.color = "#e60025";
-    }
-    
-    if (!dateInput.value) {
-        inputBorder.classList.add("invalid");
-        return show("This field is required.");
-    }
-    if (!isCorrectDate(dateInput.value)) {
-        inputBorder.classList.add("invalid");
-        return show("Date must be today or in the future");
-    }
+}
+
+function showDateError(inputBorder, resultDiv, msg) {
+    inputBorder.classList.add("invalid");
+    resultDiv.innerHTML = msg;
+    resultDiv.style.color = "#e60025";
+}
+
+function clearDateError(inputBorder, resultDiv) {
     inputBorder.classList.remove("invalid");
-    return show("");
+    resultDiv.innerHTML = "";
 }

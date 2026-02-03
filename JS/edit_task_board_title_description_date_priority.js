@@ -78,19 +78,19 @@ function resetPriorityButtons() {
         { id: 'medium-btn', imgId: 'medium-img', icon: 'medium.svg' },
         { id: 'low-btn', imgId: 'low-img', icon: 'low.svg' }
     ];
+    priorities.forEach(p => resetSinglePriorityButton(p));
+}
 
-    priorities.forEach(p => {
-        const btn = document.getElementById(p.id);
-        const img = document.getElementById(p.imgId);
-        if (btn && img) {
-            btn.style.backgroundColor = 'white';
-            btn.style.color = 'black';
-            img.src = `./assets/img/add_task/${p.icon}`;
-
-            btn.classList.remove('no-hover');
-            btn.style.cursor = 'pointer';
-        }
-    });
+function resetSinglePriorityButton(priority) {
+    const btn = document.getElementById(priority.id);
+    const img = document.getElementById(priority.imgId);
+    if (btn && img) {
+        btn.style.backgroundColor = 'white';
+        btn.style.color = 'black';
+        img.src = `./assets/img/add_task/${priority.icon}`;
+        btn.classList.remove('no-hover');
+        btn.style.cursor = 'pointer';
+    }
 }
 
 // Functions to reset individual edit priority buttons to normal state
@@ -148,22 +148,24 @@ function editCheckDate() {
 
     if (!inputBorder || !resultDiv) return true;
     
-    function show(msg) {
-        resultDiv.innerHTML = msg;
-        resultDiv.style.color = "#e60025";
-    }
-
     if (!inputBorder.value) {
-        inputBorder.classList.add("invalid");
-        show("This field is required.");
-        return true;
+        return showEditDateError(inputBorder, resultDiv, "This field is required.");
     }
     if (!editIsCorrectDate(inputBorder.value)) {
-        inputBorder.classList.add("invalid");
-        show("Date must be today or in the future");
-        return true;
+        return showEditDateError(inputBorder, resultDiv, "Date must be today or in the future");
     }
+    return clearEditDateError(inputBorder, resultDiv);
+}
+
+function showEditDateError(inputBorder, resultDiv, msg) {
+    inputBorder.classList.add("invalid");
+    resultDiv.innerHTML = msg;
+    resultDiv.style.color = "#e60025";
+    return true;
+}
+
+function clearEditDateError(inputBorder, resultDiv) {
     inputBorder.classList.remove("invalid");
-    show("");
+    resultDiv.innerHTML = "";
     return false;
 }
