@@ -1,18 +1,11 @@
-import { auth, db } from "./firebaseAuth.js";
-
-import {
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    signOut,
-    signInAnonymously
-} from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
+import { db } from "./firebaseAuth.js";
 
 import {
     ref,
     push,
-    set
+    set,
+    get,
+    child
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 const name = document.getElementById("signup-name");
@@ -21,125 +14,198 @@ const pw = document.getElementById("signup-password");
 const pwRepeat = document.getElementById("signup-password-repeat");
 const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
-let manualLogin = false;
+
+// Generate unique user ID
+function generateUserId() {
+    return 'user_' + Date.now();
+}
+
+// Helper: Get users from Firebase DB or localStorage as fallback
+async function getUsersFromDB() {
+    try {
+        return await fetchUsersFromFirebase();
+    } catch (error) {
+        return getUsersFromLocalStorage();
+    }
+}
+
+async function fetchUsersFromFirebase() {
+    const usersRef = ref(db, 'users');
+    const snapshot = await get(usersRef);
+    if (snapshot.exists()) {
+        const usersObj = snapshot.val();
+        return Object.keys(usersObj).map(key => ({
+            firebaseKey: key,
+            ...usersObj[key]
+        }));
+    }
+    return [];
+}
+
+function getUsersFromLocalStorage() {
+    const usersData = localStorage.getItem('join_users');
+    return usersData ? JSON.parse(usersData) : [];
+}
+
+// Helper: Save user to Firebase DB or localStorage as fallback
+async function saveUserToDB(userData) {
+    try {
+        const newUserRef = push(ref(db, "users"));
+        await set(newUserRef, userData);
+        return newUserRef.key;
+    } catch (error) {
+        const users = JSON.parse(localStorage.getItem('join_users') || '[]');
+        users.push(userData);
+        localStorage.setItem('join_users', JSON.stringify(users));
+        return userData.uid;
+    }
+}
+
+// Helper: Get current user
+function getCurrentUser() {
+    const userData = localStorage.getItem('join_current_user');
+    return userData ? JSON.parse(userData) : null;
+}
+
+// Helper: Set current user
+function setCurrentUser(user) {
+    localStorage.setItem('join_current_user', JSON.stringify(user));
+    dispatchUserEvent(user);
+}
+
+// Helper: Clear current user
+function clearCurrentUser() {
+    localStorage.removeItem('join_current_user');
+}
+
+// Dispatch user ready event
+function dispatchUserEvent(user) {
+    const eventType = user.isGuest ? "guestUser" : "userReady";
+    const eventDetail = getEventDetail(user);
+    const event = new CustomEvent(eventType, { detail: eventDetail });
+    window.dispatchEvent(event);
+    updatePersonIcon(user.name);
+}
+
+function getEventDetail(user) {
+    return user.isGuest 
+        ? { name: user.name, uid: user.uid } 
+        : { name: user.name, email: user.email, uid: user.uid };
+}
+
+function updatePersonIcon(userName) {
+    const icon = document.getElementById("personIcon");
+    if (icon) icon.textContent = getFirstAndLastInitial(userName);
+}
+
+// Check auth state on page load
+function checkAuthState() {
+    const user = getCurrentUser();
+    if (user) {
+        dispatchUserEvent(user);
+    } else {
+        const event = new CustomEvent("guestUser", { detail: { name: 'Guest' }});
+        window.dispatchEvent(event);
+    }
+}
+
+// Run auth check when page is fully loaded (after all scripts)
+window.addEventListener('load', () => {
+    checkAuthState();
+});
 
 // LOGIN 
-function loginUser() {
+async function loginUser() {
     const emailInput = document.getElementById("login-mail");
     const passwordInput = document.getElementById("login-password");
     const errorMsg = document.querySelector(".false_password");
 
     if (errorMsg) errorMsg.classList.remove("show");
 
-    signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-        .then((userCredential) => {
-            manualLogin = true;
-            sessionStorage.setItem('showSummaryGreeting', 'true');
-            sessionStorage.setItem('guestMode', 'false');
-            window.location.href = "summary.html";
-        })
-        .catch((error) => {
-            manualLogin = false;
-            if (errorMsg) errorMsg.classList.add("show");
-            return;
-        });
+    const users = await getUsersFromDB();
+    const user = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
+
+    if (user) {
+        handleSuccessfulLogin(user, emailInput, passwordInput);
+    } else {
+        handleFailedLogin(emailInput, passwordInput, errorMsg);
+    }
+}
+
+function handleSuccessfulLogin(user, emailInput, passwordInput) {
+    emailInput.classList.remove("invalid");
+    passwordInput.classList.remove("invalid");
+    setCurrentUser({
+        name: user.name,
+        email: user.email,
+        uid: user.uid,
+        isGuest: false
+    });
+    sessionStorage.setItem('showSummaryGreeting', 'true');
+    sessionStorage.setItem('guestMode', 'false');
+    window.location.href = "summary.html";
+}
+
+function handleFailedLogin(emailInput, passwordInput, errorMsg) {
+    emailInput.classList.add("invalid");
+    passwordInput.classList.add("invalid");
+    if (errorMsg) errorMsg.classList.add("show");
 }
 
 // GUEST LOGIN
-async function guestLogin() {
-  try {
-    const userCredential = await signInAnonymously(auth);
-    // optional: setze lokales Display-Name-Fallback (updateProfile kann bei some setups fehlschlagen)
-    try {
-      await updateProfile(userCredential.user, { displayName: "Guest" });
-    } catch (e) {
-      // kein Showstopper — wir können local fallback nutzen
-      console.debug("updateProfile for anonymous user failed (non-fatal):", e);
-    }
-
-    // markiere guest-mode (für UI-Logik)
+function guestLogin() {
+    const guestUser = {
+        name: "Guest",
+        uid: generateUserId(),
+        isGuest: true
+    };
+    setCurrentUser(guestUser);
     sessionStorage.setItem('guestMode', 'true');
     sessionStorage.setItem('showSummaryGreeting', 'true');
-
-    // Weiterleitung zur Board/summary Seite
     window.location.href = "summary.html";
-  } catch (error) {
-    console.error("Guest sign-in failed:", error);
-    alert("Gast-Login fehlgeschlagen. Bitte versuche es später erneut.");
-  }
 }
 
-// AUTH STATE:
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    if (user.isAnonymous) {
-      const event = new CustomEvent("guestUser", {
-        detail: { name: user.displayName || "Guest", uid: user.uid }
-      });
-      window.dispatchEvent(event);
-      // set initial/icon etc. (wie bei guestUser weiter unten)
-      const icon = document.getElementById("personIcon");
-      if (icon) icon.textContent = getFirstAndLastInitial(user.displayName || "Guest");
-    } else {
-      const event = new CustomEvent("userReady", {
-        detail: { name: user.displayName, email: user.email, uid: user.uid }
-      });
-      window.dispatchEvent(event);
-      const icon = document.getElementById("personIcon");
-      if (icon) icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
-    }
-  } else {
-    // kein angemeldeter Nutzer
-    const event = new CustomEvent("guestUser", { detail: { name: 'Guest' }});
-    window.dispatchEvent(event);
-  }
-});
-
-async function logoutUser() {
-  try {
-    const user = auth.currentUser;
-    await signOut(auth);
-    if (user && user.isAnonymous) {
-      try {
-        await user.delete();
-      } catch (e) {
-        console.debug("Anonymous account delete failed (non-fatal):", e);
-      }
-    }
+function logoutUser() {
+    clearCurrentUser();
+    sessionStorage.removeItem('guestMode');
+    sessionStorage.removeItem('showSummaryGreeting');
     window.location.href = "index.html";
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
 }
 
 // Sign up
 export async function registerUser() {
     const isInputValid = confirmInput();
+    if (!isInputValid) return;
+    
+    const users = await getUsersFromDB();
+    if (isEmailTaken(users)) return;
+    
+    await createAndSaveNewUser();
+}
 
-    if (isInputValid) {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email.value, pw.value);
-            const user = userCredential.user;
+function isEmailTaken(users) {
+    if (users.find(u => u.email === email.value)) {
+        alert("Diese Email wird bereits verwendet.");
+        email.classList.add('invalid');
+        return true;
+    }
+    return false;
+}
 
-            await updateProfile(user, {
-                displayName: name.value
-            });
+async function createAndSaveNewUser() {
+    const uid = generateUserId();
+    const newUser = {
+        uid: uid,
+        name: name.value,
+        email: email.value,
+        password: pw.value
+    };
 
-            const newUserRef = push(ref(db, "users"));
-            await set(newUserRef, {
-                name: name.value,
-                email: email.value
-            });
-            window.location.href = "index.html";
-
-        } catch (error) {
-            if (error.code === "auth/email-already-in-use") {
-                alert("Diese Email wird bereits verwendet.");
-                email.classList.add('invalid');
-            } else {
-                alert("Ein Fehler ist aufgetreten: " + error.message);
-            }
-        }
+    try {
+        await saveUserToDB(newUser);
+        window.location.href = "index.html";
+    } catch (error) {
+        alert("Ein Fehler ist aufgetreten: " + error.message);
     }
 }
 
@@ -148,10 +214,12 @@ function setPasswordRepeatError(message, text) {
         message.innerHTML = text;
         message.classList.add("show");
     }
+    pw.classList.add("invalid");
     pwRepeat.classList.add("invalid");
 }
 
 function clearPasswordRepeatError(message) {
+    pw.classList.remove("invalid");
     pwRepeat.classList.remove("invalid");
     if (message) message.classList.remove("show");
 }
