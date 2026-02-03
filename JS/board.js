@@ -1,6 +1,14 @@
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
 closeBtn.addEventListener('click', addTaskOverlayClose);
+
+// Close overlay when clicking outside content section
+addTaskOverlay.addEventListener('click', function(e) {
+    if (e.target === addTaskOverlay) {
+        addTaskOverlayClose();
+    }
+});
+
 const ToDo = document.getElementById('todo-tiles');
 const InProgress = document.getElementById('progress-tiles');
 const Awaiting = document.getElementById('feedback-tiles');
