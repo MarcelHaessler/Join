@@ -132,29 +132,31 @@ function renderUrgentDueDate(tasks) {
         return;
     }
 
-    const dates = Object.values(tasks)
+    const dates = getUrgentTaskDates(tasks);
+    displayEarliestDate(el, dates);
+}
+
+function getUrgentTaskDates(tasks) {
+    return Object.values(tasks)
         .filter(task => (task?.priority ?? '').toString().trim().toLowerCase() === 'urgent' && task.date)
-        .map(task => {
-            const v = task.date;
-
-            // Expecting DD/MM/YYYY (e.g. 22/01/2026)
-            if (typeof v === 'string' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(v.trim())) {
-                const [dd, mm, yyyy] = v.trim().split('/').map(Number);
-                return new Date(yyyy, mm - 1, dd);
-            }
-
-            // fallback
-            return new Date(v);
-        })
+        .map(task => parseTaskDate(task.date))
         .filter(date => !isNaN(date.getTime()))
         .sort((a, b) => a - b);
+}
 
+function parseTaskDate(dateValue) {
+    if (typeof dateValue === 'string' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateValue.trim())) {
+        const [dd, mm, yyyy] = dateValue.trim().split('/').map(Number);
+        return new Date(yyyy, mm - 1, dd);
+    }
+    return new Date(dateValue);
+}
+
+function displayEarliestDate(el, dates) {
     if (dates.length === 0) {
         el.textContent = '-';
         return;
     }
-
-    // US format: January 1, 2026
     el.textContent = dates[0].toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -163,28 +165,40 @@ function renderUrgentDueDate(tasks) {
 }
 
 async function loadSummaryCounts() {
-    const isGreetingActive = typeof window.initMobileGreeting === 'function' && window.initMobileGreeting();
+    const isGreetingActive = checkGreetingActive();
     if (!isGreetingActive && typeof window.showLoader === 'function') {
         window.showLoader();
     }
 
     try {
-        const tasks = await fetchAllTasks();
-        renderBoardCount(tasks);
-        renderTodoCount(tasks);
-        renderDoneCount(tasks);
-        renderProgressCount(tasks);
-        renderFeedbackCount(tasks);
-        renderUrgentCount(tasks);
-        renderUrgentDueDate(tasks);
+        await updateAllCounts();
     } catch (error) {
         // Silent error handling
     } finally {
-        if (isGreetingActive && typeof window.finishMobileGreeting === 'function') {
-            window.finishMobileGreeting();
-        } else if (typeof window.hideLoader === 'function') {
-            window.hideLoader();
-        }
+        handleLoadingComplete(isGreetingActive);
+    }
+}
+
+function checkGreetingActive() {
+    return typeof window.initMobileGreeting === 'function' && window.initMobileGreeting();
+}
+
+async function updateAllCounts() {
+    const tasks = await fetchAllTasks();
+    renderBoardCount(tasks);
+    renderTodoCount(tasks);
+    renderDoneCount(tasks);
+    renderProgressCount(tasks);
+    renderFeedbackCount(tasks);
+    renderUrgentCount(tasks);
+    renderUrgentDueDate(tasks);
+}
+
+function handleLoadingComplete(isGreetingActive) {
+    if (isGreetingActive && typeof window.finishMobileGreeting === 'function') {
+        window.finishMobileGreeting();
+    } else if (typeof window.hideLoader === 'function') {
+        window.hideLoader();
     }
 }
 

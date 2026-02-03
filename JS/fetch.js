@@ -112,8 +112,7 @@ async function fetchContacts() {
     contacts = [];
     try {
         const [usersSnapshot, contactSnapshot] = await fetchSnapshots();
-        processData(usersSnapshot, 'users');
-        processData(contactSnapshot, 'contact');
+        processContactData(usersSnapshot, contactSnapshot);
         enhanceContacts();
     } catch (error) {
         // Silent error handling
@@ -121,6 +120,11 @@ async function fetchContacts() {
         hideLoader();
     }
     return contacts;
+}
+
+function processContactData(usersSnapshot, contactSnapshot) {
+    processData(usersSnapshot, 'users');
+    processData(contactSnapshot, 'contact');
 }
 
 async function fetchSnapshots() {

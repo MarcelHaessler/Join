@@ -276,17 +276,24 @@ async function removeContactFromTasks(contactId) {
 
     if (snapshot.exists()) {
         const tasks = snapshot.val();
-        for (let taskId in tasks) {
-            let task = tasks[taskId];
-            if (task.assignedPersons) {
-                const originalLength = task.assignedPersons.length;
-                task.assignedPersons = task.assignedPersons.filter(p => p.id !== contactId);
+        await updateAllTasksRemoveContact(tasks, contactId);
+    }
+}
 
-                if (task.assignedPersons.length !== originalLength) {
-                    const taskRef = ref(db, `tasks/${taskId}`);
-                    await update(taskRef, { assignedPersons: task.assignedPersons });
-                }
-            }
+async function updateAllTasksRemoveContact(tasks, contactId) {
+    for (let taskId in tasks) {
+        await removeContactFromSingleTask(tasks[taskId], taskId, contactId);
+    }
+}
+
+async function removeContactFromSingleTask(task, taskId, contactId) {
+    if (task.assignedPersons) {
+        const originalLength = task.assignedPersons.length;
+        task.assignedPersons = task.assignedPersons.filter(p => p.id !== contactId);
+
+        if (task.assignedPersons.length !== originalLength) {
+            const taskRef = ref(db, `tasks/${taskId}`);
+            await update(taskRef, { assignedPersons: task.assignedPersons });
         }
     }
 }

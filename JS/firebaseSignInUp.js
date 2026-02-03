@@ -23,20 +23,28 @@ function generateUserId() {
 // Helper: Get users from Firebase DB or localStorage as fallback
 async function getUsersFromDB() {
     try {
-        const usersRef = ref(db, 'users');
-        const snapshot = await get(usersRef);
-        if (snapshot.exists()) {
-            const usersObj = snapshot.val();
-            return Object.keys(usersObj).map(key => ({
-                firebaseKey: key,
-                ...usersObj[key]
-            }));
-        }
-        return [];
+        return await fetchUsersFromFirebase();
     } catch (error) {
-        const usersData = localStorage.getItem('join_users');
-        return usersData ? JSON.parse(usersData) : [];
+        return getUsersFromLocalStorage();
     }
+}
+
+async function fetchUsersFromFirebase() {
+    const usersRef = ref(db, 'users');
+    const snapshot = await get(usersRef);
+    if (snapshot.exists()) {
+        const usersObj = snapshot.val();
+        return Object.keys(usersObj).map(key => ({
+            firebaseKey: key,
+            ...usersObj[key]
+        }));
+    }
+    return [];
+}
+
+function getUsersFromLocalStorage() {
+    const usersData = localStorage.getItem('join_users');
+    return usersData ? JSON.parse(usersData) : [];
 }
 
 // Helper: Save user to Firebase DB or localStorage as fallback
@@ -72,21 +80,22 @@ function clearCurrentUser() {
 
 // Dispatch user ready event
 function dispatchUserEvent(user) {
-    if (user.isGuest) {
-        const event = new CustomEvent("guestUser", {
-            detail: { name: user.name, uid: user.uid }
-        });
-        window.dispatchEvent(event);
-        const icon = document.getElementById("personIcon");
-        if (icon) icon.textContent = getFirstAndLastInitial(user.name);
-    } else {
-        const event = new CustomEvent("userReady", {
-            detail: { name: user.name, email: user.email, uid: user.uid }
-        });
-        window.dispatchEvent(event);
-        const icon = document.getElementById("personIcon");
-        if (icon) icon.textContent = getFirstAndLastInitial(user.name);
-    }
+    const eventType = user.isGuest ? "guestUser" : "userReady";
+    const eventDetail = getEventDetail(user);
+    const event = new CustomEvent(eventType, { detail: eventDetail });
+    window.dispatchEvent(event);
+    updatePersonIcon(user.name);
+}
+
+function getEventDetail(user) {
+    return user.isGuest 
+        ? { name: user.name, uid: user.uid } 
+        : { name: user.name, email: user.email, uid: user.uid };
+}
+
+function updatePersonIcon(userName) {
+    const icon = document.getElementById("personIcon");
+    if (icon) icon.textContent = getFirstAndLastInitial(userName);
 }
 
 // Check auth state on page load
@@ -117,22 +126,30 @@ async function loginUser() {
     const user = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
     if (user) {
-        emailInput.classList.remove("invalid");
-        passwordInput.classList.remove("invalid");
-        setCurrentUser({
-            name: user.name,
-            email: user.email,
-            uid: user.uid,
-            isGuest: false
-        });
-        sessionStorage.setItem('showSummaryGreeting', 'true');
-        sessionStorage.setItem('guestMode', 'false');
-        window.location.href = "summary.html";
+        handleSuccessfulLogin(user, emailInput, passwordInput);
     } else {
-        emailInput.classList.add("invalid");
-        passwordInput.classList.add("invalid");
-        if (errorMsg) errorMsg.classList.add("show");
+        handleFailedLogin(emailInput, passwordInput, errorMsg);
     }
+}
+
+function handleSuccessfulLogin(user, emailInput, passwordInput) {
+    emailInput.classList.remove("invalid");
+    passwordInput.classList.remove("invalid");
+    setCurrentUser({
+        name: user.name,
+        email: user.email,
+        uid: user.uid,
+        isGuest: false
+    });
+    sessionStorage.setItem('showSummaryGreeting', 'true');
+    sessionStorage.setItem('guestMode', 'false');
+    window.location.href = "summary.html";
+}
+
+function handleFailedLogin(emailInput, passwordInput, errorMsg) {
+    emailInput.classList.add("invalid");
+    passwordInput.classList.add("invalid");
+    if (errorMsg) errorMsg.classList.add("show");
 }
 
 // GUEST LOGIN
@@ -158,31 +175,37 @@ function logoutUser() {
 // Sign up
 export async function registerUser() {
     const isInputValid = confirmInput();
+    if (!isInputValid) return;
+    
+    const users = await getUsersFromDB();
+    if (isEmailTaken(users)) return;
+    
+    await createAndSaveNewUser();
+}
 
-    if (isInputValid) {
-        const users = await getUsersFromDB();
-        
-        // Check if email already exists
-        if (users.find(u => u.email === email.value)) {
-            alert("Diese Email wird bereits verwendet.");
-            email.classList.add('invalid');
-            return;
-        }
+function isEmailTaken(users) {
+    if (users.find(u => u.email === email.value)) {
+        alert("Diese Email wird bereits verwendet.");
+        email.classList.add('invalid');
+        return true;
+    }
+    return false;
+}
 
-        const uid = generateUserId();
-        const newUser = {
-            uid: uid,
-            name: name.value,
-            email: email.value,
-            password: pw.value
-        };
+async function createAndSaveNewUser() {
+    const uid = generateUserId();
+    const newUser = {
+        uid: uid,
+        name: name.value,
+        email: email.value,
+        password: pw.value
+    };
 
-        try {
-            await saveUserToDB(newUser);
-            window.location.href = "index.html";
-        } catch (error) {
-            alert("Ein Fehler ist aufgetreten: " + error.message);
-        }
+    try {
+        await saveUserToDB(newUser);
+        window.location.href = "index.html";
+    } catch (error) {
+        alert("Ein Fehler ist aufgetreten: " + error.message);
     }
 }
 

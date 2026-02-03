@@ -71,33 +71,48 @@ function updatePasswordMessage() {
     const message = document.getElementById('password_repeat_message');
     
     if (!passwordInput || !confirmPasswordInput || !message) return;
-    
     if (confirmPasswordInput.value === '') {
-        message.classList.remove('show');
-        confirmPasswordInput.classList.remove('invalid');
+        clearPasswordValidation(message, confirmPasswordInput);
         return;
     }
-    
+    validatePasswordMatch(passwordInput, confirmPasswordInput, message);
+}
+
+function clearPasswordValidation(message, confirmPasswordInput) {
+    message.classList.remove('show');
+    confirmPasswordInput.classList.remove('invalid');
+}
+
+function validatePasswordMatch(passwordInput, confirmPasswordInput, message) {
     const isPwCriteriaValid = passwordRegex.test(passwordInput.value);
     const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
     
     if (!isPwCriteriaValid) {
-        // Passwort-Kriterien nicht erfüllt
-        message.innerHTML = "Password requirements not met.";
-        message.classList.add('show');
-        confirmPasswordInput.classList.add('invalid');
+        showPasswordError(message, confirmPasswordInput, "Password requirements not met.");
     } else if (!passwordsMatch) {
-        // Kriterien erfüllt, aber Passwörter stimmen nicht überein
-        message.innerHTML = "Passwords does not match, please try again.";
-        message.classList.add('show');
-        passwordInput.classList.add('invalid');
-        confirmPasswordInput.classList.add('invalid');
+        showPasswordMismatchError(message, passwordInput, confirmPasswordInput);
     } else {
-        // Alles korrekt
-        message.classList.remove('show');
-        passwordInput.classList.remove('invalid');
-        confirmPasswordInput.classList.remove('invalid');
+        clearAllPasswordErrors(message, passwordInput, confirmPasswordInput);
     }
+}
+
+function showPasswordError(message, input, text) {
+    message.innerHTML = text;
+    message.classList.add('show');
+    input.classList.add('invalid');
+}
+
+function showPasswordMismatchError(message, passwordInput, confirmPasswordInput) {
+    message.innerHTML = "Passwords does not match, please try again.";
+    message.classList.add('show');
+    passwordInput.classList.add('invalid');
+    confirmPasswordInput.classList.add('invalid');
+}
+
+function clearAllPasswordErrors(message, passwordInput, confirmPasswordInput) {
+    message.classList.remove('show');
+    passwordInput.classList.remove('invalid');
+    confirmPasswordInput.classList.remove('invalid');
 }
 
 function validateName(name, input) {

@@ -51,40 +51,47 @@ window.addEventListener("tasksLoaded", () => {
 
 function updateBoard() {
     const tasks = window.tasks || [];
-    console.log('updateBoard() called, tasks count:', tasks.length);
-    console.log('Tasks array:', tasks.map(t => ({ id: t.id, title: t.title, group: t.taskgroup })));
     
     let searchTerm = document.getElementById('search-tasks-input').value.toLowerCase();
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
 
     statuses.forEach(status => {
-        let filteredTasks = tasks.filter(t =>
-            t['taskgroup'] == status &&
-            (t.title.toLowerCase().includes(searchTerm) || t.description.toLowerCase().includes(searchTerm))
-        );
-
-        console.log(`${status}: ${filteredTasks.length} tasks`);
-
-        let container = document.getElementById(status);
-        if (!container) {
-            console.error(`Container ${status} not found!`);
-            return;
-        }
-        container.innerHTML = '';
-
-        if (filteredTasks.length === 0) {
-            if (searchTerm) {
-                container.innerHTML = `<p class="no-tasks-message">No results found</p>`;
-            } else {
-                container.innerHTML = `<p class="no-tasks-message">No tasks</p>`;
-            }
-            return;
-        }
-
-        filteredTasks.forEach(element => {
-            container.innerHTML += generateTodoHTML(element);
-        });
+        updateBoardStatus(status, tasks, searchTerm);
     });
+}
+
+function updateBoardStatus(status, tasks, searchTerm) {
+    let filteredTasks = filterTasksByStatus(status, tasks, searchTerm);
+    
+    let container = document.getElementById(status);
+    if (!container) {
+        return;
+    }
+    renderTasksInContainer(container, filteredTasks, searchTerm);
+}
+
+function filterTasksByStatus(status, tasks, searchTerm) {
+    return tasks.filter(t =>
+        t['taskgroup'] == status &&
+        (t.title.toLowerCase().includes(searchTerm) || t.description.toLowerCase().includes(searchTerm))
+    );
+}
+
+function renderTasksInContainer(container, filteredTasks, searchTerm) {
+    container.innerHTML = '';
+    
+    if (filteredTasks.length === 0) {
+        container.innerHTML = getNoTasksMessage(searchTerm);
+        return;
+    }
+    
+    filteredTasks.forEach(element => {
+        container.innerHTML += generateTodoHTML(element);
+    });
+}
+
+function getNoTasksMessage(searchTerm) {
+    return searchTerm ? `<p class="no-tasks-message">No results found</p>` : `<p class="no-tasks-message">No tasks</p>`;
 }
 
 function startDragging(id, event) {
@@ -175,38 +182,43 @@ function moveToFromMobile(event, taskId, targetStatus) {
 //Firebase-Update-Funktion
 async function updateTask(task) {
     try {
-        const taskRef = ref(db, `tasks/${task.id}`);
-
-        const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-
-        await update(taskRef, {
-            title: task.title || '',
-            description: task.description || '',
-            date: task.date || '',
-            priority: task.priority || '',
-            assignedPersons: task.assignedPersons || [],
-            category: task.category || '',
-            taskgroup: task.taskgroup,
-            subtasks: subtasks.map(s => ({
-                text: s.text || '',
-                subtaskComplete: !!s.subtaskComplete
-            }))
-        });
+        await updateTaskInFirebase(task);
         updateBoard();
     } catch (error) {
-        // Fallback to localStorage
-        const tasksData = localStorage.getItem('join_tasks');
-        if (tasksData) {
-            let localTasks = JSON.parse(tasksData);
-            const index = localTasks.findIndex(t => t.id === task.id);
-            if (index !== -1) {
-                localTasks[index] = task;
-                localStorage.setItem('join_tasks', JSON.stringify(localTasks));
-                // Update window.tasks
-                window.tasks = localTasks;
-            }
-        }
+        updateTaskInLocalStorage(task);
         updateBoard();
+    }
+}
+
+async function updateTaskInFirebase(task) {
+    const taskRef = ref(db, `tasks/${task.id}`);
+    const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+
+    await update(taskRef, {
+        title: task.title || '',
+        description: task.description || '',
+        date: task.date || '',
+        priority: task.priority || '',
+        assignedPersons: task.assignedPersons || [],
+        category: task.category || '',
+        taskgroup: task.taskgroup,
+        subtasks: subtasks.map(s => ({
+            text: s.text || '',
+            subtaskComplete: !!s.subtaskComplete
+        }))
+    });
+}
+
+function updateTaskInLocalStorage(task) {
+    const tasksData = localStorage.getItem('join_tasks');
+    if (tasksData) {
+        let localTasks = JSON.parse(tasksData);
+        const index = localTasks.findIndex(t => t.id === task.id);
+        if (index !== -1) {
+            localTasks[index] = task;
+            localStorage.setItem('join_tasks', JSON.stringify(localTasks));
+            window.tasks = localTasks;
+        }
     }
 }
 
@@ -273,54 +285,86 @@ function editTask(taskId) {
     const tasks = window.tasks || [];
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
+    
+    storeTaskData(task);
+    displayEditOverlay(task, taskId);
+    initializeEditComponents(task);
+}
+
+function storeTaskData(task) {
     editedTitle = task.title;
     editedDescription = task.description;
     editedDueDate = task.date;
+}
+
+function displayEditOverlay(task, taskId) {
     let overlay = document.getElementById('task_card_overlay');
     overlay.innerHTML = generateEditTaskHTML(task, taskId);
+}
+
+function initializeEditComponents(task) {
     setTimeout(() => {
-        checkTaskPriority(task.priority);
-        window.currentPriority = task.priority;
-        fillEditAssignmentDropdown();
-        editAddInitialsBackgroundColors();
-        const editDateInput = document.getElementById('edit-date');
-        if (editDateInput) {
-            editDateInput.addEventListener('blur', editCheckDate);
-        }
-        requestAnimationFrame(() => {
-            activateAddedContacts(task);
-            editRenderSelectedContacts();
-            activateChosenCategory(task);
-            showExistingSubtasks(task);
-        });
+        setupEditPriority(task);
+        setupEditAssignments(task);
+        setupEditDateValidation();
+        finalizeEditSetup(task);
     }, 10);
+}
+
+function setupEditPriority(task) {
+    checkTaskPriority(task.priority);
+    window.currentPriority = task.priority;
+}
+
+function setupEditAssignments(task) {
+    fillEditAssignmentDropdown();
+    editAddInitialsBackgroundColors();
+}
+
+function setupEditDateValidation() {
+    const editDateInput = document.getElementById('edit-date');
+    if (editDateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        editDateInput.setAttribute('min', today);
+        editDateInput.addEventListener('blur', editCheckDate);
+    }
+}
+
+function finalizeEditSetup(task) {
+    requestAnimationFrame(() => {
+        activateAddedContacts(task);
+        editRenderSelectedContacts();
+        activateChosenCategory(task);
+        showExistingSubtasks(task);
+    });
 }
 
 //Function that saves all edited task data and updates the task in the board
 function saveEditedTask(taskId) {
-    if (editCheckDate() === true) {
-        return;
-    }
+    if (editCheckDate() === true) return;
+    
     editedTaskDetails();
     const tasks = window.tasks || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
-    tasks[taskIndex].title = editedTitle;
-    tasks[taskIndex].description = editedDescription;
-    tasks[taskIndex].date = editedDueDate;
-    tasks[taskIndex].priority = editedPriority;
-    tasks[taskIndex].assignedPersons = editSelectedContacts;
-    tasks[taskIndex].category = editedCategory;
+    
+    updateTaskWithEditedData(tasks[taskIndex]);
+    updateTask(tasks[taskIndex]);
+    updateBoard();
+    setTimeout(() => openTaskCardFromEdit(taskId), 300);
+}
 
-    tasks[taskIndex].subtasks = editedSubtaskListArray.map(obj => ({
+function updateTaskWithEditedData(task) {
+    task.title = editedTitle;
+    task.description = editedDescription;
+    task.date = editedDueDate;
+    task.priority = editedPriority;
+    task.assignedPersons = editSelectedContacts;
+    task.category = editedCategory;
+    task.subtasks = editedSubtaskListArray.map(obj => ({
         text: obj.text,
         subtaskComplete: !!obj.subtaskComplete
     }));
-    updateTask(tasks[taskIndex]);
-    updateBoard();
-    setTimeout(() => {
-        openTaskCardFromEdit(taskId);
-    }, 300);
 }
 
 function editedTaskDetails() {

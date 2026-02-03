@@ -44,22 +44,40 @@ function putSelfOnFirstPlace(username) {
 }
 
 function checkFullfilledRequirements() {
-    let taskTitle = document.getElementById('title').value;
-    let taskDescription = document.getElementById('description').value;
-    let taskDueDate = document.getElementById('date').value;
-    let taskPriority = currentPriotity;
-    let taskCategory = currentCategory;
-    let taskAssignments = selectedContacts;
-    let taskSubtasks = subtaskListArray || [];
+    let taskData = collectTaskData();
 
-    if (taskTitle === '' || taskDescription === '' || taskDueDate === '' || currentCategory === '') {
-        checkTitle();
-        checkDescription();
-        checkDate();
-        checkCategory();
-        return
+    if (hasEmptyRequiredFields(taskData)) {
+        showValidationWarnings();
+        return;
     }
-    uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
+    processTaskCreation(taskData);
+}
+
+function collectTaskData() {
+    return {
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        dueDate: document.getElementById('date').value,
+        priority: currentPriotity,
+        category: currentCategory,
+        assignments: selectedContacts,
+        subtasks: subtaskListArray || []
+    };
+}
+
+function hasEmptyRequiredFields(taskData) {
+    return taskData.title === '' || taskData.description === '' || taskData.dueDate === '' || currentCategory === '';
+}
+
+function showValidationWarnings() {
+    checkTitle();
+    checkDescription();
+    checkDate();
+    checkCategory();
+}
+
+function processTaskCreation(taskData) {
+    uploadTask(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.category, taskgroup, taskData.assignments, taskData.subtasks);
     clearTask();
     userResponseMessage();
     setTimeout(goToBoard, 500);
@@ -84,24 +102,37 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
 }
 
 function clearTask() {
+    clearInputFields();
+    resetPriority();
+    resetContacts();
+    resetSubtasks();
+    clearWarnings();
+}
+
+function clearInputFields() {
     document.getElementById('title').value = '';
     document.getElementById('description').value = '';
     document.getElementById('date').value = '';
     document.getElementById('category').value = '';
     currentCategory = '';
+}
 
+function resetPriority() {
     currentPriotity = 'medium';
     defaultPriority();
+}
 
+function resetContacts() {
     selectedContacts = [];
     renderSelectedContacts();
     resetAssignmentSelection();
+}
 
+function resetSubtasks() {
     subtaskListArray = [];
     subtaskIndex = 0;
     document.getElementById('subtask-list').innerHTML = '';
     document.getElementById('subtasks').value = '';
-    clearWarnings();
 }
 
 function resetAssignmentSelection() {
