@@ -121,6 +121,7 @@ textarea {
     width: 312px;
     height: 48px;
     font-size: 20px;
+    font-family: 'Inter', sans-serif;
     border-radius: 10px;
     border: 1px solid rgba(209, 209, 209, 1);
     padding: 0 20px 0 20px;
@@ -134,6 +135,15 @@ textarea {
 input::placeholder,
 textarea::placeholder {
     color: var(--ligthGrey);
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
+    color: black;
 }
 
 
@@ -571,6 +581,7 @@ textarea {
 #board-task-content-section {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 80vh;
     width: 80%;
     background-color: var(--contrastColor);
@@ -579,15 +590,17 @@ textarea {
     overflow: hidden;
     transition: transform 0.4s ease-in-out;
     box-sizing: border-box;
+    max-height: 1080px !important;
+    max-width: 1360px !important;
 }
 
 #top-section {
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
     overflow: hidden;
-    height: 80px;
     width: 100% !important;
+    max-width: 100% !important;
+    max-height: 1440px !important;
 }
 
 #form-container {
@@ -603,12 +616,23 @@ textarea {
     flex: 0 0 auto;
     margin-bottom: 0 !important;
     margin-top: 40px;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-right: 40px;
 }
 
 @media (max-width: 1100px) {
     .priority-buttons {
         font-size: 16px !important;
     }
+
+    #top-section {
+        padding: 8px !important;
+    }
+
+    #bottom-section {
+    padding: 8px !important;
+}
 }
 
 @media (max-width: 900px) {

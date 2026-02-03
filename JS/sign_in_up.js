@@ -12,52 +12,102 @@ function activateCheckbox() {
     }
 }
 
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => {
-        if (input.placeholder === 'Name') {validateName(input.value, input);} 
-        else if (input.type === 'email') {validateEmail(input.value, input);} 
-        else if (input.placeholder === 'Password' && input.id !== 'login-password') {validatePassword(input.value, input);} 
-        else if (input.placeholder === 'Confirm Password') {
-            validateConfirmPassword(input.value, input);
-            updatePasswordMessage();
+function handleBlur(input) {
+    if (input.placeholder === 'Name') validateName(input.value, input);
+    else if (input.type === 'email') {
+        if (input.id === 'login-mail') {
+            validateLoginEmail(input.value, input);
+        } else {
+            validateEmail(input.value, input);
         }
+    }
+    else if (input.placeholder === 'Password' && input.id !== 'login-password') validatePassword(input.value, input);
+    else if (input.placeholder === 'Confirm Password') {
+        validateConfirmPassword(input.value, input);
+        updatePasswordMessage();
+    } else {
+        input.addEventListener('input', () => validateEmail(input.value, input));
+    }
+}
+
+function addEmailInputListener(input) {
+    if (input.id === 'login-mail') {
+        input.addEventListener('input', () => validateLoginEmail(input.value, input));
+    } else {
+        input.addEventListener('input', () => validateEmail(input.value, input));
+    }
+}
+
+function addPasswordInputListener(input) {
+    input.addEventListener('input', () => validatePassword(input.value, input));
+}
+
+function addConfirmPasswordListener(input) {
+    input.addEventListener('input', () => {
+        validateConfirmPassword(input.value, input);
+        updatePasswordMessage();
     });
+}
+
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('blur', () => handleBlur(input));
+    if (input.type === 'email') {
+        addEmailInputListener(input);
+    }
+    if (input.placeholder === 'Name') {
+        input.addEventListener('input', () => validateName(input.value, input));
+    }
     if (input.placeholder === 'Password' && input.id !== 'login-password') {
-        input.addEventListener('input', () => {
-            validatePassword(input.value, input);
-        });
+        addPasswordInputListener(input);
     }
     if (input.placeholder === 'Confirm Password') {
-        input.addEventListener('input', () => {
-            validateConfirmPassword(input.value, input);
-            updatePasswordMessage();
-        });
+        addConfirmPasswordListener(input);
     }
 });
 
 function updatePasswordMessage() {
     const passwordInput = document.getElementById('signup-password');
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
-    if (!passwordInput || !confirmPasswordInput) return;
-    if (passwordInput.value === '') {
-        false_password.classList.remove('show');
+    const message = document.getElementById('password_repeat_message');
+    
+    if (!passwordInput || !confirmPasswordInput || !message) return;
+    
+    if (confirmPasswordInput.value === '') {
+        message.classList.remove('show');
+        confirmPasswordInput.classList.remove('invalid');
         return;
     }
-    const hasPasswordInvalid = passwordInput.classList.contains('invalid') || 
-                                confirmPasswordInput.classList.contains('invalid');
-    if (hasPasswordInvalid) {
-        false_password.classList.add('show');
+    
+    const isPwCriteriaValid = passwordRegex.test(passwordInput.value);
+    const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
+    
+    if (!isPwCriteriaValid) {
+        // Passwort-Kriterien nicht erfüllt
+        message.innerHTML = "Password requirements not met.";
+        message.classList.add('show');
+        confirmPasswordInput.classList.add('invalid');
+    } else if (!passwordsMatch) {
+        // Kriterien erfüllt, aber Passwörter stimmen nicht überein
+        message.innerHTML = "Passwords does not match, please try again.";
+        message.classList.add('show');
+        confirmPasswordInput.classList.add('invalid');
     } else {
-        false_password.classList.remove('show');
+        // Alles korrekt
+        message.classList.remove('show');
+        confirmPasswordInput.classList.remove('invalid');
     }
 }
 
 function validateName(name, input) {
     const message = document.querySelector('#name_message');
-
+    const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     if (!message) return;
-
-    if (name !== "") {
+    if (name.trim() === '') {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+        return;
+    }
+    if (nameRegex.test(name.trim())) {
         input.classList.remove('invalid');
         message.classList.remove('show');
     } else {
@@ -68,9 +118,12 @@ function validateName(name, input) {
 
 function validateEmail(email, input) {
     const message = document.querySelector('#email_message');
-
     if (!message) return;
-
+    if (email.trim() === '') {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+        return;
+    }
     if (mailRegex.test(email)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
@@ -80,41 +133,54 @@ function validateEmail(email, input) {
     }
 }
 
-function validatePassword(password, input) {
-    const message = document.querySelector('#password_message');
-    const confirmPasswordInput = document.getElementById('signup-password-repeat');
-
+function validateLoginEmail(email, input) {
+    const message = document.querySelector('.false_email');
     if (!message) return;
-
-    if (passwordRegex.test(password)) {
+    if (email.trim() === '') {
         input.classList.remove('invalid');
         message.classList.remove('show');
-        if (confirmPasswordInput && confirmPasswordInput.value !== '') {
-            validateConfirmPassword(confirmPasswordInput.value, confirmPasswordInput);
-            updatePasswordMessage();
-        }
+        return;
+    }
+    if (mailRegex.test(email)) {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
     } else {
         input.classList.add('invalid');
         message.classList.add('show');
     }
 }
 
-function validateConfirmPassword(password, input) {
-    const passwordInput = document.getElementById("signup-password");
-    const message = document.getElementById("password_repeat_message");
-    if (!passwordInput || passwordInput.value === '') {
-        return;
-    }if (passwordInput.value === password && password !== "") {
+function recheckConfirmPassword() {
+    const confirmPasswordInput = document.getElementById('signup-password-repeat');
+    if (confirmPasswordInput && confirmPasswordInput.value !== '') {
+        validateConfirmPassword(confirmPasswordInput.value, confirmPasswordInput);
+        updatePasswordMessage();
+    }
+}
+
+function validatePassword(password, input) {
+    const message = document.querySelector('#password_message');
+    if (!message) return;
+    if (password === '') {
         input.classList.remove('invalid');
-        if (message) {
-            message.classList.remove('show');
-        }
+        message.classList.remove('show');
+        recheckConfirmPassword();
+        return;
+    }
+    if (passwordRegex.test(password)) {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
     } else {
         input.classList.add('invalid');
-        if (message) {
-            message.classList.add('show');
-        }
+        message.classList.add('show');
     }
+    // Immer Confirm Password neu prüfen, wenn sich Password ändert
+    recheckConfirmPassword();
+}
+
+function validateConfirmPassword(password, input) {
+    // Diese Funktion ruft nur updatePasswordMessage auf
+    updatePasswordMessage();
 }
 
 document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
@@ -129,6 +195,18 @@ document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
         }
     });
 });
+
+function validatePrivacyPolicy(checkbox) {
+    const message = document.querySelector('#privacy_policy_message');
+    if (!message) return;
+    if (checkbox.checked) {
+        message.classList.remove('show');
+    } else {
+        message.classList.add('show');
+    }
+}
+
+window.validatePrivacyPolicy = validatePrivacyPolicy;
 
 
 

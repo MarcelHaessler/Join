@@ -36,28 +36,29 @@
                         <input id="signup-name" type="text" placeholder="Name" autocomplete="name">
                         <img src="./assets/img/person.svg" class="inputIcon">
                     </div>
-                    <p class="form-validation-text" id="name_message">Please give a correct name.</p>
+                    <p class="form-validation-text" id="name_message">Please use a real name.</p>
                     <div class="inputForm">
                         <input id="signup-email" type="email" placeholder="Email" autocomplete="email">
                         <img src="./assets/img/mail.svg" class="inputIcon">
                     </div>
-                    <p class="form-validation-text" id="email_message">Please use a real E-Mail adress.</p>
+                    <p class="form-validation-text" id="email_message">Please use a valid E-Mail adress.</p>
                     <div class="inputForm">
                         <input id="signup-password" class="password" type="password" placeholder="Password" autocomplete="new-password">
                         <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
                     </div>
-                    <p class="form-validation-text" id="password_message">Minimum 8 characters. (incl. 1 number & 1 special character.) </p>
+                    <p class="form-validation-text" id="password_message">Minimum 8 characters. (incl. 1 number.) </p>
                     <div class="inputForm">
                         <input id="signup-password-repeat" class="password" type="password"
                             placeholder="Confirm Password" autocomplete="new-password">
                         <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
                     </div>
+                    <p class="form-validation-text" id="password_repeat_message">Passwords does not match, please try again.</p>
                 </form>
-                <p class="form-validation-text false_password">Your passwords don't match. Please try again.</p>
                 <div id="sign_up_checkbox_container">
                     <input id="accept-policy" type="checkbox">
                     <p>I accept the <a class="blue_text" href="privacy_policy.html?Guest">Privacy Policy</a></p>
                 </div>
+                <p class="form-validation-text" id="privacy_policy_message">Please accept the Privacy Policy.</p>
             </div>
             <button class="buttonLoginSignup" onclick="registerUser()">Sign up</button>
         </div>

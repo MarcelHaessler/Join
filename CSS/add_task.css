@@ -76,6 +76,7 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     font-size: 20px;
+    font-family: 'Inter', sans-serif;
     border-radius: 10px;
     border: 1px solid rgba(209, 209, 209, 1);
     padding: 0 20px 0 20px;
@@ -89,6 +90,15 @@ textarea {
 input::placeholder,
 textarea::placeholder {
     color: var(--ligthGrey);
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
+    color: black;
 }
 
 input {
@@ -272,7 +282,6 @@ textarea {
     box-sizing: border-box;
     width: 42px;
     height: 42px;
-    background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 42px;
@@ -415,6 +424,7 @@ li {
     width: 90%;
     margin-bottom: 40px;
     padding-left: 40px;
+    padding-right: 40px;
     max-width: 1440px;
     box-sizing: border-box;
 }
@@ -593,7 +603,7 @@ li {
         padding-top: 16px;
         gap: 0;
         padding-left: 16px;
-        padding-right: 0px;
+        padding-right: 16px;
     }
 
     #form-right,

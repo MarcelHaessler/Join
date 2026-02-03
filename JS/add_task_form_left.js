@@ -7,6 +7,17 @@ document.querySelectorAll('input').forEach(input => {
             checkTitle();
         }
     });
+    
+    // Add change event for date inputs to update styling
+    if (input.type === 'date') {
+        input.addEventListener('change', () => {
+            if (input.value) {
+                input.classList.add('has-value');
+            } else {
+                input.classList.remove('has-value');
+            }
+        });
+    }
 });
 
 document.querySelector('textarea').addEventListener('blur', () => checkDescription());
@@ -58,6 +69,13 @@ const isCorrectDate = (dateString) => {
 function checkDate() {
     const inputBorder = document.getElementById("date");
     const resultDiv = document.getElementById("date-warning");
+    
+    // Toggle has-value class for styling
+    if (dateInput.value) {
+        inputBorder.classList.add("has-value");
+    } else {
+        inputBorder.classList.remove("has-value");
+    }
     
     function show(msg) {
         resultDiv.innerHTML = msg;

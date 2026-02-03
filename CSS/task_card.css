@@ -65,6 +65,13 @@
     height: 36px;
 }
 
+#close-add-task-overlay:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: 100ms;
+    border-radius: 50%;
+}
+
 #task-category-box {
     box-sizing: border-box;
     display: flex;
@@ -340,6 +347,15 @@
 
 #edit-assign-input::placeholder,
 #edit-category-input input::placeholder {
+    color: black;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
     color: black;
 }
 
