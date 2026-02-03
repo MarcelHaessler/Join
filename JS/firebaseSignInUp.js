@@ -164,7 +164,7 @@ function validatePasswordRepeat() {
     const message = document.querySelector('#password_repeat_message');
     
     if (!isPwCriteriaValid) {
-        setPasswordRepeatError(message, "Please check criteries of adding a password.");
+        setPasswordRepeatError(message, "Password requirements not met.");
         return false;
     }
     if (!pwRepeatFilled || !pwsMatch) {

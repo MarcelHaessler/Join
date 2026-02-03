@@ -83,7 +83,7 @@ function updatePasswordMessage() {
     
     if (!isPwCriteriaValid) {
         // Passwort-Kriterien nicht erfüllt
-        message.innerHTML = "Please check criteries of adding a password.";
+        message.innerHTML = "Password requirements not met.";
         message.classList.add('show');
         confirmPasswordInput.classList.add('invalid');
     } else if (!passwordsMatch) {
