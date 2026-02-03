@@ -29,18 +29,20 @@ function loginUser() {
     const passwordInput = document.getElementById("login-password");
     const errorMsg = document.querySelector(".false_password");
 
-    if (errorMsg) errorMsg.style.display = "none";
+    if (errorMsg) errorMsg.classList.remove("show");
 
     signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
         .then((userCredential) => {
-            manualLogin = true; // Markiere manuellen Login für Weiterleitung
+            manualLogin = true;
             sessionStorage.setItem('showSummaryGreeting', 'true');
             sessionStorage.setItem('guestMode', 'false');
             window.location.href = "summary.html";
         })
         .catch((error) => {
             manualLogin = false;
-            if (errorMsg) errorMsg.style.display = "block";
+            if (errorMsg) errorMsg.classList.add("show");
+            // Unterdrücke Console-Ausgabe für erwartete Login-Fehler
+            return;
         });
 }
 
