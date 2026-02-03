@@ -17,7 +17,14 @@ function addInitialsBackgroundColors() {
 /**Function to fill the dropdown with all the contacts in contacts array*/
 function fillAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
+    if (!contactsDropdown) return;
+    
     contactsDropdown.innerHTML = "";
+    
+    if (!window.contacts || !Array.isArray(window.contacts)) {
+        contactsDropdown.innerHTML = '<div style="padding: 10px;">No contacts available</div>';
+        return;
+    }
 
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;

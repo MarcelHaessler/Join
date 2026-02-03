@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -12,16 +11,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
 export const db = getDatabase(app);
 
-
-async function logoutUser() {
-    try {
-        await signOut(auth);
-        window.location.href = "index.html";
-    } catch (error) {
-    }
+function logoutUser() {
+    localStorage.removeItem('join_current_user');
+    sessionStorage.removeItem('guestMode');
+    sessionStorage.removeItem('showSummaryGreeting');
+    window.location.href = "index.html";
 }
 
 window.logoutUser = logoutUser;

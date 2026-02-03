@@ -12,7 +12,11 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
     const newTaskRef = push(tasksRef);
     await set(newTaskRef, task);
   } catch (error) {
-    console.error("Error uploading task:", error);
+    const tasksData = localStorage.getItem('join_tasks');
+    const tasks = tasksData ? JSON.parse(tasksData) : [];
+    const taskId = 'task_' + Date.now();
+    tasks.push({ id: taskId, ...task });
+    localStorage.setItem('join_tasks', JSON.stringify(tasks));
   } finally {
     hideLoader();
   }
@@ -27,7 +31,10 @@ window.addEventListener("load", async () => {
 
 async function fetchTasks() {
   showLoader();
+  
+  window.tasks = [];
   tasks = [];
+  
   try {
     const tasksRef = ref(db, "tasks");
     const snapshot = await get(tasksRef);
@@ -42,9 +49,14 @@ async function fetchTasks() {
           });
         }
       }
+      window.tasks = tasks;
     }
   } catch (error) {
-
+    const tasksData = localStorage.getItem('join_tasks');
+    if (tasksData) {
+      tasks = JSON.parse(tasksData);
+      window.tasks = tasks;
+    }
   } finally {
     hideLoader();
   }

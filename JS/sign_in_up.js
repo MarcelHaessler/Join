@@ -90,10 +90,12 @@ function updatePasswordMessage() {
         // Kriterien erfüllt, aber Passwörter stimmen nicht überein
         message.innerHTML = "Passwords does not match, please try again.";
         message.classList.add('show');
+        passwordInput.classList.add('invalid');
         confirmPasswordInput.classList.add('invalid');
     } else {
         // Alles korrekt
         message.classList.remove('show');
+        passwordInput.classList.remove('invalid');
         confirmPasswordInput.classList.remove('invalid');
     }
 }

@@ -18,8 +18,7 @@ window.backgroundColorCodes = [
     'var(--color14)',
     'var(--color15)'];
 
-import { auth, db } from "./firebaseAuth.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
+import { db } from "./firebaseAuth.js";
 import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchHtmlTemplates() {
@@ -43,16 +42,13 @@ function checkGuestMode() {
 
     // Nur auf Privacy Policy und Legal Notice Seiten prüfen
     if (isPolicyPage || isLegalPage) {
-        onAuthStateChanged(auth, (user) => {
-            // Entferne loading-auth Klasse und setze den richtigen Modus
-            document.body.classList.remove('loading-auth');
-            if (!user) {
-                // Kein eingeloggter Benutzer -> setze mode-guest
-                document.body.classList.add('mode-guest');
-            } else {
-                // Benutzer ist eingeloggt -> normale Navigation (kein mode-guest)
-            }
-        });
+        const currentUser = localStorage.getItem('join_current_user');
+        document.body.classList.remove('loading-auth');
+        
+        if (!currentUser) {
+            // Kein eingeloggter Benutzer -> setze mode-guest
+            document.body.classList.add('mode-guest');
+        }
     }
 }
 
@@ -120,6 +116,7 @@ async function fetchContacts() {
         processData(contactSnapshot, 'contact');
         enhanceContacts();
     } catch (error) {
+        // Silent error handling
     } finally {
         hideLoader();
     }
@@ -128,10 +125,14 @@ async function fetchContacts() {
 
 async function fetchSnapshots() {
     const dbRef = ref(db);
-    return await Promise.all([
-        get(child(dbRef, 'users')),
-        get(child(dbRef, 'contact'))
-    ]);
+    try {
+        return await Promise.all([
+            get(child(dbRef, 'users')),
+            get(child(dbRef, 'contact'))
+        ]);
+    } catch (error) {
+        throw error;
+    }
 }
 
 function processData(snapshot, root) {

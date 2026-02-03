@@ -1,3 +1,6 @@
+import { db } from "./firebaseAuth.js";
+import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
 closeBtn.addEventListener('click', addTaskOverlayClose);
@@ -47,6 +50,10 @@ window.addEventListener("tasksLoaded", () => {
 });
 
 function updateBoard() {
+    const tasks = window.tasks || [];
+    console.log('updateBoard() called, tasks count:', tasks.length);
+    console.log('Tasks array:', tasks.map(t => ({ id: t.id, title: t.title, group: t.taskgroup })));
+    
     let searchTerm = document.getElementById('search-tasks-input').value.toLowerCase();
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
 
@@ -56,7 +63,13 @@ function updateBoard() {
             (t.title.toLowerCase().includes(searchTerm) || t.description.toLowerCase().includes(searchTerm))
         );
 
+        console.log(`${status}: ${filteredTasks.length} tasks`);
+
         let container = document.getElementById(status);
+        if (!container) {
+            console.error(`Container ${status} not found!`);
+            return;
+        }
         container.innerHTML = '';
 
         if (filteredTasks.length === 0) {
@@ -107,11 +120,12 @@ function allowDrop(ev) {
 
 function moveTo(taskgroup) {
     const taskId = currentDraggedElement;
+    const tasks = window.tasks || [];
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
     task.taskgroup = taskgroup;
     updateTask(task);
-    updateBoard();
+    // updateBoard() wird bereits in updateTask() aufgerufen
     removeHighlight(taskgroup, true);
 }
 
@@ -149,18 +163,14 @@ function toggleMobileMoveMenu(event, taskId) {
 
 function moveToFromMobile(event, taskId, targetStatus) {
     event.stopPropagation();
+    const tasks = window.tasks || [];
     const task = tasks.find(t => t.id === taskId);
     if (task) {
         task.taskgroup = targetStatus;
         updateTask(task);
-        updateBoard();
+        // updateBoard() wird bereits in updateTask() aufgerufen
     }
-    updateTask(task);
-    updateBoard();
 }
-
-import { db } from "./firebaseAuth.js";
-import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 //Firebase-Update-Funktion
 async function updateTask(task) {
@@ -184,12 +194,25 @@ async function updateTask(task) {
         });
         updateBoard();
     } catch (error) {
-        console.error("Error updating task:", error);
+        // Fallback to localStorage
+        const tasksData = localStorage.getItem('join_tasks');
+        if (tasksData) {
+            let localTasks = JSON.parse(tasksData);
+            const index = localTasks.findIndex(t => t.id === task.id);
+            if (index !== -1) {
+                localTasks[index] = task;
+                localStorage.setItem('join_tasks', JSON.stringify(localTasks));
+                // Update window.tasks
+                window.tasks = localTasks;
+            }
+        }
+        updateBoard();
     }
 }
 
 
 function openTaskCardOverlay(taskId) {
+    const tasks = window.tasks || [];
     const task = tasks.find(t => t.id === taskId);
 
     let overlay = document.getElementById('task_card_overlay');
@@ -247,6 +270,7 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
 }
 
 function editTask(taskId) {
+    const tasks = window.tasks || [];
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
     editedTitle = task.title;
@@ -278,6 +302,7 @@ function saveEditedTask(taskId) {
         return;
     }
     editedTaskDetails();
+    const tasks = window.tasks || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
     tasks[taskIndex].title = editedTitle;
@@ -306,28 +331,29 @@ function editedTaskDetails() {
 
 //Function that changes to Open Task Card Overlay from Edit Task Overlay
 function openTaskCardFromEdit(taskId) {
+    const tasks = window.tasks || [];
     const task = tasks.find(t => t.id == taskId);
     let overlay = document.getElementById('task_card_overlay');
     overlay.innerHTML = generateOpenedTaskCardHTML(task);
-
 }
 
 function deleteTask(taskId) {
+    const tasks = window.tasks || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
+        
+        // Update window.tasks and localStorage
+        window.tasks = tasks;
+        // Update localStorage
+        localStorage.setItem('join_tasks', JSON.stringify(tasks));
+        
+        // Try Firebase delete
         const taskRef = ref(db, `tasks/${taskId}`);
-        remove(taskRef)
-            .then(() => {
-                updateBoard();
-            })
-            .catch((error) => {
-                
-            });
+        remove(taskRef).catch(() => {});
     }
     updateBoard();
     closeTaskCardOverlay();
-
 }
 
 window.updateTask = updateTask;

@@ -1,4 +1,4 @@
-import { db, auth } from "./firebaseAuth.js";
+import { db } from "./firebaseAuth.js";
 import {
     ref,
     push,
@@ -7,7 +7,6 @@ import {
     remove,
     get
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 
 const contactList = document.getElementById("contacList");
 const contactDetails = document.getElementById("contactSelectet");
@@ -95,6 +94,9 @@ function clearForm() {
         input.value = '';
         input.classList.remove('invalid');
     });
+    // Hide all validation messages
+    const validationMessages = dialogAddPerson.querySelectorAll('.validation-message');
+    validationMessages.forEach(msg => msg.classList.remove('show'));
 }
 
 // Backdrop click Add to close Dialogs
@@ -143,18 +145,43 @@ const validators = {
     tel: value => phoneRegex.test(value),
 };
 
+const validationMessageIds = {
+    contactAddName: 'nameValidation',
+    contactAddMail: 'emailValidation',
+    contactAddPhone: 'phoneValidation'
+};
+
 dialogAddPerson.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         const validator = validators[input.type];
         if (!validator) return;
-        input.classList.toggle('invalid', !validator(input.value));
+        const isValid = validator(input.value);
+        input.classList.toggle('invalid', !isValid);
+        
+        // Show/hide validation message
+        const messageId = validationMessageIds[input.id];
+        if (messageId) {
+            const message = document.getElementById(messageId);
+            if (message) {
+                message.classList.toggle('show', !isValid);
+            }
+        }
     });
 });
 
 // Check if form is valid before uploading contact
 function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
-    const allValid = [...inputs].every(input => validateInput(input));
+    let allValid = true;
+    
+    // Validate all inputs and show error messages
+    inputs.forEach(input => {
+        const isValid = validateInput(input);
+        if (!isValid) {
+            allValid = false;
+        }
+    });
+    
     if (!allValid) {
         return;
     }
@@ -166,6 +193,16 @@ function validateInput(input) {
     if (!validator) return true;
     const isValid = validator(input.value);
     input.classList.toggle('invalid', !isValid);
+    
+    // Show/hide validation message
+    const messageId = validationMessageIds[input.id];
+    if (messageId) {
+        const message = document.getElementById(messageId);
+        if (message) {
+            message.classList.toggle('show', !isValid);
+        }
+    }
+    
     return isValid;
 }
 
@@ -182,7 +219,7 @@ async function uploadContact() {
         closeDialog();
         await nameList();
     } catch (error) {
-        console.error("Fehler beim Erstellen:", error);
+        // Silent error handling
     }
 }
 
@@ -214,7 +251,7 @@ async function updateContact(root, id) {
             contactDetails.innerHTML = showContactDetails(updatedContact);
         }
     } catch (error) {
-        console.error("Fehler beim Update:", error);
+        // Silent error handling
     }
 }
 
@@ -229,7 +266,7 @@ async function deleteContact(root, id) {
         sideBarvisible();
         await nameList();
     } catch (error) {
-        console.error("Fehler beim Löschen:", error);
+        // Silent error handling
     }
 }
 

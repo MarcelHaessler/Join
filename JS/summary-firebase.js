@@ -178,7 +178,7 @@ async function loadSummaryCounts() {
         renderUrgentCount(tasks);
         renderUrgentDueDate(tasks);
     } catch (error) {
-        console.error("Error loading summary counts:", error);
+        // Silent error handling
     } finally {
         if (isGreetingActive && typeof window.finishMobileGreeting === 'function') {
             window.finishMobileGreeting();

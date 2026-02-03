@@ -340,7 +340,7 @@ dialog {
     width: 100%;
     flex-direction: column;
     justify-content: center;
-    gap: 32px;
+    gap: 20px;
     margin-right: 24px;
     margin-top: 24px;
 
@@ -357,6 +357,17 @@ dialog {
             height: 16px;
             width: auto;
         }
+    }
+
+    .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .input-container {
+        position: relative;
+        width: 100%;
     }
 
     div {
@@ -394,6 +405,18 @@ dialog {
             height: 16px;
             width: auto;
         }
+    }
+
+    .validation-message {
+        visibility: hidden;
+        color: var(--invalideColor);
+        font-size: 16px;
+        padding-left: 4px;
+        height: 16px;
+    }
+
+    .validation-message.show {
+        visibility: visible;
     }
 }
 

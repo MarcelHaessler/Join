@@ -4,25 +4,31 @@ let taskgroup = "ToDo"
 
 window.addEventListener("userReady", async (auth) => {
     username = auth.detail.name
-    await fetchContacts();
-    await fetchTasks();
-    putSelfOnFirstPlace(username);
+    if (window.fetchContacts) {
+        await fetchContacts();
+    }
+    if (window.contacts && Array.isArray(window.contacts)) {
+        putSelfOnFirstPlace(username);
+    }
     userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ") + 1).toUpperCase();
     addInitialToHeader();
-    fillAssignmentDropdown();
+    if (window.fillAssignmentDropdown) {
+        fillAssignmentDropdown();
+    }
 });
 
 window.addEventListener("guestUser", async (auth) => {
     try {
         username = auth && auth.detail && auth.detail.name ? auth.detail.name : 'Guest';
-        await fetchContacts();
-        await fetchTasks();
-        putSelfOnFirstPlace(username);
+        if (window.fetchContacts) await fetchContacts();
+        if (window.contacts && Array.isArray(window.contacts)) {
+            putSelfOnFirstPlace(username);
+        }
         userInitials = username.charAt(0).toUpperCase() + (username.indexOf(" ") > -1 ? username.charAt(username.indexOf(" ") + 1).toUpperCase() : "");
         addInitialToHeader();
-        fillAssignmentDropdown();
+        if (window.fillAssignmentDropdown) fillAssignmentDropdown();
     } catch (err) {
-        console.error("Fehler beim Initialisieren des Guest-Views:", err);
+        // Silent error handling
     }
 });
 
@@ -32,6 +38,7 @@ function addInitialToHeader() {
 }
 
 function putSelfOnFirstPlace(username) {
+    if (!window.contacts || !Array.isArray(window.contacts)) return;
     let array = contacts.findIndex(e => e.name == username);
     if (array !== -1) contacts.unshift(...contacts.splice(array, 1));
 }
