@@ -5,7 +5,8 @@ import {
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     updateProfile,
-    signOut
+    signOut,
+    signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 
 import {
@@ -28,49 +29,87 @@ function loginUser() {
     const passwordInput = document.getElementById("login-password");
     const errorMsg = document.querySelector(".false_password");
 
-    if (errorMsg) errorMsg.style.display = "none";
+    if (errorMsg) errorMsg.classList.remove("show");
 
     signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
         .then((userCredential) => {
-            manualLogin = true; // Markiere manuellen Login für Weiterleitung
+            manualLogin = true;
             sessionStorage.setItem('showSummaryGreeting', 'true');
             sessionStorage.setItem('guestMode', 'false');
             window.location.href = "summary.html";
         })
         .catch((error) => {
             manualLogin = false;
-            if (errorMsg) errorMsg.style.display = "block";
+            if (errorMsg) errorMsg.classList.add("show");
+            return;
         });
 }
 
-// AUTH 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const event = new CustomEvent("userReady", {
-            detail: { name: user.displayName, email: user.email }
-        });
-        window.dispatchEvent(event);
-
-        const icon = document.getElementById("personIcon");
-        if (icon) {
-            icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
-        }
-    } else {
-        const event = new CustomEvent("guestUser", {
-            detail: { name: 'Guest' }
-        });
-        window.dispatchEvent(event);
+// GUEST LOGIN
+async function guestLogin() {
+  try {
+    const userCredential = await signInAnonymously(auth);
+    // optional: setze lokales Display-Name-Fallback (updateProfile kann bei some setups fehlschlagen)
+    try {
+      await updateProfile(userCredential.user, { displayName: "Guest" });
+    } catch (e) {
+      // kein Showstopper — wir können local fallback nutzen
+      console.debug("updateProfile for anonymous user failed (non-fatal):", e);
     }
+
+    // markiere guest-mode (für UI-Logik)
+    sessionStorage.setItem('guestMode', 'true');
+    sessionStorage.setItem('showSummaryGreeting', 'true');
+
+    // Weiterleitung zur Board/summary Seite
+    window.location.href = "summary.html";
+  } catch (error) {
+    console.error("Guest sign-in failed:", error);
+    alert("Gast-Login fehlgeschlagen. Bitte versuche es später erneut.");
+  }
+}
+
+// AUTH STATE:
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (user.isAnonymous) {
+      const event = new CustomEvent("guestUser", {
+        detail: { name: user.displayName || "Guest", uid: user.uid }
+      });
+      window.dispatchEvent(event);
+      // set initial/icon etc. (wie bei guestUser weiter unten)
+      const icon = document.getElementById("personIcon");
+      if (icon) icon.textContent = getFirstAndLastInitial(user.displayName || "Guest");
+    } else {
+      const event = new CustomEvent("userReady", {
+        detail: { name: user.displayName, email: user.email, uid: user.uid }
+      });
+      window.dispatchEvent(event);
+      const icon = document.getElementById("personIcon");
+      if (icon) icon.textContent = getFirstAndLastInitial(user.displayName || "NN");
+    }
+  } else {
+    // kein angemeldeter Nutzer
+    const event = new CustomEvent("guestUser", { detail: { name: 'Guest' }});
+    window.dispatchEvent(event);
+  }
 });
 
-// LOGOUT 
-function logoutUser() {
-    signOut(auth)
-        .then(() => {
-            window.location.href = "index.html";
-        })
-        .catch((error) => {
-        });
+async function logoutUser() {
+  try {
+    const user = auth.currentUser;
+    await signOut(auth);
+    if (user && user.isAnonymous) {
+      try {
+        await user.delete();
+      } catch (e) {
+        console.debug("Anonymous account delete failed (non-fatal):", e);
+      }
+    }
+    window.location.href = "index.html";
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
 }
 
 // Sign up
@@ -142,3 +181,4 @@ function getFirstAndLastInitial(fullName) {
 window.loginUser = loginUser;
 window.logoutUser = logoutUser;
 window.registerUser = registerUser;
+window.guestLogin = guestLogin;

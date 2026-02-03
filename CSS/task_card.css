@@ -36,6 +36,7 @@
     transition: transform 0.4s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -62,6 +63,13 @@
     justify-content: space-between;
     align-items: center;
     height: 36px;
+}
+
+#close-add-task-overlay:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: 100ms;
+    border-radius: 50%;
 }
 
 #task-category-box {
@@ -342,6 +350,15 @@
     color: black;
 }
 
+input[type="date"]::-webkit-datetime-edit {
+    color: var(--ligthGrey);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"].has-value::-webkit-datetime-edit {
+    color: black;
+}
+
 #edit-assign-input:focus::placeholder {
     color: transparent;
     transition: 200ms;
@@ -461,6 +478,10 @@
     gap: 6px;
     height: 56px;
     align-items: center;
+}
+
+#edit-contacts-dropdown.open ~ #edit-chosen-contacts {
+    display: none;
 }
 
 .edit-category-box{

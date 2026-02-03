@@ -245,7 +245,7 @@ function addSubtasks(element, taskIndex) {
 function generateEditTaskHTML(element, taskId) {
     let title = element.title;
     let description = element.description;
-    let date = element.date;
+    let date = convertDateToISO(element.date);
     let priority = element.priority;
     let names = element.assignedPersons;
     let subtasks = element.subtasks;
@@ -271,7 +271,7 @@ function generateEditTaskHTML(element, taskId) {
                         </div>
                         <div class="edit-input-container" id="edit-date-container">
                             <label for="date">Due date</label>
-                            <input id="edit-date" type="text" placeholder="dd/mm/yyyy" maxlength="10" value="${date}" oninput="formatEditDateInput(event)">
+                            <input id="edit-date" type="date" value="${date}">
                             <p class="warning-message" id="edit-date-warning"></p>
                         </div>
                     
@@ -481,4 +481,23 @@ function generateMoveMenu(taskId) {
         <div onclick="moveToFromMobile(event, '${taskId}', 'Awaiting')">Await Feedback</div>
         <div onclick="moveToFromMobile(event, '${taskId}', 'Done')">Done</div>
     `;
+}
+
+// Helper function to convert date from dd/mm/yyyy to yyyy-MM-dd
+function convertDateToISO(dateString) {
+    if (!dateString) return '';
+    
+    // Check if already in ISO format (yyyy-MM-dd)
+    if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        return dateString;
+    }
+    
+    // Convert from dd/mm/yyyy to yyyy-MM-dd
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        const [day, month, year] = parts;
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    
+    return dateString;
 }

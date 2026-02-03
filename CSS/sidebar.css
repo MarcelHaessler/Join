@@ -9,7 +9,6 @@ a {
 
 #links-and-footer p {
     color: #CDCDCD;
-    top: 232px;
 }
 
 #sidebar-main {
@@ -22,6 +21,7 @@ a {
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
+    max-height: 1440px;
 }
 
 .link-wrapper {
@@ -99,6 +99,10 @@ a {
     flex-direction: column;
     align-items: center;
     padding-bottom: 64px;
+}
+
+.mode-guest #sidebar-footer {
+    display: flex;
 }
 
 #sidebar-footer p {
@@ -182,9 +186,10 @@ a {
 
     .mode-guest #links-and-footer {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         width: 100%;
+        padding: 0 10px;
     }
 
     .mode-guest #side-bar {

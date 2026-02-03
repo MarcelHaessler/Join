@@ -12,6 +12,10 @@
     }
 }
 
+main{
+    max-width: calc(2560px - 232px);
+}
+
 .containerGroup {
     display: flex;
     flex-direction: row;
@@ -364,6 +368,15 @@ section {
     }
 }
 
+@media (max-width: 400px) {
+    .urgent-vertical-divider {
+        display: none;
+    }
+
+    .category {
+        font-size: 14px;
+    }
+}
 
 .greeting-text {
     font-size: 28px;

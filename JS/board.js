@@ -1,6 +1,14 @@
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
 closeBtn.addEventListener('click', addTaskOverlayClose);
+
+// Close overlay when clicking outside content section
+addTaskOverlay.addEventListener('click', function(e) {
+    if (e.target === addTaskOverlay) {
+        addTaskOverlayClose();
+    }
+});
+
 const ToDo = document.getElementById('todo-tiles');
 const InProgress = document.getElementById('progress-tiles');
 const Awaiting = document.getElementById('feedback-tiles');
@@ -253,7 +261,6 @@ function editTask(taskId) {
         editAddInitialsBackgroundColors();
         const editDateInput = document.getElementById('edit-date');
         if (editDateInput) {
-            editDateInput.addEventListener('input', formatEditDateInput);
             editDateInput.addEventListener('blur', editCheckDate);
         }
         requestAnimationFrame(() => {
@@ -312,11 +319,10 @@ function deleteTask(taskId) {
         const taskRef = ref(db, `tasks/${taskId}`);
         remove(taskRef)
             .then(() => {
-                console.log("Task deleted successfully.");
                 updateBoard();
             })
             .catch((error) => {
-                console.error("Error deleting task:", error);
+                
             });
     }
     updateBoard();

@@ -23,19 +23,12 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.2.0/fi
 import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
 async function fetchHtmlTemplates() {
-    cachedHeader = localStorage.getItem('headerTemplate');
-    cachedSidebar = localStorage.getItem('sidebarTemplate');
-
-    if (!cachedHeader) {
-        const resp = await fetch('./assets/templates/header.html');
-        cachedHeader = await resp.text();
-        localStorage.setItem('headerTemplate', cachedHeader);
-    }
-    if (!cachedSidebar) {
-        const resp = await fetch('./assets/templates/sideBar.html');
-        cachedSidebar = await resp.text();
-        localStorage.setItem('sidebarTemplate', cachedSidebar);
-    }
+    // Cache deaktiviert für sofortige Updates
+    const headerResp = await fetch('./assets/templates/header.html?v=' + Date.now());
+    cachedHeader = await headerResp.text();
+    
+    const sidebarResp = await fetch('./assets/templates/sideBar.html?v=' + Date.now());
+    cachedSidebar = await sidebarResp.text();
 
     document.getElementById('header').innerHTML = cachedHeader;
     document.getElementById('side-bar').innerHTML = cachedSidebar;
@@ -45,21 +38,21 @@ async function fetchHtmlTemplates() {
 }
 
 function checkGuestMode() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const isGuestParam = urlParams.has('Guest') || urlParams.get('guest') === 'true';
     const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
     const isLegalPage = window.location.pathname.includes('legal_notice.html');
 
-    if (isGuestParam) {
-        sessionStorage.setItem('guestMode', 'true');
-    }
-
-    const sessionGuest = sessionStorage.getItem('guestMode');
-
-    if ((isPolicyPage || isLegalPage) && sessionGuest === 'true') {
-        document.body.classList.add('mode-guest');
-    } else if (isPolicyPage || isLegalPage) {
-        document.body.classList.remove('mode-guest');
+    // Nur auf Privacy Policy und Legal Notice Seiten prüfen
+    if (isPolicyPage || isLegalPage) {
+        onAuthStateChanged(auth, (user) => {
+            // Entferne loading-auth Klasse und setze den richtigen Modus
+            document.body.classList.remove('loading-auth');
+            if (!user) {
+                // Kein eingeloggter Benutzer -> setze mode-guest
+                document.body.classList.add('mode-guest');
+            } else {
+                // Benutzer ist eingeloggt -> normale Navigation (kein mode-guest)
+            }
+        });
     }
 }
 

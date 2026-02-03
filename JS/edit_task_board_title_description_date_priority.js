@@ -130,58 +130,40 @@ function editLowBtnToNormal() {
 
 const editDateInput = document.getElementById('edit-date');
 
-function formatEditDateInput(e) {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length > 8) value = value.slice(0, 8);
-    let formatted = "";
-    if (value.length > 0) formatted = value.slice(0, 2);
-    if (value.length > 2) formatted += "/" + value.slice(2, 4);
-    if (value.length > 4) formatted += "/" + value.slice(4, 8);
-    e.target.value = formatted;
-}
-
-function editIsCorrectDate(date) {
+function editIsCorrectDate(dateString) {
+    if (!dateString) return false;
+    
     let today = new Date();
     today.setHours(0, 0, 0, 0);
-    let [d, m, y] = date.split("/");
-    let entered = new Date(+y, +m - 1, +d);
-    entered.setHours(0, 0, 0, 0);
-
-    if (String(entered.getDate()).padStart(2, "0") !== d ||
-        String(entered.getMonth() + 1).padStart(2, "0") !== m ||
-        String(entered.getFullYear()) !== y) return false;
-
-    return entered.getTime() >= today.getTime();
+    
+    let selectedDate = new Date(dateString);
+    selectedDate.setHours(0, 0, 0, 0);
+    
+    return selectedDate.getTime() >= today.getTime();
 }
 
 function editCheckDate() {
     const inputBorder = document.getElementById("edit-date");
     const resultDiv = document.getElementById("edit-date-warning");
-    const dateReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(201[4-9]|20[2-9][0-9])$/;
 
     if (!inputBorder || !resultDiv) return true;
+    
+    function show(msg) {
+        resultDiv.innerHTML = msg;
+        resultDiv.style.color = "#e60025";
+    }
 
-    if (!inputBorder.value || inputBorder.value.replace(/\D/g, "").length < 8) {
+    if (!inputBorder.value) {
         inputBorder.classList.add("invalid");
         show("This field is required.");
         return true;
     }
-    if (!dateReg.test(inputBorder.value)) {
-        inputBorder.classList.add("invalid");
-        show("It's an invalid date");
-        return true;
-    }
     if (!editIsCorrectDate(inputBorder.value)) {
         inputBorder.classList.add("invalid");
-        show("It's an invalid date");
+        show("Date must be today or in the future");
         return true;
     }
     inputBorder.classList.remove("invalid");
     show("");
     return false;
-
-    function show(msg) {
-        resultDiv.innerHTML = msg;
-        resultDiv.style.color = "#e60025";
-    }
 }
