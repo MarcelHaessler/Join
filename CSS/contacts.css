@@ -72,6 +72,7 @@ main {
     &:hover {
         background-color: var(--primerColor);
         color: var(--contrastColor);
+        cursor: pointer;
     }
 
     &.active {
