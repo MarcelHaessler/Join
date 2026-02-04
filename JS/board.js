@@ -1,5 +1,4 @@
-import { db } from "./firebaseAuth.js";
-import { ref, update, remove } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+// Keine imports - db ist global durch firebaseAuth.js
 
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
@@ -24,6 +23,11 @@ let dragCounters = {
     Done: 0
 };
 
+/**
+ * Opens the add task overlay with animation
+ * @param {string} boardGroup - The board group (ToDo, InProgress, Awaiting, Done)
+ * @returns {void}
+ */
 function addTaskOverlayOpen(boardGroup) {
     addTaskOverlay.classList.remove('d_none', 'closing');
     setTimeout(() => {
@@ -32,6 +36,10 @@ function addTaskOverlayOpen(boardGroup) {
     taskgroup = boardGroup;
 }
 
+/**
+ * Closes the add task overlay with animation
+ * @returns {void}
+ */
 function addTaskOverlayClose() {
     addTaskOverlay.classList.remove('active');
     addTaskOverlay.classList.add('closing');
@@ -45,10 +53,15 @@ function addTaskOverlayClose() {
     });
 }
 
-window.addEventListener("tasksLoaded", () => {
+addEventListener("tasksLoaded", () => {
     updateBoard();
 });
 
+/**
+ * Updates the board display by filtering and rendering tasks
+ * Applies search filtering if search term is present
+ * @returns {void}
+ */
 function updateBoard() {
     const tasks = window.tasks || [];
     
@@ -60,6 +73,13 @@ function updateBoard() {
     });
 }
 
+/**
+ * Updates tasks for a specific board status
+ * @param {string} status - The status column (ToDo, InProgress, Awaiting, Done)
+ * @param {Array} tasks - Array of all tasks
+ * @param {string} searchTerm - The search filter term
+ * @returns {void}
+ */
 function updateBoardStatus(status, tasks, searchTerm) {
     let filteredTasks = filterTasksByStatus(status, tasks, searchTerm);
     
@@ -70,6 +90,13 @@ function updateBoardStatus(status, tasks, searchTerm) {
     renderTasksInContainer(container, filteredTasks, searchTerm);
 }
 
+/**
+ * Filters tasks by status and search term
+ * @param {string} status - The status to filter by
+ * @param {Array} tasks - Array of all tasks
+ * @param {string} searchTerm - The search filter term
+ * @returns {Array} Filtered array of tasks
+ */
 function filterTasksByStatus(status, tasks, searchTerm) {
     return tasks.filter(t =>
         t['taskgroup'] == status &&
@@ -77,6 +104,13 @@ function filterTasksByStatus(status, tasks, searchTerm) {
     );
 }
 
+/**
+ * Renders tasks in a container or shows 'no tasks' message
+ * @param {HTMLElement} container - The container element
+ * @param {Array} filteredTasks - Array of filtered tasks
+ * @param {string} searchTerm - The search filter term
+ * @returns {void}
+ */
 function renderTasksInContainer(container, filteredTasks, searchTerm) {
     container.innerHTML = '';
     
@@ -90,10 +124,21 @@ function renderTasksInContainer(container, filteredTasks, searchTerm) {
     });
 }
 
+/**
+ * Returns appropriate 'no tasks' message based on search state
+ * @param {string} searchTerm - The search filter term
+ * @returns {string} HTML string for no tasks message
+ */
 function getNoTasksMessage(searchTerm) {
     return searchTerm ? `<p class="no-tasks-message">No results found</p>` : `<p class="no-tasks-message">No tasks</p>`;
 }
 
+/**
+ * Initiates drag operation for a task card
+ * @param {string} id - The task ID
+ * @param {DragEvent} event - The drag event
+ * @returns {void}
+ */
 function startDragging(id, event) {
     currentDraggedElement = id;
     let wrapper = prepareDragImage(event.target);
@@ -191,10 +236,10 @@ async function updateTask(task) {
 }
 
 async function updateTaskInFirebase(task) {
-    const taskRef = ref(db, `tasks/${task.id}`);
+    const taskRef = db.ref(`tasks/${task.id}`);
     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
 
-    await update(taskRef, {
+    await taskRef.update({
         title: task.title || '',
         description: task.description || '',
         date: task.date || '',
@@ -393,30 +438,11 @@ function deleteTask(taskId) {
         localStorage.setItem('join_tasks', JSON.stringify(tasks));
         
         // Try Firebase delete
-        const taskRef = ref(db, `tasks/${taskId}`);
-        remove(taskRef).catch(() => {});
+        const taskRef = db.ref(`tasks/${taskId}`);
+        taskRef.remove().catch(() => {});
     }
     updateBoard();
     closeTaskCardOverlay();
 }
 
-window.updateTask = updateTask;
-window.addTaskOverlayOpen = addTaskOverlayOpen;
-window.startDragging = startDragging;
-window.allowDrop = allowDrop;
-window.moveTo = moveTo;
-window.updateBoard = updateBoard;
-window.openTaskCardOverlay = openTaskCardOverlay;
-window.closeTaskCardOverlay = closeTaskCardOverlay;
-window.stopPropagation = stopPropagation;
-window.checkboxSubtask = checkboxSubtask;
-window.subtaskCompleted = subtaskCompleted;
-window.editTask = editTask;
-window.editedTaskDetails = editedTaskDetails;
-window.saveEditedTask = saveEditedTask;
-window.openTaskCardFromEdit = openTaskCardFromEdit;
-window.deleteTask = deleteTask;
-window.highlight = highlight;
-window.removeHighlight = removeHighlight;
-window.toggleMobileMoveMenu = toggleMobileMoveMenu;
-window.moveToFromMobile = moveToFromMobile;
+// Alle Funktionen sind automatisch global

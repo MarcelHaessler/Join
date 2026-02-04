@@ -1,8 +1,24 @@
-import { db } from "./firebaseAuth.js";
-import { ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+// Keine imports - db ist global durch firebaseAuth.js
 
-window.tasks = [];
+/**
+ * Global array storing all tasks
+ * @type {Array<Object>}
+ */
+var tasks = [];
 
+/**
+ * Uploads a new task to Firebase or localStorage
+ * @async
+ * @param {string} taskTitle - The task title
+ * @param {string} taskDescription - The task description
+ * @param {string} taskDueDate - The task due date
+ * @param {string} taskPriority - The task priority level
+ * @param {string} taskCategory - The task category
+ * @param {string} taskgroup - The board group (ToDo, InProgress, etc.)
+ * @param {Array} taskAssignments - Array of assigned persons
+ * @param {Array} taskSubtasks - Array of subtasks
+ * @returns {Promise<void>}
+ */
 async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
   showLoader();
   let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
@@ -16,12 +32,23 @@ async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority,
   }
 }
 
+/**
+ * Saves a task to Firebase database
+ * @async
+ * @param {Object} task - The task object to save
+ * @returns {Promise<void>}
+ */
 async function saveTaskToFirebase(task) {
-  const tasksRef = ref(db, "tasks");
-  const newTaskRef = push(tasksRef);
-  await set(newTaskRef, task);
+  const tasksRef = db.ref("tasks");
+  const newTaskRef = tasksRef.push();
+  await newTaskRef.set(task);
 }
 
+/**
+ * Saves a task to localStorage as fallback
+ * @param {Object} task - The task object to save
+ * @returns {void}
+ */
 function saveTaskToLocalStorage(task) {
   const tasksData = localStorage.getItem('join_tasks');
   const tasks = tasksData ? JSON.parse(tasksData) : [];
@@ -30,16 +57,20 @@ function saveTaskToLocalStorage(task) {
   localStorage.setItem('join_tasks', JSON.stringify(tasks));
 }
 
-window.addEventListener("load", async () => {
+addEventListener("load", async () => {
   if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('registration.html')) {
     await fetchTasks();
-    window.dispatchEvent(new Event("tasksLoaded"));
+    dispatchEvent(new Event("tasksLoaded"));
   }
 });
 
+/**
+ * Fetches all tasks from Firebase or localStorage
+ * @async
+ * @returns {Promise<Array>} Array of all tasks
+ */
 async function fetchTasks() {
   showLoader();
-  window.tasks = [];
   tasks = [];
   
   try {
@@ -52,9 +83,14 @@ async function fetchTasks() {
   return tasks;
 }
 
+/**
+ * Loads tasks from Firebase database
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loadTasksFromFirebase() {
-  const tasksRef = ref(db, "tasks");
-  const snapshot = await get(tasksRef);
+  const tasksRef = db.ref("tasks");
+  const snapshot = await tasksRef.get();
 
   if (snapshot.exists()) {
     const data = snapshot.val();
@@ -67,13 +103,15 @@ async function loadTasksFromFirebase() {
   }
 }
 
+/**
+ * Loads tasks from localStorage as fallback
+ * @returns {void}
+ */
 function loadTasksFromLocalStorage() {
   const tasksData = localStorage.getItem('join_tasks');
   if (tasksData) {
     tasks = JSON.parse(tasksData);
-    window.tasks = tasks;
   }
 }
 
-window.uploadTask = uploadTask;
-window.fetchTasks = fetchTasks;
+// Alle Funktionen sind automatisch global

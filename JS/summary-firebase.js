@@ -1,11 +1,15 @@
 // ===== Firebase tasks (Summary counts) =====
-import { db } from "./firebaseAuth.js";
-import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+// Keine imports - db ist global durch firebaseAuth.js
 
+/**
+ * Fetches all tasks from Firebase database
+ * @async
+ * @returns {Promise<Object|null>} Object containing all tasks or null
+ */
 async function fetchAllTasks() {
     try {
-        const tasksRef = ref(db, "tasks");
-        const snapshot = await get(tasksRef);
+        const tasksRef = db.ref("tasks");
+        const snapshot = await tasksRef.get();
 
         if (snapshot.exists()) {
             return snapshot.val();
@@ -17,7 +21,11 @@ async function fetchAllTasks() {
     }
 }
 
-//updates counter
+/**
+ * Renders the total number of tasks on the board
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderBoardCount(tasks) {
     const el = document.getElementById('number-board');
     if (!el) return;
@@ -26,6 +34,11 @@ function renderBoardCount(tasks) {
     el.textContent = String(count);
 }
 
+/**
+ * Renders the number of tasks in To-Do status
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderTodoCount(tasks) {
     const el = document.getElementById('number-todo');
     if (!el) return;
@@ -45,6 +58,11 @@ function renderTodoCount(tasks) {
     el.textContent = String(todoCount);
 }
 
+/**
+ * Renders the number of tasks in Done status
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderDoneCount(tasks) {
     const el = document.getElementById('number-done');
     if (!el) return;
@@ -64,7 +82,11 @@ function renderDoneCount(tasks) {
     el.textContent = String(doneCount);
 }
 
-// updates progress counter
+/**
+ * Renders the number of tasks in Progress status
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderProgressCount(tasks) {
     const el = document.getElementById('number-progress');
     if (!el) return;
@@ -84,7 +106,11 @@ function renderProgressCount(tasks) {
     el.textContent = String(progressCount);
 }
 
-// updates feedback counter
+/**
+ * Renders the number of tasks in Awaiting Feedback status
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderFeedbackCount(tasks) {
     const el = document.getElementById('number-feedback');
     if (!el) return;
@@ -105,6 +131,11 @@ function renderFeedbackCount(tasks) {
 
 }
 
+/**
+ * Renders the number of urgent priority tasks
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderUrgentCount(tasks) {
     const el = document.getElementById('number-urgent');
     if (!el) return;
@@ -121,8 +152,11 @@ function renderUrgentCount(tasks) {
     el.textContent = String(urgentCount);
 }
 
-//updates deadline date
-
+/**
+ * Renders the earliest due date of urgent tasks
+ * @param {Object|null} tasks - Object containing all tasks
+ * @returns {void}
+ */
 function renderUrgentDueDate(tasks) {
     const el = document.getElementById('due-date');
     if (!el) return;
@@ -136,6 +170,11 @@ function renderUrgentDueDate(tasks) {
     displayEarliestDate(el, dates);
 }
 
+/**
+ * Gets sorted array of dates from urgent tasks
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {Array<Date>} Sorted array of Date objects
+ */
 function getUrgentTaskDates(tasks) {
     return Object.values(tasks)
         .filter(task => (task?.priority ?? '').toString().trim().toLowerCase() === 'urgent' && task.date)
@@ -144,6 +183,11 @@ function getUrgentTaskDates(tasks) {
         .sort((a, b) => a - b);
 }
 
+/**
+ * Parses a task date string or object into a Date
+ * @param {string|Date} dateValue - The date value to parse
+ * @returns {Date} Parsed Date object
+ */
 function parseTaskDate(dateValue) {
     if (typeof dateValue === 'string' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateValue.trim())) {
         const [dd, mm, yyyy] = dateValue.trim().split('/').map(Number);
@@ -152,6 +196,12 @@ function parseTaskDate(dateValue) {
     return new Date(dateValue);
 }
 
+/**
+ * Displays the earliest date from array or dash if empty
+ * @param {HTMLElement} el - The element to update
+ * @param {Array<Date>} dates - Array of dates
+ * @returns {void}
+ */
 function displayEarliestDate(el, dates) {
     if (dates.length === 0) {
         el.textContent = '-';
@@ -164,6 +214,11 @@ function displayEarliestDate(el, dates) {
     });
 }
 
+/**
+ * Loads and renders all summary count statistics
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loadSummaryCounts() {
     const isGreetingActive = checkGreetingActive();
     if (!isGreetingActive && typeof window.showLoader === 'function') {

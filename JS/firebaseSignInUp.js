@@ -1,12 +1,4 @@
-import { db } from "./firebaseAuth.js";
-
-import {
-    ref,
-    push,
-    set,
-    get,
-    child
-} from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+// Keine imports - db ist global durch firebaseAuth.js
 
 const name = document.getElementById("signup-name");
 const email = document.getElementById("signup-email");
@@ -15,12 +7,19 @@ const pwRepeat = document.getElementById("signup-password-repeat");
 const accept = document.getElementById("accept-policy");
 const pwError = document.querySelector(".false_password");
 
-// Generate unique user ID
+/**
+ * Generates a unique user ID based on current timestamp
+ * @returns {string} Unique user ID in format 'user_timestamp'
+ */
 function generateUserId() {
     return 'user_' + Date.now();
 }
 
-// Helper: Get users from Firebase DB or localStorage as fallback
+/**
+ * Gets users from Firebase database or localStorage as fallback
+ * @async
+ * @returns {Promise<Array>} Array of user objects
+ */
 async function getUsersFromDB() {
     try {
         return await fetchUsersFromFirebase();
@@ -29,9 +28,14 @@ async function getUsersFromDB() {
     }
 }
 
+/**
+ * Fetches all users from Firebase database
+ * @async
+ * @returns {Promise<Array>} Array of user objects with Firebase keys
+ */
 async function fetchUsersFromFirebase() {
-    const usersRef = ref(db, 'users');
-    const snapshot = await get(usersRef);
+    const usersRef = db.ref('users');
+    const snapshot = await usersRef.get();
     if (snapshot.exists()) {
         const usersObj = snapshot.val();
         return Object.keys(usersObj).map(key => ({
@@ -42,16 +46,25 @@ async function fetchUsersFromFirebase() {
     return [];
 }
 
+/**
+ * Gets users from localStorage
+ * @returns {Array} Array of user objects from localStorage
+ */
 function getUsersFromLocalStorage() {
     const usersData = localStorage.getItem('join_users');
     return usersData ? JSON.parse(usersData) : [];
 }
 
-// Helper: Save user to Firebase DB or localStorage as fallback
+/**
+ * Saves a user to Firebase database or localStorage as fallback
+ * @async
+ * @param {Object} userData - The user data to save
+ * @returns {Promise<string>} The Firebase key or user ID
+ */
 async function saveUserToDB(userData) {
     try {
-        const newUserRef = push(ref(db, "users"));
-        await set(newUserRef, userData);
+        const newUserRef = db.ref("users").push();
+        await newUserRef.set(userData);
         return newUserRef.key;
     } catch (error) {
         const users = JSON.parse(localStorage.getItem('join_users') || '[]');
@@ -61,24 +74,38 @@ async function saveUserToDB(userData) {
     }
 }
 
-// Helper: Get current user
+/**
+ * Gets the current user from localStorage
+ * @returns {Object|null} Current user object or null if not logged in
+ */
 function getCurrentUser() {
     const userData = localStorage.getItem('join_current_user');
     return userData ? JSON.parse(userData) : null;
 }
 
-// Helper: Set current user
+/**
+ * Sets the current user in localStorage and dispatches user event
+ * @param {Object} user - The user object to set as current
+ * @returns {void}
+ */
 function setCurrentUser(user) {
     localStorage.setItem('join_current_user', JSON.stringify(user));
     dispatchUserEvent(user);
 }
 
-// Helper: Clear current user
+/**
+ * Clears the current user from localStorage
+ * @returns {void}
+ */
 function clearCurrentUser() {
     localStorage.removeItem('join_current_user');
 }
 
-// Dispatch user ready event
+/**
+ * Dispatches a custom event with user data
+ * @param {Object} user - The user object
+ * @returns {void}
+ */
 function dispatchUserEvent(user) {
     const eventType = user.isGuest ? "guestUser" : "userReady";
     const eventDetail = getEventDetail(user);
@@ -87,18 +114,32 @@ function dispatchUserEvent(user) {
     updatePersonIcon(user.name);
 }
 
+/**
+ * Gets the event detail object based on user type
+ * @param {Object} user - The user object
+ * @returns {Object} Event detail object with user data
+ */
 function getEventDetail(user) {
     return user.isGuest 
         ? { name: user.name, uid: user.uid } 
         : { name: user.name, email: user.email, uid: user.uid };
 }
 
+/**
+ * Updates the person icon with user initials
+ * @param {string} userName - The user's name
+ * @returns {void}
+ */
 function updatePersonIcon(userName) {
     const icon = document.getElementById("personIcon");
     if (icon) icon.textContent = getFirstAndLastInitial(userName);
 }
 
-// Check auth state on page load
+/**
+ * Checks authentication state on page load
+ * Dispatches appropriate event based on current user
+ * @returns {void}
+ */
 function checkAuthState() {
     const user = getCurrentUser();
     if (user) {
@@ -114,7 +155,11 @@ window.addEventListener('load', () => {
     checkAuthState();
 });
 
-// LOGIN 
+/**
+ * Handles user login by validating credentials
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loginUser() {
     const emailInput = document.getElementById("login-mail");
     const passwordInput = document.getElementById("login-password");
@@ -132,6 +177,13 @@ async function loginUser() {
     }
 }
 
+/**
+ * Handles successful login by setting user data and redirecting
+ * @param {Object} user - The authenticated user object
+ * @param {HTMLInputElement} emailInput - The email input element
+ * @param {HTMLInputElement} passwordInput - The password input element
+ * @returns {void}
+ */
 function handleSuccessfulLogin(user, emailInput, passwordInput) {
     emailInput.classList.remove("invalid");
     passwordInput.classList.remove("invalid");
@@ -146,13 +198,23 @@ function handleSuccessfulLogin(user, emailInput, passwordInput) {
     window.location.href = "summary.html";
 }
 
+/**
+ * Handles failed login by showing error states
+ * @param {HTMLInputElement} emailInput - The email input element
+ * @param {HTMLInputElement} passwordInput - The password input element
+ * @param {HTMLElement} errorMsg - The error message element
+ * @returns {void}
+ */
 function handleFailedLogin(emailInput, passwordInput, errorMsg) {
     emailInput.classList.add("invalid");
     passwordInput.classList.add("invalid");
     if (errorMsg) errorMsg.classList.add("show");
 }
 
-// GUEST LOGIN
+/**
+ * Logs in as a guest user and redirects to summary
+ * @returns {void}
+ */
 function guestLogin() {
     const guestUser = {
         name: "Guest",
@@ -165,6 +227,10 @@ function guestLogin() {
     window.location.href = "summary.html";
 }
 
+/**
+ * Logs out the current user and redirects to index
+ * @returns {void}
+ */
 function logoutUser() {
     clearCurrentUser();
     sessionStorage.removeItem('guestMode');
@@ -172,8 +238,12 @@ function logoutUser() {
     window.location.href = "index.html";
 }
 
-// Sign up
-export async function registerUser() {
+/**
+ * Registers a new user after validation
+ * @async
+ * @returns {Promise<void>}
+ */
+async function registerUser() {
     const isInputValid = confirmInput();
     if (!isInputValid) return;
     
@@ -183,6 +253,11 @@ export async function registerUser() {
     await createAndSaveNewUser();
 }
 
+/**
+ * Checks if email is already registered
+ * @param {Array} users - Array of existing users
+ * @returns {boolean} True if email is taken, false otherwise
+ */
 function isEmailTaken(users) {
     if (users.find(u => u.email === email.value)) {
         alert("Diese Email wird bereits verwendet.");
@@ -192,6 +267,12 @@ function isEmailTaken(users) {
     return false;
 }
 
+/**
+ * Creates and saves a new user to the database
+ * Shows success message after registration
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createAndSaveNewUser() {
     const uid = generateUserId();
     const newUser = {
@@ -209,6 +290,10 @@ async function createAndSaveNewUser() {
     }
 }
 
+/**
+ * Shows registration success message and redirects to login
+ * @returns {void}
+ */
 function showRegistrationMessage() {
     disableAllClicks();
     let messageContainer = document.getElementById('registration-message');
@@ -218,6 +303,10 @@ function showRegistrationMessage() {
     }, 1000);
 }
 
+/**
+ * Disables all click events except on message container
+ * @returns {void}
+ */
 function disableAllClicks() {
     document.body.style.pointerEvents = 'none';
     const messageContainer = document.getElementById('registration-message');
@@ -226,6 +315,12 @@ function disableAllClicks() {
     }
 }
 
+/**
+ * Sets error state for password repeat validation
+ * @param {HTMLElement} message - The error message element
+ * @param {string} text - The error text to display
+ * @returns {void}
+ */
 function setPasswordRepeatError(message, text) {
     if (message) {
         message.innerHTML = text;
@@ -235,12 +330,22 @@ function setPasswordRepeatError(message, text) {
     pwRepeat.classList.add("invalid");
 }
 
+/**
+ * Clears error state for password repeat validation
+ * @param {HTMLElement} message - The error message element
+ * @returns {void}
+ */
 function clearPasswordRepeatError(message) {
     pw.classList.remove("invalid");
     pwRepeat.classList.remove("invalid");
     if (message) message.classList.remove("show");
 }
 
+/**
+ * Validates password repeat field
+ * Checks password criteria and matching
+ * @returns {boolean} True if validation passes, false otherwise
+ */
 function validatePasswordRepeat() {
     const passwordRegex = /^(?=.*[0-9]).{8,}$/;
     const isPwCriteriaValid = passwordRegex.test(pw.value);
@@ -260,6 +365,10 @@ function validatePasswordRepeat() {
     return true;
 }
 
+/**
+ * Validates that privacy policy checkbox is checked
+ * @returns {boolean} True if checked, false otherwise
+ */
 function validatePrivacyCheckbox() {
     if (!accept.checked) {
         if (window.validatePrivacyPolicy) window.validatePrivacyPolicy(accept);
@@ -269,6 +378,10 @@ function validatePrivacyCheckbox() {
     return true;
 }
 
+/**
+ * Validates all registration form inputs
+ * @returns {boolean} True if all validations pass, false otherwise
+ */
 function confirmInput() {
     const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -283,6 +396,13 @@ function confirmInput() {
     return isNameValid && isEmailValid && isPwValid && isPwCheckValid && isPrivacyAccepted;
 }
 
+/**
+ * Validates a single form field and shows/hides error message
+ * @param {HTMLElement} element - The form element to validate
+ * @param {boolean} condition - The validation condition
+ * @param {string} messageSelector - CSS selector for error message element
+ * @returns {boolean} True if validation passes, false otherwise
+ */
 function validateField(element, condition, messageSelector) {
     const message = document.querySelector(messageSelector);
     if (condition) {
@@ -296,6 +416,11 @@ function validateField(element, condition, messageSelector) {
     }
 }
 
+/**
+ * Extracts first and last initials from a full name
+ * @param {string} fullName - The full name to extract initials from
+ * @returns {string} Two-letter initials or "NN" if name is empty
+ */
 function getFirstAndLastInitial(fullName) {
     if (!fullName) return "NN";
     const parts = fullName.trim().split(/\s+/);
@@ -304,7 +429,4 @@ function getFirstAndLastInitial(fullName) {
     return (first + last).toUpperCase();
 }
 
-window.loginUser = loginUser;
-window.logoutUser = logoutUser;
-window.registerUser = registerUser;
-window.guestLogin = guestLogin;
+// Alle Funktionen sind automatisch global

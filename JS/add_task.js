@@ -1,5 +1,19 @@
+/**
+ * User initials for display
+ * @type {string}
+ */
 let userInitials = '';
+
+/**
+ * Current username
+ * @type {string}
+ */
 let username = '';
+
+/**
+ * Current task group/board column
+ * @type {string}
+ */
 let taskgroup = "ToDo"
 
 window.addEventListener("userReady", async (auth) => {
@@ -37,12 +51,21 @@ function addInitialToHeader() {
     initialSpace.innerHTML = userInitials;
 }
 
+/**
+ * Moves the current user to the first position in contacts array
+ * @param {string} username - The username to move to first position
+ * @returns {void}
+ */
 function putSelfOnFirstPlace(username) {
     if (!window.contacts || !Array.isArray(window.contacts)) return;
     let array = contacts.findIndex(e => e.name == username);
     if (array !== -1) contacts.unshift(...contacts.splice(array, 1));
 }
 
+/**
+ * Checks if all required task fields are filled before submission
+ * @returns {void}
+ */
 function checkFullfilledRequirements() {
     let taskData = collectTaskData();
 
@@ -53,6 +76,10 @@ function checkFullfilledRequirements() {
     processTaskCreation(taskData);
 }
 
+/**
+ * Collects all task data from form fields
+ * @returns {Object} Object containing all task field values
+ */
 function collectTaskData() {
     return {
         title: document.getElementById('title').value.trim(),

@@ -14,6 +14,11 @@ window.addEventListener("guestUser", (auth) => {
     addInitialToHeader();
 });
 
+/**
+ * Adds user initials to the header element
+ * Retries if element not found yet
+ * @returns {void}
+ */
 function addInitialToHeader() {
     let initialSpace = document.getElementById('user-initials');
     if (initialSpace) {
@@ -24,6 +29,10 @@ function addInitialToHeader() {
     }
 };
 
+/**
+ * Initializes the logout dialog with click handlers
+ * @returns {void}
+ */
 function initLogoutDialog() {
     const dialogLogOut = document.getElementById("dialogLogOut");
 

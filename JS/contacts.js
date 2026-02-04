@@ -1,12 +1,4 @@
-import { db } from "./firebaseAuth.js";
-import {
-    ref,
-    push,
-    set,
-    update,
-    remove,
-    get
-} from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+// Keine imports - db ist global durch firebaseAuth.js
 
 const contactList = document.getElementById("contacList");
 const contactDetails = document.getElementById("contactSelectet");
@@ -22,7 +14,12 @@ window.addEventListener("load", () => {
     nameList();
 });
 
-// Fetch Contactlist and display them sorted by name with letter sections
+/**
+ * Fetches contact list and displays them sorted by name with letter sections
+ * Filters out contacts without valid names
+ * @async
+ * @returns {Promise<void>}
+ */
 async function nameList() {
     await window.fetchContacts();
 
@@ -44,7 +41,9 @@ async function nameList() {
     });
 }
 
-// Show contact details on click
+/**
+ * Event listener to show contact details when a contact is clicked
+ */
 contactList.addEventListener("click", (event) => {
     const entry = event.target.closest(".contactEntry");
     if (!entry) return;
@@ -59,7 +58,12 @@ contactList.addEventListener("click", (event) => {
     }
 });
 
-// Set active state for contact entry
+/**
+ * Sets the active state for a contact entry by email
+ * Removes active class from all entries and adds it to the selected one
+ * @param {string} email - The email of the contact to set as active
+ * @returns {void}
+ */
 function setActiveContact(email) {
     // Remove active class from all entries
     const allEntries = document.querySelectorAll('.contactEntry');
@@ -72,13 +76,19 @@ function setActiveContact(email) {
     }
 }
 
-// Mobile view: show sidebar and hide details
+/**
+ * Mobile view: shows sidebar and hides contact details
+ * @returns {void}
+ */
 function sideBarvisible() {
     contactSidebarCss.classList.remove('hidden');
     contactDetailsCss.classList.remove('visible');
 }
 
-// Mobile view: show details and hide sidebar
+/**
+ * Mobile view: shows contact details and hides sidebar for screens <= 1100px
+ * @returns {void}
+ */
 function Detailsvisible() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 1100) {
@@ -87,24 +97,37 @@ function Detailsvisible() {
     }
 }
 
-// Add Dialog open
+/**
+ * Opens the add person dialog
+ * @returns {void}
+ */
 function openDialogAdd() {
     dialogAddPerson.showModal();
 }
 
-// Edit Dialog open
+/**
+ * Opens the edit contact dialog
+ * @returns {void}
+ */
 function openDialogEdit() {
     dialogEdit.showModal();
 }
 
-// Close all Dialog
+/**
+ * Closes all dialog windows and clears the add person form
+ * @returns {void}
+ */
 function closeDialog() {
     dialogAddPerson.close();
     clearForm();
     dialogEdit.close();
 }
 
-// Clear form inputs and remove invalid class
+/**
+ * Clears all form inputs and removes validation states
+ * Hides all validation messages
+ * @returns {void}
+ */
 function clearForm() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     inputs.forEach(input => {
@@ -116,21 +139,28 @@ function clearForm() {
     validationMessages.forEach(msg => msg.classList.remove('show'));
 }
 
-// Backdrop click Add to close Dialogs
+/**
+ * Event listener to close add person dialog when clicking the backdrop
+ */
 dialogAddPerson.addEventListener("click", (event) => {
     if (event.target === dialogAddPerson) {
         closeDialog();
     }
 });
 
-// Backdrop click Edite to close Dialogs
+/**
+ * Event listener to close edit dialog when clicking the backdrop
+ */
 dialogEdit.addEventListener("click", (event) => {
     if (event.target === dialogEdit) {
         closeDialog();
     }
 });
 
-// Open edit dialog on edit button click
+/**
+ * Event listener to open edit dialog when edit button is clicked
+ * Finds the contact by email and populates the edit form
+ */
 document.addEventListener("click", (event) => {
     const button = event.target.closest("#editContactButton");
     if (!button) return;
@@ -145,7 +175,10 @@ document.addEventListener("click", (event) => {
     }
 });
 
-// Open mobile edit bar
+/**
+ * Event listener to toggle mobile edit bar visibility
+ * Shows bar when clicking sidebar option, hides it otherwise
+ */
 contactDetails.addEventListener('click', (e) => {
     const bar = document.getElementById('mobileEditeBar');
     if (!bar) return;
@@ -156,13 +189,20 @@ contactDetails.addEventListener('click', (e) => {
     }
 });
 
-// Input validation on blur and red border for invalid inputs
+/**
+ * Input validation functions for different field types
+ * @type {Object.<string, function(string): boolean>}
+ */
 const validators = {
     text: value => value.trim() !== '',
     email: value => mailRegex.test(value),
     tel: value => phoneRegex.test(value),
 };
 
+/**
+ * Maps input field IDs to their corresponding validation message element IDs
+ * @type {Object.<string, string>}
+ */
 const validationMessageIds = {
     contactAddName: 'nameValidation',
     contactAddMail: 'emailValidation',
@@ -190,7 +230,11 @@ dialogAddPerson.querySelectorAll('input').forEach(input => {
     });
 });
 
-// Add validation to edit dialog inputs (needs to be attached when dialog opens)
+/**
+ * Attaches validation event listeners to edit dialog input fields
+ * Should be called when the edit dialog is opened
+ * @returns {void}
+ */
 function attachEditValidation() {
     dialogEdit.querySelectorAll('input').forEach(input => {
         input.addEventListener('blur', () => {
@@ -211,28 +255,34 @@ function attachEditValidation() {
     });
 }
 
-// Check if form is valid before uploading contact
+/**
+ * Checks if the add contact form is valid before uploading
+ * Validates all inputs and displays error messages if needed
+ * @returns {void}
+ */
 function isFormValid() {
-    console.log("isFormValid called");
     const inputs = dialogAddPerson.querySelectorAll('input');
     let allValid = true;
     
     // Validate all inputs and show error messages
     inputs.forEach(input => {
         const isValid = validateInput(input);
-        console.log(`Validating ${input.id}: ${isValid}`);
         if (!isValid) {
             allValid = false;
         }
     });
     
-    console.log("All valid:", allValid);
     if (!allValid) {
         return;
     }
     uploadContact();
 }
 
+/**
+ * Validates a single input field and shows/hides validation messages
+ * @param {HTMLInputElement} input - The input element to validate
+ * @returns {boolean} True if input is valid, false otherwise
+ */
 function validateInput(input) {
     const validator = validators[input.type];
     if (!validator) return true;
@@ -251,7 +301,12 @@ function validateInput(input) {
     return isValid;
 }
 
-// Upload new contact to database
+/**
+ * Uploads a new contact to the Firebase database
+ * Shows success message and refreshes the contact list
+ * @async
+ * @returns {Promise<void>}
+ */
 async function uploadContact() {
     const name = document.getElementById("contactAddName");
     const email = document.getElementById("contactAddMail");
@@ -263,34 +318,33 @@ async function uploadContact() {
     let NewContact = createContactObject(name, email, phone);
 
     try {
-        const newContactRef = push(ref(db, "contact"));
-        await set(newContactRef, NewContact);
-        console.log("Contact created successfully");
+        const newContactRef = db.ref("contact").push();
+        await newContactRef.set(NewContact);
         closeDialog();
         await nameList();
         
-        console.log("Looking for contact with email:", emailValue);
-        console.log("All contacts:", contacts);
-        
         // Find and display the newly created contact using saved email value
         const createdContact = contacts.find(c => c.email === emailValue);
-        console.log("Found contact:", createdContact);
         
         if (createdContact) {
-            console.log("Activating and showing contact");
             setActiveContact(createdContact.email);
             contactDetails.innerHTML = showContactDetails(createdContact);
             Detailsvisible();
-        } else {
-            console.log("Contact not found in contacts array");
         }
         
         showContactMessage("Contact successfully created");
     } catch (error) {
-        console.error("Error creating contact:", error);
+        // Silent error handling
     }
 }
 
+/**
+ * Creates a contact object from form input values
+ * @param {HTMLInputElement} nameInput - Name input element
+ * @param {HTMLInputElement} emailInput - Email input element
+ * @param {HTMLInputElement} phoneInput - Phone input element
+ * @returns {Object} Contact object with name, email, phone, and createdAt timestamp
+ */
 function createContactObject(nameInput, emailInput, phoneInput) {
     return {
         name: nameInput.value,
@@ -300,7 +354,14 @@ function createContactObject(nameInput, emailInput, phoneInput) {
     };
 }
 
-// Update contact to database
+/**
+ * Updates an existing contact in the Firebase database
+ * Validates all inputs before updating and shows success message
+ * @async
+ * @param {string} root - The root path ('users' or 'contact')
+ * @param {string} id - The contact ID to update
+ * @returns {Promise<void>}
+ */
 async function updateContact(root, id) {
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
@@ -324,8 +385,8 @@ async function updateContact(root, id) {
     let UpdateContact = createContactObject(name, email, phone);
 
     try {
-        const contactRef = ref(db, `${root}/${id}`);
-        await update(contactRef, UpdateContact);
+        const contactRef = db.ref(`${root}/${id}`);
+        await contactRef.update(UpdateContact);
 
         closeDialog();
         await nameList();
@@ -341,12 +402,19 @@ async function updateContact(root, id) {
     }
 }
 
-// Delete contact from database
+/**
+ * Deletes a contact from the Firebase database
+ * Removes contact from all tasks and refreshes the contact list
+ * @async
+ * @param {string} root - The root path ('users' or 'contact')
+ * @param {string} id - The contact ID to delete
+ * @returns {Promise<void>}
+ */
 async function deleteContact(root, id) {
     try {
         await removeContactFromTasks(id);
-        const contactRef = ref(db, `${root}/${id}`);
-        await remove(contactRef);
+        const contactRef = db.ref(`${root}/${id}`);
+        await contactRef.remove();
 
         contactDetails.innerHTML = "";
         sideBarvisible();
@@ -356,9 +424,15 @@ async function deleteContact(root, id) {
     }
 }
 
+/**
+ * Removes a contact from all tasks they are assigned to
+ * @async
+ * @param {string} contactId - The ID of the contact to remove from tasks
+ * @returns {Promise<void>}
+ */
 async function removeContactFromTasks(contactId) {
-    const tasksRef = ref(db, "tasks");
-    const snapshot = await get(tasksRef);
+    const tasksRef = db.ref("tasks");
+    const snapshot = await tasksRef.get();
 
     if (snapshot.exists()) {
         const tasks = snapshot.val();
@@ -366,29 +440,54 @@ async function removeContactFromTasks(contactId) {
     }
 }
 
+/**
+ * Iterates through all tasks and removes the contact from each
+ * @async
+ * @param {Object} tasks - Object containing all tasks
+ * @param {string} contactId - The ID of the contact to remove
+ * @returns {Promise<void>}
+ */
 async function updateAllTasksRemoveContact(tasks, contactId) {
     for (let taskId in tasks) {
         await removeContactFromSingleTask(tasks[taskId], taskId, contactId);
     }
 }
 
+/**
+ * Removes a contact from a single task's assigned persons
+ * Updates the task in Firebase if the contact was removed
+ * @async
+ * @param {Object} task - The task object
+ * @param {string} taskId - The task ID
+ * @param {string} contactId - The ID of the contact to remove
+ * @returns {Promise<void>}
+ */
 async function removeContactFromSingleTask(task, taskId, contactId) {
     if (task.assignedPersons) {
         const originalLength = task.assignedPersons.length;
         task.assignedPersons = task.assignedPersons.filter(p => p.id !== contactId);
 
         if (task.assignedPersons.length !== originalLength) {
-            const taskRef = ref(db, `tasks/${taskId}`);
-            await update(taskRef, { assignedPersons: task.assignedPersons });
+            const taskRef = db.ref(`tasks/${taskId}`);
+            await taskRef.update({ assignedPersons: task.assignedPersons });
         }
     }
 }
 
-// Render letter section and contact entry
+/**
+ * Renders a letter section divider for the contact list
+ * @param {string} letter - The letter to display
+ * @returns {string} HTML string for the letter section
+ */
 function letterSection(letter) {
     return `<div class="sectionList">${letter}</div><hr>`
 }
 
+/**
+ * Renders a contact entry for the contact list
+ * @param {Object} contact - The contact object
+ * @returns {string} HTML string for the contact entry
+ */
 function contactEntry(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
@@ -405,7 +504,11 @@ function contactEntry(contact) {
             </div>`
 }
 
-// Render contact details
+/**
+ * Renders detailed view of a selected contact
+ * @param {Object} contact - The contact object to display
+ * @returns {string} HTML string for the contact details view
+ */
 function showContactDetails(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
@@ -449,7 +552,11 @@ function showContactDetails(contact) {
             </div>`
 }
 
-// Render edit contact dialog
+/**
+ * Renders the edit contact dialog with pre-filled contact data
+ * @param {Object} contact - The contact object to edit
+ * @returns {string} HTML string for the edit contact dialog
+ */
 function editContact(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
@@ -497,12 +604,21 @@ function editContact(contact) {
             </div>`
 }
 
+/**
+ * Makes the mobile edit bar visible
+ * @returns {void}
+ */
 function mobileEditBar() {
     const bar = document.getElementById('mobileEditeBar');
     if (bar) bar.classList.add('visible');
 }
 
-// Show contact message animation
+/**
+ * Shows a success message with animation
+ * Message automatically hides after 2 seconds
+ * @param {string} text - The message text to display
+ * @returns {void}
+ */
 function showContactMessage(text) {
     const message = document.getElementById('contact-message');
     if (!message) return;
@@ -519,13 +635,4 @@ function showContactMessage(text) {
     }, 2000);
 }
 
-window.openDialogAdd = openDialogAdd;
-window.openDialogEdit = openDialogEdit;
-window.closeDialog = closeDialog;
-window.isFormValid = isFormValid;
-window.uploadContact = uploadContact;
-window.updateContact = updateContact;
-window.deleteContact = deleteContact;
-window.sideBarvisible = sideBarvisible;
-window.mobileEditBar = mobileEditBar;
-window.nameList = nameList;            
+// Alle Funktionen sind automatisch global - kein window.x = x mehr nötig!

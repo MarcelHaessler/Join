@@ -236,7 +236,7 @@ function validatePrivacyPolicy(checkbox) {
     }
 }
 
-window.validatePrivacyPolicy = validatePrivacyPolicy;
+// Funktion ist automatisch global
 
 
 

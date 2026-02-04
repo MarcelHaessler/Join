@@ -1,4 +1,8 @@
-//greeting depends on time
+/**
+ * Gets greeting text based on time of day
+ * @param {Date} [date=new Date()] - The date to check (defaults to current)
+ * @returns {string} Greeting message ("Good morning", "Good afternoon", or "Good evening")
+ */
 function getGreetingTextByTime(date = new Date()) {
     const hour = date.getHours(); // local hour 0–23
     if (hour < 12) return "Good morning";
@@ -6,7 +10,11 @@ function getGreetingTextByTime(date = new Date()) {
     return "Good evening";
 }
 
-//render greeting
+/**
+ * Updates the greeting display with time-based message and user name
+ * @param {string} [name=""] - The user's name to display
+ * @returns {void}
+ */
 function updateGreeting(name = "") {
     const greetEl = document.getElementById("greeting-text");
     const nameEl = document.getElementById("greet-name");
@@ -45,6 +53,10 @@ function initMobileGreeting() {
     return false;
 }
 
+/**
+ * Finishes the mobile greeting animation and transitions to main content
+ * @returns {void}
+ */
 function finishMobileGreeting() {
     if (!document.body.classList.contains('show-greeting')) return;
 
@@ -63,29 +75,43 @@ function finishMobileGreeting() {
     });
 }
 
-window.initMobileGreeting = initMobileGreeting;
-window.finishMobileGreeting = finishMobileGreeting;
+// Funktionen sind automatisch global
 
-window.addEventListener("userReady", (auth) => {
+addEventListener("userReady", (auth) => {
     updateGreeting(auth.detail.name || "");
 });
 
-//hover imgs 
+/**
+ * Changes pencil icon to hover state
+ * @returns {void}
+ */
 function pencilHoverEffect() {
     const img = document.querySelector('#to-do-container img');
     if (img) img.src = './assets/img/pencil-button-hover.svg';
 }
 
+/**
+ * Changes done icon to hover state
+ * @returns {void}
+ */
 function doneHoverEffect() {
     const img = document.querySelector('#done-container img');
     if (img) img.src = './assets/img/done-button-hover.svg';
 }
 
+/**
+ * Restores pencil icon to normal state
+ * @returns {void}
+ */
 function pencilLeaveEffect() {
     const img = document.querySelector('#to-do-container img');
     if (img) img.src = './assets/img/pencil-button.svg';
 }
 
+/**
+ * Restores done icon to normal state
+ * @returns {void}
+ */
 function doneLeaveEffect() {
     const img = document.querySelector('#done-container img');
     if (img) img.src = './assets/img/done-button.svg';
