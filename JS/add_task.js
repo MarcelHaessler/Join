@@ -55,8 +55,8 @@ function checkFullfilledRequirements() {
 
 function collectTaskData() {
     return {
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
         dueDate: document.getElementById('date').value,
         priority: currentPriotity,
         category: currentCategory,
