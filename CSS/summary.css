@@ -12,10 +12,6 @@
     }
 }
 
-main{
-    max-width: calc(2560px - 232px);
-}
-
 .containerGroup {
     display: flex;
     flex-direction: row;

@@ -477,6 +477,59 @@ main {
   }
 }
 
+@media (max-width: 680px) {
+  .login_signup_container {
+    width: 90%;
+    padding: 24px 12px;
+    gap: 24px;
+  }
+
+  #sign_up_main_container {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-validation-text {
+    height: 32px;
+  }
+}
+
 .invalid {
   border-color: var(--invalideColor);
+}
+
+#registration-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--contrastColor);
+  width: 240px;
+  gap: 12px;
+
+  position: fixed;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 100%);
+  opacity: 1;
+
+  background-color: var(--primerColor);
+  border-radius: 12px;
+  padding: 12px 20px;
+
+  z-index: 1000;
+
+  transition: transform 300ms ease;
+}
+
+#registration-message.active {
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+#registration-message > img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(70deg) brightness(103%) contrast(102%);
+  width: 32px;
 }

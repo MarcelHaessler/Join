@@ -13,20 +13,18 @@ function activateCheckbox() {
 }
 
 function handleBlur(input) {
-    if (input.placeholder === 'Name') validateName(input.value, input);
+    if (input.placeholder === 'Name') validateName(input.value, input, true);
     else if (input.type === 'email') {
         if (input.id === 'login-mail') {
-            validateLoginEmail(input.value, input);
+            validateLoginEmail(input.value, input, true);
         } else {
-            validateEmail(input.value, input);
+            validateEmail(input.value, input, true);
         }
     }
-    else if (input.placeholder === 'Password' && input.id !== 'login-password') validatePassword(input.value, input);
+    else if (input.placeholder === 'Password' && input.id !== 'login-password') validatePassword(input.value, input, true);
     else if (input.placeholder === 'Confirm Password') {
         validateConfirmPassword(input.value, input);
-        updatePasswordMessage();
-    } else {
-        input.addEventListener('input', () => validateEmail(input.value, input));
+        updatePasswordMessage(true);
     }
 }
 
@@ -45,7 +43,7 @@ function addPasswordInputListener(input) {
 function addConfirmPasswordListener(input) {
     input.addEventListener('input', () => {
         validateConfirmPassword(input.value, input);
-        updatePasswordMessage();
+        updatePasswordMessage(false);
     });
 }
 
@@ -65,16 +63,19 @@ document.querySelectorAll('input').forEach(input => {
     }
 });
 
-function updatePasswordMessage() {
+function updatePasswordMessage(onBlur = false) {
     const passwordInput = document.getElementById('signup-password');
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
     const message = document.getElementById('password_repeat_message');
     
     if (!passwordInput || !confirmPasswordInput || !message) return;
-    if (confirmPasswordInput.value === '') {
+    
+    // Bei blur oder wenn Wert vorhanden ist, validieren
+    if (confirmPasswordInput.value === '' && !onBlur) {
         clearPasswordValidation(message, confirmPasswordInput);
         return;
     }
+    
     validatePasswordMatch(passwordInput, confirmPasswordInput, message);
 }
 
@@ -115,15 +116,18 @@ function clearAllPasswordErrors(message, passwordInput, confirmPasswordInput) {
     confirmPasswordInput.classList.remove('invalid');
 }
 
-function validateName(name, input) {
+function validateName(name, input, onBlur = false) {
     const message = document.querySelector('#name_message');
     const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     if (!message) return;
-    if (name.trim() === '') {
+    
+    // Bei blur oder wenn Wert vorhanden ist, validieren
+    if (name.trim() === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
+    
     if (nameRegex.test(name.trim())) {
         input.classList.remove('invalid');
         message.classList.remove('show');
@@ -133,14 +137,17 @@ function validateName(name, input) {
     }
 }
 
-function validateEmail(email, input) {
+function validateEmail(email, input, onBlur = false) {
     const message = document.querySelector('#email_message');
     if (!message) return;
-    if (email.trim() === '') {
+    
+    // Bei blur oder wenn Wert vorhanden ist, validieren
+    if (email.trim() === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
+    
     if (mailRegex.test(email)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
@@ -150,14 +157,17 @@ function validateEmail(email, input) {
     }
 }
 
-function validateLoginEmail(email, input) {
+function validateLoginEmail(email, input, onBlur = false) {
     const message = document.querySelector('.false_email');
     if (!message) return;
-    if (email.trim() === '') {
+    
+    // Bei blur oder wenn Wert vorhanden ist, validieren
+    if (email.trim() === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
+    
     if (mailRegex.test(email)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
@@ -175,15 +185,18 @@ function recheckConfirmPassword() {
     }
 }
 
-function validatePassword(password, input) {
+function validatePassword(password, input, onBlur = false) {
     const message = document.querySelector('#password_message');
     if (!message) return;
-    if (password === '') {
+    
+    // Bei blur oder wenn Wert vorhanden ist, validieren
+    if (password === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         recheckConfirmPassword();
         return;
     }
+    
     if (passwordRegex.test(password)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
