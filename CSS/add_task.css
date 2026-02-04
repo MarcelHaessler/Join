@@ -187,6 +187,7 @@ textarea {
 
 #assignment-container {
     margin-bottom: 20px;
+    position: relative;
 }
 
 #assign-input-box {
@@ -201,6 +202,10 @@ textarea {
 #assign-input:focus::placeholder {
     color: transparent;
     transition: 200ms;
+}
+
+#category-container {
+    position: relative;
 }
 
 #category-input {
@@ -231,6 +236,10 @@ textarea {
 
 #contacts-dropdown,
 #category-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -240,11 +249,12 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: -8px;
+    margin-top: 0;
     padding-top: 6px;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    z-index: 1000;
 }
 
 #contacts-dropdown.open {
@@ -259,7 +269,7 @@ textarea {
 #category-dropdown.open {
     max-height: 280px;
     opacity: 1;
-    margin-top: -8px;
+    margin-top: -34px;
     border-top: none;
     box-sizing: border-box;
 }
@@ -683,7 +693,7 @@ li {
     }
 
      #category-dropdown.open {
-        margin-top: -18px;
+        margin-top: -44px;
     }
 
     .dropdown-box {
