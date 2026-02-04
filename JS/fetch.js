@@ -151,12 +151,17 @@ function processData(snapshot, root) {
 function enhanceContacts() {
     contacts.forEach((user, i) => {
         user.colorIndex = i % backgroundColorCodes.length;
-        user.initials = getFirstAndLastInitial(user.name);
+        if (user.name && user.name.trim() !== "") {
+            user.initials = getFirstAndLastInitial(user.name);
+        } else {
+            user.initials = "?";
+        }
         user.phone = getPhonenumber(user.phone);
     });
 }
 
 function getFirstAndLastInitial(fullName) {
+    if (!fullName || fullName.trim() === "") return "?";
     const parts = fullName.trim().split(/\s+/);
     const first = parts[0][0];
     const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";

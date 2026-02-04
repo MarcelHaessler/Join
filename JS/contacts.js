@@ -26,12 +26,15 @@ window.addEventListener("load", () => {
 async function nameList() {
     await window.fetchContacts();
 
-    contacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
+    // Filter out contacts without a name
+    const validContacts = contacts.filter(contact => contact.name && contact.name.trim() !== "");
+
+    validContacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
 
     contactList.innerHTML = "";
     let currentLetter = "";
 
-    contacts.forEach(contact => {
+    validContacts.forEach(contact => {
         const letter = contact.name[0].toUpperCase();
         if (letter !== currentLetter) {
             currentLetter = letter;
@@ -50,10 +53,24 @@ contactList.addEventListener("click", (event) => {
     const contact = contacts.find(c => c.email === mail);
 
     if (contact) {
+        setActiveContact(mail);
         contactDetails.innerHTML = showContactDetails(contact);
         Detailsvisible();
     }
 });
+
+// Set active state for contact entry
+function setActiveContact(email) {
+    // Remove active class from all entries
+    const allEntries = document.querySelectorAll('.contactEntry');
+    allEntries.forEach(entry => entry.classList.remove('active'));
+    
+    // Add active class to clicked entry
+    const activeEntry = document.querySelector(`.contactEntry[data-mail="${email}"]`);
+    if (activeEntry) {
+        activeEntry.classList.add('active');
+    }
+}
 
 // Mobile view: show sidebar and hide details
 function sideBarvisible() {
@@ -124,6 +141,7 @@ document.addEventListener("click", (event) => {
     if (contact) {
         dialogEdit.innerHTML = editContact(contact);
         dialogEdit.showModal();
+        attachEditValidation();
     }
 });
 
@@ -148,7 +166,10 @@ const validators = {
 const validationMessageIds = {
     contactAddName: 'nameValidation',
     contactAddMail: 'emailValidation',
-    contactAddPhone: 'phoneValidation'
+    contactAddPhone: 'phoneValidation',
+    contactUpdateName: 'nameValidationEdit',
+    contactUpdateMail: 'emailValidationEdit',
+    contactUpdatePhone: 'phoneValidationEdit'
 };
 
 dialogAddPerson.querySelectorAll('input').forEach(input => {
@@ -169,19 +190,43 @@ dialogAddPerson.querySelectorAll('input').forEach(input => {
     });
 });
 
+// Add validation to edit dialog inputs (needs to be attached when dialog opens)
+function attachEditValidation() {
+    dialogEdit.querySelectorAll('input').forEach(input => {
+        input.addEventListener('blur', () => {
+            const validator = validators[input.type];
+            if (!validator) return;
+            const isValid = validator(input.value);
+            input.classList.toggle('invalid', !isValid);
+            
+            // Show/hide validation message
+            const messageId = validationMessageIds[input.id];
+            if (messageId) {
+                const message = document.getElementById(messageId);
+                if (message) {
+                    message.classList.toggle('show', !isValid);
+                }
+            }
+        });
+    });
+}
+
 // Check if form is valid before uploading contact
 function isFormValid() {
+    console.log("isFormValid called");
     const inputs = dialogAddPerson.querySelectorAll('input');
     let allValid = true;
     
     // Validate all inputs and show error messages
     inputs.forEach(input => {
         const isValid = validateInput(input);
+        console.log(`Validating ${input.id}: ${isValid}`);
         if (!isValid) {
             allValid = false;
         }
     });
     
+    console.log("All valid:", allValid);
     if (!allValid) {
         return;
     }
@@ -211,15 +256,38 @@ async function uploadContact() {
     const name = document.getElementById("contactAddName");
     const email = document.getElementById("contactAddMail");
     const phone = document.getElementById("contactAddPhone");
+    
+    // Save email value before closing dialog
+    const emailValue = email.value;
+    
     let NewContact = createContactObject(name, email, phone);
 
     try {
         const newContactRef = push(ref(db, "contact"));
         await set(newContactRef, NewContact);
+        console.log("Contact created successfully");
         closeDialog();
         await nameList();
+        
+        console.log("Looking for contact with email:", emailValue);
+        console.log("All contacts:", contacts);
+        
+        // Find and display the newly created contact using saved email value
+        const createdContact = contacts.find(c => c.email === emailValue);
+        console.log("Found contact:", createdContact);
+        
+        if (createdContact) {
+            console.log("Activating and showing contact");
+            setActiveContact(createdContact.email);
+            contactDetails.innerHTML = showContactDetails(createdContact);
+            Detailsvisible();
+        } else {
+            console.log("Contact not found in contacts array");
+        }
+        
+        showContactMessage("Contact successfully created");
     } catch (error) {
-        // Silent error handling
+        console.error("Error creating contact:", error);
     }
 }
 
@@ -237,6 +305,22 @@ async function updateContact(root, id) {
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
     const phone = document.getElementById("contactUpdatePhone");
+    
+    // Validate all inputs before updating
+    const inputs = [name, email, phone];
+    let allValid = true;
+    
+    inputs.forEach(input => {
+        const isValid = validateInput(input);
+        if (!isValid) {
+            allValid = false;
+        }
+    });
+    
+    if (!allValid) {
+        return;
+    }
+    
     let UpdateContact = createContactObject(name, email, phone);
 
     try {
@@ -248,8 +332,10 @@ async function updateContact(root, id) {
 
         const updatedContact = contacts.find(c => c.id === id);
         if (updatedContact) {
+            setActiveContact(updatedContact.email);
             contactDetails.innerHTML = showContactDetails(updatedContact);
         }
+        showContactMessage("Contact successfully updated");
     } catch (error) {
         // Silent error handling
     }
@@ -365,6 +451,10 @@ function showContactDetails(contact) {
 
 // Render edit contact dialog
 function editContact(contact) {
+    const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
+        ? window.backgroundColorCodes[contact.colorIndex]
+        : '#ccc';
+        
     return `<div>
                 <div class="ACBetterTeam">
                     <img src="./assets/img/logo_light.svg" alt="">
@@ -372,22 +462,31 @@ function editContact(contact) {
                     <hr>
                 </div>
                 <div class="contactAdd">
-                    <div class="ananymPerson">
-                        <img src="./assets/img/contacts/person_white.svg" alt="">
+                    <div class="ananymPerson" style="background-color: ${color};">
+                        ${contact.initials}
                     </div>
                     <div class="contactAddForm">
                         <button class="cancel" onclick="closeDialog()"><img src="./assets/img/contacts/delete.svg" alt="" srcset=""></button>
-                        <div>
-                            <input type="text" id="contactUpdateName" name="contactName" value="${contact.name}">
-                            <img class="inputIcon" src="./assets/img/contacts/person.svg" alt="" srcset="">
+                        <div class="input-wrapper">
+                            <div class="input-container">
+                                <input type="text" id="contactUpdateName" name="contactName" value="${contact.name}">
+                                <img class="inputIcon" src="./assets/img/contacts/person.svg" alt="" srcset="">
+                            </div>
+                            <span class="validation-message" id="nameValidationEdit">Please add a real name</span>
                         </div>
-                        <div>
-                            <input type="email" id="contactUpdateMail" name="contactMail" value="${contact.email}">
-                            <img class="inputIcon" src="./assets/img/contacts/mail.svg" alt="" srcset="">
+                        <div class="input-wrapper">
+                            <div class="input-container">
+                                <input type="email" id="contactUpdateMail" name="contactMail" value="${contact.email}">
+                                <img class="inputIcon" src="./assets/img/contacts/mail.svg" alt="" srcset="">
+                            </div>
+                            <span class="validation-message" id="emailValidationEdit">Please enter a valid E-Mail address</span>
                         </div>
-                        <div>
-                            <input type="phone" id="contactUpdatePhone" name="contactPhone" value="${contact.phone}">
-                            <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
+                        <div class="input-wrapper">
+                            <div class="input-container">
+                                <input type="tel" id="contactUpdatePhone" name="contactPhone" value="${contact.phone}">
+                                <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
+                            </div>
+                            <span class="validation-message" id="phoneValidationEdit">Please enter a valid telefonnumber</span>
                         </div>
                         <div class="contactEditButtons">
                             <button class="contactEditDelete" onclick="deleteContact('${contact.root}','${contact.id}')"><span>Delete</span></button>
@@ -401,6 +500,23 @@ function editContact(contact) {
 function mobileEditBar() {
     const bar = document.getElementById('mobileEditeBar');
     if (bar) bar.classList.add('visible');
+}
+
+// Show contact message animation
+function showContactMessage(text) {
+    const message = document.getElementById('contact-message');
+    if (!message) return;
+    
+    // Update text
+    message.querySelector('p').textContent = text;
+    
+    // Show message with slide-in animation
+    message.classList.add('show');
+    
+    // Hide message after 2 seconds with slide-out animation
+    setTimeout(() => {
+        message.classList.remove('show');
+    }, 2000);
 }
 
 window.openDialogAdd = openDialogAdd;

@@ -73,6 +73,11 @@ main {
         background-color: var(--primerColor);
         color: var(--contrastColor);
     }
+
+    &.active {
+        background-color: var(--primerColor);
+        color: var(--contrastColor);
+    }
 }
 
 .contactlistIcon {
@@ -115,6 +120,7 @@ main {
     flex: 1;
     padding: 20px;
     border-left: 2px solid #ddd;
+    position: relative;
 }
 
 .contactHeader {
@@ -329,6 +335,8 @@ dialog {
     border: solid 3px var(--contrastColor);
     align-self: center;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    font-size: 44px;
+    color: white;
 
     img {
         width: 42px;
@@ -667,4 +675,29 @@ dialog {
         }
     }
 
+}
+
+#contact-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--contrastColor);
+    width: 240px;
+    gap: 12px;
+
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    background-color: var(--primerColor);
+    border-radius: 12px;
+    padding: 12px 20px;
+
+    z-index: 1000;
+
+    transform: translateX(calc(100% + 40px));
+    transition: transform 500ms ease-in-out;
+}
+
+#contact-message.show {
+    transform: translateX(0);
 }
