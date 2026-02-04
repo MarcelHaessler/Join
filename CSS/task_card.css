@@ -110,6 +110,8 @@
     text-align: start;
     height: auto;
     padding: 0;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 #task-description {
@@ -119,6 +121,8 @@
     text-align: start;
     height: auto;
     padding: 0;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 #task-due-date-container {
