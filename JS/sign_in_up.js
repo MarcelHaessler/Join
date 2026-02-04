@@ -1,5 +1,5 @@
-const false_password = document.querySelector('.false_password');
-const pw = document.getElementById("signup-password");
+// Variables declared in firebase_sign_in_up.js - removed duplicates
+// const pw, const name, const email, const pwRepeat, const accept
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^(?=.*[0-9]).{8,}$/;
 

@@ -1,4 +1,4 @@
-// Keine imports - db ist global durch firebaseAuth.js
+// Keine imports - db ist global durch firebase_auth.js
 
 /**
  * Global array storing all tasks
@@ -14,14 +14,14 @@ var tasks = [];
  * @param {string} taskDueDate - The task due date
  * @param {string} taskPriority - The task priority level
  * @param {string} taskCategory - The task category
- * @param {string} taskgroup - The board group (ToDo, InProgress, etc.)
+ * @param {string} taskGroup - The board group (ToDo, InProgress, etc.)
  * @param {Array} taskAssignments - Array of assigned persons
  * @param {Array} taskSubtasks - Array of subtasks
  * @returns {Promise<void>}
  */
-async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
+async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskGroup, taskAssignments, taskSubtasks) {
   showLoader();
-  let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks);
+  let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskGroup, taskAssignments, taskSubtasks);
 
   try {
     await saveTaskToFirebase(task);
@@ -113,5 +113,3 @@ function loadTasksFromLocalStorage() {
     tasks = JSON.parse(tasksData);
   }
 }
-
-// Alle Funktionen sind automatisch global

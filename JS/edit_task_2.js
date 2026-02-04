@@ -1,3 +1,5 @@
+/**JS functions to edit task title, description, due date, and priority */
+
 let editedTitle = '';
 let editedDescription = '';
 let editedDueDate = '';

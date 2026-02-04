@@ -1,5 +1,3 @@
-// Keine imports - db ist global durch firebaseAuth.js
-
 const name = document.getElementById("signup-name");
 const email = document.getElementById("signup-email");
 const pw = document.getElementById("signup-password");
@@ -428,5 +426,3 @@ function getFirstAndLastInitial(fullName) {
     const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
     return (first + last).toUpperCase();
 }
-
-// Alle Funktionen sind automatisch global

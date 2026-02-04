@@ -14,7 +14,7 @@ let username = '';
  * Current task group/board column
  * @type {string}
  */
-let taskgroup = "ToDo"
+let taskGroup = "ToDo"
 
 window.addEventListener("userReady", async (auth) => {
     username = auth.detail.name
@@ -104,13 +104,13 @@ function showValidationWarnings() {
 }
 
 function processTaskCreation(taskData) {
-    uploadTask(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.category, taskgroup, taskData.assignments, taskData.subtasks);
+    uploadTask(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.category, taskGroup, taskData.assignments, taskData.subtasks);
     clearTask();
     userResponseMessage();
     setTimeout(goToBoard, 500);
 }
 
-function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskgroup, taskAssignments, taskSubtasks) {
+function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskGroup, taskAssignments, taskSubtasks) {
     return {
         title: taskTitle,
         description: taskDescription,
@@ -123,7 +123,7 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
             subtaskComplete: false
         })),
         createdAt: new Date().toISOString(),
-        taskgroup: taskgroup,
+        taskGroup: taskGroup,
         createdBy: username
     }
 }

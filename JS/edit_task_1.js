@@ -1,3 +1,5 @@
+/** JS functions for editing task board assignments, category, and subtasks */
+
 let editSelectedContacts = [];
 let editedCategory = '';
 let editedSubtaskListArray = [];

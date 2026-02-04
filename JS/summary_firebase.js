@@ -1,5 +1,5 @@
 // ===== Firebase tasks (Summary counts) =====
-// Keine imports - db ist global durch firebaseAuth.js
+// Keine imports - db ist global durch firebase_auth.js
 
 /**
  * Fetches all tasks from Firebase database
@@ -50,7 +50,7 @@ function renderTodoCount(tasks) {
 
     const todoCount = Object.values(tasks)
         .filter(task => {
-            const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
+            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
             return g === 'to-do' || g === 'todo' || g === 'to do';
         })
         .length;
@@ -74,7 +74,7 @@ function renderDoneCount(tasks) {
 
     const doneCount = Object.values(tasks)
         .filter(task => {
-            const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
+            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
             return g === 'Done' || g === 'done';
         })
         .length
@@ -98,7 +98,7 @@ function renderProgressCount(tasks) {
 
     const progressCount = Object.values(tasks)
         .filter(task => {
-            const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
+            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
             return g === 'inprogress' || g === 'in progress' || g === 'progress';
         })
         .length
@@ -122,7 +122,7 @@ function renderFeedbackCount(tasks) {
 
     const feedbackCount = Object.values(tasks)
         .filter(task => {
-            const g = (task?.taskgroup ?? '').toString().trim().toLowerCase();
+            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
             return g === 'awaiting' || g === 'awaiting feedback' || g === 'feedback';
         })
         .length
