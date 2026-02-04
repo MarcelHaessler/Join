@@ -289,13 +289,31 @@ function editAddSubtaskToList() {
 }
 
 /**Function to delete chosen subtask from list */
-function editDeleteSubtaskListElement(id) {
+function editDeleteSubtaskListElement(id, textToDelete = null) {
     let subtaskElement = document.getElementById(id);
     if (!subtaskElement) return;
-    let li = subtaskElement.querySelector('.edit-subtask-element');
-    let text = li ? li.textContent.trim() : '';
+    
+    let text = textToDelete;
+    
+    // Wenn kein Text übergeben wurde, versuche ihn zu finden
+    if (!text) {
+        let li = subtaskElement.querySelector('.edit-subtask-element');
+        let input = subtaskElement.querySelector('#edit-subtask-input');
+        
+        if (li) {
+            text = li.textContent.trim();
+        } else if (input) {
+            text = input.value.trim();
+        }
+    }
+    
+    // Entferne visuell
     subtaskElement.remove();
-    editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text !== text);
+    
+    // Entferne aus Array
+    if (text) {
+        editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text.trim() !== text.trim());
+    }
 }
 
 /**Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li. */
@@ -332,7 +350,7 @@ function editCreateEditInput(text) {
 function editCreateEditButtons(input, box, taskId, oldText) {
     const container = document.createElement("div");
     container.className = "edit-subtask-list-button-container";
-    const deleteBtn = editCreateButton('./assets/img/add_task/delete.svg', () => editDeleteSubtaskListElement(taskId));
+    const deleteBtn = editCreateButton('./assets/img/add_task/delete.svg', () => editDeleteSubtaskListElement(taskId, oldText));
     const divider = editCreateDivider();
     const saveBtn = createEditSaveButton(input, box, taskId, oldText);
     container.append(deleteBtn, divider, saveBtn);

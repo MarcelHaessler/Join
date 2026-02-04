@@ -14,7 +14,7 @@ header {
     padding: 0 40px;
     box-sizing: border-box;
     position: relative;
-    max-width: calc(2560px - 232px);
+    max-width: 1920px;
 }
 
 #header-logo {
@@ -89,7 +89,7 @@ header {
     position: fixed;
     inset: auto;
     top: 96px;
-    right: max(40px, calc(100vw - 2520px));
+    right: max(64px, calc(100vw - 2100px));
     width: 150px;
     height: auto;
     padding: 10px;
@@ -160,7 +160,7 @@ dialog button:focus {
     }
 
     #dialogLogOut {
-        top: 60px;
+        top: 80px;
         right: 12px;
 
         #help-button {

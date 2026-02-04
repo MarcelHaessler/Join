@@ -27,7 +27,7 @@
     box-sizing: border-box;
     background-color: white;
     border-radius: 16px;
-    padding: 32px;
+    padding: 32px 20px 32px 32px;
     width: 100%;
     height: 100vh;
     max-width: 525px;
@@ -39,6 +39,9 @@
     scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
+}
+
+#task-card {
     justify-content: space-around;
 }
 
@@ -276,7 +279,6 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
     }
 
     #task-card-head {

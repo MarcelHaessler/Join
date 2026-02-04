@@ -245,6 +245,12 @@ function clearInputField() {
 function addSubtaskToList() {
     let subtasks = document.getElementById("subtasks");
     let subtaskList = document.getElementById("subtask-list");
+    
+    // Prüfe ob Eingabe nach trim() leer ist
+    if (subtasks.value.trim() === '') {
+        clearInputField();
+        return;
+    }
 
     subtaskList.innerHTML += addSubtaskTemplate(subtasks, subtaskIndex);
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());

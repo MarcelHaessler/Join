@@ -203,9 +203,26 @@ async function createAndSaveNewUser() {
 
     try {
         await saveUserToDB(newUser);
-        window.location.href = "index.html";
+        showRegistrationMessage();
     } catch (error) {
         alert("Ein Fehler ist aufgetreten: " + error.message);
+    }
+}
+
+function showRegistrationMessage() {
+    disableAllClicks();
+    let messageContainer = document.getElementById('registration-message');
+    messageContainer.classList.add('active');
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1000);
+}
+
+function disableAllClicks() {
+    document.body.style.pointerEvents = 'none';
+    const messageContainer = document.getElementById('registration-message');
+    if (messageContainer) {
+        messageContainer.style.pointerEvents = 'auto';
     }
 }
 

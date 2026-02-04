@@ -16,6 +16,7 @@ label {
 }
 
 #content-section {
+    position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -24,7 +25,7 @@ label {
     padding: 0;
     margin: 0;
     background-color: var(--background);
-    max-width: calc(2560px - 232px);
+    max-width: 1920px;
     max-height: calc(1440px - 96px);
 }
 
@@ -59,6 +60,7 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    max-height: 396px;
 }
 
 #form-right {
@@ -66,8 +68,6 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow-y: auto;
-    overflow-x: hidden;
     scrollbar-gutter: stable;
 }
 
@@ -122,10 +122,14 @@ textarea {
 }
 
 .warning-message {
-    height: 12px;
+    height: 16px;
     margin-block-start: 0;
     margin-block-end: 0;
-    font-size: 12px;
+    font-size: 16px;
+}
+
+#category-warning{
+    margin-bottom: 10px;
 }
 
 #title-container {
@@ -179,8 +183,11 @@ textarea {
     cursor: pointer;
 }
 
+
+
 #assignment-container {
     margin-bottom: 20px;
+    position: relative;
 }
 
 #assign-input-box {
@@ -195,6 +202,10 @@ textarea {
 #assign-input:focus::placeholder {
     color: transparent;
     transition: 200ms;
+}
+
+#category-container {
+    position: relative;
 }
 
 #category-input {
@@ -225,6 +236,10 @@ textarea {
 
 #contacts-dropdown,
 #category-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -234,22 +249,29 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: -8px;
+    margin-top: 0;
     padding-top: 6px;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    z-index: 1000;
 }
 
 #contacts-dropdown.open {
     max-height: 280px;
     overflow-y: auto;
     opacity: 1;
+    border-top: none;
+    margin-top: -8px;
+    box-sizing: border-box;
 }
 
 #category-dropdown.open {
     max-height: 280px;
     opacity: 1;
+    margin-top: -34px;
+    border-top: none;
+    box-sizing: border-box;
 }
 
 .dropdown-box {
@@ -360,6 +382,13 @@ textarea {
     background-color: var(--ligthGrey);
 }
 
+#subtask-list-container {
+    min-height: 132px;
+    max-height: 132px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 ul {
     padding-inline-start: 0px;
 }
@@ -393,6 +422,13 @@ li {
     visibility: visible;
 }
 
+#subtask-list-container{
+    min-height: 132px;
+    max-height: 132px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .subtask-list-button-container {
     width: 56px;
     display: flex;
@@ -421,7 +457,6 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 90%;
     margin-bottom: 40px;
     padding-left: 40px;
     padding-right: 40px;
@@ -653,9 +688,12 @@ li {
         margin-bottom: 10px;
     }
 
-    #contacts-dropdown,
-    #category-dropdown {
-        margin-top: -15px;
+    #contacts-dropdown.open {
+        margin-top: -18px;
+    }
+
+     #category-dropdown.open {
+        margin-top: -44px;
     }
 
     .dropdown-box {
