@@ -25,7 +25,7 @@ async function fetchHtmlTemplates() {
     // Cache deaktiviert für sofortige Updates
     const headerResp = await fetch('./assets/templates/header.html?v=' + Date.now());
     cachedHeader = await headerResp.text();
-    
+
     const sidebarResp = await fetch('./assets/templates/sideBar.html?v=' + Date.now());
     cachedSidebar = await sidebarResp.text();
 
@@ -44,7 +44,7 @@ function checkGuestMode() {
     if (isPolicyPage || isLegalPage) {
         const currentUser = localStorage.getItem('join_current_user');
         document.body.classList.remove('loading-auth');
-        
+
         if (!currentUser) {
             // Kein eingeloggter Benutzer -> setze mode-guest
             document.body.classList.add('mode-guest');

@@ -41,7 +41,7 @@ async function fetchTasks() {
   showLoader();
   window.tasks = [];
   tasks = [];
-  
+
   try {
     await loadTasksFromFirebase();
   } catch (error) {

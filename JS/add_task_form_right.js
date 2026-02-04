@@ -18,9 +18,9 @@ function addInitialsBackgroundColors() {
 function fillAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     if (!contactsDropdown) return;
-    
+
     contactsDropdown.innerHTML = "";
-    
+
     if (!window.contacts || !Array.isArray(window.contacts)) {
         showNoContactsMessage(contactsDropdown);
         return;
@@ -125,8 +125,8 @@ function renderSelectedContacts() {
 function toggleContainerVisibility(container) {
     if (selectedContacts.length > 0) {
         container.classList.remove('d_none');
-    } else { 
-        container.classList.add('d_none'); 
+    } else {
+        container.classList.add('d_none');
     }
 }
 

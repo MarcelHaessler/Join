@@ -157,7 +157,7 @@ dialogAddPerson.querySelectorAll('input').forEach(input => {
         if (!validator) return;
         const isValid = validator(input.value);
         input.classList.toggle('invalid', !isValid);
-        
+
         // Show/hide validation message
         const messageId = validationMessageIds[input.id];
         if (messageId) {
@@ -173,7 +173,7 @@ dialogAddPerson.querySelectorAll('input').forEach(input => {
 function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     let allValid = true;
-    
+
     // Validate all inputs and show error messages
     inputs.forEach(input => {
         const isValid = validateInput(input);
@@ -181,7 +181,7 @@ function isFormValid() {
             allValid = false;
         }
     });
-    
+
     if (!allValid) {
         return;
     }
@@ -193,7 +193,7 @@ function validateInput(input) {
     if (!validator) return true;
     const isValid = validator(input.value);
     input.classList.toggle('invalid', !isValid);
-    
+
     // Show/hide validation message
     const messageId = validationMessageIds[input.id];
     if (messageId) {
@@ -202,7 +202,7 @@ function validateInput(input) {
             message.classList.toggle('show', !isValid);
         }
     }
-    
+
     return isValid;
 }
 

@@ -111,8 +111,8 @@ function editRenderSelectedContacts() {
 function toggleEditContainerVisibility(container) {
     if (editSelectedContacts.length > 0) {
         container.classList.remove('d_none');
-    } else { 
-        container.classList.add('d_none'); 
+    } else {
+        container.classList.add('d_none');
     }
 }
 
