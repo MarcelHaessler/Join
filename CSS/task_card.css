@@ -13,7 +13,7 @@
 
 #task_card_overlay.active {
     opacity: 1;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 #task_card_overlay.closing {
@@ -405,8 +405,8 @@ input[type="date"].has-value::-webkit-datetime-edit {
     margin-top: -8px;
     background-color: var(--contrastColor);
     border: 1px solid #ccc;
-    border-radius:0 0 10px 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding-top: 8px;
     display: flex;
     flex-direction: column;
@@ -486,11 +486,11 @@ input[type="date"].has-value::-webkit-datetime-edit {
     align-items: center;
 }
 
-#edit-contacts-dropdown.open ~ #edit-chosen-contacts {
+#edit-contacts-dropdown.open~#edit-chosen-contacts {
     display: none;
 }
 
-.edit-category-box{
+.edit-category-box {
     height: 48px;
     display: flex;
     justify-content: space-between;
@@ -620,10 +620,11 @@ li {
 
 @media (max-width: 900px) {
     #edit-contacts-dropdown {
-          margin-top: -15px;
+        margin-top: -15px;
     }
+
     #edit-category-dropdown {
-          margin-top: -15px;
+        margin-top: -15px;
     }
 }
 

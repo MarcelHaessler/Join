@@ -555,7 +555,7 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
 }
@@ -642,8 +642,8 @@ textarea {
     }
 
     #bottom-section {
-    padding: 8px !important;
-}
+        padding: 8px !important;
+    }
 }
 
 @media (max-width: 900px) {
