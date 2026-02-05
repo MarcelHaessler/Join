@@ -4,18 +4,6 @@
  */
 
 /**
- * User initials for display
- * @type {string}
- */
-let userInitials = '';
-
-/**
- * Current username
- * @type {string}
- */
-let username = '';
-
-/**
  * Current task group/board column
  * @type {string}
  */
@@ -26,15 +14,13 @@ let taskGroup = "ToDo"
  * Loads contacts and user info.
  */
 window.addEventListener("userReady", async (auth) => {
-    username = auth.detail.name
+    const currentUserName = auth.detail.name;
     if (window.fetchContacts) {
         await fetchContacts();
     }
     if (window.contacts && Array.isArray(window.contacts)) {
-        putSelfOnFirstPlace(username);
+        putSelfOnFirstPlace(currentUserName);
     }
-    userInitials = username.charAt(0).toUpperCase() + username.charAt(username.indexOf(" ") + 1).toUpperCase();
-    addInitialToHeader();
     if (window.fillAssignmentDropdown) {
         fillAssignmentDropdown();
     }
@@ -45,27 +31,16 @@ window.addEventListener("userReady", async (auth) => {
  */
 window.addEventListener("guestUser", async (auth) => {
     try {
-        username = auth && auth.detail && auth.detail.name ? auth.detail.name : 'Guest';
+        const currentUserName = auth && auth.detail && auth.detail.name ? auth.detail.name : 'Guest';
         if (window.fetchContacts) await fetchContacts();
         if (window.contacts && Array.isArray(window.contacts)) {
-            putSelfOnFirstPlace(username);
+            putSelfOnFirstPlace(currentUserName);
         }
-        userInitials = username.charAt(0).toUpperCase() + (username.indexOf(" ") > -1 ? username.charAt(username.indexOf(" ") + 1).toUpperCase() : "");
-        addInitialToHeader();
         if (window.fillAssignmentDropdown) fillAssignmentDropdown();
     } catch (err) {
         // Silent error handling
     }
 });
-
-/**
- * Displays the user's initials in the header.
- * @returns {void}
- */
-function addInitialToHeader() {
-    let initialSpace = document.getElementById('user-initials');
-    initialSpace.innerHTML = userInitials;
-}
 
 /**
  * Moves the current user to the first position in contacts array
@@ -166,7 +141,7 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         })),
         createdAt: new Date().toISOString(),
         taskGroup: taskGroup,
-        createdBy: username
+        createdBy: (getCurrentUser()?.name || "Guest")
     }
 }
 

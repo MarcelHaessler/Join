@@ -2,7 +2,7 @@
     min-height: 96px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
-    z-index: 10;
+    z-index: 1100;
 }
 
 header {
@@ -119,12 +119,12 @@ header {
     }
 }
 
-#dialogLogOut > button:hover{
+#dialogLogOut>button:hover {
     cursor: pointer;
     background-color: #3a4a62;
 }
 
-#dialogLogOut > #help-button:hover {
+#dialogLogOut>#help-button:hover {
     background-color: #3a4a62;
 }
 

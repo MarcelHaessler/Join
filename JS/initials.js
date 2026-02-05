@@ -57,13 +57,17 @@ function initLogoutDialog() {
     const userIcon = document.getElementById("user-icon");
     if (!dialogLogOut || !userIcon) return;
 
-    if (!userIcon.onclick) {
-        userIcon.onclick = () => dialogLogOut.showModal();
-    }
+    // Use a flag to avoid multiple listeners
+    if (userIcon.dataset.listenerAdded) return;
 
-    if (!dialogLogOut.onclick) {
-        dialogLogOut.onclick = (e) => {
-            if (e.target === dialogLogOut) dialogLogOut.close();
-        };
-    }
+    userIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dialogLogOut.showModal();
+    });
+
+    dialogLogOut.addEventListener('click', (e) => {
+        if (e.target === dialogLogOut) dialogLogOut.close();
+    });
+
+    userIcon.dataset.listenerAdded = "true";
 }
