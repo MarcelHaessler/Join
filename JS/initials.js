@@ -1,27 +1,49 @@
 /** @type {string} Stores the user initials globally */
 let userInitials = "";
 
-window.addEventListener("userReady", (auth) => {
+/**
+ * Handles user ready event to set initials
+ * @param {CustomEvent} auth - The auth event
+ * @returns {void}
+ */
+function handleUserReady(auth) {
     let username = auth.detail.name;
     userInitials = getFormattedInitials(username);
     addInitialToHeader();
-});
+}
 
-window.addEventListener("guestUser", (auth) => {
+/**
+ * Handles guest user event to set initials
+ * @param {CustomEvent} auth - The auth event
+ * @returns {void}
+ */
+function handleGuestUser(auth) {
     let username = auth.detail.name || "Guest";
     userInitials = username.charAt(0).toUpperCase();
     addInitialToHeader();
-});
+}
 
 /**
- * Re-applies initials whenever templates are freshly loaded into the DOM.
- * This prevents initials from being overwritten by the default "G" in the template.
+ * Handles templates loaded event to re-apply initials
+ * @returns {void}
  */
-window.addEventListener("templatesLoaded", () => {
+function handleTemplatesLoaded() {
     if (userInitials) {
         addInitialToHeader();
     }
-});
+}
+
+/**
+ * Initializes initials related event listeners
+ * @returns {void}
+ */
+function initInitialsListeners() {
+    window.addEventListener("userReady", handleUserReady);
+    window.addEventListener("guestUser", handleGuestUser);
+    window.addEventListener("templatesLoaded", handleTemplatesLoaded);
+}
+
+initInitialsListeners();
 
 /**
  * Logic to extract initials from a full name.
@@ -49,6 +71,39 @@ function addInitialToHeader() {
 };
 
 /**
+ * Opens the logout dialog on user icon click
+ * @param {HTMLElement} dialogLogOut - The logout dialog
+ * @param {Event} e - The click event
+ * @returns {void}
+ */
+function handleUserIconClick(dialogLogOut, e) {
+    e.stopPropagation();
+    dialogLogOut.showModal();
+}
+
+/**
+ * Closes the logout dialog when clicking the backdrop
+ * @param {HTMLElement} dialogLogOut - The logout dialog
+ * @param {Event} e - The click event
+ * @returns {void}
+ */
+function handleLogoutDialogClick(dialogLogOut, e) {
+    if (e.target === dialogLogOut) dialogLogOut.close();
+}
+
+/**
+ * Adds logout dialog listeners once
+ * @param {HTMLElement} dialogLogOut - The logout dialog
+ * @param {HTMLElement} userIcon - The user icon element
+ * @returns {void}
+ */
+function addLogoutDialogListeners(dialogLogOut, userIcon) {
+    userIcon.addEventListener('click', (e) => handleUserIconClick(dialogLogOut, e));
+    dialogLogOut.addEventListener('click', (e) => handleLogoutDialogClick(dialogLogOut, e));
+    userIcon.dataset.listenerAdded = "true";
+}
+
+/**
  * Initializes the logout dialog with click handlers.
  * @returns {void}
  */
@@ -56,18 +111,6 @@ function initLogoutDialog() {
     const dialogLogOut = document.getElementById("dialogLogOut");
     const userIcon = document.getElementById("user-icon");
     if (!dialogLogOut || !userIcon) return;
-
-    // Use a flag to avoid multiple listeners
     if (userIcon.dataset.listenerAdded) return;
-
-    userIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dialogLogOut.showModal();
-    });
-
-    dialogLogOut.addEventListener('click', (e) => {
-        if (e.target === dialogLogOut) dialogLogOut.close();
-    });
-
-    userIcon.dataset.listenerAdded = "true";
+    addLogoutDialogListeners(dialogLogOut, userIcon);
 }

@@ -13,14 +13,12 @@ async function deleteContact(root, id) {
         await removeContactFromTasks(id);
         const contactRef = db.ref(`${root}/${id}`);
         await contactRef.remove();
-
         contactDetails.innerHTML = "";
         sideBarvisible();
         await nameList();
         closeDialog();
         showContactMessage("Contact succesfully deleted");
     } catch (error) {
-        // Silent error handling
     }
 }
 
@@ -102,14 +100,8 @@ function mobileEditBar() {
 function showContactMessage(text) {
     const message = document.getElementById('contact-message');
     if (!message) return;
-    
-    // Update text
     message.querySelector('p').textContent = text;
-    
-    // Show message with slide-in animation
     message.classList.add('show');
-    
-    // Hide message after 2 seconds with slide-out animation
     setTimeout(() => {
         message.classList.remove('show');
     }, 2000);

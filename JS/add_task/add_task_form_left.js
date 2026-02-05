@@ -14,32 +14,65 @@ function setMinDateToToday() {
 
 setMinDateToToday();
 
-// Add global event listeners for input validation
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => {
-        if (input.id === 'date') {
-            checkDate();
-        }
-        if (input.id === 'title') {
-            checkTitle();
+/**
+ * Handles blur event for input fields
+ * Triggers validation based on input ID
+ * @param {HTMLInputElement} input - The input element
+ * @returns {void}
+ */
+function handleInputBlur(input) {
+    if (input.id === 'date') {
+        checkDate();
+    }
+    if (input.id === 'title') {
+        checkTitle();
+    }
+}
+
+/**
+ * Handles change event for date inputs
+ * Adds/removes styling class based on value presence
+ * @param {HTMLInputElement} input - The date input element
+ * @returns {void}
+ */
+function handleDateChange(input) {
+    if (input.value) {
+        input.classList.add('has-value');
+    } else {
+        input.classList.remove('has-value');
+    }
+}
+
+/**
+ * Initializes validation for textarea element
+ * Adds blur event listener for description validation
+ * @returns {void}
+ */
+function initTextareaValidation() {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+        textarea.addEventListener('blur', () => checkDescription());
+    }
+}
+
+/**
+ * Initializes all event listeners for form left side
+ * Sets up input validation and date field styling
+ * @returns {void}
+ */
+function initFormLeftEventListeners() {
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('blur', () => handleInputBlur(input));
+        
+        if (input.type === 'date') {
+            input.addEventListener('change', () => handleDateChange(input));
         }
     });
-
-    // Add change event for date inputs to update styling
-    if (input.type === 'date') {
-        input.addEventListener('change', () => {
-            if (input.value) {
-                input.classList.add('has-value');
-            } else {
-                input.classList.remove('has-value');
-            }
-        });
-    }
-});
-
-if (document.querySelector('textarea')) {
-    document.querySelector('textarea').addEventListener('blur', () => checkDescription());
+    
+    initTextareaValidation();
 }
+
+initFormLeftEventListeners();
 
 /**
  * Validates the task title input.
@@ -105,9 +138,7 @@ const isCorrectDate = (dateString) => {
 function checkDate() {
     const inputBorder = document.getElementById("date");
     const resultDiv = document.getElementById("date-warning");
-
     updateDateInputStyling(inputBorder);
-
     if (!dateInput.value) {
         showDateError(inputBorder, resultDiv, "This field is required.");
         return;
@@ -151,4 +182,38 @@ function showDateError(inputBorder, resultDiv, msg) {
 function clearDateError(inputBorder, resultDiv) {
     inputBorder.classList.remove("invalid");
     resultDiv.innerHTML = "";
+}
+
+/**
+ * Checks if date string is already in ISO format
+ * @param {string} dateString - The date string to check
+ * @returns {boolean} True if already in ISO format
+ */
+function isISOFormat(dateString) {
+    return dateString.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
+}
+
+/**
+ * Converts dd/mm/yyyy format to yyyy-MM-dd
+ * @param {string} dateString - The date string to convert
+ * @returns {string} ISO formatted date string
+ */
+function convertSlashDateToISO(dateString) {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        const [day, month, year] = parts;
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    return dateString;
+}
+
+/**
+ * Helper function to convert date from dd/mm/yyyy to yyyy-MM-dd.
+ * @param {string} dateString - The date string to convert
+ * @returns {string} ISO formatted date string
+ */
+function convertDateToISO(dateString) {
+    if (!dateString) return '';
+    if (isISOFormat(dateString)) return dateString;
+    return convertSlashDateToISO(dateString);
 }

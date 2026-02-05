@@ -31,28 +31,51 @@ var backgroundColorCodes = [
     'var(--color15)'];
 
 /**
+ * Fetches a template and stores it in localStorage
+ * @async
+ * @param {string} path - The template path
+ * @param {string} key - The localStorage key
+ * @returns {Promise<string>} The fetched template text
+ */
+async function fetchTemplate(path, key) {
+    const resp = await fetch(path + '?v=' + Date.now());
+    const html = await resp.text();
+    localStorage.setItem(key, html);
+    return html;
+}
+
+/**
+ * Injects header and sidebar templates into the DOM
+ * @param {string} headerHtml - Header HTML
+ * @param {string} sidebarHtml - Sidebar HTML
+ * @returns {void}
+ */
+function applyTemplates(headerHtml, sidebarHtml) {
+    document.getElementById('header').innerHTML = headerHtml;
+    document.getElementById('side-bar').innerHTML = sidebarHtml;
+}
+
+/**
+ * Runs post-load tasks after templates are injected
+ * @returns {void}
+ */
+function finalizeTemplateLoad() {
+    window.dispatchEvent(new Event('templatesLoaded'));
+    highlightActiveWrapper();
+    checkGuestMode();
+}
+
+/**
  * Fetches and injects HTML templates for header and sidebar
  * Cache is disabled for immediate updates (using timestamp)
  * @async
  * @returns {Promise<void>}
  */
 async function fetchHtmlTemplates() {
-    // Cache deaktiviert für sofortige Updates
-    const headerResp = await fetch('./assets/templates/header.html?v=' + Date.now());
-    cachedHeader = await headerResp.text();
-    localStorage.setItem('headerTemplate', cachedHeader);
-
-    const sidebarResp = await fetch('./assets/templates/sideBar.html?v=' + Date.now());
-    cachedSidebar = await sidebarResp.text();
-    localStorage.setItem('sidebarTemplate', cachedSidebar);
-
-    document.getElementById('header').innerHTML = cachedHeader;
-    document.getElementById('side-bar').innerHTML = cachedSidebar;
-
-    window.dispatchEvent(new Event('templatesLoaded'));
-
-    highlightActiveWrapper();
-    checkGuestMode();
+    cachedHeader = await fetchTemplate('./assets/templates/header.html', 'headerTemplate');
+    cachedSidebar = await fetchTemplate('./assets/templates/sideBar.html', 'sidebarTemplate');
+    applyTemplates(cachedHeader, cachedSidebar);
+    finalizeTemplateLoad();
 }
 
 /**
@@ -63,14 +86,10 @@ async function fetchHtmlTemplates() {
 function checkGuestMode() {
     const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
     const isLegalPage = window.location.pathname.includes('legal_notice.html');
-
-    // Nur auf Privacy Policy und Legal Notice Seiten prüfen
     if (isPolicyPage || isLegalPage) {
         const currentUser = localStorage.getItem('join_current_user');
         document.body.classList.remove('loading-auth');
-
         if (!currentUser) {
-            // Kein eingeloggter Benutzer -> setze mode-guest
             document.body.classList.add('mode-guest');
         }
     }
@@ -168,7 +187,6 @@ async function fetchContacts() {
         processContactData(usersSnapshot, contactSnapshot);
         enhanceContacts();
     } catch (error) {
-        // Silent error handling
     } finally {
         hideLoader();
     }

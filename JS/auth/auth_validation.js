@@ -149,8 +149,8 @@ function validatePrivacyCheckbox() {
  * @returns {boolean} True if all validations pass, false otherwise
  */
 function confirmInput() {
-    const nameRegex = /^[a-zA-ZäöüÄÖÜß\\s'-]{2,}$/;
-    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
+    const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
+    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[0-9]).{8,}$/;
 
     const isNameValid = validateField(name, nameRegex.test(name.value.trim()), '#name_message');

@@ -1,13 +1,28 @@
 const addTaskOverlay = document.getElementById('add-task-overlay');
 const closeBtn = document.getElementById('close-add-task-overlay');
-closeBtn.addEventListener('click', addTaskOverlayClose);
 
-// Close overlay when clicking outside content section
-addTaskOverlay.addEventListener('click', function (e) {
+/**
+ * Handles overlay background click events
+ * Closes overlay if background is clicked
+ * @param {Event} e - The click event
+ * @returns {void}
+ */
+function handleOverlayBackgroundClick(e) {
     if (e.target === addTaskOverlay) {
         addTaskOverlayClose();
     }
-});
+}
+
+/**
+ * Initializes add task overlay event listeners
+ * @returns {void}
+ */
+function initAddTaskOverlayListeners() {
+    closeBtn.addEventListener('click', addTaskOverlayClose);
+    addTaskOverlay.addEventListener('click', handleOverlayBackgroundClick);
+}
+
+initAddTaskOverlayListeners();
 
 const ToDo = document.getElementById('todo-tiles');
 const InProgress = document.getElementById('progress-tiles');
@@ -35,6 +50,20 @@ function addTaskOverlayOpen(boardGroup) {
 }
 
 /**
+ * Handles transition end event for overlay closing
+ * @param {Event} e - The transition event
+ * @param {Function} handler - The handler function reference
+ * @returns {void}
+ */
+function handleOverlayTransitionEnd(e, handler) {
+    if (e.target.id === 'board-task-content-section') {
+        addTaskOverlay.classList.add('d_none');
+        addTaskOverlay.classList.remove('closing');
+        addTaskOverlay.removeEventListener('transitionend', handler);
+    }
+}
+
+/**
  * Closes the add task overlay with animation
  * @returns {void}
  */
@@ -43,17 +72,22 @@ function addTaskOverlayClose() {
     addTaskOverlay.classList.add('closing');
 
     addTaskOverlay.addEventListener('transitionend', function handler(e) {
-        if (e.target.id === 'board-task-content-section') {
-            addTaskOverlay.classList.add('d_none');
-            addTaskOverlay.classList.remove('closing');
-            addTaskOverlay.removeEventListener('transitionend', handler);
-        }
+        handleOverlayTransitionEnd(e, handler);
     });
 }
 
-addEventListener("tasksLoaded", () => {
-    updateBoard();
-});
+/**
+ * Initializes tasks loaded event listener
+ * Updates board when tasks are loaded
+ * @returns {void}
+ */
+function initTasksLoadedListener() {
+    addEventListener("tasksLoaded", () => {
+        updateBoard();
+    });
+}
+
+initTasksLoadedListener();
 
 /**
  * Updates the board display by filtering and rendering tasks
@@ -149,22 +183,40 @@ function startDragging(id, event) {
 }
 
 /**
- * Creates a rotated clone of the task card for the drag image.
- * @param {HTMLElement} element - The original task card element.
- * @returns {HTMLElement} The wrapper element containing the clone.
+ * Creates a clone of the task card element
+ * @param {HTMLElement} element - The original task card element
+ * @returns {HTMLElement} The cloned element
  */
-function prepareDragImage(element) {
+function createDragClone(element) {
     let clone = element.cloneNode(true);
     clone.style.width = element.offsetWidth + "px";
     clone.style.height = element.offsetHeight + "px";
     clone.classList.add('drag-rotated');
+    return clone;
+}
 
+/**
+ * Creates a wrapper element for drag image
+ * @param {HTMLElement} clone - The cloned element
+ * @returns {HTMLElement} The wrapper element
+ */
+function createDragWrapper(clone) {
     let wrapper = document.createElement('div');
     wrapper.style.position = 'absolute';
     wrapper.style.top = '-9999px';
     wrapper.style.left = '-9999px';
     wrapper.appendChild(clone);
     return wrapper;
+}
+
+/**
+ * Creates a rotated clone of the task card for the drag image.
+ * @param {HTMLElement} element - The original task card element.
+ * @returns {HTMLElement} The wrapper element containing the clone.
+ */
+function prepareDragImage(element) {
+    let clone = createDragClone(element);
+    return createDragWrapper(clone);
 }
 
 
@@ -223,6 +275,19 @@ function removeHighlight(id, forced = false) {
 }
 
 /**
+ * Closes all mobile menus except the specified one
+ * @param {string} taskId - The task ID to keep open
+ * @returns {void}
+ */
+function closeOtherMobileMenus(taskId) {
+    document.querySelectorAll('.mobile-move-menu').forEach(m => {
+        if (m.id !== `mobile-menu-${taskId}`) {
+            m.classList.add('d_none');
+        }
+    });
+}
+
+/**
  * Toggles the mobile move menu for a specific task.
  * @param {Event} event - The click event.
  * @param {string} taskId - The ID of the task.
@@ -231,14 +296,7 @@ function removeHighlight(id, forced = false) {
 function toggleMobileMoveMenu(event, taskId) {
     event.stopPropagation();
     let menu = document.getElementById(`mobile-menu-${taskId}`);
-
-    // Close other open menus
-    document.querySelectorAll('.mobile-move-menu').forEach(m => {
-        if (m.id !== `mobile-menu-${taskId}`) {
-            m.classList.add('d_none');
-        }
-    });
-
+    closeOtherMobileMenus(taskId);
     menu.classList.toggle('d_none');
 }
 

@@ -32,11 +32,18 @@ function updateGreeting(name = "") {
     }
 }
 
-//eventListener
-document.addEventListener("DOMContentLoaded", () => {
-    updateGreeting("");
-    initMobileGreeting();
-});
+/**
+ * Initializes greeting display on DOM ready
+ * @returns {void}
+ */
+function initGreetingOnLoad() {
+    document.addEventListener("DOMContentLoaded", () => {
+        updateGreeting("");
+        initMobileGreeting();
+    });
+}
+
+initGreetingOnLoad();
 
 /**
  * Handles the mobile-only greeting intro animation setup.
@@ -54,6 +61,28 @@ function initMobileGreeting() {
 }
 
 /**
+ * Applies hide animation to greeting elements
+ * @returns {void}
+ */
+function applyGreetingHideAnimation() {
+    const greeting = document.getElementById('greeting-section');
+    const main = document.querySelector('main');
+    if (greeting) greeting.classList.add('hide-animation');
+    if (main) main.classList.add('animate');
+}
+
+/**
+ * Removes greeting display after animation delay
+ * @returns {void}
+ */
+function removeGreetingDisplay() {
+    sessionStorage.removeItem('showSummaryGreeting');
+    setTimeout(() => {
+        document.body.classList.remove('show-greeting');
+    }, 2100);
+}
+
+/**
  * Finishes the mobile greeting animation and transitions to main content
  * @returns {void}
  */
@@ -61,25 +90,29 @@ function finishMobileGreeting() {
     if (!document.body.classList.contains('show-greeting')) return;
 
     setTimeout(() => {
-        const greeting = document.getElementById('greeting-section');
-        const main = document.querySelector('main');
-
-        if (greeting) greeting.classList.add('hide-animation');
-        if (main) main.classList.add('animate');
-
-        sessionStorage.removeItem('showSummaryGreeting');
-
-        setTimeout(() => {
-            document.body.classList.remove('show-greeting');
-        }, 2100);
+        applyGreetingHideAnimation();
+        removeGreetingDisplay();
     });
 }
 
-// Funktionen sind automatisch global
-
-addEventListener("userReady", (auth) => {
+/**
+ * Handles user ready event to update greeting with username
+ * @param {CustomEvent} auth - The auth event
+ * @returns {void}
+ */
+function handleUserReadyGreeting(auth) {
     updateGreeting(auth.detail.name || "");
-});
+}
+
+/**
+ * Initializes user ready event listener
+ * @returns {void}
+ */
+function initUserReadyListener() {
+    addEventListener("userReady", handleUserReadyGreeting);
+}
+
+initUserReadyListener();
 
 /**
  * Changes pencil icon to hover state
@@ -117,29 +150,47 @@ function doneLeaveEffect() {
     if (img) img.src = './assets/img/done-button.svg';
 }
 
-// Greeting overlay trigger (mobile only, once per session)
-(function greetingOverlayOnce() {
+
+/**
+ * Checks if greeting should be shown on mobile
+ * @param {string} key - The session storage key
+ * @returns {boolean} True if should show greeting
+ */
+function shouldShowMobileGreeting(key) {
+    if (!window.matchMedia('(max-width: 1100px)').matches) return false;
+    const greeting = document.getElementById('greeting-section');
+    if (!greeting) return false;
+    if (sessionStorage.getItem(key) === '1') return false;
+    return true;
+}
+
+/**
+ * Sets up greeting cleanup after animation ends
+ * @param {HTMLElement} greeting - The greeting section element
+ * @returns {void}
+ */
+function setupGreetingCleanup(greeting) {
+    const cleanup = () => {
+        greeting.removeEventListener('animationend', cleanup);
+        document.body.classList.remove('show-greeting');
+    };
+    greeting.addEventListener('animationend', cleanup);
+}
+
+/**
+ * Shows greeting overlay once on mobile load
+ * @returns {void}
+ */
+function greetingOverlayOnce() {
     const KEY = 'join_summary_greeting_shown';
 
     window.addEventListener('load', () => {
-        // Only run on small screens
-        if (!window.matchMedia('(max-width: 1100px)').matches) return;
-
-        const greeting = document.getElementById('greeting-section');
-        if (!greeting) return;
-
-        // Show only once per tab/session
-        if (sessionStorage.getItem(KEY) === '1') return;
+        if (!shouldShowMobileGreeting(KEY)) return;
+        
         sessionStorage.setItem(KEY, '1');
-
         document.body.classList.add('show-greeting');
-
-        // Remove class after CSS animation completes
-        const cleanup = () => {
-            greeting.removeEventListener('animationend', cleanup);
-            document.body.classList.remove('show-greeting');
-        };
-
-        greeting.addEventListener('animationend', cleanup);
+        
+        const greeting = document.getElementById('greeting-section');
+        if (greeting) setupGreetingCleanup(greeting);
     });
-})();
+}

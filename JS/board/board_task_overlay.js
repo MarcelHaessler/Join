@@ -3,7 +3,6 @@
  * Handles opening/closing overlays, updating tasks, and subtask interactions.
  */
 
-// Firebase-Update-Funktion
 /**
  * Updates a task in Firebase or LocalStorage (fallback).
  * @async
@@ -21,16 +20,13 @@ async function updateTask(task) {
 }
 
 /**
- * Updates a task in the Firebase Realtime Database.
- * @async
- * @param {Object} task - The task object with updated data.
- * @returns {Promise<void>}
+ * Creates the update object for Firebase task update
+ * @param {Object} task - The task object
+ * @returns {Object} The update object for Firebase
  */
-async function updateTaskInFirebase(task) {
-    const taskRef = db.ref(`tasks/${task.id}`);
+function createTaskUpdateObject(task) {
     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-
-    await taskRef.update({
+    return {
         title: task.title || '',
         description: task.description || '',
         date: task.date || '',
@@ -38,11 +34,20 @@ async function updateTaskInFirebase(task) {
         assignedPersons: task.assignedPersons || [],
         category: task.category || '',
         taskGroup: task.taskGroup,
-        subtasks: subtasks.map(s => ({
-            text: s.text || '',
-            subtaskComplete: !!s.subtaskComplete
-        }))
-    });
+        subtasks: subtasks.map(s => ({ text: s.text || '', subtaskComplete: !!s.subtaskComplete }))
+    };
+}
+
+/**
+ * Updates a task in the Firebase Realtime Database.
+ * @async
+ * @param {Object} task - The task object with updated data.
+ * @returns {Promise<void>}
+ */
+async function updateTaskInFirebase(task) {
+    const taskRef = db.ref(`tasks/${task.id}`);
+    const updateData = createTaskUpdateObject(task);
+    await taskRef.update(updateData);
 }
 
 /**
@@ -71,16 +76,12 @@ function updateTaskInLocalStorage(task) {
 function openTaskCardOverlay(taskId) {
     const tasks = window.tasks || [];
     const task = tasks.find(t => t.id === taskId);
-
     let overlay = document.getElementById('task_card_overlay');
-
     overlay.classList.remove('d_none');
-
     setTimeout(() => {
         overlay.classList.remove('closing');
         overlay.classList.add('active');
     }, 10);
-
     overlay.innerHTML = generateOpenedTaskCardHTML(task);
 }
 
@@ -90,9 +91,7 @@ function openTaskCardOverlay(taskId) {
  */
 function closeTaskCardOverlay() {
     const overlay = document.getElementById('task_card_overlay');
-
     overlay.classList.add('closing');
-
     setTimeout(() => {
         overlay.classList.remove('active', 'closing');
         overlay.innerHTML = '';
@@ -315,13 +314,8 @@ function deleteTask(taskId) {
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
-
-        // Update window.tasks and localStorage
         window.tasks = tasks;
-        // Update localStorage
         localStorage.setItem('join_tasks', JSON.stringify(tasks));
-
-        // Try Firebase delete
         const taskRef = db.ref(`tasks/${taskId}`);
         taskRef.remove().catch(() => { });
     }

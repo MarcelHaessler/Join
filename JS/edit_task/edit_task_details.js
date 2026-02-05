@@ -86,21 +86,31 @@ function editRenderAssignmentDropdown() {
 }
 
 /**
- * Event listener to close assignment dropdown when clicking outside.
+ * Handles clicks outside the assignment dropdown
+ * @param {Event} e - The click event
+ * @returns {void}
  */
-document.addEventListener("click", function (e) {
+function handleEditAssignmentClickOutside(e) {
     const assignmentInput = document.getElementById("edit-assign-input");
     const assignmentDropdown = document.getElementById("edit-contacts-dropdown");
     const assignmentArrow = document.querySelector("#edit-assign-input-box .dropdown-img-container");
     const assignmentArrowImg = document.getElementById("edit-assignment-arrow");
     if (!assignmentInput || !assignmentDropdown || !assignmentArrow || !assignmentArrowImg) return;
-    if (!assignmentInput.contains(e.target) &&
-        !assignmentDropdown.contains(e.target) &&
-        !assignmentArrow.contains(e.target)) {
+    if (!assignmentInput.contains(e.target) && !assignmentDropdown.contains(e.target) && !assignmentArrow.contains(e.target)) {
         assignmentDropdown.classList.remove("open");
         assignmentArrowImg.classList.remove("rotate");
     }
-});
+}
+
+/**
+ * Initializes click listener for assignment dropdown
+ * @returns {void}
+ */
+function initEditAssignmentClickListener() {
+    document.addEventListener("click", handleEditAssignmentClickOutside);
+}
+
+initEditAssignmentClickListener();
 
 /**
  * Delays the contact search to prevent excessive filtering calls.
@@ -299,9 +309,11 @@ function editCloseCategoryDropdown() {
 }
 
 /**
- * Event listener to close category dropdown when clicking outside.
+ * Handles clicks outside the category dropdown
+ * @param {Event} e - The click event
+ * @returns {void}
  */
-document.addEventListener("click", function (e) {
+function handleEditCategoryClickOutside(e) {
     const categoryInput = document.getElementById("edit-category-input");
     const categoryDropdown = document.getElementById("edit-category-dropdown");
     const assignmentArrowImg = document.getElementById("edit-category-arrow");
@@ -310,7 +322,17 @@ document.addEventListener("click", function (e) {
         categoryDropdown.classList.remove("open");
         assignmentArrowImg.classList.remove("rotate");
     }
-});
+}
+
+/**
+ * Initializes click listener for category dropdown
+ * @returns {void}
+ */
+function initEditCategoryClickListener() {
+    document.addEventListener("click", handleEditCategoryClickOutside);
+}
+
+initEditCategoryClickListener();
 
 
 /**

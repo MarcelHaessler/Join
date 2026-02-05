@@ -1,5 +1,4 @@
 // ===== Firebase tasks (Summary counts) =====
-// Keine imports - db ist global durch firebase_auth.js
 
 /**
  * Fetches all tasks from Firebase database
@@ -35,6 +34,20 @@ function renderBoardCount(tasks) {
 }
 
 /**
+ * Filters tasks by To-Do status
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {number} Count of To-Do tasks
+ */
+function countTodoTasks(tasks) {
+    return Object.values(tasks)
+        .filter(task => {
+            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
+            return g === 'to-do' || g === 'todo' || g === 'to do';
+        })
+        .length;
+}
+
+/**
  * Renders the number of tasks in To-Do status
  * @param {Object|null} tasks - Object containing all tasks
  * @returns {void}
@@ -43,19 +56,22 @@ function renderTodoCount(tasks) {
     const el = document.getElementById('number-todo');
     if (!el) return;
 
-    if (!tasks) {
-        el.textContent = '0';
-        return;
-    }
+    const count = tasks ? countTodoTasks(tasks) : 0;
+    el.textContent = String(count);
+}
 
-    const todoCount = Object.values(tasks)
+/**
+ * Filters tasks by Done status
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {number} Count of Done tasks
+ */
+function countDoneTasks(tasks) {
+    return Object.values(tasks)
         .filter(task => {
             const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
-            return g === 'to-do' || g === 'todo' || g === 'to do';
+            return g === 'Done' || g === 'done';
         })
         .length;
-
-    el.textContent = String(todoCount);
 }
 
 /**
@@ -67,19 +83,22 @@ function renderDoneCount(tasks) {
     const el = document.getElementById('number-done');
     if (!el) return;
 
-    if (!tasks) {
-        el.textContent = '0';
-        return;
-    }
+    const count = tasks ? countDoneTasks(tasks) : 0;
+    el.textContent = String(count);
+}
 
-    const doneCount = Object.values(tasks)
+/**
+ * Filters tasks by Progress status
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {number} Count of Progress tasks
+ */
+function countProgressTasks(tasks) {
+    return Object.values(tasks)
         .filter(task => {
             const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
-            return g === 'Done' || g === 'done';
+            return g === 'inprogress' || g === 'in progress' || g === 'progress';
         })
-        .length
-
-    el.textContent = String(doneCount);
+        .length;
 }
 
 /**
@@ -91,19 +110,22 @@ function renderProgressCount(tasks) {
     const el = document.getElementById('number-progress');
     if (!el) return;
 
-    if (!tasks) {
-        el.textContent = '0';
-        return;
-    }
+    const count = tasks ? countProgressTasks(tasks) : 0;
+    el.textContent = String(count);
+}
 
-    const progressCount = Object.values(tasks)
+/**
+ * Filters tasks by Awaiting Feedback status
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {number} Count of Feedback tasks
+ */
+function countFeedbackTasks(tasks) {
+    return Object.values(tasks)
         .filter(task => {
             const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
-            return g === 'inprogress' || g === 'in progress' || g === 'progress';
+            return g === 'awaiting' || g === 'awaiting feedback' || g === 'feedback';
         })
-        .length
-
-    el.textContent = String(progressCount);
+        .length;
 }
 
 /**
@@ -115,20 +137,19 @@ function renderFeedbackCount(tasks) {
     const el = document.getElementById('number-feedback');
     if (!el) return;
 
-    if (!tasks) {
-        el.textContent = '0';
-        return;
-    }
+    const count = tasks ? countFeedbackTasks(tasks) : 0;
+    el.textContent = String(count);
+}
 
-    const feedbackCount = Object.values(tasks)
-        .filter(task => {
-            const g = (task?.taskGroup ?? '').toString().trim().toLowerCase();
-            return g === 'awaiting' || g === 'awaiting feedback' || g === 'feedback';
-        })
-        .length
-
-    el.textContent = String(feedbackCount);
-
+/**
+ * Filters tasks by Urgent priority
+ * @param {Object} tasks - Object containing all tasks
+ * @returns {number} Count of Urgent tasks
+ */
+function countUrgentTasks(tasks) {
+    return Object.values(tasks)
+        .filter(task => (task?.priority ?? '').toString().trim().toLowerCase() === 'urgent')
+        .length;
 }
 
 /**
@@ -140,16 +161,8 @@ function renderUrgentCount(tasks) {
     const el = document.getElementById('number-urgent');
     if (!el) return;
 
-    if (!tasks) {
-        el.textContent = '0';
-        return;
-    }
-
-    const urgentCount = Object.values(tasks)
-        .filter(task => (task?.priority ?? '').toString().trim().toLowerCase() === 'urgent')
-        .length;
-
-    el.textContent = String(urgentCount);
+    const count = tasks ? countUrgentTasks(tasks) : 0;
+    el.textContent = String(count);
 }
 
 /**
@@ -228,7 +241,6 @@ async function loadSummaryCounts() {
     try {
         await updateAllCounts();
     } catch (error) {
-        // Silent error handling
     } finally {
         handleLoadingComplete(isGreetingActive);
     }
@@ -271,7 +283,14 @@ function handleLoadingComplete(isGreetingActive) {
     }
 }
 
-// Ensure counts are loaded when the page is ready
-document.addEventListener('DOMContentLoaded', () => {
-    loadSummaryCounts();
-});
+/**
+ * Initializes summary counts load on DOM ready
+ * @returns {void}
+ */
+function initSummaryCountsLoader() {
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSummaryCounts();
+    });
+}
+
+initSummaryCountsLoader();

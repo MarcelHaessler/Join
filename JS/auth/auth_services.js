@@ -3,7 +3,6 @@
  * Handles user login, logout, session management, and database interactions.
  */
 
-// Global DOM elements for auth
 const name = document.getElementById("signup-name");
 const email = document.getElementById("signup-email");
 const pw = document.getElementById("signup-password");
@@ -166,10 +165,18 @@ function checkAuthState() {
     }
 }
 
-// Run auth check when page is fully loaded (after all scripts)
-window.addEventListener('load', () => {
-    checkAuthState();
-});
+/**
+ * Initializes authentication state check on page load
+ * Sets up event listener for window load event
+ * @returns {void}
+ */
+function initAuthStateCheck() {
+    window.addEventListener('load', () => {
+        checkAuthState();
+    });
+}
+
+initAuthStateCheck();
 
 /**
  * Handles user login by validating credentials

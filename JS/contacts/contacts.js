@@ -1,5 +1,3 @@
-// Keine imports - db ist global durch firebase_auth.js
-
 const contactList = document.getElementById("contacList");
 const contactDetails = document.getElementById("contactSelectet");
 const contactSidebarCss = document.querySelector('.sideBar');
@@ -10,9 +8,17 @@ const mobileMenuTrigger = document.getElementById('mobileMenuTrigger');
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^\+?\d{1,4}[\s\-()]*(\d[\s\-()]*){6,14}$/;
 
-window.addEventListener("load", () => {
-    nameList();
-});
+/**
+ * Initializes contact list load event listener
+ * @returns {void}
+ */
+function initContactLoadListener() {
+    window.addEventListener("load", () => {
+        nameList();
+    });
+}
+
+initContactLoadListener();
 
 /**
  * Fetches contact list and displays them sorted by name with letter sections
@@ -22,15 +28,10 @@ window.addEventListener("load", () => {
  */
 async function nameList() {
     await window.fetchContacts();
-
-    // Filter out contacts without a name
     const validContacts = contacts.filter(contact => contact.name && contact.name.trim() !== "");
-
     validContacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
-
     contactList.innerHTML = "";
     let currentLetter = "";
-
     validContacts.forEach(contact => {
         const letter = contact.name[0].toUpperCase();
         if (letter !== currentLetter) {
@@ -42,21 +43,32 @@ async function nameList() {
 }
 
 /**
- * Event listener to show contact details when a contact is clicked
+ * Handles contact entry click events
+ * Displays selected contact details
+ * @param {Event} event - The click event
+ * @returns {void}
  */
-contactList.addEventListener("click", (event) => {
+function handleContactClick(event) {
     const entry = event.target.closest(".contactEntry");
     if (!entry) return;
-
     const mail = entry.dataset.mail;
     const contact = contacts.find(c => c.email === mail);
-
     if (contact) {
         setActiveContact(mail);
         contactDetails.innerHTML = showContactDetails(contact);
         Detailsvisible();
     }
-});
+}
+
+/**
+ * Initializes contact list click listener
+ * @returns {void}
+ */
+function initContactListClickListener() {
+    contactList.addEventListener("click", handleContactClick);
+}
+
+initContactListClickListener();
 
 /**
  * Sets the active state for a contact entry by email
@@ -65,11 +77,8 @@ contactList.addEventListener("click", (event) => {
  * @returns {void}
  */
 function setActiveContact(email) {
-    // Remove active class from all entries
     const allEntries = document.querySelectorAll('.contactEntry');
     allEntries.forEach(entry => entry.classList.remove('active'));
-    
-    // Add active class to clicked entry
     const activeEntry = document.querySelector(`.contactEntry[data-mail="${email}"]`);
     if (activeEntry) {
         activeEntry.classList.add('active');
@@ -134,52 +143,80 @@ function clearForm() {
         input.value = '';
         input.classList.remove('invalid');
     });
-    // Hide all validation messages
     const validationMessages = dialogAddPerson.querySelectorAll('.validation-message');
     validationMessages.forEach(msg => msg.classList.remove('show'));
 }
 
 /**
- * Event listener to close add person dialog when clicking the backdrop
+ * Handles add dialog backdrop click events
+ * Closes dialog when backdrop is clicked
+ * @param {Event} event - The click event
+ * @returns {void}
  */
-dialogAddPerson.addEventListener("click", (event) => {
+function handleAddDialogBackdropClick(event) {
     if (event.target === dialogAddPerson) {
         closeDialog();
     }
-});
+}
 
 /**
- * Event listener to close edit dialog when clicking the backdrop
+ * Handles edit dialog backdrop click events
+ * Closes dialog when backdrop is clicked
+ * @param {Event} event - The click event
+ * @returns {void}
  */
-dialogEdit.addEventListener("click", (event) => {
+function handleEditDialogBackdropClick(event) {
     if (event.target === dialogEdit) {
         closeDialog();
     }
-});
+}
 
 /**
- * Event listener to open edit dialog when edit button is clicked
- * Finds the contact by email and populates the edit form
+ * Initializes dialog backdrop click listeners
+ * @returns {void}
  */
-document.addEventListener("click", (event) => {
+function initDialogBackdropListeners() {
+    dialogAddPerson.addEventListener("click", handleAddDialogBackdropClick);
+    dialogEdit.addEventListener("click", handleEditDialogBackdropClick);
+}
+
+initDialogBackdropListeners();
+
+/**
+ * Handles edit button click events
+ * Opens edit dialog with contact data
+ * @param {Event} event - The click event
+ * @returns {void}
+ */
+function handleEditButtonClick(event) {
     const button = event.target.closest("#editContactButton");
     if (!button) return;
-
     const mail = button.dataset.mail;
     const contact = contacts.find(c => c.email === mail);
-
     if (contact) {
         dialogEdit.innerHTML = editContact(contact);
         dialogEdit.showModal();
         attachEditValidation();
     }
-});
+}
 
 /**
- * Event listener to toggle mobile edit bar visibility
- * Shows bar when clicking sidebar option, hides it otherwise
+ * Initializes edit button click listener
+ * @returns {void}
  */
-contactDetails.addEventListener('click', (e) => {
+function initEditButtonListener() {
+    document.addEventListener("click", handleEditButtonClick);
+}
+
+initEditButtonListener();
+
+/**
+ * Handles mobile edit bar toggle events
+ * Shows/hides bar based on click target
+ * @param {Event} e - The click event
+ * @returns {void}
+ */
+function handleMobileEditBarToggle(e) {
     const bar = document.getElementById('mobileEditeBar');
     if (!bar) return;
     if (e.target.closest('.sideBarOption')) {
@@ -187,7 +224,17 @@ contactDetails.addEventListener('click', (e) => {
     } else {
         bar.classList.remove('visible');
     }
-});
+}
+
+/**
+ * Initializes mobile edit bar click listener
+ * @returns {void}
+ */
+function initMobileEditBarListener() {
+    contactDetails.addEventListener('click', handleMobileEditBarToggle);
+}
+
+initMobileEditBarListener();
 
 /**
  * Input validation functions for different field types
@@ -212,23 +259,34 @@ const validationMessageIds = {
     contactUpdatePhone: 'phoneValidationEdit'
 };
 
-dialogAddPerson.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => {
-        const validator = validators[input.type];
-        if (!validator) return;
-        const isValid = validator(input.value);
-        input.classList.toggle('invalid', !isValid);
-        
-        // Show/hide validation message
-        const messageId = validationMessageIds[input.id];
-        if (messageId) {
-            const message = document.getElementById(messageId);
-            if (message) {
-                message.classList.toggle('show', !isValid);
-            }
-        }
+/**
+ * Validates input on blur event
+ * @param {HTMLInputElement} input - The input element
+ * @returns {void}
+ */
+function handleInputBlurValidation(input) {
+    const validator = validators[input.type];
+    if (!validator) return;
+    const isValid = validator(input.value);
+    input.classList.toggle('invalid', !isValid);
+    const messageId = validationMessageIds[input.id];
+    if (messageId) {
+        const message = document.getElementById(messageId);
+        if (message) message.classList.toggle('show', !isValid);
+    }
+}
+
+/**
+ * Initializes input validation listeners for add dialog
+ * @returns {void}
+ */
+function initAddDialogValidation() {
+    dialogAddPerson.querySelectorAll('input').forEach(input => {
+        input.addEventListener('blur', () => handleInputBlurValidation(input));
     });
-});
+}
+
+initAddDialogValidation();
 
 /**
  * Attaches validation event listeners to edit dialog input fields
@@ -237,21 +295,7 @@ dialogAddPerson.querySelectorAll('input').forEach(input => {
  */
 function attachEditValidation() {
     dialogEdit.querySelectorAll('input').forEach(input => {
-        input.addEventListener('blur', () => {
-            const validator = validators[input.type];
-            if (!validator) return;
-            const isValid = validator(input.value);
-            input.classList.toggle('invalid', !isValid);
-            
-            // Show/hide validation message
-            const messageId = validationMessageIds[input.id];
-            if (messageId) {
-                const message = document.getElementById(messageId);
-                if (message) {
-                    message.classList.toggle('show', !isValid);
-                }
-            }
-        });
+        input.addEventListener('blur', () => handleInputBlurValidation(input));
     });
 }
 
@@ -263,18 +307,13 @@ function attachEditValidation() {
 function isFormValid() {
     const inputs = dialogAddPerson.querySelectorAll('input');
     let allValid = true;
-    
-    // Validate all inputs and show error messages
     inputs.forEach(input => {
         const isValid = validateInput(input);
         if (!isValid) {
             allValid = false;
         }
     });
-    
-    if (!allValid) {
-        return;
-    }
+    if (!allValid) {return;}
     uploadContact();
 }
 
@@ -288,8 +327,6 @@ function validateInput(input) {
     if (!validator) return true;
     const isValid = validator(input.value);
     input.classList.toggle('invalid', !isValid);
-    
-    // Show/hide validation message
     const messageId = validationMessageIds[input.id];
     if (messageId) {
         const message = document.getElementById(messageId);
@@ -297,8 +334,21 @@ function validateInput(input) {
             message.classList.toggle('show', !isValid);
         }
     }
-    
     return isValid;
+}
+
+/**
+ * Shows created contact details after successful upload
+ * @param {string} emailValue - The email of the created contact
+ * @returns {void}
+ */
+function showCreatedContact(emailValue) {
+    const createdContact = contacts.find(c => c.email === emailValue);
+    if (createdContact) {
+        setActiveContact(createdContact.email);
+        contactDetails.innerHTML = showContactDetails(createdContact);
+        Detailsvisible();
+    }
 }
 
 /**
@@ -311,31 +361,16 @@ async function uploadContact() {
     const name = document.getElementById("contactAddName");
     const email = document.getElementById("contactAddMail");
     const phone = document.getElementById("contactAddPhone");
-    
-    // Save email value before closing dialog
     const emailValue = email.value;
-    
     let NewContact = createContactObject(name, email, phone);
-
     try {
         const newContactRef = db.ref("contact").push();
         await newContactRef.set(NewContact);
         closeDialog();
         await nameList();
-        
-        // Find and display the newly created contact using saved email value
-        const createdContact = contacts.find(c => c.email === emailValue);
-        
-        if (createdContact) {
-            setActiveContact(createdContact.email);
-            contactDetails.innerHTML = showContactDetails(createdContact);
-            Detailsvisible();
-        }
-        
+        showCreatedContact(emailValue);
         showContactMessage("Contact successfully created");
-    } catch (error) {
-        // Silent error handling
-    }
+    } catch (error) {}
 }
 
 /**
@@ -355,6 +390,33 @@ function createContactObject(nameInput, emailInput, phoneInput) {
 }
 
 /**
+ * Validates all update form inputs
+ * @param {Array<HTMLInputElement>} inputs - Array of input elements
+ * @returns {boolean} True if all inputs are valid
+ */
+function validateUpdateInputs(inputs) {
+    let allValid = true;
+    inputs.forEach(input => {
+        const isValid = validateInput(input);
+        if (!isValid) allValid = false;
+    });
+    return allValid;
+}
+
+/**
+ * Shows updated contact details after successful update
+ * @param {string} id - The contact ID
+ * @returns {void}
+ */
+function showUpdatedContact(id) {
+    const updatedContact = contacts.find(c => c.id === id);
+    if (updatedContact) {
+        setActiveContact(updatedContact.email);
+        contactDetails.innerHTML = showContactDetails(updatedContact);
+    }
+}
+
+/**
  * Updates an existing contact in the Firebase database
  * Validates all inputs before updating and shows success message
  * @async
@@ -366,35 +428,15 @@ async function updateContact(root, id) {
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
     const phone = document.getElementById("contactUpdatePhone");
-    
-    // Validate all inputs before updating
     const inputs = [name, email, phone];
-    let allValid = true;
-    
-    inputs.forEach(input => {
-        const isValid = validateInput(input);
-        if (!isValid) {
-            allValid = false;
-        }
-    });
-    if (!allValid) {
-        return;
-    }
+    if (!validateUpdateInputs(inputs)) return;
     let UpdateContact = createContactObject(name, email, phone);
     try {
         const contactRef = db.ref(`${root}/${id}`);
         await contactRef.update(UpdateContact);
-
         closeDialog();
         await nameList();
-
-        const updatedContact = contacts.find(c => c.id === id);
-        if (updatedContact) {
-            setActiveContact(updatedContact.email);
-            contactDetails.innerHTML = showContactDetails(updatedContact);
-        }
+        showUpdatedContact(id);
         showContactMessage("Contact successfully updated");
-    } catch (error) {
-        // Silent error handling
-    }
+    } catch (error) {}
 }

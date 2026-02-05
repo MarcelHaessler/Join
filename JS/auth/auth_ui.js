@@ -76,22 +76,30 @@ function addConfirmPasswordListener(input) {
     });
 }
 
-// Attach listeners to all inputs
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => handleBlur(input));
-    if (input.type === 'email') {
-        addEmailInputListener(input);
-    }
-    if (input.placeholder === 'Name') {
-        input.addEventListener('input', () => validateName(input.value, input));
-    }
-    if (input.placeholder === 'Password' && input.id !== 'login-password') {
-        addPasswordInputListener(input);
-    }
-    if (input.placeholder === 'Confirm Password') {
-        addConfirmPasswordListener(input);
-    }
-});
+/**
+ * Attaches input listeners based on input type
+ * @param {HTMLInputElement} input - The input element
+ * @returns {void}
+ */
+function attachInputTypeListeners(input) {
+    if (input.type === 'email') addEmailInputListener(input);
+    if (input.placeholder === 'Name') input.addEventListener('input', () => validateName(input.value, input));
+    if (input.placeholder === 'Password' && input.id !== 'login-password') addPasswordInputListener(input);
+    if (input.placeholder === 'Confirm Password') addConfirmPasswordListener(input);
+}
+
+/**
+ * Initializes all input validation listeners
+ * @returns {void}
+ */
+function initInputListeners() {
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('blur', () => handleBlur(input));
+        attachInputTypeListeners(input);
+    });
+}
+
+initInputListeners();
 
 /**
  * Updates the password match validation message.
@@ -105,7 +113,6 @@ function updatePasswordMessage(onBlur = false) {
 
     if (!passwordInput || !confirmPasswordInput || !message) return;
 
-    // Validate on blur or if value exists
     if (confirmPasswordInput.value === '' && !onBlur) {
         clearPasswordValidation(message, confirmPasswordInput);
         return;
@@ -186,6 +193,33 @@ function clearAllPasswordErrors(message, passwordInput, confirmPasswordInput) {
 }
 
 /**
+ * Checks if name input should be cleared
+ * @param {string} name - The name value
+ * @param {boolean} onBlur - Whether triggered by blur
+ * @returns {boolean} True if should clear validation
+ */
+function shouldClearNameValidation(name, onBlur) {
+    return name.trim() === '' && !onBlur;
+}
+
+/**
+ * Applies name validation result to UI
+ * @param {boolean} isValid - Whether name is valid
+ * @param {HTMLInputElement} input - The input element
+ * @param {HTMLElement} message - The message element
+ * @returns {void}
+ */
+function applyNameValidationResult(isValid, input, message) {
+    if (isValid) {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+    } else {
+        input.classList.add('invalid');
+        message.classList.add('show');
+    }
+}
+
+/**
  * Validates the name input.
  * @param {string} name - The name value.
  * @param {HTMLInputElement} input - The input element.
@@ -197,13 +231,25 @@ function validateName(name, input, onBlur = false) {
     const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     if (!message) return;
 
-    if (name.trim() === '' && !onBlur) {
+    if (shouldClearNameValidation(name, onBlur)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
 
-    if (nameRegex.test(name.trim())) {
+    const isValid = nameRegex.test(name.trim());
+    applyNameValidationResult(isValid, input, message);
+}
+
+/**
+ * Applies email validation result to UI
+ * @param {boolean} isValid - Whether email is valid
+ * @param {HTMLInputElement} input - The input element
+ * @param {HTMLElement} message - The message element
+ * @returns {void}
+ */
+function applyEmailValidationResult(isValid, input, message) {
+    if (isValid) {
         input.classList.remove('invalid');
         message.classList.remove('show');
     } else {
@@ -223,19 +269,14 @@ function validateEmail(email, input, onBlur = false) {
     const message = document.querySelector('#email_message');
     if (!message) return;
 
-    if (email.trim() === '' && !onBlur) {
+    if (email === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
 
-    if (mailRegex.test(email)) {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
-    } else {
-        input.classList.add('invalid');
-        message.classList.add('show');
-    }
+    const isValid = mailRegex.test(email);
+    applyEmailValidationResult(isValid, input, message);
 }
 
 /**
@@ -249,19 +290,14 @@ function validateLoginEmail(email, input, onBlur = false) {
     const message = document.querySelector('.false_email');
     if (!message) return;
 
-    if (email.trim() === '' && !onBlur) {
+    if (email === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
 
-    if (mailRegex.test(email)) {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
-    } else {
-        input.classList.add('invalid');
-        message.classList.add('show');
-    }
+    const isValid = mailRegex.test(email);
+    applyEmailValidationResult(isValid, input, message);
 }
 
 /**
@@ -273,6 +309,23 @@ function recheckConfirmPassword() {
     if (confirmPasswordInput && confirmPasswordInput.value !== '') {
         validateConfirmPassword(confirmPasswordInput.value, confirmPasswordInput);
         updatePasswordMessage();
+    }
+}
+
+/**
+ * Applies password validation result to UI
+ * @param {boolean} isValid - Whether password is valid
+ * @param {HTMLInputElement} input - The input element
+ * @param {HTMLElement} message - The message element
+ * @returns {void}
+ */
+function applyPasswordValidationResult(isValid, input, message) {
+    if (isValid) {
+        input.classList.remove('invalid');
+        message.classList.remove('show');
+    } else {
+        input.classList.add('invalid');
+        message.classList.add('show');
     }
 }
 
@@ -294,14 +347,8 @@ function validatePassword(password, input, onBlur = false) {
         return;
     }
 
-    if (passwordRegex.test(password)) {
-        input.classList.remove('invalid');
-        message.classList.remove('show');
-    } else {
-        input.classList.add('invalid');
-        message.classList.add('show');
-    }
-    // Always recheck confirm password when password changes
+    const isValid = passwordRegex.test(password);
+    applyPasswordValidationResult(isValid, input, message);
     recheckConfirmPassword();
 }
 
@@ -316,20 +363,32 @@ function validateConfirmPassword(password, input) {
 }
 
 /**
- * Adds click listener to toggle password visibility icons.
+ * Toggles password visibility for a specific icon
+ * @param {HTMLElement} icon - The visibility toggle icon
+ * @returns {void}
  */
-document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
-    icon.addEventListener('click', () => {
-        const passwordInput = icon.parentElement.querySelector('input');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.src = './assets/img/visibility_on.svg';
-        } else {
-            passwordInput.type = 'password';
-            icon.src = './assets/img/visibility_off.svg';
-        }
+function togglePasswordVisibility(icon) {
+    const passwordInput = icon.parentElement.querySelector('input');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.src = './assets/img/visibility_on.svg';
+    } else {
+        passwordInput.type = 'password';
+        icon.src = './assets/img/visibility_off.svg';
+    }
+}
+
+/**
+ * Initializes password visibility toggle listeners
+ * @returns {void}
+ */
+function initPasswordToggleListeners() {
+    document.querySelectorAll('.inputIcon.clickable').forEach(icon => {
+        icon.addEventListener('click', () => togglePasswordVisibility(icon));
     });
-});
+}
+
+initPasswordToggleListeners();
 
 /**
  * Validates privacy policy checkbox state.

@@ -1,5 +1,3 @@
-// Keine imports - db ist global durch firebase_auth.js
-
 /**
  * Global array storing all tasks
  * @type {Array<Object>}
@@ -57,12 +55,22 @@ function saveTaskToLocalStorage(task) {
   localStorage.setItem('join_tasks', JSON.stringify(tasks));
 }
 
-addEventListener("load", async () => {
-  if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('registration.html')) {
-    await fetchTasks();
-    dispatchEvent(new Event("tasksLoaded"));
-  }
-});
+/**
+ * Initializes event listeners for task management
+ * Listens for page load and fetches tasks from Firebase or localStorage
+ * Excludes index.html and registration.html pages
+ * @returns {void}
+ */
+function initTaskEventListeners() {
+  addEventListener("load", async () => {
+    if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('registration.html')) {
+      await fetchTasks();
+      dispatchEvent(new Event("tasksLoaded"));
+    }
+  });
+}
+
+initTaskEventListeners();
 
 /**
  * Fetches all tasks from Firebase or localStorage

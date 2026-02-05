@@ -80,36 +80,39 @@ function editAddSubtaskToList() {
 }
 
 /**
+ * Extracts subtask text from an element
+ * @param {HTMLElement} subtaskElement - The subtask container element
+ * @returns {string|null} The extracted text or null
+ */
+function getSubtaskTextFromElement(subtaskElement) {
+    const li = subtaskElement.querySelector('.edit-subtask-element');
+    const input = subtaskElement.querySelector('#edit-subtask-input');
+    if (li) return li.textContent.trim();
+    if (input) return input.value.trim();
+    return null;
+}
+
+/**
+ * Removes a subtask entry from the local array
+ * @param {string} text - The text to remove
+ * @returns {void}
+ */
+function removeSubtaskFromArray(text) {
+    editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text.trim() !== text.trim());
+}
+
+/**
  * Deletes a subtask from the list and the local array.
  * @param {string} id - The DOM ID of the subtask element.
  * @param {string|null} textToDelete - The text of the subtask to delete (optional).
  * @returns {void}
  */
 function editDeleteSubtaskListElement(id, textToDelete = null) {
-    let subtaskElement = document.getElementById(id);
+    const subtaskElement = document.getElementById(id);
     if (!subtaskElement) return;
-
-    let text = textToDelete;
-
-    // Attempt to find text if not provided
-    if (!text) {
-        let li = subtaskElement.querySelector('.edit-subtask-element');
-        let input = subtaskElement.querySelector('#edit-subtask-input');
-
-        if (li) {
-            text = li.textContent.trim();
-        } else if (input) {
-            text = input.value.trim();
-        }
-    }
-
-    // Remove visually
+    const text = textToDelete || getSubtaskTextFromElement(subtaskElement);
     subtaskElement.remove();
-
-    // Remove from array
-    if (text) {
-        editedSubtaskListArray = editedSubtaskListArray.filter(obj => obj.text.trim() !== text.trim());
-    }
+    if (text) removeSubtaskFromArray(text);
 }
 
 /**
