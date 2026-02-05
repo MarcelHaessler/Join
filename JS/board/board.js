@@ -1,4 +1,13 @@
+/**
+ * Reference to the add task overlay element.
+ * @type {HTMLElement}
+ */
 const addTaskOverlay = document.getElementById('add-task-overlay');
+
+/**
+ * Reference to the close button for the add task overlay.
+ * @type {HTMLElement}
+ */
 const closeBtn = document.getElementById('close-add-task-overlay');
 
 /**
@@ -24,11 +33,40 @@ function initAddTaskOverlayListeners() {
 
 initAddTaskOverlayListeners();
 
+/**
+ * Reference to the To-Do tasks container.
+ * @type {HTMLElement}
+ */
 const ToDo = document.getElementById('todo-tiles');
+
+/**
+ * Reference to the In Progress tasks container.
+ * @type {HTMLElement}
+ */
 const InProgress = document.getElementById('progress-tiles');
+
+/**
+ * Reference to the Awaiting Feedback tasks container.
+ * @type {HTMLElement}
+ */
 const Awaiting = document.getElementById('feedback-tiles');
+
+/**
+ * Reference to the Done tasks container.
+ * @type {HTMLElement}
+ */
 const Done = document.getElementById('done-tiles');
+
+/**
+ * Stores the currently dragged task element ID.
+ * @type {string|undefined}
+ */
 let currentDraggedElement;
+
+/**
+ * Tracks dragenter/dragleave event counts for each drop zone.
+ * @type {Object.<string, number>}
+ */
 let dragCounters = {
     ToDo: 0,
     InProgress: 0,

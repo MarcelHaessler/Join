@@ -2,10 +2,22 @@
  * Handles interactions for the right side of the Add Task form (Assignments, Category, Subtasks).
  */
 
+/**
+ * Timeout ID for debouncing the contact search input.
+ * @type {number|undefined}
+ */
 let searchTimeout;
 
+/**
+ * Array of currently selected contacts for task assignment.
+ * @type {Array}
+ */
 let selectedContacts = [];
 
+/**
+ * The currently selected task category.
+ * @type {string}
+ */
 let currentCategory = "";
 
 /**

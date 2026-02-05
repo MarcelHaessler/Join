@@ -237,5 +237,3 @@ function generateMoveMenu(taskId) {
         <div onclick="moveToFromMobile(event, '${taskId}', 'Done')">Done</div>
     `;
 }
-
-

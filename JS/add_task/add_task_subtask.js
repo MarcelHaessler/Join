@@ -1,5 +1,13 @@
+/**
+ * Counter for generating unique subtask IDs.
+ * @type {number}
+ */
 let subtaskIndex = 0;
 
+/**
+ * Array containing all subtask text values.
+ * @type {string[]}
+ */
 let subtaskListArray = [];
 
 /**
