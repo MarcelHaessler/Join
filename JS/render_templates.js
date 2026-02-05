@@ -1,3 +1,7 @@
+/**
+ * Renders cached HTML templates for header and sidebar from local storage.
+ * @returns {void}
+ */
 function renderCachedTemplates() {
     const cachedHeader = localStorage.getItem('headerTemplate');
     const cachedSidebar = localStorage.getItem('sidebarTemplate');

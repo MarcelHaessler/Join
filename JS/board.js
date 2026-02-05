@@ -3,7 +3,7 @@ const closeBtn = document.getElementById('close-add-task-overlay');
 closeBtn.addEventListener('click', addTaskOverlayClose);
 
 // Close overlay when clicking outside content section
-addTaskOverlay.addEventListener('click', function(e) {
+addTaskOverlay.addEventListener('click', function (e) {
     if (e.target === addTaskOverlay) {
         addTaskOverlayClose();
     }
@@ -62,7 +62,7 @@ addEventListener("tasksLoaded", () => {
  */
 function updateBoard() {
     const tasks = window.tasks || [];
-    
+
     let searchTerm = document.getElementById('search-tasks-input').value.toLowerCase();
     let statuses = ['ToDo', 'InProgress', 'Awaiting', 'Done'];
 
@@ -80,7 +80,7 @@ function updateBoard() {
  */
 function updateBoardStatus(status, tasks, searchTerm) {
     let filteredTasks = filterTasksByStatus(status, tasks, searchTerm);
-    
+
     let container = document.getElementById(status);
     if (!container) {
         return;
@@ -111,12 +111,12 @@ function filterTasksByStatus(status, tasks, searchTerm) {
  */
 function renderTasksInContainer(container, filteredTasks, searchTerm) {
     container.innerHTML = '';
-    
+
     if (filteredTasks.length === 0) {
         container.innerHTML = getNoTasksMessage(searchTerm);
         return;
     }
-    
+
     filteredTasks.forEach(element => {
         container.innerHTML += generateTodoHTML(element);
     });
@@ -148,6 +148,11 @@ function startDragging(id, event) {
     setTimeout(() => wrapper.remove(), 10);
 }
 
+/**
+ * Creates a rotated clone of the task card for the drag image.
+ * @param {HTMLElement} element - The original task card element.
+ * @returns {HTMLElement} The wrapper element containing the clone.
+ */
 function prepareDragImage(element) {
     let clone = element.cloneNode(true);
     clone.style.width = element.offsetWidth + "px";
@@ -163,11 +168,20 @@ function prepareDragImage(element) {
 }
 
 
-
+/**
+ * Allows dropping by preventing the default handling of the element.
+ * @param {DragEvent} ev - The drag event.
+ * @returns {void}
+ */
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
+/**
+ * Moves the currently dragged task to a new status group.
+ * @param {string} taskGroup - The target board group (e.g., 'ToDo', 'Done').
+ * @returns {void}
+ */
 function moveTo(taskGroup) {
     const taskId = currentDraggedElement;
     const tasks = window.tasks || [];
@@ -179,11 +193,22 @@ function moveTo(taskGroup) {
     removeHighlight(taskGroup, true);
 }
 
+/**
+ * Highlights a drop zone when dragging over it.
+ * @param {string} id - The ID of the drop zone.
+ * @returns {void}
+ */
 function highlight(id) {
     dragCounters[id]++;
     document.getElementById(id).classList.add('drag-area-highlight');
 }
 
+/**
+ * Removes highlight from a drop zone.
+ * @param {string} id - The ID of the drop zone.
+ * @param {boolean} forced - If true, immediately removes the highlight (ignores counter).
+ * @returns {void}
+ */
 function removeHighlight(id, forced = false) {
     if (forced) {
         dragCounters[id] = 0;
@@ -197,6 +222,12 @@ function removeHighlight(id, forced = false) {
     }
 }
 
+/**
+ * Toggles the mobile move menu for a specific task.
+ * @param {Event} event - The click event.
+ * @param {string} taskId - The ID of the task.
+ * @returns {void}
+ */
 function toggleMobileMoveMenu(event, taskId) {
     event.stopPropagation();
     let menu = document.getElementById(`mobile-menu-${taskId}`);
@@ -211,6 +242,13 @@ function toggleMobileMoveMenu(event, taskId) {
     menu.classList.toggle('d_none');
 }
 
+/**
+ * Moves a task to a different status via the mobile menu.
+ * @param {Event} event - The click event.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} targetStatus - The target status.
+ * @returns {void}
+ */
 function moveToFromMobile(event, taskId, targetStatus) {
     event.stopPropagation();
     const tasks = window.tasks || [];
@@ -221,5 +259,3 @@ function moveToFromMobile(event, taskId, targetStatus) {
         // updateBoard() wird bereits in updateTask() aufgerufen
     }
 }
-
-

@@ -40,12 +40,16 @@ async function fetchHtmlTemplates() {
     // Cache deaktiviert für sofortige Updates
     const headerResp = await fetch('./assets/templates/header.html?v=' + Date.now());
     cachedHeader = await headerResp.text();
-    
+    localStorage.setItem('headerTemplate', cachedHeader);
+
     const sidebarResp = await fetch('./assets/templates/sideBar.html?v=' + Date.now());
     cachedSidebar = await sidebarResp.text();
+    localStorage.setItem('sidebarTemplate', cachedSidebar);
 
     document.getElementById('header').innerHTML = cachedHeader;
     document.getElementById('side-bar').innerHTML = cachedSidebar;
+
+    window.dispatchEvent(new Event('templatesLoaded'));
 
     highlightActiveWrapper();
     checkGuestMode();
@@ -64,7 +68,7 @@ function checkGuestMode() {
     if (isPolicyPage || isLegalPage) {
         const currentUser = localStorage.getItem('join_current_user');
         document.body.classList.remove('loading-auth');
-        
+
         if (!currentUser) {
             // Kein eingeloggter Benutzer -> setze mode-guest
             document.body.classList.add('mode-guest');

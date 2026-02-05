@@ -1,9 +1,17 @@
+/**
+ * Handles interactions for the right side of the Add Task form (Assignments, Category, Subtasks).
+ */
+
 let searchTimeout;
 let selectedContacts = [];
 let currentCategory = "";
 let subtaskIndex = 0;
 let subtaskListArray = [];
 
+/**
+ * Adds background colors to the initials of displayed contacts.
+ * @returns {void}
+ */
 function addInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".contact-initials");
 
@@ -14,13 +22,16 @@ function addInitialsBackgroundColors() {
     });
 }
 
-/**Function to fill the dropdown with all the contacts in contacts array*/
+/**
+ * Fills the contacts dropdown with available contacts.
+ * @returns {void}
+ */
 function fillAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     if (!contactsDropdown) return;
-    
+
     contactsDropdown.innerHTML = "";
-    
+
     if (!window.contacts || !Array.isArray(window.contacts)) {
         showNoContactsMessage(contactsDropdown);
         return;
@@ -28,10 +39,20 @@ function fillAssignmentDropdown() {
     renderContactsInDropdown(contactsDropdown);
 }
 
+/**
+ * Displays a message when no contacts are available.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ * @returns {void}
+ */
 function showNoContactsMessage(dropdown) {
     dropdown.innerHTML = '<div style="padding: 10px;">No contacts available</div>';
 }
 
+/**
+ * Renders individual contact content into the dropdown.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ * @returns {void}
+ */
 function renderContactsInDropdown(dropdown) {
     for (let index = 0; index < contacts.length; index++) {
         let contactName = contacts[index].name;
@@ -40,15 +61,30 @@ function renderContactsInDropdown(dropdown) {
     }
 }
 
+/**
+ * Generates initials from a full name.
+ * @param {string} name - The contact's full name.
+ * @returns {string} Two-letter initials.
+ */
 function getContactInitials(name) {
     return name.charAt(0).toUpperCase() + name.charAt(name.indexOf(" ") + 1).toUpperCase();
 }
 
+/**
+ * Selects the appropriate contact template (Self or Other).
+ * @param {string} name - The contact's name.
+ * @param {string} initials - The contact's initials.
+ * @param {number} index - The contact's index.
+ * @returns {string} HTML string.
+ */
 function getContactTemplate(name, initials, index) {
     return index === 0 ? addSelfTemplate(name, initials, index) : addTaskContactTemplate(name, initials, index);
 }
 
-/**Function to render/open the assignment dropdown*/
+/**
+ * Toggles the visibility of the assignment dropdown.
+ * @returns {void}
+ */
 function renderAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     contactsDropdown.classList.toggle("open");
@@ -60,7 +96,9 @@ function renderAssignmentDropdown() {
     searchContact();
 }
 
-/**Function that rotates the arrow on opening/closing the dropdown of assignment dropdown*/
+/**
+ * Global click listener to close assignment dropdown when clicking outside.
+ */
 document.addEventListener("click", function (e) {
     const assignmentInput = document.getElementById("assign-input");
     const assignmentDropdown = document.getElementById("contacts-dropdown");
@@ -75,13 +113,19 @@ document.addEventListener("click", function (e) {
     }
 });
 
-/**Function that adds a delay on searchContact function*/
+/**
+ * Delays the contact search execution.
+ * @returns {void}
+ */
 function delaySearchContact() {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => searchContact(), 500);
 }
 
-/**Function to search between the contacts and show them in assignment dropdown*/
+/**
+ * Filters the contacts dropdown based on search input.
+ * @returns {void}
+ */
 function searchContact() {
     let assignInput = document.getElementById('assign-input');
     let input = assignInput.value.toUpperCase();
@@ -95,7 +139,11 @@ function searchContact() {
     })
 }
 
-/**Function to select contacts that will be added to the Task. */
+/**
+ * Selects or unselects a contact for assignment.
+ * @param {number} index - The contact's index.
+ * @returns {void}
+ */
 function selectContact(index) {
     let currentContact = document.getElementById(`contact${index}`);
     currentContact.classList.toggle('selected-contact');
@@ -112,7 +160,10 @@ function selectContact(index) {
     changeCheckbox(index);
 }
 
-/**Function to show the selected contacts. Only 3 contact initials will be rendered, from the 4th contact +(number of remaining contacts). */
+/**
+ * Renders the selected contacts' initials in the display area.
+ * @returns {void}
+ */
 function renderSelectedContacts() {
     let selectedContactsContainer = document.getElementById('chosen-contacts');
     selectedContactsContainer.innerHTML = '';
@@ -122,14 +173,24 @@ function renderSelectedContacts() {
     addChosenInitialsBackgroundColors();
 }
 
+/**
+ * Toggles visibility of the selected contacts container.
+ * @param {HTMLElement} container - The container element.
+ * @returns {void}
+ */
 function toggleContainerVisibility(container) {
     if (selectedContacts.length > 0) {
         container.classList.remove('d_none');
-    } else { 
-        container.classList.add('d_none'); 
+    } else {
+        container.classList.add('d_none');
     }
 }
 
+/**
+ * Renders the first 3 selected contact initials.
+ * @param {HTMLElement} container - The container element.
+ * @returns {void}
+ */
 function renderContactInitials(container) {
     for (let index = 0; index < selectedContacts.length && index <= 2; index++) {
         let initials = getContactInitials(selectedContacts[index].name);
@@ -137,6 +198,11 @@ function renderContactInitials(container) {
     }
 }
 
+/**
+ * Renders the "plus X more" indicator if more than 3 contacts selected.
+ * @param {HTMLElement} container - The container element.
+ * @returns {void}
+ */
 function renderExtraContactsCount(container) {
     if (selectedContacts.length > 3) {
         let number = selectedContacts.length - 3;
@@ -144,7 +210,10 @@ function renderExtraContactsCount(container) {
     }
 }
 
-/**Function that adds background color to chosen contacts, same as before. */
+/**
+ * Adds background colors to the chosen initials.
+ * @returns {void}
+ */
 function addChosenInitialsBackgroundColors() {
     let chosenContactInitials = document.querySelectorAll(".chosen-contact-initials");
 
@@ -155,7 +224,11 @@ function addChosenInitialsBackgroundColors() {
     });
 }
 
-/**Function that gives a checkbox user response by chosing a contact. */
+/**
+ * Toggles the checkbox state for a contact item.
+ * @param {number} index - The contact index.
+ * @returns {void}
+ */
 function changeCheckbox(index) {
     let checkbox = document.getElementById(`checkbox${index}`);
     const checkboxInactive = './assets/img/checkbox_inactive.svg';
@@ -170,7 +243,10 @@ function changeCheckbox(index) {
     }
 }
 
-/**Function to open category dropdown */
+/**
+ * Toggles the visibility of the category dropdown.
+ * @returns {void}
+ */
 function openCloseCategoryDropdown() {
     let categoryDropdown = document.getElementById("category-dropdown");
     let arrowImage = document.getElementById("category-arrow");
@@ -178,7 +254,9 @@ function openCloseCategoryDropdown() {
     categoryDropdown.classList.toggle("open");
 }
 
-/**Function that rotates on opening/closing the category dropdown */
+/**
+ * Global click listener to close category dropdown when clicking outside.
+ */
 document.addEventListener("click", function (e) {
     const categoryInput = document.getElementById("category-input");
     const categoryDropdown = document.getElementById("category-dropdown");
@@ -190,7 +268,10 @@ document.addEventListener("click", function (e) {
     }
 });
 
-/**Function to check if user chose a category. */
+/**
+ * Validates that a category has been selected.
+ * @returns {void}
+ */
 function checkCategory() {
     let categoryInputWarning = document.getElementById('category-warning');
     let categoryInput = document.getElementById("category");
@@ -207,7 +288,10 @@ function checkCategory() {
 }
 
 
-/**Function to select chosen category that gives a user response and stores chosen category in currentCategory array.*/
+/**
+ * Selects "Technical Task" as the category.
+ * @returns {void}
+ */
 function choseTechnicalTask() {
     let categoryInput = document.getElementById("category");
     categoryInput.value = "Technical Task";
@@ -216,7 +300,10 @@ function choseTechnicalTask() {
     checkCategory();
 }
 
-/**Function to select chosen category that gives a user response and stores chosen category in currentCategory array.*/
+/**
+ * Selects "User Story" as the category.
+ * @returns {void}
+ */
 function choseUserStory() {
     let categoryInput = document.getElementById("category");
     categoryInput.value = "User Story";
@@ -224,7 +311,10 @@ function choseUserStory() {
     openCloseCategoryDropdown();
 }
 
-/**Function to show input buttons from the first tryped character in the input field. */
+/**
+ * Shows or hides the subtask control buttons based on input.
+ * @returns {void}
+ */
 function showHideSubtaskButtons() {
     let subtasks = document.getElementById("subtasks");
 
@@ -234,19 +324,25 @@ function showHideSubtaskButtons() {
         : document.getElementById("subtask-button-container").classList.remove("d_none");
 }
 
-/**Function to empty the input field. */
+/**
+ * Clears the subtask input field.
+ * @returns {void}
+ */
 function clearInputField() {
     let subtasks = document.getElementById("subtasks");
     subtasks.value = '';
     document.getElementById("subtask-button-container").classList.add("d_none");
 }
 
-/**Function that adds the value of input to the list of subtasks. */
+/**
+ * Adds a subtask to the list and resets the input.
+ * @returns {void}
+ */
 function addSubtaskToList() {
     let subtasks = document.getElementById("subtasks");
     let subtaskList = document.getElementById("subtask-list");
-    
-    // Prüfe ob Eingabe nach trim() leer ist
+
+    // Check if input is empty after trim
     if (subtasks.value.trim() === '') {
         clearInputField();
         return;
@@ -258,13 +354,22 @@ function addSubtaskToList() {
     clearInputField();
 }
 
-/**Function to delete chosen subtask from list */
+/**
+ * Deletes a subtask from the list.
+ * @param {string} id - The ID of the subtask element.
+ * @returns {void}
+ */
 function deleteSubtaskListElement(id) {
     let subtaskElement = document.getElementById(id);
     subtaskElement.remove();
     subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
 }
-/**Functions to edit an added subtask by changing an li element into an imput field and on saving changing back to li. */
+
+/**
+ * Switches a subtask list item to edit mode (input field).
+ * @param {string} taskId - The ID of the subtask element.
+ * @returns {void}
+ */
 function editSubtask(taskId) {
     const box = document.getElementById(taskId);
     const li = box.querySelector("li.subtask-element");
@@ -274,19 +379,35 @@ function editSubtask(taskId) {
     addEditButtons(box, taskId);
 }
 
+/**
+ * Replaces text content with an input field for editing.
+ * @param {HTMLElement} box - The container element.
+ * @param {string} text - The current text.
+ * @returns {void}
+ */
 function replaceWithEditInput(box, text) {
     const input = createEditInput(text);
     box.innerHTML = "";
     box.appendChild(input);
 }
 
+/**
+ * Adds Save and Delete buttons to the edit input.
+ * @param {HTMLElement} box - The container element.
+ * @param {string} taskId - The subtask ID.
+ * @returns {void}
+ */
 function addEditButtons(box, taskId) {
     const input = box.querySelector("input");
     const buttonContainer = createEditButtons(input, box, taskId);
     box.appendChild(buttonContainer);
 }
 
-/**Function that creates an input field with what the user can directly edit the added subtask. */
+/**
+ * Creates the input element for editing.
+ * @param {string} text - The initial value.
+ * @returns {HTMLInputElement} The created input.
+ */
 function createEditInput(text) {
     const input = document.createElement("input");
     input.type = "text";
@@ -295,7 +416,13 @@ function createEditInput(text) {
     return input;
 }
 
-/**Function that creates new buttons and a divider in the new input field. */
+/**
+ * Creates the button container for edit actions.
+ * @param {HTMLInputElement} input - The input element.
+ * @param {HTMLElement} box - The container element.
+ * @param {string} taskId - The subtask ID.
+ * @returns {HTMLElement} The container div.
+ */
 function createEditButtons(input, box, taskId) {
     const container = document.createElement("div");
     container.className = "subtask-list-button-container";
@@ -314,7 +441,12 @@ function createEditButtons(input, box, taskId) {
     return container;
 }
 
-/**Function that creates editing buttons to the new input field. */
+/**
+ * Helper to create a functional button.
+ * @param {string} imgSrc - Path to the icon image.
+ * @param {Function} onClick - Click handler.
+ * @returns {HTMLElement} The button element.
+ */
 function createButton(imgSrc, onClick) {
     const btn = document.createElement("div");
     btn.className = "subtask-button";
@@ -323,14 +455,21 @@ function createButton(imgSrc, onClick) {
     return btn;
 }
 
-/**Function that creates a divider between the two buttons. */
+/**
+ * Creates a visual divider.
+ * @returns {HTMLElement} The divider element.
+ */
 function createDivider() {
     const div = document.createElement("div");
     div.innerHTML = '<img src="./assets/img/add_task/Vector 3.svg" alt="Divider">';
     return div;
 }
 
-/**Function that handles the Enter key press in the subtask input field to add the subtask. */
+/**
+ * Handles Enter key to submit subtask.
+ * @param {KeyboardEvent} event - The keyboard event.
+ * @returns {void}
+ */
 function handleSubtaskEnter(event) {
     if (event.key === "Enter") {
         event.preventDefault();

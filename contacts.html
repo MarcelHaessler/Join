@@ -27,7 +27,7 @@
                 </button>
             </div>
             <div id="contacList">
-                
+
             </div>
             <div class="sideBarOption">
                 <button onclick="openDialogAdd()"><img src="./assets/img/contacts/person_add.svg"
@@ -71,24 +71,29 @@
                                 alt="" srcset=""></button>
                         <div class="input-wrapper">
                             <div class="input-container">
-                                <input type="text" id="contactAddName" name="contactName" placeholder="Name" autocomplete="name">
+                                <input type="text" id="contactAddName" name="contactName" placeholder="Name"
+                                    autocomplete="name">
                                 <img class="inputIcon" src="./assets/img/contacts/person.svg" alt="" srcset="">
                             </div>
                             <span class="validation-message" id="nameValidation">Please add a real name</span>
                         </div>
                         <div class="input-wrapper">
                             <div class="input-container">
-                                <input type="email" id="contactAddMail" name="contactMail" placeholder="Email" autocomplete="email">
+                                <input type="email" id="contactAddMail" name="contactMail" placeholder="Email"
+                                    autocomplete="email">
                                 <img class="inputIcon" src="./assets/img/contacts/mail.svg" alt="" srcset="">
                             </div>
-                            <span class="validation-message" id="emailValidation">Please enter a valid E-Mail address</span>
+                            <span class="validation-message" id="emailValidation">Please enter a valid E-Mail
+                                address</span>
                         </div>
                         <div class="input-wrapper">
                             <div class="input-container">
-                                <input type="tel" id="contactAddPhone" name="contactPhone" placeholder="Phone" autocomplete="tel">
+                                <input type="tel" id="contactAddPhone" name="contactPhone" placeholder="Phone"
+                                    autocomplete="tel">
                                 <img class="inputIcon" src="./assets/img/contacts/call.svg" alt="" srcset="">
                             </div>
-                            <span class="validation-message" id="phoneValidation">Please enter a valid telefonnumber</span>
+                            <span class="validation-message" id="phoneValidation">Please enter a valid
+                                telefonnumber</span>
                         </div>
                         <div class="contactAddButtons">
                             <button class="contactAddCancel" onclick="closeDialog()"><span>Cancel</span><img
@@ -108,12 +113,12 @@
     <!-- Firebase compat (ohne modules) -->
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-database-compat.js"></script>
-    
+
     <script src="./JS/firebase_auth.js"></script>
     <script src="./JS/fetch.js"></script>
-    <script src="./JS/firebase_sign_in_up.js"></script>
+    <script src="./JS/auth_services.js"></script>
     <script src="./JS/contacts.js"></script>
-    <script src="./JS/contacts_2.js"></script>
+    <script src="./JS/contacts_actions.js"></script>
     <script src="./JS/contacts_templates.js"></script>
     <script src="./JS/initials.js"></script>
 </body>

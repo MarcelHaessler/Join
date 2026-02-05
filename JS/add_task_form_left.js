@@ -1,4 +1,10 @@
-// Set min date to today for all date inputs
+/**
+ * Handles validation and interaction for the left side of the Add Task form (Title, Description, Date).
+ */
+
+/**
+ * Sets the minimum date for all date inputs to today's date.
+ */
 function setMinDateToToday() {
     const today = new Date().toISOString().split('T')[0];
     document.querySelectorAll('input[type="date"]').forEach(dateInput => {
@@ -8,6 +14,7 @@ function setMinDateToToday() {
 
 setMinDateToToday();
 
+// Add global event listeners for input validation
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('blur', () => {
         if (input.id === 'date') {
@@ -17,7 +24,7 @@ document.querySelectorAll('input').forEach(input => {
             checkTitle();
         }
     });
-    
+
     // Add change event for date inputs to update styling
     if (input.type === 'date') {
         input.addEventListener('change', () => {
@@ -30,8 +37,14 @@ document.querySelectorAll('input').forEach(input => {
     }
 });
 
-document.querySelector('textarea').addEventListener('blur', () => checkDescription());
+if (document.querySelector('textarea')) {
+    document.querySelector('textarea').addEventListener('blur', () => checkDescription());
+}
 
+/**
+ * Validates the task title input.
+ * Shows error if empty.
+ */
 function checkTitle() {
     const titleInput = document.getElementById("title");
     const titleResultDiv = document.getElementById("title-warning");
@@ -39,46 +52,62 @@ function checkTitle() {
     if (titleInput.value.trim().length === 0) {
         titleResultDiv.innerHTML = "This field is required.";
         titleResultDiv.style.color = "#e60025";
-        titleInput.classList.add("invalid");}
+        titleInput.classList.add("invalid");
+    }
     if (titleInput.value.trim().length > 0) {
         titleResultDiv.innerHTML = "";
-        titleInput.classList.remove("invalid");}
+        titleInput.classList.remove("invalid");
+    }
 }
 
+/**
+ * Validates the task description input.
+ * Shows error if empty.
+ */
 function checkDescription() {
     const descriptionInput = document.getElementById("description");
     const descriptionResultDiv = document.getElementById("description-warning");
-    
+
     if (descriptionInput.value.trim().length === 0) {
         descriptionResultDiv.innerHTML = "This field is required.";
         descriptionResultDiv.style.color = "#e60025";
-        descriptionInput.classList.add("invalid");}
+        descriptionInput.classList.add("invalid");
+    }
     if (descriptionInput.value.trim().length > 0) {
         descriptionResultDiv.innerHTML = "";
-        descriptionInput.classList.remove("invalid");}
+        descriptionInput.classList.remove("invalid");
+    }
 }
 
 const dateInput = document.getElementById('date');
 
-/**Function that checks if the input date is today or in the future */
+/**
+ * Checks if the input date is today or in the future.
+ * @param {string} dateString - The date string from input.
+ * @returns {boolean} True if valid.
+ */
 const isCorrectDate = (dateString) => {
     if (!dateString) return false;
-    
+
     let today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     let selectedDate = new Date(dateString);
     selectedDate.setHours(0, 0, 0, 0);
-    
+
     return selectedDate.getTime() >= today.getTime();
 }
 
+/**
+ * Validates the due date input.
+ * Checks for empty value and past dates.
+ */
 function checkDate() {
     const inputBorder = document.getElementById("date");
     const resultDiv = document.getElementById("date-warning");
-    
+
     updateDateInputStyling(inputBorder);
-    
+
     if (!dateInput.value) {
         showDateError(inputBorder, resultDiv, "This field is required.");
         return;
@@ -90,6 +119,10 @@ function checkDate() {
     clearDateError(inputBorder, resultDiv);
 }
 
+/**
+ * Updates the visual styling of the date input based on value presence.
+ * @param {HTMLElement} inputBorder - The date input element.
+ */
 function updateDateInputStyling(inputBorder) {
     if (dateInput.value) {
         inputBorder.classList.add("has-value");
@@ -98,12 +131,23 @@ function updateDateInputStyling(inputBorder) {
     }
 }
 
+/**
+ * Displays a date validation error.
+ * @param {HTMLElement} inputBorder - The date input element.
+ * @param {HTMLElement} resultDiv - The error message container.
+ * @param {string} msg - The error message to display.
+ */
 function showDateError(inputBorder, resultDiv, msg) {
     inputBorder.classList.add("invalid");
     resultDiv.innerHTML = msg;
     resultDiv.style.color = "#e60025";
 }
 
+/**
+ * Clears any date validation errors.
+ * @param {HTMLElement} inputBorder - The date input element.
+ * @param {HTMLElement} resultDiv - The error message container.
+ */
 function clearDateError(inputBorder, resultDiv) {
     inputBorder.classList.remove("invalid");
     resultDiv.innerHTML = "";

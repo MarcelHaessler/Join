@@ -109,8 +109,8 @@
                         <div id="subtask-container" class="input-container">
                             <label for="subtasks">Subtasks</label>
                             <div id="subtask-input-wrapper">
-                                <input onkeyup="showHideSubtaskButtons()" onkeydown="handleSubtaskEnter(event)" type="text" name="subtasks" id="subtasks"
-                                    placeholder="Add new subtask">
+                                <input onkeyup="showHideSubtaskButtons()" onkeydown="handleSubtaskEnter(event)"
+                                    type="text" name="subtasks" id="subtasks" placeholder="Add new subtask">
                                 <div class="d_none" id="subtask-button-container">
                                     <div onclick="clearInputField()" class="subtask-button">
                                         <img id="clear-button" src="./assets/img/add_task/close.svg" alt="Clear">
@@ -234,21 +234,23 @@
     <!-- Firebase compat -->
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-database-compat.js"></script>
-    
+
     <script src="./JS/firebase_auth.js"></script>
     <script src="./JS/fetch.js"></script>
-    <script src="./JS/firebase_sign_in_up.js"></script>
+    <script src="./JS/auth_services.js"></script>
     <script src="./JS/add_task_firebase.js"></script>
     <script src="./JS/board.js"></script>
-    <script src="./JS/board_2.js"></script>
+    <script src="./JS/board_task_overlay.js"></script>
     <script src="./JS/add_task.js"></script>
     <script src="./JS/add_task_form_left.js"></script>
     <script src="./JS/add_task_priority_buttons.js"></script>
     <script src="./JS/add_task_form_right.js"></script>
-    <script src="./JS/templates.js"></script>
+    <script src="./JS/templates_board.js"></script>
+    <script src="./JS/templates_add_task.js"></script>
     <script src="./JS/initials.js"></script>
-    <script src="./JS/edit_task_1.js"></script>
-    <script src="./JS/edit_task_2.js"></script>
+    <script src="./JS/edit_task_details.js"></script>
+    <script src="./JS/edit_task_subtasks.js"></script>
+    <script src="./JS/edit_task_properties.js"></script>
 </body>
 
 </html>

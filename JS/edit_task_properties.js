@@ -1,29 +1,48 @@
-/**JS functions to edit task title, description, due date, and priority */
+/**
+ * JS functions to edit task title, description, due date, and priority.
+ * Manages the form state and validations for these properties.
+ */
 
 let editedTitle = '';
 let editedDescription = '';
 let editedDueDate = '';
 let editedPriority = '';
 
-//Function to save title in editedTitle variable. If title input is empty, save the original title.
+/**
+ * Saves the edited title to the global variable.
+ * Preserves the original title if input is empty.
+ * @returns {void}
+ */
 function editSaveTitle() {
     const titleInput = document.getElementById('edit-title');
     editedTitle = titleInput.value.trim() || editedTitle;
 }
 
-//Function to save description in editedDescription variable. If description input is empty, save the original description.
+/**
+ * Saves the edited description to the global variable.
+ * Preserves the original description if input is empty.
+ * @returns {void}
+ */
 function editSaveDescription() {
     const descriptionInput = document.getElementById('edit-description');
     editedDescription = descriptionInput.value.trim() || editedDescription;
 }
 
-//Function to save due date in editedDueDate variable. If date input is empty, save the original date.
+/**
+ * Saves the edited due date to the global variable.
+ * Preserves the original date if input is empty.
+ * @returns {void}
+ */
 function editSaveDueDate() {
     const dateInput = document.getElementById('edit-date');
     editedDueDate = dateInput.value.trim() || editedDueDate;
 }
 
-// Function to check and set the task priority in the edit task overlay
+/**
+ * Sets the priority button state based on the task's current priority.
+ * @param {string} priority - The priority level ('low', 'medium', 'urgent').
+ * @returns {void}
+ */
 function checkTaskPriority(priority) {
     if (priority === 'low') {
         lowPriority();
@@ -34,7 +53,10 @@ function checkTaskPriority(priority) {
     }
 }
 
-// Functions to handle priority button states in the edit task overlay
+/**
+ * Sets the form state to Low priority.
+ * @returns {void}
+ */
 function lowPriority() {
     resetPriorityButtons();
     let editLowBtn = document.getElementById('edit-low-btn');
@@ -47,7 +69,10 @@ function lowPriority() {
     editMediumBtnToNormal();
 }
 
-//medium priority function
+/**
+ * Sets the form state to Medium priority.
+ * @returns {void}
+ */
 function mediumPriority() {
     resetPriorityButtons();
     let editMediumBtn = document.getElementById('edit-medium-btn');
@@ -60,7 +85,10 @@ function mediumPriority() {
     editUrgentBtnToNormal();
 }
 
-//urgent priority function
+/**
+ * Sets the form state to Urgent priority.
+ * @returns {void}
+ */
 function urgentPriority() {
     resetPriorityButtons();
     let editUrgentBtn = document.getElementById('edit-urgent-btn');
@@ -73,7 +101,10 @@ function urgentPriority() {
     editLowBtnToNormal();
 }
 
-// Function to reset all priority buttons to their default state
+/**
+ * Resets all priority buttons to their default (inactive) state.
+ * @returns {void}
+ */
 function resetPriorityButtons() {
     const priorities = [
         { id: 'urgent-btn', imgId: 'urgent-img', icon: 'urgent.svg' },
@@ -83,6 +114,11 @@ function resetPriorityButtons() {
     priorities.forEach(p => resetSinglePriorityButton(p));
 }
 
+/**
+ * Resets a single priority button.
+ * @param {Object} priority - Object containing button IDs and icon.
+ * @returns {void}
+ */
 function resetSinglePriorityButton(priority) {
     const btn = document.getElementById(priority.id);
     const img = document.getElementById(priority.imgId);
@@ -95,7 +131,10 @@ function resetSinglePriorityButton(priority) {
     }
 }
 
-// Functions to reset individual edit priority buttons to normal state
+/**
+ * Resets the Urgent button to normal state.
+ * @returns {void}
+ */
 function editUrgentBtnToNormal() {
     let editUrgentBtn = document.getElementById('edit-urgent-btn');
     let editUrgentImg = document.getElementById('edit-urgent-img');
@@ -107,6 +146,10 @@ function editUrgentBtnToNormal() {
     editUrgentImg.src = './assets/img/add_task/urgent.svg'
 }
 
+/**
+ * Resets the Medium button to normal state.
+ * @returns {void}
+ */
 function editMediumBtnToNormal() {
     let editMediumBtn = document.getElementById('edit-medium-btn');
     let editMediumImg = document.getElementById('edit-medium-img');
@@ -118,6 +161,10 @@ function editMediumBtnToNormal() {
     editMediumImg.src = './assets/img/add_task/medium.svg'
 }
 
+/**
+ * Resets the Low button to normal state.
+ * @returns {void}
+ */
 function editLowBtnToNormal() {
     let editLowBtn = document.getElementById('edit-low-btn');
     let editLowImg = document.getElementById('edit-low-img');
@@ -129,27 +176,35 @@ function editLowBtnToNormal() {
     editLowImg.src = './assets/img/add_task/low.svg'
 }
 
-
 const editDateInput = document.getElementById('edit-date');
 
+/**
+ * Validates if a date string is valid and not in the past.
+ * @param {string} dateString - The date string to check.
+ * @returns {boolean} True if valid, false otherwise.
+ */
 function editIsCorrectDate(dateString) {
     if (!dateString) return false;
-    
+
     let today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     let selectedDate = new Date(dateString);
     selectedDate.setHours(0, 0, 0, 0);
-    
+
     return selectedDate.getTime() >= today.getTime();
 }
 
+/**
+ * Checks the date input field and shows/clears errors.
+ * @returns {boolean} True if there is an error, false if valid.
+ */
 function editCheckDate() {
     const inputBorder = document.getElementById("edit-date");
     const resultDiv = document.getElementById("edit-date-warning");
 
     if (!inputBorder || !resultDiv) return true;
-    
+
     if (!inputBorder.value) {
         return showEditDateError(inputBorder, resultDiv, "This field is required.");
     }
@@ -159,6 +214,13 @@ function editCheckDate() {
     return clearEditDateError(inputBorder, resultDiv);
 }
 
+/**
+ * Displays a date validation error.
+ * @param {HTMLElement} inputBorder - The input element.
+ * @param {HTMLElement} resultDiv - The error message container.
+ * @param {string} msg - The error message.
+ * @returns {boolean} Always true (indicating error).
+ */
 function showEditDateError(inputBorder, resultDiv, msg) {
     inputBorder.classList.add("invalid");
     resultDiv.innerHTML = msg;
@@ -166,6 +228,12 @@ function showEditDateError(inputBorder, resultDiv, msg) {
     return true;
 }
 
+/**
+ * Clears date validation errors.
+ * @param {HTMLElement} inputBorder - The input element.
+ * @param {HTMLElement} resultDiv - The error message container.
+ * @returns {boolean} Always false (indicating success).
+ */
 function clearEditDateError(inputBorder, resultDiv) {
     inputBorder.classList.remove("invalid");
     resultDiv.innerHTML = "";

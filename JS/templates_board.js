@@ -1,90 +1,16 @@
-// Template for adding logged-in user to assignment dropdown
-function addSelfTemplate(name, initials, index) {
-    return `<div id='contact${index}' class="dropdown-box" onclick='selectContact(${index})'>
-                <div class="contact-initials">
-                    <p>${initials}</p>
-                </div>
-                <div class="contact-name-checkbox">
-                    <p class="contact-fullname">${name} (You)</p>
-                    <img id="checkbox${index}" class="checkbox" src="./assets/img/checkbox_inactive.svg" alt="checkbox">
-                </div>
-            </div>`
-}
+/**
+ * Templates for the Kanban Board, Task Cards, and Edit Overlays
+ */
 
-
-// Template for adding other contacts to assignment dropdown
-function addTaskContactTemplate(name, initials, index) {
-    return `<div id='contact${index}' class="dropdown-box" onclick='selectContact(${index})'>
-                <div class="contact-initials">
-                    <p>${initials}</p>
-                </div>
-                <div class="contact-name-checkbox">
-                    <p class="contact-fullname">${name}</p>
-                    <img id="checkbox${index}" class="checkbox" src="./assets/img/checkbox_inactive.svg" alt="checkbox">
-                </div>
-            </div>`
-}
-
-// Template for contact initials in assigned contacts section
-function addInitialTemplate(initials) {
-    return `     <div class="chosen-contact-initials">
-                    <p>${initials}</p>
-                </div>`
-}
-
-// Template for number of extra assigned people
-function addNumberOfExtraPeople(number) {
-    return `<p>+${number}</p>`
-}
-
-function editAddNumberOfExtraPeople(number) {
-    return `<p>+${number}</p>`
-}
-
-// Template for new Subtasks
-function addSubtaskTemplate(subtasks, subtaskIndex) {
-    return `<div id="task${subtaskIndex}" class="subtask-element-box">  
-                                    <li class="subtask-element" onclick="editSubtask('task${subtaskIndex}')">
-                                        ${subtasks.value}
-                                    </li>
-
-                                    <div class="subtask-list-button-container">
-                                        <div class="subtask-button" onclick="editSubtask('task${subtaskIndex}')">
-                                            <img class="subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
-                                        </div>
-
-                                        <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
-
-                                        <div class="subtask-button" onclick="deleteSubtaskListElement('task${subtaskIndex}')">
-                                            <img class="subtask-list-button" id="delete-button" src="./assets/img/add_task/delete.svg" alt="Delete">
-                                        </div>
-                                    </div>
-                                </div>`
-}
-
-
-// Template for edited Subtasks
-function editedSubtaskTemplate(taskId, newText) {
-    return `
-            <li class="subtask-element" onclick="editSubtask('${taskId}')">${newText}</li>
-            <div class="subtask-list-button-container">
-                <div class="subtask-button" onclick="editSubtask('${taskId}')">
-                    <img class="subtask-list-button" src="./assets/img/add_task/edit.svg" alt="Edit">
-                </div>
-                <img src="./assets/img/add_task/Vector 3.svg" alt="Divider">
-                <div class="subtask-button" onclick="deleteSubtaskListElement('${taskId}')">
-                    <img class="subtask-list-button" id="delete-button" src="./assets/img/add_task/delete.svg" alt="Delete">
-                </div>
-            </div>
-        `
-}
-
-
-// Small Task Card Template
+/**
+ * Generates HTML for a small task card on the board.
+ * @param {Object} element - The task object
+ * @returns {string} HTML string for the task card
+ */
 function generateTodoHTML(element) {
-    let initialsHTML = ''; let progressHTML = ``;
-    let taskColor; let completedSubtasks;
-    let totalSubtasks; let progressValue;
+    let initialsHTML = '';
+    let progressHTML = ``;
+    let taskColor;
 
     initialsHTML = generateOptionHTML(element);
 
@@ -123,8 +49,11 @@ function generateTodoHTML(element) {
     </div>`;
 }
 
-
-// Opened Task Card Template
+/**
+ * Generates HTML for the detailed opened task card overlay.
+ * @param {Object} element - The task object
+ * @returns {string} HTML string for the opened task card
+ */
 function generateOpenedTaskCardHTML(element) {
     let taskColor;
 
@@ -181,8 +110,11 @@ function generateOpenedTaskCardHTML(element) {
                 </section>`;
 }
 
-
-// Function to add assigned persons to opened task card
+/**
+ * Adds assigned persons to the opened task card.
+ * @param {Object} element - The task object
+ * @returns {string} HTML string for assigned persons
+ */
 function addAssignedPersons(element) {
     let assignedContainer = '';
     let names = element.assignedPersons;
@@ -205,8 +137,12 @@ function addAssignedPersons(element) {
     }
 }
 
-
-// Function to add subtasks to opened task card
+/**
+ * Adds subtasks to the opened task card.
+ * @param {Object} element - The task object
+ * @param {number} taskIndex - The index of the task in the global array
+ * @returns {string} HTML string for subtasks
+ */
 function addSubtasks(element, taskIndex) {
     let subtasksContainer = '';
     let subtasks = element.subtasks;
@@ -240,8 +176,12 @@ function addSubtasks(element, taskIndex) {
     }
 }
 
-
-// Edit Task Card Template
+/**
+ * Generates HTML for the edit task overlay.
+ * @param {Object} element - The task object
+ * @param {string} taskId - The unique ID of the task
+ * @returns {string} HTML string for the edit form
+ */
 function generateEditTaskHTML(element, taskId) {
     let title = element.title;
     let description = element.description;
@@ -354,8 +294,13 @@ function generateEditTaskHTML(element, taskId) {
                 </section>`;
 }
 
-
-// Template for adding logged-in user to assignment dropdown in edit task overlay
+/**
+ * Template for adding logged-in user to assignment dropdown in edit task overlay.
+ * @param {string} name - The user's name
+ * @param {string} initials - The user's initials
+ * @param {number} index - The index of the contact
+ * @returns {string} HTML string
+ */
 function editAddSelfTemplate(name, initials, index) {
     return `<div id='edit-contact${index}' class="edit-dropdown-box" onclick='editSelectContact(${index})'>
                 <div class="edit-contact-initials">
@@ -365,11 +310,16 @@ function editAddSelfTemplate(name, initials, index) {
                     <p class="edit-contact-fullname">${name} (You)</p>
                     <img id="edit-checkbox${index}" class="checkbox" src="./assets/img/checkbox_inactive.svg" alt="checkbox">
                 </div>
-            </div>`
+            </div>`;
 }
 
-
-// Template for adding other contacts to assignment dropdown in edit task overlay
+/**
+ * Template for adding other contacts to assignment dropdown in edit task overlay.
+ * @param {string} name - The contact's name
+ * @param {string} initials - The contact's initials
+ * @param {number} index - The index of the contact
+ * @returns {string} HTML string
+ */
 function editAddTaskContactTemplate(name, initials, index) {
     return `<div id='edit-contact${index}' class="edit-dropdown-box" onclick='editSelectContact(${index})'>
                 <div class="edit-contact-initials">
@@ -379,23 +329,35 @@ function editAddTaskContactTemplate(name, initials, index) {
                     <p class="edit-contact-fullname">${name}</p>
                     <img id="edit-checkbox${index}" class="checkbox" src="./assets/img/checkbox_inactive.svg" alt="checkbox">
                 </div>
-            </div>`
+            </div>`;
 }
 
-
-// Template for contact initials in assigned contacts section in edit task overlay
+/**
+ * Template for contact initials in assigned contacts section in edit task overlay.
+ * @param {string} initials - The contact's initials
+ * @returns {string} HTML string
+ */
 function editAddInitialTemplate(initials) {
     return `     <div class="chosen-contact-initials">
                     <p>${initials}</p>
-                </div>`
+                </div>`;
 }
 
-// Template for number of extra assigned people in edit task overlay
+/**
+ * Template for number of extra assigned people in edit task overlay.
+ * @param {number} number - The number of extra people
+ * @returns {string} HTML string
+ */
 function editAddNumberOfExtraPeople(number) {
-    return `<p>+${number}</p>`
+    return `<p>+${number}</p>`;
 }
 
-// Template für neue Subtasks
+/**
+ * Template for new Subtasks in edit overlay.
+ * @param {HTMLInputElement} subtasks - The subtask input element
+ * @param {number} subtaskIndex - The index of the subtask
+ * @returns {string} HTML string
+ */
 function editAddSubtaskTemplate(subtasks, subtaskIndex) {
     return `<div id="task${subtaskIndex}" class="edit-subtask-element-box">  
                 <li id="li-task${subtaskIndex}" class="edit-subtask-element" onclick="editSubtaskEditing('task${subtaskIndex}')">
@@ -416,8 +378,12 @@ function editAddSubtaskTemplate(subtasks, subtaskIndex) {
             </div>`;
 }
 
-
-// Template für bearbeitete Subtasks
+/**
+ * Template for edited Subtasks in edit overlay.
+ * @param {string} taskId - The valid ID of the subtask
+ * @param {string} newText - The new text
+ * @returns {string} HTML string
+ */
 function editEditedSubtaskTemplate(taskId, newText) {
     return `<li id="li-${taskId}" class="edit-subtask-element" onclick="editSubtaskEditing('${taskId}')">
                 ${newText}
@@ -433,8 +399,11 @@ function editEditedSubtaskTemplate(taskId, newText) {
             </div>`;
 }
 
-
-// Function to generate assigned contacts initials on small task cards
+/**
+ * Generates assigned contacts initials for small task cards.
+ * @param {Object} element - The task object
+ * @returns {string} HTML string
+ */
 function generateOptionHTML(element) {
     if (element.assignedPersons && element.assignedPersons.length > 0) {
         let contactsToDisplay = element.assignedPersons.slice(0, 3);
@@ -458,8 +427,11 @@ function generateOptionHTML(element) {
     return '';
 }
 
-
-// Function to generate subtask progress on small task cards
+/**
+ * Generates subtask progress bar for small task cards.
+ * @param {Array} subtasks - The array of subtasks
+ * @returns {string} HTML string for progress bar
+ */
 function generateSubtaskProgressHTML(subtasks) {
     if (!subtasks || subtasks.length === 0) {
         return '';
@@ -474,6 +446,11 @@ function generateSubtaskProgressHTML(subtasks) {
     `;
 }
 
+/**
+ * Generates the move menu for mobile devices.
+ * @param {string} taskId - The ID of the task
+ * @returns {string} HTML string for the move menu
+ */
 function generateMoveMenu(taskId) {
     return `
         <div onclick="moveToFromMobile(event, '${taskId}', 'ToDo')">To Do</div>
@@ -483,21 +460,25 @@ function generateMoveMenu(taskId) {
     `;
 }
 
-// Helper function to convert date from dd/mm/yyyy to yyyy-MM-dd
+/**
+ * Helper function to convert date from dd/mm/yyyy to yyyy-MM-dd.
+ * @param {string} dateString - The date string to convert
+ * @returns {string} ISO formatted date string
+ */
 function convertDateToISO(dateString) {
     if (!dateString) return '';
-    
+
     // Check if already in ISO format (yyyy-MM-dd)
-    if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    if (dateString.match(/^\\d{4}-\\d{2}-\\d{2}$/)) {
         return dateString;
     }
-    
+
     // Convert from dd/mm/yyyy to yyyy-MM-dd
     const parts = dateString.split('/');
     if (parts.length === 3) {
         const [day, month, year] = parts;
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
-    
+
     return dateString;
 }

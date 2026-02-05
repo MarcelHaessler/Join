@@ -1,4 +1,15 @@
-//Firebase-Update-Funktion
+/**
+ * Logic for the Task Cards and Overlays on the Board.
+ * Handles opening/closing overlays, updating tasks, and subtask interactions.
+ */
+
+// Firebase-Update-Funktion
+/**
+ * Updates a task in Firebase or LocalStorage (fallback).
+ * @async
+ * @param {Object} task - The task object to update.
+ * @returns {Promise<void>}
+ */
 async function updateTask(task) {
     try {
         await updateTaskInFirebase(task);
@@ -9,6 +20,12 @@ async function updateTask(task) {
     }
 }
 
+/**
+ * Updates a task in the Firebase Realtime Database.
+ * @async
+ * @param {Object} task - The task object with updated data.
+ * @returns {Promise<void>}
+ */
 async function updateTaskInFirebase(task) {
     const taskRef = db.ref(`tasks/${task.id}`);
     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
@@ -28,6 +45,11 @@ async function updateTaskInFirebase(task) {
     });
 }
 
+/**
+ * Updates a task in the local storage (fallback if offline).
+ * @param {Object} task - The task object with updated data.
+ * @returns {void}
+ */
 function updateTaskInLocalStorage(task) {
     const tasksData = localStorage.getItem('join_tasks');
     if (tasksData) {
@@ -41,7 +63,11 @@ function updateTaskInLocalStorage(task) {
     }
 }
 
-
+/**
+ * Opens the task card overlay for a specific task.
+ * @param {string} taskId - The ID of the task to display.
+ * @returns {void}
+ */
 function openTaskCardOverlay(taskId) {
     const tasks = window.tasks || [];
     const task = tasks.find(t => t.id === taskId);
@@ -58,7 +84,10 @@ function openTaskCardOverlay(taskId) {
     overlay.innerHTML = generateOpenedTaskCardHTML(task);
 }
 
-
+/**
+ * Closes the currently open task card overlay.
+ * @returns {void}
+ */
 function closeTaskCardOverlay() {
     const overlay = document.getElementById('task_card_overlay');
 
@@ -70,10 +99,21 @@ function closeTaskCardOverlay() {
     }, 400);
 }
 
+/**
+ * Stops event propagation to prevent bubble-up clicks.
+ * @param {Event} event - The DOM event.
+ * @returns {void}
+ */
 function stopPropagation(event) {
     event.stopPropagation(event);
 }
 
+/**
+ * Toggles the completion status of a subtask within a task card.
+ * @param {number} subtaskIndex - Index of the subtask.
+ * @param {number} taskIndex - Index of the task in the global array.
+ * @returns {void}
+ */
 function checkboxSubtask(subtaskIndex, taskIndex) {
     const subtask = tasks[taskIndex].subtasks[subtaskIndex];
     subtask.subtaskComplete = !subtask.subtaskComplete;
@@ -89,6 +129,12 @@ function checkboxSubtask(subtaskIndex, taskIndex) {
     updateBoard();
 }
 
+/**
+ * Toggles a subtask's completion status (Helper function).
+ * @param {number} subtaskIndex - Index of the subtask.
+ * @param {number} taskIndex - Index of the task.
+ * @returns {void}
+ */
 function subtaskCompleted(subtaskIndex, taskIndex) {
     const subtask = tasks[taskIndex].subtasks[subtaskIndex];
     if (subtask.subtaskComplete === false) {
@@ -100,27 +146,48 @@ function subtaskCompleted(subtaskIndex, taskIndex) {
     updateBoard();
 }
 
+/**
+ * Opens the edit overlay for a specific task.
+ * @param {string} taskId - The ID of the task to edit.
+ * @returns {void}
+ */
 function editTask(taskId) {
     const tasks = window.tasks || [];
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
-    
+
     storeTaskData(task);
     displayEditOverlay(task, taskId);
     initializeEditComponents(task);
 }
 
+/**
+ * Stores current task data into global edit variables.
+ * @param {Object} task - The task object.
+ * @returns {void}
+ */
 function storeTaskData(task) {
     editedTitle = task.title;
     editedDescription = task.description;
     editedDueDate = task.date;
 }
 
+/**
+ * Displays the edit task HTML in the overlay.
+ * @param {Object} task - The task object.
+ * @param {string} taskId - The task ID.
+ * @returns {void}
+ */
 function displayEditOverlay(task, taskId) {
     let overlay = document.getElementById('task_card_overlay');
     overlay.innerHTML = generateEditTaskHTML(task, taskId);
 }
 
+/**
+ * Initializes all the interactive components for the edit mode.
+ * @param {Object} task - The task object.
+ * @returns {void}
+ */
 function initializeEditComponents(task) {
     setTimeout(() => {
         setupEditPriority(task);
@@ -130,16 +197,30 @@ function initializeEditComponents(task) {
     }, 10);
 }
 
+/**
+ * Sets up the priority buttons state for edit mode.
+ * @param {Object} task - The task object.
+ * @returns {void}
+ */
 function setupEditPriority(task) {
     checkTaskPriority(task.priority);
     window.currentPriority = task.priority;
 }
 
+/**
+ * Sets up the assignment dropdown and initials for edit mode.
+ * @param {Object} task - The task object.
+ * @returns {void}
+ */
 function setupEditAssignments(task) {
     fillEditAssignmentDropdown();
     editAddInitialsBackgroundColors();
 }
 
+/**
+ * Sets up date validation for the edit mode (e.g. min date = today).
+ * @returns {void}
+ */
 function setupEditDateValidation() {
     const editDateInput = document.getElementById('edit-date');
     if (editDateInput) {
@@ -149,6 +230,11 @@ function setupEditDateValidation() {
     }
 }
 
+/**
+ * Final configuration steps for edit mode components (Contacts, Category, Subtasks).
+ * @param {Object} task - The task object.
+ * @returns {void}
+ */
 function finalizeEditSetup(task) {
     requestAnimationFrame(() => {
         activateAddedContacts(task);
@@ -158,21 +244,31 @@ function finalizeEditSetup(task) {
     });
 }
 
-//Function that saves all edited task data and updates the task in the board
+// Function that saves all edited task data and updates the task in the board
+/**
+ * Saves all changes made in the edit overlay and updates the task.
+ * @param {string} taskId - The task ID.
+ * @returns {void}
+ */
 function saveEditedTask(taskId) {
     if (editCheckDate() === true) return;
-    
+
     editedTaskDetails();
     const tasks = window.tasks || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex === -1) return;
-    
+
     updateTaskWithEditedData(tasks[taskIndex]);
     updateTask(tasks[taskIndex]);
     updateBoard();
     setTimeout(() => openTaskCardFromEdit(taskId), 300);
 }
 
+/**
+ * Updates the local task object with values from edit variables.
+ * @param {Object} task - The task object to update.
+ * @returns {void}
+ */
 function updateTaskWithEditedData(task) {
     task.title = editedTitle;
     task.description = editedDescription;
@@ -186,13 +282,22 @@ function updateTaskWithEditedData(task) {
     }));
 }
 
+/**
+ * Captures input values (Title, Desc, Date) into edit variables.
+ * @returns {void}
+ */
 function editedTaskDetails() {
     editSaveTitle();
     editSaveDescription();
     editSaveDueDate();
 }
 
-//Function that changes to Open Task Card Overlay from Edit Task Overlay
+// Function that changes to Open Task Card Overlay from Edit Task Overlay
+/**
+ * Switches view from Edit Mode back to the Read-Only Task Card.
+ * @param {string} taskId - The task ID.
+ * @returns {void}
+ */
 function openTaskCardFromEdit(taskId) {
     const tasks = window.tasks || [];
     const task = tasks.find(t => t.id == taskId);
@@ -200,20 +305,25 @@ function openTaskCardFromEdit(taskId) {
     overlay.innerHTML = generateOpenedTaskCardHTML(task);
 }
 
+/**
+ * Deletes a task from the board and database.
+ * @param {string} taskId - The task ID.
+ * @returns {void}
+ */
 function deleteTask(taskId) {
     const tasks = window.tasks || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
-        
+
         // Update window.tasks and localStorage
         window.tasks = tasks;
         // Update localStorage
         localStorage.setItem('join_tasks', JSON.stringify(tasks));
-        
+
         // Try Firebase delete
         const taskRef = db.ref(`tasks/${taskId}`);
-        taskRef.remove().catch(() => {});
+        taskRef.remove().catch(() => { });
     }
     updateBoard();
     closeTaskCardOverlay();

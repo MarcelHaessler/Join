@@ -15,66 +15,67 @@
 
 <body class="start-animation">
     <div class="page-border">
-    <div id="overlay"></div>
-    <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
-    <img class="logo_light" src="./assets/img/logo_light.svg" alt="Join-Logo">
+        <div id="overlay"></div>
+        <img class="logo_dark" src="./assets/img/logo_dark.svg" alt="Join-Logo">
+        <img class="logo_light" src="./assets/img/logo_light.svg" alt="Join-Logo">
 
-    <header class="start-animation">
-        <div class="noUser desktop-only">
-            Not a Join user?
-            <a href="./registration.html" class="signupBtn">Sign up</a>
-        </div>
-    </header>
-    <main class="start-animation">
-        <div class="login_signup_container">
-            <div class="sign_up_title_container">
-                <h2>Log in</h2>
+        <header class="start-animation">
+            <div class="noUser desktop-only">
+                Not a Join user?
+                <a href="./registration.html" class="signupBtn">Sign up</a>
             </div>
-            <div class="formCon">
-                <form class="sign_in_up_form" onsubmit="event.preventDefault(); loginUser();">
-                    <div class="inputForm">
-                        <input type="email" id="login-mail" placeholder="Email" autocomplete="email">
-                        <img src="./assets/img/mail.svg" class="inputIcon">
-                    </div>
-                    
-                    <p class="false_email">Please enter your e-mail adress.</p>
-                    
-                    <div class="inputForm">
-                        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
-                        <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
-                    </div>
-                    <p class="false_password">Check your email and password. Please try again.</p>
-                </form>
-                
-                
-            </div>
+        </header>
+        <main class="start-animation">
+            <div class="login_signup_container">
+                <div class="sign_up_title_container">
+                    <h2>Log in</h2>
+                </div>
+                <div class="formCon">
+                    <form class="sign_in_up_form" onsubmit="event.preventDefault(); loginUser();">
+                        <div class="inputForm">
+                            <input type="email" id="login-mail" placeholder="Email" autocomplete="email">
+                            <img src="./assets/img/mail.svg" class="inputIcon">
+                        </div>
 
-            <div class="buttonLoginCon">
-                <button class="buttonLoginSignup" onclick="loginUser()">Log in</button>
-                <button class="buttonGuest" onclick="guestLogin()">Guest Log in</button>
+                        <p class="false_email">Please enter your e-mail adress.</p>
+
+                        <div class="inputForm">
+                            <input type="password" id="login-password" placeholder="Password"
+                                autocomplete="current-password">
+                            <img src="./assets/img/visibility_off.svg" class="inputIcon clickable">
+                        </div>
+                        <p class="false_password">Check your email and password. Please try again.</p>
+                    </form>
+
+
+                </div>
+
+                <div class="buttonLoginCon">
+                    <button class="buttonLoginSignup" onclick="loginUser()">Log in</button>
+                    <button class="buttonGuest" onclick="guestLogin()">Guest Log in</button>
+                </div>
             </div>
-        </div>
-        <div class="noUser mobile-only">
-            Not a Join user?
-            <a href="./registration.html" class="signupBtn">Sign up</a>
-        </div>
-    </main>
-    <footer class="start-animation">
-        <div class="footer_link">
-            <a href="./privacy_policy.html?Guest">Privacy Policy</a>
-        </div>
-        <div class="footer_link">
-            <a href="./legal_notice.html?Guest">Legal notice</a>
-        </div>
-    </footer>
+            <div class="noUser mobile-only">
+                Not a Join user?
+                <a href="./registration.html" class="signupBtn">Sign up</a>
+            </div>
+        </main>
+        <footer class="start-animation">
+            <div class="footer_link">
+                <a href="./privacy_policy.html?Guest">Privacy Policy</a>
+            </div>
+            <div class="footer_link">
+                <a href="./legal_notice.html?Guest">Legal notice</a>
+            </div>
+        </footer>
     </div>
     <!-- Firebase compat -->
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-database-compat.js"></script>
-    
+
     <script src="./JS/firebase_auth.js"></script>
-    <script src="./JS/firebase_sign_in_up.js"></script>
-    <script src="./JS/sign_in_up.js"></script>
+    <script src="./JS/auth_services.js"></script>
+    <script src="./JS/auth_ui.js"></script>
 </body>
 
 </html>

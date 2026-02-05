@@ -234,10 +234,19 @@ async function loadSummaryCounts() {
     }
 }
 
+/**
+ * Checks if the mobile greeting animation is active.
+ * @returns {boolean} True if greeting is active.
+ */
 function checkGreetingActive() {
     return typeof window.initMobileGreeting === 'function' && window.initMobileGreeting();
 }
 
+/**
+ * Updates all statistic counts on the page.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function updateAllCounts() {
     const tasks = await fetchAllTasks();
     renderBoardCount(tasks);
@@ -249,6 +258,11 @@ async function updateAllCounts() {
     renderUrgentDueDate(tasks);
 }
 
+/**
+ * Handles the completion of loading (hides loader or finishes animation).
+ * @param {boolean} isGreetingActive - Whether greeting was active.
+ * @returns {void}
+ */
 function handleLoadingComplete(isGreetingActive) {
     if (isGreetingActive && typeof window.finishMobileGreeting === 'function') {
         window.finishMobileGreeting();
