@@ -350,6 +350,5 @@ function moveToFromMobile(event, taskId, targetStatus) {
     if (task) {
         task.taskGroup = targetStatus;
         updateTask(task);
-        // updateBoard() wird bereits in updateTask() aufgerufen
     }
 }

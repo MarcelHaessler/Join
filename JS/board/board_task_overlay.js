@@ -243,7 +243,6 @@ function finalizeEditSetup(task) {
     });
 }
 
-// Function that saves all edited task data and updates the task in the board
 /**
  * Saves all changes made in the edit overlay and updates the task.
  * @param {string} taskId - The task ID.
@@ -325,7 +324,6 @@ function editedTaskDetails() {
     editSaveDueDate();
 }
 
-// Function that changes to Open Task Card Overlay from Edit Task Overlay
 /**
  * Switches view from Edit Mode back to the Read-Only Task Card.
  * @param {string} taskId - The task ID.

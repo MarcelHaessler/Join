@@ -4,7 +4,7 @@
  * @returns {string} Greeting message ("Good morning", "Good afternoon", or "Good evening")
  */
 function getGreetingTextByTime(date = new Date()) {
-    const hour = date.getHours(); // local hour 0–23
+    const hour = date.getHours();
     if (hour < 12) return "Good morning";
     if (hour < 18) return "Good afternoon";
     return "Good evening";

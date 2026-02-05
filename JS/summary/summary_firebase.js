@@ -1,5 +1,3 @@
-// ===== Firebase tasks (Summary counts) =====
-
 /**
  * Fetches all tasks from Firebase database
  * @async

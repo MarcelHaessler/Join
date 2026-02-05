@@ -38,7 +38,6 @@ window.addEventListener("guestUser", async (auth) => {
         }
         if (window.fillAssignmentDropdown) fillAssignmentDropdown();
     } catch (err) {
-        // Silent error handling
     }
 });
 
@@ -76,7 +75,7 @@ function collectTaskData() {
         title: document.getElementById('title').value.trim(),
         description: document.getElementById('description').value.trim(),
         dueDate: document.getElementById('date').value,
-        priority: currentPriority, // Fixed typo
+        priority: currentPriority,
         category: currentCategory,
         assignments: selectedContacts,
         subtasks: subtaskListArray || []
@@ -181,7 +180,7 @@ function clearInputFields() {
  * @returns {void}
  */
 function resetPriority() {
-    currentPriority = 'medium'; // Fixed typo
+    currentPriority = 'medium';
     defaultPriority();
 }
 
