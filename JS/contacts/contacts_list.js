@@ -62,13 +62,27 @@ initContactLoadListener();
  * @async
  * @returns {Promise<void>}
  */
-async function nameList() {
-    await window.fetchContacts();
-    const validContacts = contacts.filter(contact => contact.name && contact.name.trim() !== "");
-    validContacts.sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+/**
+ * Filters and sorts contacts by name
+ * @param {Array} contacts - Array of contact objects
+ * @returns {Array} Sorted and filtered contacts
+ */
+function getSortedValidContacts(contacts) {
+    return contacts
+        .filter(contact => contact.name && contact.name.trim() !== "")
+        .sort((a, b) => a.name.localeCompare(b.name, "de"));
+}
+
+/**
+ * Renders the contact list with letter sections
+ * @param {Array} contacts - Array of sorted contacts
+ * @returns {void}
+ */
+function renderContactListWithLetters(contacts) {
     contactList.innerHTML = "";
     let currentLetter = "";
-    validContacts.forEach(contact => {
+    contacts.forEach(contact => {
         const letter = contact.name[0].toUpperCase();
         if (letter !== currentLetter) {
             currentLetter = letter;
@@ -76,6 +90,18 @@ async function nameList() {
         }
         contactList.innerHTML += contactEntry(contact);
     });
+}
+
+/**
+ * Fetches contact list and displays them sorted by name with letter sections
+ * Filters out contacts without valid names
+ * @async
+ * @returns {Promise<void>}
+ */
+async function nameList() {
+    await window.fetchContacts();
+    const validContacts = getSortedValidContacts(contacts);
+    renderContactListWithLetters(validContacts);
 }
 
 /**

@@ -161,15 +161,39 @@ function showCreatedContact(emailValue) {
  * @async
  * @returns {Promise<void>}
  */
-async function uploadContact() {
+
+/**
+ * Creates a new contact object from form fields
+ * @returns {Object} The new contact object
+ */
+function getNewContactFromForm() {
     const name = document.getElementById("contactAddName");
     const email = document.getElementById("contactAddMail");
     const phone = document.getElementById("contactAddPhone");
-    const emailValue = email.value;
-    let NewContact = createContactObject(name, email, phone);
+    return createContactObject(name, email, phone);
+}
+
+/**
+ * Uploads a contact object to Firebase
+ * @async
+ * @param {Object} contact - The contact object
+ * @returns {Promise<void>}
+ */
+async function uploadContactToFirebase(contact) {
+    const newContactRef = db.ref("contact").push();
+    await newContactRef.set(contact);
+}
+
+/**
+ * Handles the upload process for a new contact
+ * @async
+ * @returns {Promise<void>}
+ */
+async function uploadContact() {
+    const emailValue = document.getElementById("contactAddMail").value;
+    const NewContact = getNewContactFromForm();
     try {
-        const newContactRef = db.ref("contact").push();
-        await newContactRef.set(NewContact);
+        await uploadContactToFirebase(NewContact);
         closeDialog();
         await nameList();
         showCreatedContact(emailValue);
@@ -215,16 +239,47 @@ function showUpdatedContact(id) {
  * @param {string} id - The contact ID to update
  * @returns {Promise<void>}
  */
+
+/**
+ * Creates an updated contact object from edit form fields
+ * @returns {Object} The updated contact object
+ */
+function getUpdatedContactFromForm() {
+    const name = document.getElementById("contactUpdateName");
+    const email = document.getElementById("contactUpdateMail");
+    const phone = document.getElementById("contactUpdatePhone");
+    return createContactObject(name, email, phone);
+}
+
+/**
+ * Updates a contact object in Firebase
+ * @async
+ * @param {string} root - The root path
+ * @param {string} id - The contact ID
+ * @param {Object} contact - The contact object
+ * @returns {Promise<void>}
+ */
+async function updateContactInFirebase(root, id, contact) {
+    const contactRef = db.ref(`${root}/${id}`);
+    await contactRef.update(contact);
+}
+
+/**
+ * Handles the update process for an existing contact
+ * @async
+ * @param {string} root - The root path
+ * @param {string} id - The contact ID
+ * @returns {Promise<void>}
+ */
 async function updateContact(root, id) {
     const name = document.getElementById("contactUpdateName");
     const email = document.getElementById("contactUpdateMail");
     const phone = document.getElementById("contactUpdatePhone");
     const inputs = [name, email, phone];
     if (!validateUpdateInputs(inputs)) return;
-    let UpdateContact = createContactObject(name, email, phone);
+    const UpdateContact = getUpdatedContactFromForm();
     try {
-        const contactRef = db.ref(`${root}/${id}`);
-        await contactRef.update(UpdateContact);
+        await updateContactInFirebase(root, id, UpdateContact);
         closeDialog();
         await nameList();
         showUpdatedContact(id);

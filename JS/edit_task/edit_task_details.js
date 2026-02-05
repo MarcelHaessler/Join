@@ -2,8 +2,11 @@
  * Logic for editing task details (assignments and category) within the Edit Task Overlay.
  */
 
+/** @type {Array} Array of selected contacts for the task being edited */
 let editSelectedContacts = [];
+/** @type {string} The edited category of the task */
 let editedCategory = '';
+/** @type {Array} Array of edited subtasks for the task */
 let editedSubtaskListArray = [];
 
 /**
@@ -53,12 +56,16 @@ function renderEditContacts(dropdown) {
 }
 
 /**
- * Generates initials from a contact name.
+ * Generates initials from a contact name (first letter of first name + first letter of last name).
  * @param {string} name - The contact's full name.
  * @returns {string} Two-letter initials.
  */
 function getEditContactInitials(name) {
-    return name.charAt(0).toUpperCase() + name.charAt(name.indexOf(" ") + 1).toUpperCase();
+    if (!name || name.trim() === "") return "?";
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0][0];
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+    return (first + last).toUpperCase();
 }
 
 /**

@@ -52,13 +52,11 @@ function validateName(name, input, onBlur = false) {
     const message = document.querySelector('#name_message');
     const nameRegex = /^[a-zA-ZäöüÄÖÜß\s'-]{2,}$/;
     if (!message) return;
-
     if (shouldClearNameValidation(name, onBlur)) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
-
     const isValid = nameRegex.test(name.trim());
     applyNameValidationResult(isValid, input, message);
 }
@@ -90,13 +88,11 @@ function applyEmailValidationResult(isValid, input, message) {
 function validateEmail(email, input, onBlur = false) {
     const message = document.querySelector('#email_message');
     if (!message) return;
-
     if (email === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
-
     const isValid = mailRegex.test(email);
     applyEmailValidationResult(isValid, input, message);
 }
@@ -111,13 +107,11 @@ function validateEmail(email, input, onBlur = false) {
 function validateLoginEmail(email, input, onBlur = false) {
     const message = document.querySelector('.false_email');
     if (!message) return;
-
     if (email === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         return;
     }
-
     const isValid = mailRegex.test(email);
     applyEmailValidationResult(isValid, input, message);
 }
@@ -161,14 +155,12 @@ function applyPasswordValidationResult(isValid, input, message) {
 function validatePassword(password, input, onBlur = false) {
     const message = document.querySelector('#password_message');
     if (!message) return;
-
     if (password === '' && !onBlur) {
         input.classList.remove('invalid');
         message.classList.remove('show');
         recheckConfirmPassword();
         return;
     }
-
     const isValid = passwordRegex.test(password);
     applyPasswordValidationResult(isValid, input, message);
     recheckConfirmPassword();
@@ -193,14 +185,11 @@ function updatePasswordMessage(onBlur = false) {
     const passwordInput = document.getElementById('signup-password');
     const confirmPasswordInput = document.getElementById('signup-password-repeat');
     const message = document.getElementById('password_repeat_message');
-
     if (!passwordInput || !confirmPasswordInput || !message) return;
-
     if (confirmPasswordInput.value === '' && !onBlur) {
         clearPasswordValidation(message, confirmPasswordInput);
         return;
     }
-
     validatePasswordMatch(passwordInput, confirmPasswordInput, message);
 }
 
@@ -225,7 +214,6 @@ function clearPasswordValidation(message, confirmPasswordInput) {
 function validatePasswordMatch(passwordInput, confirmPasswordInput, message) {
     const isPwCriteriaValid = passwordRegex.test(passwordInput.value);
     const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
-
     if (!isPwCriteriaValid) {
         showPasswordError(message, confirmPasswordInput, "Password requirements not met.");
     } else if (!passwordsMatch) {

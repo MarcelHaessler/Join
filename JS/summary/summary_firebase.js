@@ -9,7 +9,6 @@ async function fetchAllTasks() {
     try {
         const tasksRef = db.ref("tasks");
         const snapshot = await tasksRef.get();
-
         if (snapshot.exists()) {
             return snapshot.val();
         } else {
@@ -55,7 +54,6 @@ function countTodoTasks(tasks) {
 function renderTodoCount(tasks) {
     const el = document.getElementById('number-todo');
     if (!el) return;
-
     const count = tasks ? countTodoTasks(tasks) : 0;
     el.textContent = String(count);
 }
@@ -82,7 +80,6 @@ function countDoneTasks(tasks) {
 function renderDoneCount(tasks) {
     const el = document.getElementById('number-done');
     if (!el) return;
-
     const count = tasks ? countDoneTasks(tasks) : 0;
     el.textContent = String(count);
 }
@@ -109,7 +106,6 @@ function countProgressTasks(tasks) {
 function renderProgressCount(tasks) {
     const el = document.getElementById('number-progress');
     if (!el) return;
-
     const count = tasks ? countProgressTasks(tasks) : 0;
     el.textContent = String(count);
 }
@@ -136,7 +132,6 @@ function countFeedbackTasks(tasks) {
 function renderFeedbackCount(tasks) {
     const el = document.getElementById('number-feedback');
     if (!el) return;
-
     const count = tasks ? countFeedbackTasks(tasks) : 0;
     el.textContent = String(count);
 }
@@ -160,7 +155,6 @@ function countUrgentTasks(tasks) {
 function renderUrgentCount(tasks) {
     const el = document.getElementById('number-urgent');
     if (!el) return;
-
     const count = tasks ? countUrgentTasks(tasks) : 0;
     el.textContent = String(count);
 }
@@ -173,12 +167,10 @@ function renderUrgentCount(tasks) {
 function renderUrgentDueDate(tasks) {
     const el = document.getElementById('due-date');
     if (!el) return;
-
     if (!tasks) {
         el.textContent = '-';
         return;
     }
-
     const dates = getUrgentTaskDates(tasks);
     displayEarliestDate(el, dates);
 }
@@ -237,7 +229,6 @@ async function loadSummaryCounts() {
     if (!isGreetingActive && typeof window.showLoader === 'function') {
         window.showLoader();
     }
-
     try {
         await updateAllCounts();
     } catch (error) {

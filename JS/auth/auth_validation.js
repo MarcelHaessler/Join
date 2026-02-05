@@ -45,12 +45,10 @@ async function createAndSaveNewUser() {
         email: email.value,
         password: pw.value
     };
-
     try {
         await saveUserToDB(newUser);
         showRegistrationMessage();
     } catch (error) {
-        alert("Ein Fehler ist aufgetreten: " + error.message);
     }
 }
 
@@ -118,15 +116,10 @@ function validatePasswordRepeat() {
     const pwsMatch = pw.value === pwRepeat.value;
     const pwRepeatFilled = pwRepeat.value !== "";
     const message = document.querySelector('#password_repeat_message');
-
-    if (!isPwCriteriaValid) {
-        setPasswordRepeatError(message, "Password requirements not met.");
-        return false;
-    }
-    if (!pwRepeatFilled || !pwsMatch) {
-        setPasswordRepeatError(message, "Passwords does not match, please try again.");
-        return false;
-    }
+    if (!isPwCriteriaValid) {setPasswordRepeatError(message, "Password requirements not met.");
+        return false;}
+    if (!pwRepeatFilled || !pwsMatch) {setPasswordRepeatError(message, "Passwords does not match, please try again.");
+        return false;}
     clearPasswordRepeatError(message);
     return true;
 }

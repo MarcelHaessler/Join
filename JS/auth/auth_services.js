@@ -187,12 +187,9 @@ async function loginUser() {
     const emailInput = document.getElementById("login-mail");
     const passwordInput = document.getElementById("login-password");
     const errorMsg = document.querySelector(".false_password");
-
     if (errorMsg) errorMsg.classList.remove("show");
-
     const users = await getUsersFromDB();
     const user = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
-
     if (user) {
         handleSuccessfulLogin(user, emailInput, passwordInput);
     } else {

@@ -113,6 +113,28 @@ function createEditInput(text) {
 }
 
 /**
+ * Handles delete button click in subtask edit mode
+ * @param {string} taskId - The subtask ID
+ * @returns {void}
+ */
+function handleSubtaskDelete(taskId) {
+    deleteSubtaskListElement(taskId);
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
+}
+
+/**
+ * Handles save button click in subtask edit mode
+ * @param {HTMLElement} box - The container element
+ * @param {string} taskId - The subtask ID
+ * @param {string} newValue - The new subtask value
+ * @returns {void}
+ */
+function handleSubtaskSave(box, taskId, newValue) {
+    box.innerHTML = editedSubtaskTemplate(taskId, newValue);
+    subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
+}
+
+/**
  * Creates the button container for edit actions.
  * @param {HTMLInputElement} input - The input element.
  * @param {HTMLElement} box - The container element.
@@ -122,17 +144,9 @@ function createEditInput(text) {
 function createEditButtons(input, box, taskId) {
     const container = document.createElement("div");
     container.className = "subtask-list-button-container";
-
-    const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => {
-        deleteSubtaskListElement(taskId);
-        subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    });
+    const deleteBtn = createButton('./assets/img/add_task/delete.svg', () => handleSubtaskDelete(taskId));
     const divider = createDivider();
-    const saveBtn = createButton('./assets/img/add_task/check.svg', () => {
-        box.innerHTML = editedSubtaskTemplate(taskId, input.value.trim());
-        subtaskListArray = Array.from(document.getElementsByClassName("subtask-element")).map(li => li.textContent.trim());
-    });
-
+    const saveBtn = createButton('./assets/img/add_task/check.svg', () => handleSubtaskSave(box, taskId, input.value.trim()));
     container.append(deleteBtn, divider, saveBtn);
     return container;
 }

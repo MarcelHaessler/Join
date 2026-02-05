@@ -26,7 +26,6 @@ let currentCategory = "";
  */
 function addInitialsBackgroundColors() {
     let contactInitials = document.querySelectorAll(".contact-initials");
-
     contactInitials.forEach((initial, index) => {
         let contact = contacts[index];
         if (!contact) return;
@@ -41,9 +40,7 @@ function addInitialsBackgroundColors() {
 function fillAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     if (!contactsDropdown) return;
-
     contactsDropdown.innerHTML = "";
-
     if (!window.contacts || !Array.isArray(window.contacts)) {
         showNoContactsMessage(contactsDropdown);
         return;
@@ -74,12 +71,16 @@ function renderContactsInDropdown(dropdown) {
 }
 
 /**
- * Generates initials from a full name.
+ * Generates initials from a full name (first letter of first name + first letter of last name).
  * @param {string} name - The contact's full name.
  * @returns {string} Two-letter initials.
  */
 function getContactInitials(name) {
-    return name.charAt(0).toUpperCase() + name.charAt(name.indexOf(" ") + 1).toUpperCase();
+    if (!name || name.trim() === "") return "?";
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0][0];
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+    return (first + last).toUpperCase();
 }
 
 /**
@@ -100,10 +101,8 @@ function getContactTemplate(name, initials, index) {
 function renderAssignmentDropdown() {
     let contactsDropdown = document.getElementById("contacts-dropdown");
     contactsDropdown.classList.toggle("open");
-
     let arrowImage = document.getElementById("assignment-arrow");
     arrowImage.classList.toggle("rotate");
-
     addInitialsBackgroundColors();
     searchContact();
 }
@@ -118,7 +117,6 @@ function handleAssignmentClickOutside(e) {
     const assignmentDropdown = document.getElementById("contacts-dropdown");
     const assignmentArrow = document.querySelector("#assign-input-box .dropdown-img-container");
     const assignmentArrowImg = document.getElementById("assignment-arrow");
-
     if (!assignmentInput.contains(e.target) && !assignmentDropdown.contains(e.target) && !assignmentArrow.contains(e.target)) {
         assignmentDropdown.classList.remove("open");
         assignmentArrowImg.classList.remove("rotate");
@@ -153,7 +151,6 @@ function searchContact() {
     let input = assignInput.value.toUpperCase();
     let contactElements = document.getElementById("contacts-dropdown");
     let singleContacts = Array.from(contactElements.getElementsByClassName("dropdown-box"));
-
     singleContacts.forEach(e => {
         const contactName = e.querySelector('.contact-fullname');
         const txtValue = contactName.innerText || contactName.textContent;
@@ -236,10 +233,8 @@ function renderExtraContactsCount(container) {
  */
 function addChosenInitialsBackgroundColors() {
     let chosenContactInitials = document.querySelectorAll(".chosen-contact-initials");
-
     chosenContactInitials.forEach((initial, index) => {
         let contact = contacts[index];
-
         initial.style.backgroundColor = backgroundColorCodes[contact.colorIndex];
     });
 }
@@ -253,7 +248,6 @@ function changeCheckbox(index) {
     let checkbox = document.getElementById(`checkbox${index}`);
     const checkboxInactive = './assets/img/checkbox_inactive.svg';
     const checkboxActive = './assets/img/checkbox_active.svg'
-
     if (checkbox.src.includes('checkbox_inactive.svg')) {
         checkbox.src = checkboxActive
         checkbox.classList.add('checkbox-active');
@@ -283,7 +277,6 @@ function handleCategoryClickOutside(e) {
     const categoryInput = document.getElementById("category-input");
     const categoryDropdown = document.getElementById("category-dropdown");
     const assignmentArrowImg = document.getElementById("category-arrow");
-
     if (!categoryInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
         categoryDropdown.classList.remove("open");
         assignmentArrowImg.classList.remove("rotate");
@@ -307,7 +300,6 @@ initCategoryClickListener();
 function checkCategory() {
     let categoryInputWarning = document.getElementById('category-warning');
     let categoryInput = document.getElementById("category");
-
     if (currentCategory === '') {
         categoryInputWarning.innerHTML = "This field is required.";
         categoryInputWarning.style.color = "#e60025";

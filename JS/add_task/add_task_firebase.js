@@ -20,7 +20,6 @@ var tasks = [];
 async function uploadTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskGroup, taskAssignments, taskSubtasks) {
   showLoader();
   let task = createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory, taskGroup, taskAssignments, taskSubtasks);
-
   try {
     await saveTaskToFirebase(task);
   } catch (error) {
@@ -92,6 +91,40 @@ async function fetchTasks() {
 }
 
 /**
+ * Corrects initials for assigned persons in a task
+ * Ensures first letter of first name + first letter of last name
+ * @param {Object} task - The task object
+ * @returns {void}
+ */
+function correctTaskInitials(task) {
+  if (task.assignedPersons && Array.isArray(task.assignedPersons)) {
+    task.assignedPersons.forEach(person => {
+      if (person.name && person.name.trim() !== "") {
+        const parts = person.name.trim().split(/\s+/);
+        const first = parts[0][0];
+        const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+        person.initials = (first + last).toUpperCase();
+      }
+    });
+  }
+}
+
+/**
+ * Processes task data from Firebase and adds to tasks array
+ * @param {Object} data - The Firebase snapshot data
+ * @returns {void}
+ */
+function processFirebaseTaskData(data) {
+  for (let key in data) {
+    if (data[key]) {
+      const task = { id: key, ...data[key] };
+      correctTaskInitials(task);
+      tasks.push(task);
+    }
+  }
+}
+
+/**
  * Loads tasks from Firebase database
  * @async
  * @returns {Promise<void>}
@@ -102,11 +135,7 @@ async function loadTasksFromFirebase() {
 
   if (snapshot.exists()) {
     const data = snapshot.val();
-    for (let key in data) {
-      if (data[key]) {
-        tasks.push({ id: key, ...data[key] });
-      }
-    }
+    processFirebaseTaskData(data);
     window.tasks = tasks;
   }
 }
@@ -119,5 +148,6 @@ function loadTasksFromLocalStorage() {
   const tasksData = localStorage.getItem('join_tasks');
   if (tasksData) {
     tasks = JSON.parse(tasksData);
+    tasks.forEach(task => correctTaskInitials(task));
   }
 }

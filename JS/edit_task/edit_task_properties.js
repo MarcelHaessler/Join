@@ -3,9 +3,13 @@
  * Manages the form state and validations for these properties.
  */
 
+/** @type {string} The edited title of the task */
 let editedTitle = '';
+/** @type {string} The edited description of the task */
 let editedDescription = '';
+/** @type {string} The edited due date of the task */
 let editedDueDate = '';
+/** @type {string} The edited priority level of the task */
 let editedPriority = '';
 
 /**

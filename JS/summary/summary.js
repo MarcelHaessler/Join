@@ -18,11 +18,8 @@ function getGreetingTextByTime(date = new Date()) {
 function updateGreeting(name = "") {
     const greetEl = document.getElementById("greeting-text");
     const nameEl = document.getElementById("greet-name");
-
     if (!greetEl || !nameEl) return;
-
     const greeting = getGreetingTextByTime();
-
     if (name.trim() !== "") {
         greetEl.textContent = greeting + ",";
         nameEl.textContent = name;

@@ -1,5 +1,18 @@
 
 /**
+ * Calculates initials from a name (first + last letter)
+ * @param {string} name - The full name
+ * @returns {string} Two-letter initials
+ */
+function calculateInitials(name) {
+    if (!name || name.trim() === "") return "?";
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0][0];
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+    return (first + last).toUpperCase();
+}
+
+/**
  * Renders a contact entry for the contact list
  * @param {Object} contact - The contact object
  * @returns {string} HTML string for the contact entry
@@ -8,10 +21,11 @@ function contactEntry(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
         : '#ccc';
+    const initials = calculateInitials(contact.name);
 
     return `<div class="contactEntry"  data-mail="${contact.email}">
                 <div class="contactlistIcon" style="background-color: ${color};">
-                    ${contact.initials}
+                    ${initials}
                 </div>
                 <div class="contactDitails">
                     <div class="name">${contact.name}</div>
@@ -29,10 +43,11 @@ function showContactDetails(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
         : '#ccc';
+    const initials = calculateInitials(contact.name);
 
     return `<div class="selectedIconName">
                 <div class="selectetIcon" style="background-color: ${color};">
-                    ${contact.initials}
+                    ${initials}
                 </div>
                 <div class="selectedName">
                     ${contact.name}
@@ -77,6 +92,7 @@ function editContact(contact) {
     const color = (contact.colorIndex !== undefined && window.backgroundColorCodes)
         ? window.backgroundColorCodes[contact.colorIndex]
         : '#ccc';
+    const initials = calculateInitials(contact.name);
         
     return `<div>
                 <div class="ACBetterTeam">
@@ -86,7 +102,7 @@ function editContact(contact) {
                 </div>
                 <div class="contactAdd">
                     <div class="ananymPerson" style="background-color: ${color};">
-                        ${contact.initials}
+                        ${initials}
                     </div>
                     <div class="contactAddForm">
                         <button class="cancel" onclick="closeDialog()"><img src="./assets/img/contacts/delete.svg" alt="" srcset=""></button>

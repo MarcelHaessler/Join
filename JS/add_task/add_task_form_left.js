@@ -100,7 +100,6 @@ function checkTitle() {
 function checkDescription() {
     const descriptionInput = document.getElementById("description");
     const descriptionResultDiv = document.getElementById("description-warning");
-
     if (descriptionInput.value.trim().length === 0) {
         descriptionResultDiv.innerHTML = "This field is required.";
         descriptionResultDiv.style.color = "#e60025";

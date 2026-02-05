@@ -17,7 +17,6 @@ function defaultPriority() {
     let mediumBtn = document.getElementById('medium-btn');
     let mediumImg = document.getElementById('medium-img');
     if (!mediumBtn || !mediumImg) return;
-
     mediumBtn.disabled = true;
     mediumBtn.classList.add('no-hover')
     mediumBtn.style.cursor = 'default';
@@ -29,55 +28,76 @@ function defaultPriority() {
     currentPriority = 'medium';
 }
 
-const urgentBtn = document.getElementById('urgent-btn');
-const mediumBtn = document.getElementById('medium-btn');
-const lowBtn = document.getElementById('low-btn');
-
-const urgentImg = document.getElementById('urgent-img');
-const mediumImg = document.getElementById('medium-img');
-const lowImg = document.getElementById('low-img');
-
-if (urgentBtn) {
-    urgentBtn.addEventListener('click', () => {
-        urgentBtn.disabled = true;
-        urgentBtn.classList.add('no-hover')
-        urgentBtn.style.cursor = 'default';
-        urgentBtn.style.backgroundColor = 'rgba(255, 61, 0, 1)';
-        urgentBtn.style.color = 'white';
-        urgentImg.src = './assets/img/add_task/urgent-active.svg'
-        mediumBtnToNormal();
-        lowBtnToNormal();
-        currentPriority = 'urgent';
-    });
+/**
+ * Handles click event for urgent priority button
+ * @returns {void}
+ */
+function handleUrgentClick() {
+    const urgentBtn = document.getElementById('urgent-btn');
+    const urgentImg = document.getElementById('urgent-img');
+    urgentBtn.disabled = true;
+    urgentBtn.classList.add('no-hover');
+    urgentBtn.style.cursor = 'default';
+    urgentBtn.style.backgroundColor = 'rgba(255, 61, 0, 1)';
+    urgentBtn.style.color = 'white';
+    urgentImg.src = './assets/img/add_task/urgent-active.svg';
+    mediumBtnToNormal();
+    lowBtnToNormal();
+    currentPriority = 'urgent';
 }
 
-if (mediumBtn) {
-    mediumBtn.addEventListener('click', () => {
-        mediumBtn.disabled = true;
-        mediumBtn.classList.add('no-hover')
-        mediumBtn.style.cursor = 'default';
-        mediumBtn.style.backgroundColor = 'rgba(255, 168, 0, 1)';
-        mediumBtn.style.color = 'white';
-        mediumImg.src = './assets/img/add_task/medium-active.svg'
-        urgentBtnToNormal();
-        lowBtnToNormal();
-        currentPriority = 'medium';
-    });
+/**
+ * Handles click event for medium priority button
+ * @returns {void}
+ */
+function handleMediumClick() {
+    const mediumBtn = document.getElementById('medium-btn');
+    const mediumImg = document.getElementById('medium-img');
+    mediumBtn.disabled = true;
+    mediumBtn.classList.add('no-hover');
+    mediumBtn.style.cursor = 'default';
+    mediumBtn.style.backgroundColor = 'rgba(255, 168, 0, 1)';
+    mediumBtn.style.color = 'white';
+    mediumImg.src = './assets/img/add_task/medium-active.svg';
+    urgentBtnToNormal();
+    lowBtnToNormal();
+    currentPriority = 'medium';
 }
 
-if (lowBtn) {
-    lowBtn.addEventListener('click', () => {
-        lowBtn.disabled = true;
-        lowBtn.classList.add('no-hover')
-        lowBtn.style.cursor = 'default';
-        lowBtn.style.backgroundColor = 'rgba(122, 226, 41, 1)';
-        lowBtn.style.color = 'white';
-        lowImg.src = './assets/img/add_task/low-active.svg'
-        mediumBtnToNormal();
-        urgentBtnToNormal();
-        currentPriority = 'low';
-    });
+/**
+ * Handles click event for low priority button
+ * @returns {void}
+ */
+function handleLowClick() {
+    const lowBtn = document.getElementById('low-btn');
+    const lowImg = document.getElementById('low-img');
+    lowBtn.disabled = true;
+    lowBtn.classList.add('no-hover');
+    lowBtn.style.cursor = 'default';
+    lowBtn.style.backgroundColor = 'rgba(122, 226, 41, 1)';
+    lowBtn.style.color = 'white';
+    lowImg.src = './assets/img/add_task/low-active.svg';
+    mediumBtnToNormal();
+    urgentBtnToNormal();
+    currentPriority = 'low';
 }
+
+/**
+ * Initializes event listeners for priority buttons
+ * @returns {void}
+ */
+function initPriorityButtonListeners() {
+    const urgentBtn = document.getElementById('urgent-btn');
+    const mediumBtn = document.getElementById('medium-btn');
+    const lowBtn = document.getElementById('low-btn');
+
+    if (urgentBtn) urgentBtn.addEventListener('click', handleUrgentClick);
+    if (mediumBtn) mediumBtn.addEventListener('click', handleMediumClick);
+    if (lowBtn) lowBtn.addEventListener('click', handleLowClick);
+}
+
+initPriorityButtonListeners();
+
 
 /**
  * Resets the Urgent button to its normal state.

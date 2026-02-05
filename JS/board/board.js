@@ -279,7 +279,6 @@ function moveTo(taskGroup) {
     if (!task) return;
     task.taskGroup = taskGroup;
     updateTask(task);
-    // updateBoard() wird bereits in updateTask() aufgerufen
     removeHighlight(taskGroup, true);
 }
 
@@ -305,7 +304,6 @@ function removeHighlight(id, forced = false) {
     } else {
         dragCounters[id]--;
     }
-
     if (dragCounters[id] <= 0) {
         dragCounters[id] = 0;
         document.getElementById(id).classList.remove('drag-area-highlight');

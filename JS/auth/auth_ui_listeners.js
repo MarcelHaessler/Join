@@ -21,20 +21,58 @@ function activateCheckbox() {
  * @param {HTMLInputElement} input - The input element.
  * @returns {void}
  */
+
+/**
+ * Handles blur event for name input
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function handleNameBlur(input) {
+    validateName(input.value, input, true);
+}
+
+/**
+ * Handles blur event for email input
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function handleEmailBlur(input) {
+    if (input.id === 'login-mail') {
+        validateLoginEmail(input.value, input, true);
+    } else {
+        validateEmail(input.value, input, true);
+    }
+}
+
+/**
+ * Handles blur event for password input
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function handlePasswordBlur(input) {
+    validatePassword(input.value, input, true);
+}
+
+/**
+ * Handles blur event for confirm password input
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function handleConfirmPasswordBlur(input) {
+    validateConfirmPassword(input.value, input);
+    updatePasswordMessage(true);
+}
+
+/**
+ * Delegates blur event to correct handler
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
 function handleBlur(input) {
-    if (input.placeholder === 'Name') validateName(input.value, input, true);
-    else if (input.type === 'email') {
-        if (input.id === 'login-mail') {
-            validateLoginEmail(input.value, input, true);
-        } else {
-            validateEmail(input.value, input, true);
-        }
-    }
-    else if (input.placeholder === 'Password' && input.id !== 'login-password') validatePassword(input.value, input, true);
-    else if (input.placeholder === 'Confirm Password') {
-        validateConfirmPassword(input.value, input);
-        updatePasswordMessage(true);
-    }
+    if (input.placeholder === 'Name') handleNameBlur(input);
+    else if (input.type === 'email') handleEmailBlur(input);
+    else if (input.placeholder === 'Password' && input.id !== 'login-password') handlePasswordBlur(input);
+    else if (input.placeholder === 'Confirm Password') handleConfirmPasswordBlur(input);
 }
 
 /**

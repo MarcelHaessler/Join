@@ -116,6 +116,18 @@ function processTaskCreation(taskData) {
 }
 
 /**
+ * Converts subtask strings to subtask objects
+ * @param {Array} taskSubtasks - Array of subtask strings
+ * @returns {Array} Array of subtask objects
+ */
+function createSubtaskObjects(taskSubtasks) {
+    return taskSubtasks.map(subtask => ({
+        text: subtask,
+        subtaskComplete: false
+    }));
+}
+
+/**
  * Creates the task object structure for Firebase.
  * @param {string} taskTitle - Title.
  * @param {string} taskDescription - Description.
@@ -135,13 +147,8 @@ function createTaskObject(taskTitle, taskDescription, taskDueDate, taskPriority,
         priority: taskPriority,
         category: taskCategory,
         assignedPersons: taskAssignments,
-        subtasks: taskSubtasks.map(subtask => ({
-            text: subtask,
-            subtaskComplete: false
-        })),
-        createdAt: new Date().toISOString(),
+        subtasks: createSubtaskObjects(taskSubtasks),
         taskGroup: taskGroup,
-        createdBy: (getCurrentUser()?.name || "Guest")
     }
 }
 

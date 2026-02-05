@@ -265,6 +265,43 @@ function saveEditedTask(taskId) {
 
 /**
  * Updates the local task object with values from edit variables.
+ * Ensures initials are correctly calculated for all assigned persons.
+ * @param {Object} task - The task object to update.
+ * @returns {void}
+ */
+
+/**
+ * Converts contacts to objects with initials
+ * @param {Array} contacts - Array of contact objects
+ * @returns {Array} Array of contacts with initials
+ */
+function mapContactsWithInitials(contacts) {
+    return contacts.map(contact => {
+        const parts = contact.name.trim().split(/\s+/);
+        const first = parts[0][0];
+        const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
+        return {
+            ...contact,
+            initials: (first + last).toUpperCase()
+        };
+    });
+}
+
+/**
+ * Converts subtask objects to correct format
+ * @param {Array} subtasks - Array of subtask objects
+ * @returns {Array} Array of formatted subtasks
+ */
+function mapEditedSubtasks(subtasks) {
+    return subtasks.map(obj => ({
+        text: obj.text,
+        subtaskComplete: !!obj.subtaskComplete
+    }));
+}
+
+/**
+ * Updates the local task object with values from edit variables.
+ * Ensures initials are correctly calculated for all assigned persons.
  * @param {Object} task - The task object to update.
  * @returns {void}
  */
@@ -273,12 +310,9 @@ function updateTaskWithEditedData(task) {
     task.description = editedDescription;
     task.date = editedDueDate;
     task.priority = editedPriority;
-    task.assignedPersons = editSelectedContacts;
+    task.assignedPersons = mapContactsWithInitials(editSelectedContacts);
     task.category = editedCategory;
-    task.subtasks = editedSubtaskListArray.map(obj => ({
-        text: obj.text,
-        subtaskComplete: !!obj.subtaskComplete
-    }));
+    task.subtasks = mapEditedSubtasks(editedSubtaskListArray);
 }
 
 /**
