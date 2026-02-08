@@ -1,7 +1,19 @@
+/**
+ * Template and Contact Management Module
+ * Handles HTML template fetching, contact data management, and UI initialization
+ */
+
+/** @type {string|null} Cached header HTML content */
 let cachedHeader = null;
+
+/** @type {string|null} Cached sidebar HTML content */
 let cachedSidebar = null;
-window.contacts = [];
-window.backgroundColorCodes = [
+
+/** @type {Array<Object>} Global array of all contacts */
+var contacts = [];
+
+/** @type {Array<string>} Array of CSS color variable names for contact avatars */
+var backgroundColorCodes = [
     'var(--color1)',
     'var(--color2)',
     'var(--color3)',
@@ -18,40 +30,76 @@ window.backgroundColorCodes = [
     'var(--color14)',
     'var(--color15)'];
 
-import { db } from "./firebaseAuth.js";
-import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
+/**
+ * Fetches a template and stores it in localStorage
+ * @async
+ * @param {string} path - The template path
+ * @param {string} key - The localStorage key
+ * @returns {Promise<string>} The fetched template text
+ */
+async function fetchTemplate(path, key) {
+    const resp = await fetch(path + '?v=' + Date.now());
+    const html = await resp.text();
+    localStorage.setItem(key, html);
+    return html;
+}
 
-async function fetchHtmlTemplates() {
-    // Cache deaktiviert für sofortige Updates
-    const headerResp = await fetch('./assets/templates/header.html?v=' + Date.now());
-    cachedHeader = await headerResp.text();
-    
-    const sidebarResp = await fetch('./assets/templates/sideBar.html?v=' + Date.now());
-    cachedSidebar = await sidebarResp.text();
+/**
+ * Injects header and sidebar templates into the DOM
+ * @param {string} headerHtml - Header HTML
+ * @param {string} sidebarHtml - Sidebar HTML
+ * @returns {void}
+ */
+function applyTemplates(headerHtml, sidebarHtml) {
+    document.getElementById('header').innerHTML = headerHtml;
+    document.getElementById('side-bar').innerHTML = sidebarHtml;
+}
 
-    document.getElementById('header').innerHTML = cachedHeader;
-    document.getElementById('side-bar').innerHTML = cachedSidebar;
-
+/**
+ * Runs post-load tasks after templates are injected
+ * @returns {void}
+ */
+function finalizeTemplateLoad() {
+    window.dispatchEvent(new Event('templatesLoaded'));
     highlightActiveWrapper();
     checkGuestMode();
 }
 
+/**
+ * Fetches and injects HTML templates for header and sidebar
+ * Cache is disabled for immediate updates (using timestamp)
+ * @async
+ * @returns {Promise<void>}
+ */
+async function fetchHtmlTemplates() {
+    cachedHeader = await fetchTemplate('./assets/templates/header.html', 'headerTemplate');
+    cachedSidebar = await fetchTemplate('./assets/templates/sideBar.html', 'sidebarTemplate');
+    applyTemplates(cachedHeader, cachedSidebar);
+    finalizeTemplateLoad();
+}
+
+/**
+ * Checks if current page is a policy page and sets guest mode styling if no user is logged in
+ * Only runs on privacy_policy.html and legal_notice.html pages
+ * @returns {void}
+ */
 function checkGuestMode() {
     const isPolicyPage = window.location.pathname.includes('privacy_policy.html');
     const isLegalPage = window.location.pathname.includes('legal_notice.html');
-
-    // Nur auf Privacy Policy und Legal Notice Seiten prüfen
     if (isPolicyPage || isLegalPage) {
         const currentUser = localStorage.getItem('join_current_user');
         document.body.classList.remove('loading-auth');
-        
         if (!currentUser) {
-            // Kein eingeloggter Benutzer -> setze mode-guest
             document.body.classList.add('mode-guest');
         }
     }
 }
 
+/**
+ * Highlights the currently active page link in the sidebar navigation
+ * Compares current URL path with link targets
+ * @returns {void}
+ */
 function highlightActiveWrapper() {
     const current = window.location.pathname.split('/').pop();
     const wrappers = document.querySelectorAll('#side-bar .link-wrapper');
@@ -62,6 +110,11 @@ function highlightActiveWrapper() {
     });
 }
 
+/**
+ * Initializes the global loader overlay element
+ * Creates the overlay DOM element if it doesn't exist
+ * @returns {void}
+ */
 function initLoader() {
     if (!document.getElementById('global-loader-overlay')) {
         const overlay = document.createElement('div');
@@ -72,6 +125,10 @@ function initLoader() {
     }
 }
 
+/**
+ * Shows the global loading spinner overlay
+ * @returns {void}
+ */
 function showLoader() {
     const loader = document.getElementById('global-loader-overlay');
     if (loader) {
@@ -79,6 +136,10 @@ function showLoader() {
     }
 }
 
+/**
+ * Hides the global loading spinner overlay
+ * @returns {void}
+ */
 function hideLoader() {
     const loader = document.getElementById('global-loader-overlay');
     if (loader) {
@@ -92,6 +153,11 @@ initLoader();
 initOrientationWarning();
 fetchHtmlTemplates();
 
+/**
+ * Initializes the mobile landscape orientation warning overlay
+ * Creates the warning DOM element if it doesn't exist
+ * @returns {void}
+ */
 function initOrientationWarning() {
     if (!document.getElementById('mobile-landscape-warning')) {
         const warning = document.createElement('div');
@@ -107,6 +173,12 @@ function initOrientationWarning() {
     }
 }
 
+/**
+ * Fetches all contacts from Firebase and local storage
+ * Processes and enhances contact data with colors and initials
+ * @async
+ * @returns {Promise<Array<Object>>} Array of all contacts
+ */
 async function fetchContacts() {
     showLoader();
     contacts = [];
@@ -115,30 +187,47 @@ async function fetchContacts() {
         processContactData(usersSnapshot, contactSnapshot);
         enhanceContacts();
     } catch (error) {
-        // Silent error handling
     } finally {
         hideLoader();
     }
     return contacts;
 }
 
+/**
+ * Processes contact data from both users and contacts snapshots
+ * @param {Object} usersSnapshot - Firebase snapshot of users data
+ * @param {Object} contactSnapshot - Firebase snapshot of contacts data
+ * @returns {void}
+ */
 function processContactData(usersSnapshot, contactSnapshot) {
     processData(usersSnapshot, 'users');
     processData(contactSnapshot, 'contact');
 }
 
+/**
+ * Fetches user and contact snapshots from Firebase
+ * @async
+ * @returns {Promise<Array>} Array with users snapshot and contacts snapshot
+ * @throws {Error} If Firebase fetch fails
+ */
 async function fetchSnapshots() {
-    const dbRef = ref(db);
+    const dbRef = db.ref();
     try {
         return await Promise.all([
-            get(child(dbRef, 'users')),
-            get(child(dbRef, 'contact'))
+            dbRef.child('users').get(),
+            dbRef.child('contact').get()
         ]);
     } catch (error) {
         throw error;
     }
 }
 
+/**
+ * Processes snapshot data and adds contacts to the global contacts array
+ * @param {Object} snapshot - Firebase snapshot containing contact data
+ * @param {string} root - The root type ('users' or 'contact')
+ * @returns {void}
+ */
 function processData(snapshot, root) {
     if (snapshot.exists()) {
         const data = snapshot.val();
@@ -148,27 +237,43 @@ function processData(snapshot, root) {
     }
 }
 
+/**
+ * Enhances contact data with color indices, initials, and formatted phone numbers
+ * @returns {void}
+ */
 function enhanceContacts() {
     contacts.forEach((user, i) => {
         user.colorIndex = i % backgroundColorCodes.length;
-        user.initials = getFirstAndLastInitial(user.name);
+        if (user.name && user.name.trim() !== "") {
+            user.initials = getFirstAndLastInitial(user.name);
+        } else {
+            user.initials = "?";
+        }
         user.phone = getPhonenumber(user.phone);
     });
 }
 
+/**
+ * Extracts first and last initials from a full name
+ * @param {string} fullName - The full name to extract initials from
+ * @returns {string} Two-letter initials or "?" if name is empty
+ */
 function getFirstAndLastInitial(fullName) {
+    if (!fullName || fullName.trim() === "") return "?";
     const parts = fullName.trim().split(/\s+/);
     const first = parts[0][0];
     const last = parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || "";
     return (first + last).toUpperCase();
 }
 
+/**
+ * Gets phone number or returns default message if unavailable
+ * @param {string} phone - The phone number to format
+ * @returns {string} The phone number or default message
+ */
 function getPhonenumber(phone) {
     if (phone && phone.trim() !== "") {
         return phone;
     }
     return "No phone number available";
 }
-
-window.fetchHtmlTemplates = fetchHtmlTemplates;
-window.fetchContacts = fetchContacts;
